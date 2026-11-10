@@ -1,4 +1,4 @@
-﻿{
+{
     "//": "Based on Proxmark3 rrg repo v4.23346, tag commit dc0110c29d320e04b37ea436ee2924901407ae72",
     "//": "You can change this file if the command format of client changes",
     "mifare classic": {
