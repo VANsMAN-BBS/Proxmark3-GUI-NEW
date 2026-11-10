@@ -3,6 +3,7 @@
 
 #include <QJsonDocument>
 #include <QDirIterator>
+#include <QProcess>
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent)
@@ -30,15 +31,13 @@ MainWindow::MainWindow(QWidget *parent):
     settings = new QSettings("GUIsettings.ini", QSettings::IniFormat);
     settings->setIniCodec("UTF-8");
 
-    pm3Thread = new QThread(this);
-    connect(QApplication::instance(), &QApplication::aboutToQuit, pm3Thread, &QThread::quit);
-    pm3 = new PM3Process(pm3Thread);
-    connect(pm3Thread, &QThread::finished, pm3, &PM3Process::deleteLater);
-    pm3Thread->start();
+    pm3 = new ClientSession(this);
+    connect(QApplication::instance(), &QApplication::aboutToQuit, pm3, &ClientSession::stopClient);
     pm3state = false;
     clientWorkingDir = new QDir;
 
     util = new Util(this);
+    util->setSession(pm3);
     Util::setUI(ui);
     mifare = new Mifare(ui, util, this);
     lf = new LF(ui, util, this);
@@ -71,12 +70,13 @@ MainWindow::MainWindow(QWidget *parent):
 
 MainWindow::~MainWindow()
 {
+    if(pm3)
+    {
+        pm3->stopClient();
+        delete pm3;
+        pm3 = nullptr;
+    }
     delete ui;
-    emit killPM3();
-    pm3Thread->exit(0);
-    pm3Thread->wait(5000);
-    delete pm3;
-    delete pm3Thread;
 }
 
 void MainWindow::loadConfig()
@@ -245,7 +245,7 @@ void MainWindow::on_PM3_connectButton_clicked()
         {
             clientEnv.removeFirst();
             clientEnv.removeLast();
-            emit setProcEnv(&clientEnv);
+            pm3->setEnvironment(clientEnv);
         }
 //      qDebug() << "Get Env List" << clientEnv;
     }
@@ -258,23 +258,42 @@ void MainWindow::on_PM3_connectButton_clicked()
     qDebug() << clientWorkingDir->absolutePath();
     clientWorkingDir->cd(ui->Set_Client_workingDirEdit->text());
     qDebug() << clientWorkingDir->absolutePath();
-    emit setWorkingDir(clientWorkingDir->absolutePath());
+    pm3->setWorkingDirectory(clientWorkingDir->absolutePath());
 
     loadConfig();
     emit connectPM3(clientPath, args);
-    if(port != "" && !keepClientActive)
-        emit setSerialListener(port, true);
-    else if(!keepClientActive)
-        emit setSerialListener(false);
 
     envSetProcess.kill();
 }
 
-void MainWindow::onPM3ErrorOccurred(QProcess::ProcessError error)
+void MainWindow::onConnecting()
 {
-    qDebug() << "PM3 Error:" << error << pm3->errorString();
-    if(error == QProcess::FailedToStart)
-        QMessageBox::information(this, tr("Info"), tr("Failed to start the client") + "\n" + pm3->errorString());
+    pm3state = false;
+    setState(false);
+    setStatusBar(connectStatusBar, tr("Connecting..."));
+    setStatusBar(programStatusBar, tr("Running"));
+    portSearchTimer->stop();
+}
+
+void MainWindow::onClientError(const QString& message)
+{
+    qDebug() << "Client error:" << message;
+    if(message.isEmpty())
+        return;
+    QMessageBox::information(this, tr("Info"), message);
+}
+
+void MainWindow::onVersionUpdated(const ClientInfo& info)
+{
+    clientInfo = info;
+    if(!info.connected)
+        return;
+    QString text = info.firmwareVersion;
+    if(info.hasModel())
+        text += QStringLiteral(" / ") + info.model;
+    if(!info.hardware.isEmpty())
+        text += QStringLiteral(" / ") + info.hardware;
+    setStatusBar(PM3VersionBar, text);
 }
 
 void MainWindow::onPM3HWConnectFailed()
@@ -289,7 +308,10 @@ void MainWindow::onPM3StateChanged(bool st, const QString& info)
     if(st == true)
     {
         portSearchTimer->stop();
-        setStatusBar(PM3VersionBar, info);
+        if(clientInfo.connected)
+            onVersionUpdated(clientInfo);
+        else
+            setStatusBar(PM3VersionBar, info);
         setStatusBar(connectStatusBar, tr("Connected"));
     }
     else
@@ -302,8 +324,7 @@ void MainWindow::onPM3StateChanged(bool st, const QString& info)
 
 void MainWindow::on_PM3_disconnectButton_clicked()
 {
-    emit killPM3();
-    emit setSerialListener(false);
+    pm3->stopClient();
 }
 
 void MainWindow::refreshOutput(const QString& output)
@@ -319,17 +340,7 @@ void MainWindow::on_stopButton_clicked()
     if(!pm3state)
         on_PM3_disconnectButton_clicked();
     else
-    {
-        on_PM3_disconnectButton_clicked();
-        for(int i = 0; i < 10; i++)
-        {
-            util->delay(200);
-            if(!pm3state)
-                break;
-        }
-        emit reconnectPM3();
-        emit setSerialListener(!keepClientActive);
-    }
+        pm3->restartClient();
 }
 // *********************************************************
 
@@ -1271,23 +1282,24 @@ void MainWindow::uiInit()
 
 void MainWindow::signalInit()
 {
-    connect(pm3, &PM3Process::newOutput, util, &Util::processOutput);
-    connect(pm3, &PM3Process::changeClientType, util, &Util::setClientType);
+    connect(pm3, &ClientSession::newOutput, util, &Util::processOutput);
+    connect(pm3, &ClientSession::changeClientType, this, [this](bool isIceman) {
+        Util::setClientType(isIceman ? Util::CLIENTTYPE_ICEMAN : Util::CLIENTTYPE_OFFICIAL);
+    });
     connect(util, &Util::refreshOutput, this, &MainWindow::refreshOutput);
 
-    connect(this, &MainWindow::connectPM3, pm3, &PM3Process::connectPM3);
-    connect(this, &MainWindow::reconnectPM3, pm3, &PM3Process::reconnectPM3);
-    connect(pm3, &PM3Process::PM3StatedChanged, this, &MainWindow::onPM3StateChanged);
-    connect(pm3, &PM3Process::PM3StatedChanged, util, &Util::setRunningState);
-    connect(pm3, &PM3Process::errorOccurred, this, &MainWindow::onPM3ErrorOccurred);
-    connect(pm3, &PM3Process::HWConnectFailed, this, &MainWindow::onPM3HWConnectFailed);
-    connect(this, &MainWindow::killPM3, pm3, &PM3Process::killPM3);
-    connect(this, &MainWindow::setProcEnv, pm3, &PM3Process::setProcEnv);
-    connect(this, &MainWindow::setWorkingDir, pm3, &PM3Process::setWorkingDir);
-    connect(this, QOverload<bool>::of(&MainWindow::setSerialListener), pm3, QOverload<bool>::of(&PM3Process::setSerialListener));
-    connect(this, QOverload<const QString&, bool>::of(&MainWindow::setSerialListener), pm3, QOverload<const QString&, bool>::of(&PM3Process::setSerialListener));
+    connect(this, &MainWindow::connectPM3, pm3, &ClientSession::startClient);
+    connect(this, &MainWindow::reconnectPM3, pm3, &ClientSession::restartClient);
+    connect(this, &MainWindow::killPM3, pm3, &ClientSession::stopClient);
+    connect(pm3, &ClientSession::connecting, this, &MainWindow::onConnecting);
+    connect(pm3, &ClientSession::stateChanged, this, &MainWindow::onPM3StateChanged);
+    connect(pm3, &ClientSession::stateChanged, this, [this](bool st, const QString&) {
+        util->setRunningState(st);
+    });
+    connect(pm3, &ClientSession::clientError, this, &MainWindow::onClientError);
+    connect(pm3, &ClientSession::versionUpdated, this, &MainWindow::onVersionUpdated);
 
-    connect(util, &Util::write, pm3, &PM3Process::write);
+    connect(util, &Util::write, pm3, &ClientSession::sendRawCommand);
 
     connect(ui->MF_typeGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
     connect(ui->MF_fileGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
@@ -1533,7 +1545,8 @@ void MainWindow::on_Set_Client_keepClientActiveBox_stateChanged(int arg1)
     keepClientActive = (arg1 == Qt::Checked);
     settings->setValue("state", keepClientActive);
     settings->endGroup();
-    emit setSerialListener(!keepClientActive);
+    // Kept for settings compatibility. Disconnect detection is now driven by
+    // QProcess::finished/errorOccurred, not by serial-port occupancy.
 }
 
 void MainWindow::on_LF_LFConf_freqSlider_valueChanged(int value)

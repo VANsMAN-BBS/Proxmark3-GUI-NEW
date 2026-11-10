@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QThread>
-#include <QProcess>
 #include <QDebug>
 #include <QMessageBox>
 #include <QListWidgetItem>
@@ -28,7 +26,7 @@
 #include <QMenu>
 
 #include "common/myeventfilter.h"
-#include "common/pm3process.h"
+#include "core/clientsession.h"
 #include "module/mifare.h"
 #include "module/lf.h"
 #include "module/t55xxtab.h"
@@ -57,10 +55,12 @@ public slots:
     void refreshCMD(const QString& cmd);
     void setStatusBar(QLabel* target, const QString& text);
     void onPM3StateChanged(bool st, const QString& info);
+    void onConnecting();
+    void onClientError(const QString& message);
+    void onVersionUpdated(const ClientInfo& info);
     void MF_onMFCardTypeChanged(int id, bool st);
     void on_Raw_keyPressed(QObject *obj_addr, QEvent &event);
     void on_MF_keyWidget_resized(QObject *obj_addr, QEvent &event);
-    void onPM3ErrorOccurred(QProcess::ProcessError error);
     void onPM3HWConnectFailed();
 private slots:
 
@@ -242,15 +242,15 @@ private:
 
     void uiInit();
 
-    PM3Process* pm3;
+    ClientSession* pm3;
     bool pm3state;
     bool keepButtonsEnabled;
     bool keepClientActive;
-    QThread* pm3Thread;
     QTimer* portSearchTimer;
     QStringList portList;
     QStringList clientEnv;
     QDir* clientWorkingDir;
+    ClientInfo clientInfo;
 
     T55xxTab* t55xxTab;
     Mifare* mifare;
@@ -278,9 +278,5 @@ signals:
     void connectPM3(const QString& path, const QStringList args);
     void reconnectPM3();
     void killPM3();
-    void setSerialListener(bool state);
-    void setSerialListener(const QString& name, bool state);
-    void setProcEnv(const QStringList *env);
-    void setWorkingDir(const QString& dir);
 };
 #endif // MAINWINDOW_H

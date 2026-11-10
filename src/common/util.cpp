@@ -1,4 +1,8 @@
 ﻿#include "util.h"
+#include "core/clientsession.h"
+
+#include <QEventLoop>
+#include <QTimer>
 
 Util::ClientType Util::clientType = CLIENTTYPE_OFFICIAL;
 
@@ -9,10 +13,17 @@ Ui::MainWindow* Util::ui = nullptr;
 
 Util::Util(QObject *parent) : QObject(parent)
 {
+    session = nullptr;
     isRequiringOutput = false;
+    isRunning = false;
     requiredOutput = new QString();
     timeStamp = QTime::currentTime();
     qRegisterMetaType<Util::ClientType>("Util::ClientType");
+}
+
+void Util::setSession(ClientSession *session)
+{
+    this->session = session;
 }
 
 
@@ -36,62 +47,73 @@ void Util::execCMD(const QString& cmd)
 
 QString Util::execCMDWithOutput(const QString& cmd, ReturnTrigger trigger, bool rawOutput)
 {
-    // if the trigger is empty, this function will wait trigger.waitTime then return all outputs during the wait time.
-    // otherwise, this function will return empty string if no trigger is detected, or return outputs if any trigger is detected.
-    // the waitTime will be refreshed if the client have new outputs
-    bool isResultFound = false;
-    QRegularExpression re;
-    re.setPatternOptions(QRegularExpression::DotMatchesEverythingOption);
-
-    if(!isRunning)
+    // The old implementation busy-waited in the GUI thread and refreshed a
+    // QTime-based deadline on every output chunk. It also inferred completion
+    // from command-specific text. The new ClientSession uses a local `rem`
+    // sentinel after every queued command, so completion is deterministic.
+    //
+    // A local QEventLoop without user input keeps the UI responsive (repaint,
+    // timers) while preventing button re-entry during a synchronous command.
+    if(!session || !session->isConnected())
         return "";
-    QTime currTime = QTime::currentTime();
-    QTime targetTime = QTime::currentTime().addMSecs(trigger.waitTime);
-    isRequiringOutput = true;
-    requiredOutput->clear();
-    execCMD(cmd);
-    while(QTime::currentTime() < targetTime)
-    {
-        if(!isRunning)
-            break;
-        QApplication::processEvents();
-//        qDebug() << "currOutput:" << *requiredOutput;
-        for(QString otpt : trigger.expectedOutputs)
-        {
-            re.setPattern(otpt);
-            isResultFound = re.match(*requiredOutput).hasMatch();
-            if(isResultFound)
-            {
-                qDebug() << "output Matched: " << *requiredOutput;
-                break;
-            }
-        }
-        if(isResultFound)
-        {
-            delay(200);
-            break;
-        }
-        if(timeStamp > currTime) //has new output
-        {
-            currTime = timeStamp;
-            targetTime = timeStamp.addMSecs(trigger.waitTime);
-        }
-    }
-    isRequiringOutput = false;
 
-    // For functions without expected outputs in the return trigger, the result is the raw output.
-    // For functions with expected outputs in the return trigger,
-    // if rawOutput=true, the result is the raw output,
-    // otherwise, if the raw output contains one of the expected outputs, the result is the raw output,
-    // otherwise, the result is empty(as a failed flag).
-    return (trigger.expectedOutputs.isEmpty() || isResultFound || rawOutput ? *requiredOutput : "");
+    const int timeoutMs = qMax<int>(static_cast<int>(trigger.waitTime) + 5000, 15000);
+    const quint64 id = session->executeCommand(cmd, timeoutMs, rawOutput);
+
+    QEventLoop loop;
+    QTimer hardTimer;
+    hardTimer.setSingleShot(true);
+
+    bool completed = false;
+    bool success = false;
+    bool timedOut = false;
+    QString output;
+    QString error;
+
+    QMetaObject::Connection connection = connect(
+        session, &ClientSession::commandFinished, &loop,
+        [&](quint64 requestId, const QString &text, bool ok, bool isTimeout, const QString &err) {
+            if(requestId != id)
+                return;
+            completed = true;
+            success = ok;
+            timedOut = isTimeout;
+            output = text;
+            error = err;
+            loop.quit();
+        });
+
+    QObject::connect(&hardTimer, &QTimer::timeout, &loop, [&]() {
+        timedOut = true;
+        loop.quit();
+    });
+
+    hardTimer.start(timeoutMs + 2000);
+    loop.exec(QEventLoop::ExcludeUserInputEvents);
+    disconnect(connection);
+    hardTimer.stop();
+
+    if(!completed) {
+        qDebug() << "command wait ended without a matching result:" << cmd;
+        return rawOutput ? output : QString();
+    }
+    if(!success) {
+        qDebug() << "command failed:" << cmd << error;
+        return rawOutput ? output : QString();
+    }
+    return output;
 }
 
 void Util::delay(unsigned int msec)
 {
-    QTime timer = QTime::currentTime().addMSecs(msec);
-    while(QTime::currentTime() < timer)
-        QApplication::processEvents(QEventLoop::AllEvents, 100);
+    if(msec == 0)
+        return;
+    QEventLoop loop;
+    QTimer timer;
+    timer.setSingleShot(true);
+    QObject::connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    timer.start(static_cast<int>(msec));
+    loop.exec(QEventLoop::ExcludeUserInputEvents);
 }
 
 Util::ClientType Util::getClientType()

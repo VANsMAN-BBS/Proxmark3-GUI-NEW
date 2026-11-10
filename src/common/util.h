@@ -18,6 +18,8 @@
 
 #include "ui_mainwindow.h"
 
+class ClientSession;
+
 class Util : public QObject
 {
     Q_OBJECT
@@ -53,6 +55,7 @@ public:
 
     explicit Util(QObject *parent = nullptr);
 
+    void setSession(ClientSession *session);
     void execCMD(const QString& cmd);
     QString execCMDWithOutput(const QString& cmd, ReturnTrigger trigger = 10000, bool rawOutput = false);
     void delay(unsigned int msec);
@@ -68,6 +71,7 @@ public slots:
     static void setUI(Ui::MainWindow *ui);
     static void setRawTab(QDockWidget* dockPtr, int tabIndex);
 private:
+    ClientSession* session;
     bool isRequiringOutput;
     bool isRunning;
     QString* requiredOutput;
