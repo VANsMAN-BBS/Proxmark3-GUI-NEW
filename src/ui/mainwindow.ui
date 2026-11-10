@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
@@ -1887,7 +1887,7 @@ or the communication between a tag and a reader.</string>
          <rect>
           <x>360</x>
           <y>20</y>
-          <width>281</width>
+          <width>340</width>
           <height>511</height>
          </rect>
         </property>
@@ -2161,9 +2161,9 @@ or the communication between a tag and a reader.</string>
        <widget class="QGroupBox" name="groupBox_3">
         <property name="geometry">
          <rect>
-          <x>670</x>
+          <x>710</x>
           <y>20</y>
-          <width>311</width>
+          <width>300</width>
           <height>511</height>
          </rect>
         </property>
@@ -2414,12 +2414,12 @@ or the communication between a tag and a reader.</string>
          <rect>
           <x>50</x>
           <y>370</y>
-          <width>194</width>
-          <height>231</height>
+          <width>300</width>
+          <height>260</height>
          </rect>
         </property>
         <property name="title">
-         <string>T55xx Read Config</string>
+         <string>T55xx Read Config (Exp.)</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_20">
          <item>
@@ -2503,6 +2503,30 @@ or the communication between a tag and a reader.</string>
           </layout>
          </item>
          <item>
+          <layout class="QHBoxLayout" name="T55_readConfigButtons">
+           <item>
+            <widget class="QPushButton" name="T55_detectButton">
+             <property name="text">
+              <string>Detect</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="T55_infoButton">
+             <property name="text">
+              <string>Read Info</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="T55_applyConfigButton">
+             <property name="text">
+              <string>Apply</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>         <item>
           <spacer name="verticalSpacer_12">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -2514,6 +2538,70 @@ or the communication between a tag and a reader.</string>
             </size>
            </property>
           </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QGroupBox" name="T55_cloneGroupBox">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>20</y>
+          <width>280</width>
+          <height>120</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Clone to T55xx (Experimental)</string>
+        </property>
+        <layout class="QVBoxLayout" name="T55_cloneLayout">
+         <item>
+          <layout class="QHBoxLayout" name="T55_cloneTypeLayout">
+           <item>
+            <widget class="QLabel" name="T55_cloneTypeLabel">
+             <property name="text">
+              <string>Target Type:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="T55_cloneT5555Button">
+             <property name="text">
+              <string notr="true">T5555</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QRadioButton" name="T55_cloneT55x7Button">
+             <property name="text">
+              <string notr="true">T55x7</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="T55_cloneEM410xLayout">
+           <item>
+            <widget class="QPushButton" name="T55_cloneEM410xReadButton">
+             <property name="text">
+              <string>Read</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="T55_cloneEM410xIDEdit"/>
+           </item>
+           <item>
+            <widget class="QPushButton" name="T55_cloneEM410xCloneButton">
+             <property name="text">
+              <string>Clone</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -3298,3 +3386,8 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
  <resources/>
  <connections/>
 </ui>
+
+
+
+
+

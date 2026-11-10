@@ -41,17 +41,13 @@ MainWindow::MainWindow(QWidget *parent):
     Util::setUI(ui);
     mifare = new Mifare(ui, util, this);
     lf = new LF(ui, util, this);
-    t55xxTab = new T55xxTab(util);
+    t55xx = new T55xx(ui, util, this);
+    ntag = new NtagTab(util, this);
+    ui->funcTab->insertTab(3, ntag, tr("NTAG/Ultralight"));
     connect(lf, &LF::LFfreqConfChanged, this, &MainWindow::onLFfreqConfChanged);
-    connect(t55xxTab, &T55xxTab::setParentGUIState, this, &MainWindow::setState);
-    ui->funcTab->insertTab(2, t55xxTab, tr("T55xx"));
 
     keyEventFilter = new MyEventFilter(QEvent::KeyPress);
     resizeEventFilter = new MyEventFilter(QEvent::Resize);
-
-    // hide unused tabs
-//    ui->funcTab->removeTab(1);
-    ui->funcTab->removeTab(3);
 
     portSearchTimer = new QTimer(this);
     portSearchTimer->setInterval(2000);
@@ -96,7 +92,7 @@ void MainWindow::loadConfig()
     QJsonDocument configJson(QJsonDocument::fromJson(configData));
     mifare->setConfigMap(configJson.object()["mifare classic"].toObject().toVariantMap());
     lf->setConfigMap(configJson.object()["lf"].toObject().toVariantMap());
-    t55xxTab->setConfigMap(configJson.object()["t55xx"].toObject().toVariantMap());
+    t55xx->setConfigMap(configJson.object()["t55xx"].toObject().toVariantMap());
 }
 
 void MainWindow::initUI() // will be called by main.app

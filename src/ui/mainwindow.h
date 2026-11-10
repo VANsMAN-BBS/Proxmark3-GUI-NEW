@@ -29,7 +29,8 @@
 #include "core/clientsession.h"
 #include "module/mifare.h"
 #include "module/lf.h"
-#include "module/t55xxtab.h"
+#include "module/t55xx.h"
+#include "module/ntagtab.h"
 #include "common/util.h"
 #include "ui/mf_trailerdecoderdialog.h"
 
@@ -252,7 +253,8 @@ private:
     QDir* clientWorkingDir;
     ClientInfo clientInfo;
 
-    T55xxTab* t55xxTab;
+    T55xx* t55xx;
+    NtagTab* ntag;
     Mifare* mifare;
     LF* lf;
     Util* util;
