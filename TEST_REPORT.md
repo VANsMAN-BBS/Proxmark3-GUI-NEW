@@ -1,4 +1,4 @@
-# TEST_REPORT.md
+﻿# TEST_REPORT.md
 
 **版本：** Proxmark3GUI v0.3.0  
 **日期：** 2026-11-10  
@@ -31,8 +31,8 @@
 | 项目 | 结果 | 证据 |
 |---|---|---|
 | qmake 读取工程 | 通过 | Makefile 生成 |
-| 完整编译/链接 | 通过 | `Proxmark3GUI.exe` 975,360 bytes（最终构建） |
-| 新增代码编译警告 | 无 | `build-final.log` 无 `warning:` |
+| 完整编译/链接 | 通过 | `Proxmark3GUI.exe` **977,408 bytes（最终 clean build）** |
+| 新增代码编译警告 | 无 | `build-final/clean-build.log` 无 `warning:` |
 | 资源嵌入 | 通过 | config/language/qdarkstyle qrc 编译 |
 | 配置文件加载 | 通过 | 默认选择 `config_rrgv4.23346.json` |
 | 独立依赖打包 | 通过 | dist 29 files / ~71.7 MB，含 Qt + ICU + 插件 |
