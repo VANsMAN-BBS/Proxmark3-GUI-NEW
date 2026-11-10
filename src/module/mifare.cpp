@@ -1,5 +1,54 @@
 ﻿#include "mifare.h"
 #include <QJsonArray>
+#include <QFileInfo>
+
+namespace {
+QString normalizeHex(const QString &text, int byteCount)
+{
+    QString value = text;
+    value.remove(QRegularExpression(QStringLiteral("\\s")));
+    value = value.toUpper();
+    if(value.size() != byteCount * 2)
+        return QString();
+    for(const QChar ch : value)
+    {
+        const bool isHex = (ch >= QLatin1Char('0') && ch <= QLatin1Char('9')) ||
+                           (ch >= QLatin1Char('A') && ch <= QLatin1Char('F'));
+        if(!isHex && ch != QLatin1Char('?'))
+            return QString();
+    }
+    return value;
+}
+
+bool hexStringToBytes(const QString &text, QByteArray &out, bool allowUnknown)
+{
+    out.clear();
+    for(int i = 0; i < text.size(); i += 2)
+    {
+        const QChar high = text.at(i);
+        const QChar low = text.at(i + 1);
+        if(high == QLatin1Char('?') || low == QLatin1Char('?'))
+        {
+            if(!allowUnknown)
+                return false;
+            out.append(char(0));
+            continue;
+        }
+        int h = 0;
+        int l = 0;
+        if(high >= QLatin1Char('0') && high <= QLatin1Char('9'))
+            h = high.unicode() - '0';
+        else
+            h = high.unicode() - 'A' + 10;
+        if(low >= QLatin1Char('0') && low <= QLatin1Char('9'))
+            l = low.unicode() - '0';
+        else
+            l = low.unicode() - 'A' + 10;
+        out.append(char((h << 4) | l));
+    }
+    return true;
+}
+} // namespace
 
 const Mifare::CardType Mifare::card_mini =
 {
@@ -110,14 +159,35 @@ QMap<QString, QString> Mifare::info(bool isRequiringOutput)
         QString result = util->execCMDWithOutput(cmd, 500);
         QStringList lineList = result.split("\n");
 
-        for(auto line = lineList.begin(); line != lineList.end(); line++)
+        // v4.23346 prints e.g.:
+        //   [+]  UID: 2F 7B 54 54   ( FNUID, fixed, non-unique ID )
+        //   [+] ATQA: 00 04
+        //   [+]  SAK: 20 [1]
+        // Parsing the token after the label avoids picking letters out of the
+        // annotation (e.g. the "F" in "FNUID").
+        const QRegularExpression uidRe(QStringLiteral("UID:\\s*([0-9A-Fa-f ]+)"));
+        const QRegularExpression atqaRe(QStringLiteral("ATQA:\\s*([0-9A-Fa-f ]+)"));
+        const QRegularExpression sakRe(QStringLiteral("SAK:\\s*([0-9A-Fa-f ]+)"));
+
+        for(const QString& line : lineList)
         {
-            if(line->contains("UID"))
-                map["UID"] = line->remove("UID").remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
-            else if(line->contains("ATQA"))
-                map["ATQA"] = line->remove("ATQA").remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
-            else if(line->contains("SAK"))
-                map["SAK"] = line->remove("SAK").remove(QRegularExpression("\\[.+?\\]")).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
+            QRegularExpressionMatch match = uidRe.match(line);
+            if(match.hasMatch())
+            {
+                map["UID"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
+                continue;
+            }
+            match = atqaRe.match(line);
+            if(match.hasMatch())
+            {
+                map["ATQA"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
+                continue;
+            }
+            match = sakRe.match(line);
+            if(match.hasMatch())
+            {
+                map["SAK"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
+            }
         }
     }
     else
@@ -143,7 +213,7 @@ void Mifare::chk()
 
     result = util->execCMDWithOutput(
                  cmd,
-                 Util::ReturnTrigger(1000 + cardType.sector_size * 200, {"No valid", keyPattern.pattern()}));
+                 Util::ReturnTrigger(60000, {"No valid", keyPattern.pattern()}));
     for(int i = 0; i < cardType.sector_size; i++)
     {
         reMatch = keyPattern.match(result, offset);
@@ -220,7 +290,7 @@ void Mifare::nested(bool isStaticNested)
     }
     result = util->execCMDWithOutput(
                  cmd,
-                 Util::ReturnTrigger(15000, {"Quit", "Can't found", "Can't authenticate", keyPattern_res->pattern()}),
+                 Util::ReturnTrigger(60000, {"Quit", "Can't found", "Can't authenticate", keyPattern_res->pattern()}),
                  true);
 
     if(result.contains("static") && !isStaticNested)
@@ -272,6 +342,7 @@ void Mifare::darkside()
 void Mifare::sniff()
 {
     QVariantMap config = configMap["sniff"].toMap();
+    sniffBufferLoaded = false;
     util->execCMD(config["cmd"].toString());
 
     Util::gotoRawTab();
@@ -280,6 +351,7 @@ void Mifare::sniff()
 void Mifare::sniff14a()
 {
     QVariantMap config = configMap["sniff 14a"].toMap();
+    sniffBufferLoaded = false;
     util->execCMD(config["cmd"].toString());
 
     Util::gotoRawTab();
@@ -326,7 +398,7 @@ QString Mifare::_readblk(int blockId, KeyType keyType, const QString& key, Targe
             {
                 data.replace(0, 12, key);
                 QList<quint8> ACBits = data_getACBits(data.mid(12, 8));
-                if(ACBits[3] == 2 || ACBits[3] == 3 || ACBits[3] == 5 || ACBits[3] == 6 || ACBits[3] == 7) // in these cases, the KeyB cannot be read by KeyA
+                if(ACBits.size() == 4 && (ACBits[3] == 2 || ACBits[3] == 3 || ACBits[3] == 5 || ACBits[3] == 6 || ACBits[3] == 7)) // in these cases, the KeyB cannot be read by KeyA
                 {
                     data.replace(20, 12, "????????????");
                 }
@@ -445,7 +517,7 @@ QStringList Mifare::_readsec(int sectorId, KeyType keyType, const QString& key, 
         {
             trailer.replace(0, 12, key);
             QList<quint8> ACBits = data_getACBits(trailer.mid(12, 8));
-            if(ACBits[3] == 2 || ACBits[3] == 3 || ACBits[3] == 5 || ACBits[3] == 6 || ACBits[3] == 7) // in these cases, the KeyB cannot be read by KeyA
+            if(ACBits.size() == 4 && (ACBits[3] == 2 || ACBits[3] == 3 || ACBits[3] == 5 || ACBits[3] == 6 || ACBits[3] == 7)) // in these cases, the KeyB cannot be read by KeyA
             {
                 trailer.replace(20, 12, "????????????");
             }
@@ -768,6 +840,14 @@ void Mifare::restore()
     QString cmd = config["cmd"].toString();
     if(cmd.contains("<card type>"))
         cmd.replace("<card type>", config["card type"].toMap()[cardType.typeText].toString());
+    const QMessageBox::StandardButton choice = QMessageBox::warning(
+        parent, tr("Restore MIFARE Classic"),
+        tr("This will write a dump file to the card and may overwrite the current data.\n"
+           "The client selects the default dump file by the current card UID.\n\n"
+           "Continue?"),
+        QMessageBox::Yes | QMessageBox::No);
+    if(choice != QMessageBox::Yes)
+        return;
     util->execCMD(cmd);
     Util::gotoRawTab();
 }
@@ -778,6 +858,12 @@ void Mifare::wipeC()
     QString cmd = config["cmd"].toString();
     if(cmd.contains("<card type>"))
         cmd.replace("<card type>", config["card type"].toMap()[cardType.typeText].toString());
+    const QMessageBox::StandardButton choice = QMessageBox::warning(
+        parent, tr("Wipe Magic Card"),
+        tr("This will erase the writable data of a Chinese Magic Card.\n\nContinue?"),
+        QMessageBox::Yes | QMessageBox::No);
+    if(choice != QMessageBox::Yes)
+        return;
     util->execCMD(cmd);
     Util::gotoRawTab();
 }
@@ -805,6 +891,12 @@ void Mifare::lockC()
     QVariantMap config = configMap["Magic Card lock"].toMap();
     QString cmd = config["cmd"].toString();
     QVariantList list = config["sequence"].toJsonArray().toVariantList();
+    const QMessageBox::StandardButton choice = QMessageBox::warning(
+        parent, tr("Lock UFUID Card"),
+        tr("This sends the UFUID locking sequence and may be irreversible.\n\nContinue?"),
+        QMessageBox::Yes | QMessageBox::No);
+    if(choice != QMessageBox::Yes)
+        return;
     for(auto item = list.begin(); item != list.end(); item++)
     {
         qDebug() << cmd + item->toString();
@@ -831,14 +923,18 @@ void Mifare::loadSniff(const QString& file)
     QVariantMap config = configMap["load sniff"].toMap();
     QString cmd = config["cmd"].toString();
     cmd.replace("<filename>", file);
-    if(config.contains("show cmd"))
+    // v4.23346: trace load reports "Recorded Activity (TraceLen = ...)".
+    // The old "loaded" trigger no longer exists. ClientSession's sentinel is
+    // authoritative, but keep the new text for diagnostics/compatibility.
+    if(util->execCMDWithOutput(cmd, Util::ReturnTrigger({"Recorded Activity", "TraceLen"})) != "")
     {
-        if(util->execCMDWithOutput(cmd, Util::ReturnTrigger({"loaded"})) != "")
+        sniffBufferLoaded = true;
+        if(config.contains("show cmd"))
             util->execCMD(config["show cmd"].toString());
     }
     else
     {
-        util->execCMD(cmd);
+        sniffBufferLoaded = false;
     }
 
     Util::gotoRawTab();
@@ -849,6 +945,12 @@ void Mifare::saveSniff(const QString& file)
     QVariantMap config = configMap["save sniff"].toMap();
     QString cmd = config["cmd"].toString();
     cmd.replace("<filename>", file);
+    // v4.23346 defaults `trace save` to downloading from the device. If the
+    // trace was just loaded (or came from a previous client-buffer operation),
+    // save the client buffer explicitly.
+    if(sniffBufferLoaded && !cmd.contains("-1") && !cmd.contains("--buffer"))
+        cmd.replace(QRegularExpression(QStringLiteral("^trace\\s+save\\b")),
+                    QStringLiteral("trace save -1"));
     util->execCMD(cmd);
 
     Util::gotoRawTab();
@@ -1030,89 +1132,130 @@ void Mifare::setCardType(int type)
 bool Mifare::data_loadDataFile(const QString& filename)
 {
     QFile file(filename, this);
-    if(file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
+        return false;
+
+    const QByteArray buff = file.readAll();
+    file.close();
+
+    const QString suffix = QFileInfo(filename).suffix().toLower();
+    const bool forceText = (suffix == QLatin1String("eml") || suffix == QLatin1String("txt"));
+    const bool forceBinary = (suffix == QLatin1String("bin") || suffix == QLatin1String("dump"));
+
+    bool isBinary = forceBinary;
+    if(!forceText && !forceBinary)
     {
-        QByteArray buff;
-        buff = file.read(10000);
-        bool isBin = false;
-        for(int i = 0; i < cardType.block_size * 16; i++)  // Detect the file type
+        const int probeLen = qMin(buff.size(), int(cardType.block_size * 16));
+        for(int i = 0; i < probeLen; i++)
         {
-            //                qDebug() << (unsigned char)buff[i];
-            if(!((buff[i] >= 'A' && buff[i] <= 'F') || (buff[i] >= 'a' && buff[i] <= 'f') || (buff[i] >= '0' && buff[i] <= '9') || buff[i] == '\n' || buff[i] == '\r'))
+            const char c = buff.at(i);
+            const bool allowed = (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') ||
+                                 (c >= 'a' && c <= 'f') || c == '\n' || c == '\r';
+            if(!allowed)
             {
-                isBin = true;
+                isBinary = true;
                 break;
             }
         }
-        if(isBin)
+    }
+
+    QStringList loaded;
+    if(isBinary)
+    {
+        if(buff.size() < cardType.block_size * 16)
+            return false;
+        for(int i = 0; i < cardType.block_size; i++)
         {
-            if(file.size() < cardType.block_size * 16)
+            const QString block = bin2text(buff, i, 16);
+            if(normalizeHex(block, 16).isEmpty())
                 return false;
-            for(int i = 0; i < cardType.block_size; i++)
-            {
-                QString tmp = bin2text(buff, i, 16);
-                dataList->replace(i, tmp.toUpper());
-            }
+            loaded.append(block.toUpper());
         }
-        else
-        {
-            QString tmp = buff.left(cardType.block_size * 34);
-            QStringList tmpList = tmp.split("\n");
-            for(int i = 0; i < cardType.block_size; i++)
-            {
-                dataList->replace(i, tmpList[i].toUpper());
-                qDebug() << tmpList[i];
-            }
-        }
-        file.close();
-        data_syncWithDataWidget();
-        return true;
     }
     else
     {
-        return false;
+        const QString text = QString::fromUtf8(buff);
+        QStringList lines = text.split(QLatin1Char('\n'));
+        while(!lines.isEmpty() && lines.last().trimmed().isEmpty())
+            lines.removeLast();
+        if(lines.size() < cardType.block_size)
+            return false;
+        for(int i = 0; i < cardType.block_size; i++)
+        {
+            QString line = lines.at(i).trimmed();
+            line.remove(QLatin1Char('\r'));
+            const QString normalized = normalizeHex(line, 16);
+            if(normalized.isEmpty())
+                return false;
+            loaded.append(normalized);
+        }
     }
+
+    for(int i = 0; i < cardType.block_size; i++)
+        dataList->replace(i, loaded.at(i));
+    data_syncWithDataWidget();
+    return true;
 }
 
 bool Mifare::data_loadKeyFile(const QString& filename)
 {
     QFile file(filename, this);
-    if(file.open(QIODevice::ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
+        return false;
+
+    const QByteArray buff = file.readAll();
+    file.close();
+
+    QStringList loadedA;
+    QStringList loadedB;
+    if(buff.size() >= cardType.block_size * 16)
     {
-        QByteArray buff;
-        buff = file.read(10000);
-        bool isKey = file.size() <= cardType.sector_size * 14;
-        if(isKey)
+        // Full MIFARE dump: keys live in each sector trailer.
+        for(int i = 0; i < cardType.sector_size; i++)
         {
-            for(int i = 0; i < cardType.sector_size; i++)
-            {
-                QString tmp = bin2text(buff, i, 12);
-                keyAList->replace(i, tmp.left(12).toUpper());
-                keyBList->replace(i, tmp.right(12).toUpper());
-            }
+            const int blk = getTrailerBlockId(i);
+            const QString tmp = bin2text(buff, blk, 16);
+            const QString keyA = normalizeHex(tmp.left(12), 6);
+            const QString keyB = normalizeHex(tmp.right(12), 6);
+            if(keyA.isEmpty() || keyB.isEmpty())
+                return false;
+            loadedA.append(keyA);
+            loadedB.append(keyB);
         }
-        else
+    }
+    else if(buff.size() >= cardType.sector_size * 12)
+    {
+        // Key file: 12 bytes (6 + 6) per sector.
+        for(int i = 0; i < cardType.sector_size; i++)
         {
-            for(int i = 0; i < cardType.sector_size; i++)
-            {
-                int blk = getTrailerBlockId(i);
-                QString tmp = bin2text(buff, blk, 16);
-                keyAList->replace(i, tmp.left(12).toUpper());
-                keyBList->replace(i, tmp.right(12).toUpper());
-            }
+            const QString tmp = bin2text(buff, i, 12);
+            const QString keyA = normalizeHex(tmp.left(12), 6);
+            const QString keyB = normalizeHex(tmp.right(12), 6);
+            if(keyA.isEmpty() || keyB.isEmpty())
+                return false;
+            loadedA.append(keyA);
+            loadedB.append(keyB);
         }
-        file.close();
-        data_syncWithKeyWidget();
-        return true;
     }
     else
     {
         return false;
     }
+
+    for(int i = 0; i < cardType.sector_size; i++)
+    {
+        keyAList->replace(i, loadedA.at(i));
+        keyBList->replace(i, loadedB.at(i));
+    }
+    data_syncWithKeyWidget();
+    return true;
 }
 
 QString Mifare::bin2text(const QByteArray& buff, int i, int length)
 {
+    if(i < 0 || length <= 0 || (i + 1) * length > buff.size())
+        return QString();
+
     QString ret = "";
     char LByte, RByte;
     char map[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
@@ -1125,104 +1268,95 @@ QString Mifare::bin2text(const QByteArray& buff, int i, int length)
         ret += LByte;
         ret += RByte;
     }
-    qDebug() << ret;
     return ret;
 }
 
 bool Mifare::data_saveDataFile(const QString& filename, bool isBin)
 {
-    QFile file(filename, this);
-    if(file.open(QIODevice::WriteOnly))
+    QStringList normalized;
+    for(int i = 0; i < cardType.block_size; i++)
     {
-        QByteArray buff;
-        QChar tmp;
-        if(isBin)
+        const QString block = normalizeHex(dataList->at(i), 16);
+        if(block.isEmpty())
+            return false;
+        if(isBin && block.contains(QLatin1Char('?')))
+            return false;
+        normalized.append(block);
+    }
+
+    QFile file(filename, this);
+    if(!file.open(QIODevice::WriteOnly))
+        return false;
+
+    QByteArray buff;
+    if(isBin)
+    {
+        for(int i = 0; i < cardType.block_size; i++)
         {
-            for(int i = 0; i < cardType.block_size; i++)
+            QByteArray bytes;
+            if(!hexStringToBytes(normalized.at(i), bytes, false) || bytes.size() != 16)
             {
-                for(int j = 0; j < 16; j++)
-                {
-                    unsigned char Byt[2] = {0x0, 0x0};
-                    for(int k = 0; k < 2; k++)
-                    {
-                        tmp = dataList->at(i).at(j * 2 + k).toUpper();
-                        if(tmp >= '0' && tmp <= '9')
-                            Byt[k] = tmp.toLatin1() - '0';
-                        else if(tmp >= 'A' && tmp <= 'F')
-                            Byt[k] = tmp.toLatin1() - 'A' + 10;
-                    }
-                    buff += (Byt[0] << 4) | Byt[1];
-                }
+                file.close();
+                return false;
             }
+            buff += bytes;
         }
-        else
-        {
-            for(int i = 0; i < cardType.block_size; i++)
-            {
-                buff += dataList->at(i);
-                buff += "\n";
-            }
-        }
-        bool ret = file.write(buff) != -1;
-        file.close();
-        return ret;
     }
     else
     {
-        return false;
+        for(int i = 0; i < cardType.block_size; i++)
+        {
+            buff += normalized.at(i).toLatin1();
+            buff += '\n';
+        }
     }
+    const bool ret = (file.write(buff) == buff.size());
+    file.close();
+    return ret;
 }
 
 bool Mifare::data_saveKeyFile(const QString& filename, bool isBin)
 {
-    QFile file(filename, this);
-    if(file.open(QIODevice::WriteOnly))
-    {
-        QByteArray buff;
-        QChar tmp;
-        if(isBin)
-        {
-            for(int i = 0; i < cardType.sector_size; i++)
-            {
-                for(int j = 0; j < 6; j++)
-                {
-                    unsigned char Byt[2] = {0x0, 0x0};
-                    for(int k = 0; k < 2; k++)
-                    {
-                        tmp = keyAList->at(i).at(j * 2 + k).toUpper();
-                        if(tmp >= '0' && tmp <= '9')
-                            Byt[k] = tmp.toLatin1() - '0';
-                        else if(tmp >= 'A' && tmp <= 'F')
-                            Byt[k] = tmp.toLatin1() - 'A' + 10;
-                    }
-                    buff += (Byt[0] << 4) | Byt[1];
-                }
-                for(int j = 0; j < 6; j++)
-                {
-                    unsigned char Byt[2] = {0x0, 0x0};
-                    for(int k = 0; k < 2; k++)
-                    {
-                        tmp = keyBList->at(i).at(j * 2 + k).toUpper();
-                        if(tmp >= '0' && tmp <= '9')
-                            Byt[k] = tmp.toLatin1() - '0';
-                        else if(tmp >= 'A' && tmp <= 'F')
-                            Byt[k] = tmp.toLatin1() - 'A' + 10;
-                    }
-                    buff += (Byt[0] << 4) | Byt[1];
-                }
-            }
-        }
-        else
-        {
-        }
-        bool ret = file.write(buff) != -1;
-        file.close();
-        return ret;
-    }
-    else
-    {
+    if(!isBin)
         return false;
+
+    QStringList keysA;
+    QStringList keysB;
+    for(int i = 0; i < cardType.sector_size; i++)
+    {
+        const QString keyA = normalizeHex(keyAList->at(i), 6);
+        const QString keyB = normalizeHex(keyBList->at(i), 6);
+        if(keyA.isEmpty() || keyB.isEmpty() ||
+           keyA.contains(QLatin1Char('?')) || keyB.contains(QLatin1Char('?')))
+            return false;
+        keysA.append(keyA);
+        keysB.append(keyB);
     }
+
+    QFile file(filename, this);
+    if(!file.open(QIODevice::WriteOnly))
+        return false;
+
+    QByteArray buff;
+    for(int i = 0; i < cardType.sector_size; i++)
+    {
+        QByteArray bytes;
+        if(!hexStringToBytes(keysA.at(i), bytes, false) || bytes.size() != 6)
+        {
+            file.close();
+            return false;
+        }
+        buff += bytes;
+        if(!hexStringToBytes(keysB.at(i), bytes, false) || bytes.size() != 6)
+        {
+            file.close();
+            return false;
+        }
+        buff += bytes;
+    }
+    const bool ret = (file.write(buff) == buff.size());
+    file.close();
+    return ret;
 }
 
 void Mifare::data_key2Data()

@@ -24,7 +24,7 @@ MF_Sim_simDialog::MF_Sim_simDialog(int cardType, QString cardTypeText, QWidget *
         ui->uBox->setText("-u");
         ui->nBox->setText("-n");
         ui->iBox->setText("-i");
-        ui->xBox->setText("--crack");
+        ui->xBox->setText("-x");
         ui->eBox->setText("-e");
     }
     this->cardType = cardType;

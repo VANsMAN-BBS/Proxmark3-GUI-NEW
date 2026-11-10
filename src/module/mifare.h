@@ -129,6 +129,7 @@ private:
     QStringList* keyAList;
     QStringList* keyBList;
     QStringList* dataList;
+    bool sniffBufferLoaded = false;
     QRegularExpression* dataPattern;
     QRegularExpression* keyPattern_res;
     QRegularExpression* keyPattern;
