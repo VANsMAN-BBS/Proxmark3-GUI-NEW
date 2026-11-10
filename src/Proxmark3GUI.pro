@@ -50,7 +50,6 @@ HEADERS += \
     ui/waveformdialog.h \
 
 FORMS += \
-    ui/t55xxtab.ui \
     ui/mf_trailerdecoderdialog.ui \
     ui/mf_sim_simdialog.ui \
     ui/mf_uid_parameterdialog.ui \
