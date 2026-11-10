@@ -1,5 +1,13 @@
 ﻿#include "lf.h"
 #include <QJsonArray>
+#include <QPushButton>
+#include <QBoxLayout>
+#include <QFile>
+#include <QFileInfo>
+#include <QMessageBox>
+#include <QTextStream>
+#include <QDir>
+#include "ui/waveformdialog.h"
 
 const LF::LFConfig LF::defaultLFConfig;
 
@@ -11,6 +19,13 @@ LF::LF(Ui::MainWindow *ui, Util *addr, QWidget *parent): QObject(parent)
 
     LFconfigPattern = new QRegularExpression("(\\d+)|Yes|No");
     currLFConfig = defaultLFConfig;
+
+    QPushButton *waveButton = new QPushButton(tr("Show Waveform"), ui->LF_operationGroupBox);
+    waveButton->setToolTip(tr("Export the Client GraphBuffer (data save) and plot the raw LF samples. "
+                              "Requires a completed LF Read/Sniff on LF-capable firmware."));
+    if(QBoxLayout *layout = qobject_cast<QBoxLayout *>(ui->LF_operationGroupBox->layout()))
+        layout->addWidget(waveButton);
+    connect(waveButton, &QPushButton::clicked, this, &LF::showWaveform);
 }
 
 void LF::read()
@@ -157,4 +172,89 @@ void LF::syncWithUI()
 void LF::setConfigMap(const QVariantMap& configMap)
 {
     this->configMap = configMap;
+}
+
+void LF::setClientWorkingDir(const QString &dir)
+{
+    clientWorkingDir = dir;
+}
+
+void LF::showWaveform()
+{
+    const QString baseName = QStringLiteral("pm3gui_lf_wave");
+    const QString out = util->execCMDWithOutput(QStringLiteral("data save -f ") + baseName, 5000, true);
+    if(out.isEmpty())
+    {
+        QMessageBox::information(parent, tr("LF Waveform"),
+                                 tr("No graph data was exported.\n"
+                                    "Run LF Read/Sniff first on LF-capable firmware, or load a graph buffer "
+                                    "with `data load` in RawCommand."));
+        return;
+    }
+
+    QString path;
+    const QRegularExpressionMatch saved = QRegularExpression(
+        QStringLiteral("Saved\\s+\\d+\\s+bytes\\s+to\\s+PM3\\s+file\\s+`([^`]+)`"),
+        QRegularExpression::CaseInsensitiveOption).match(out);
+    if(saved.hasMatch())
+        path = saved.captured(1);
+
+    if(path.isEmpty() || !QFile::exists(path))
+    {
+        const QStringList candidates = {
+            clientWorkingDir + QLatin1Char('/') + baseName + QStringLiteral(".pm3"),
+            QDir::currentPath() + QLatin1Char('/') + baseName + QStringLiteral(".pm3"),
+            QDir::currentPath() + QLatin1Char('/') + baseName
+        };
+        for(const QString &candidate : candidates)
+        {
+            if(QFile::exists(candidate) && QFileInfo(candidate).size() > 0)
+            {
+                path = candidate;
+                break;
+            }
+        }
+    }
+
+    if(path.isEmpty() || !QFile::exists(path))
+    {
+        QMessageBox::information(parent, tr("LF Waveform"),
+                                 tr("The Client reported a graph export, but the .pm3 file could not be found.\n"
+                                    "Check the Client working directory in Settings."));
+        return;
+    }
+
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QMessageBox::information(parent, tr("LF Waveform"), tr("Failed to open %1").arg(path));
+        return;
+    }
+    QTextStream stream(&file);
+    QVector<int> samples;
+    while(!stream.atEnd())
+    {
+        const QString line = stream.readLine().trimmed();
+        if(line.isEmpty())
+            continue;
+        bool ok = false;
+        const int value = line.toInt(&ok);
+        if(ok)
+            samples.append(value);
+        if(samples.size() > 1000000)
+            break;
+    }
+    file.close();
+
+    if(samples.size() < 2)
+    {
+        QMessageBox::information(parent, tr("LF Waveform"),
+                                 tr("The graph buffer contains fewer than 2 samples; no waveform can be drawn.\n"
+                                    "Run LF Read/Sniff first, or load a graph buffer with `data load`."));
+        return;
+    }
+
+    WaveformDialog *dialog = new WaveformDialog(samples, QFileInfo(path).fileName(), parent);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
 }

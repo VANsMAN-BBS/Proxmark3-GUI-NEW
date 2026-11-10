@@ -39,6 +39,8 @@ public:
     void getLFConfig();
     void setLFConfig(LF::LFConfig lfconfig);
     void resetLFConfig();
+    void showWaveform();
+    void setClientWorkingDir(const QString &dir);
     static float divisor2Freq(uint8_t divisor);
     static uint8_t freq2Divisor(float freq);
 
@@ -50,6 +52,7 @@ private:
     LFConfig currLFConfig;
     QRegularExpression* LFconfigPattern;
     QVariantMap configMap;
+    QString clientWorkingDir;
     void syncWithUI();
     bool getLFConfig_helper(const QVariantMap& map, QString& str, int* result);
 signals:

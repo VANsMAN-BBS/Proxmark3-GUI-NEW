@@ -255,6 +255,7 @@ void MainWindow::on_PM3_connectButton_clicked()
     clientWorkingDir->cd(ui->Set_Client_workingDirEdit->text());
     qDebug() << clientWorkingDir->absolutePath();
     pm3->setWorkingDirectory(clientWorkingDir->absolutePath());
+    lf->setClientWorkingDir(clientWorkingDir->absolutePath());
 
     loadConfig();
     emit connectPM3(clientPath, args);

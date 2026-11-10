@@ -29,6 +29,8 @@ SOURCES += \
     ui/mf_uid_parameterdialog.cpp \
     ui/mainwindow.cpp \
     ui/mf_attack_hardnesteddialog.cpp \
+    ui/waveformwidget.cpp \
+    ui/waveformdialog.cpp \
 
 HEADERS += \
     core/clientinfo.h \
@@ -44,6 +46,8 @@ HEADERS += \
     ui/mf_uid_parameterdialog.h \
     ui/mainwindow.h \
     ui/mf_attack_hardnesteddialog.h \
+    ui/waveformwidget.h \
+    ui/waveformdialog.h \
 
 FORMS += \
     ui/t55xxtab.ui \
