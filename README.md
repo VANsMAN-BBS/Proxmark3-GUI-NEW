@@ -1,100 +1,217 @@
-# Proxmark3GUI
-[![downloads](https://img.shields.io/github/downloads/wh201906/Proxmark3GUI/total?label=GitHub%20release%20downloads)](https://github.com/wh201906/Proxmark3GUI/releases)  
-[![downloads](https://img.shields.io/sourceforge/dt/proxmark3gui.svg?label=SourceForge%20downloads)](https://sourceforge.net/projects/proxmark3gui/)  
+# Proxmark3GUI v0.3.0
 
-A cross-platform GUI for [Proxmark3](https://github.com/Proxmark/proxmark3)/[Proxmark3 Iceman fork](https://github.com/RfidResearchGroup/proxmark3) client  
+A cross-platform Qt Widgets GUI for the Proxmark3 **Iceman/RRG** client.
 
-(The [orignal Proxmark3 repo](https://github.com/Proxmark/proxmark3) has been unmaintained for a long time. I personally suggest using the [Proxmark3 Iceman fork](https://github.com/RfidResearchGroup/proxmark3))
+This repository is a modernized fork of [wh201906/Proxmark3GUI](https://github.com/wh201906/Proxmark3GUI) v0.2.8. The original GUI layout, MIFARE workflow, Raw Command page and settings are preserved; the communication layer and selected features were upgraded for **Iceman v4.23346**.
 
-[中文介绍](doc/README/README_zh_CN.md)
+> Target Client: **RfidResearchGroup/proxmark3 v4.23346**  
+> Build stack: **Qt 5.15.x / qmake / Qt Widgets / C++11 / Windows**  
+> The GUI does not implement USB or serial protocol itself. All device operations go through the official `proxmark3.exe` client.
 
-***
+---
 
-## Features
+## 1. Features
 
-+ Easy to find available Serial Port
-+ Support raw commands of Proxmark3 client(Official/Iceman)
-+ Have a friendly UI to test Mifare cards
-    + Support different card size(MINI, 1K, 2K, 4K)
-    + Easy to edit Mifare block data
-    + Easy to read all/selected blocks with well-designed read logic
-    + Easy to write all/selected blocks
-    + Support binary(.bin .dump) files and text(.eml) files
-    + Analyze Access Bits
-    + Support Chinese Magic Card
-+ Have basic support for LF commands
-+ Customize UI  
-+ ...  
+### Preserved / repaired
 
-***
+- Serial port discovery and client process connection.
+- Raw Command terminal with history and output.
+- MIFARE Classic page: data/key tables, read/write selected blocks, dump/restore, Check Default, Nested/StaticNested, Hardnested, Darkside.
+- Chinese Magic Card read/write/wipe/lock/set parameter.
+- MIFARE Classic simulation (updated for v4.23346 `-x`; `--crack` removed).
+- HF sniff / HF 14A sniff.
+- Trace Load / Save / List (v4.23346 `trace save -1` buffer semantics).
+- LF page: search/read/sniff/tune/config.
+- T55xx page and EM410x clone.
+- Trailer/Access Bits decoder.
+- Settings: client path, port, arguments, working directory, preload script, config file, language, theme, fonts, opacity.
+- Docking layout and dark/light QSS.
 
-## Preview
-![preview](doc/README/preview.png)  
+### New
 
-[more previews](doc/preview/previews.md)  
+- **Core `ClientSession`**
+  - one `QProcess` owner;
+  - connection/version/firmware/model parsing;
+  - FIFO command queue;
+  - `rem` sentinel completion;
+  - UTF-8 / ANSI / CR handling;
+  - process exit/error detection;
+  - no `QSerialPortInfo::isBusy()` disconnect polling.
+- **NTAG / Ultralight page**
+  - `hf mfu info`, `hf mfu rdbl`, `hf mfu wrbl`;
+  - page table, read all/selected/single, edit, write, verify;
+  - page protection for UID/lock/CC/config/OTP pages;
+  - unknown layouts are read-only.
+- **T55xx restored page**
+  - original `mainwindow.ui` configuration area restored;
+  - EM410x clone group restored;
+  - Block 0 hex/bin editor with verified bit fields;
+  - `lf t55xx detect/info/config` hooks;
+  - unimplemented fields disabled and marked Experimental.
+- **Optional LF waveform**
+  - exports the Client GraphBuffer with `data save`;
+  - QPainter drawing, zoom/pan/fit, sample text tab;
+  - no fabricated time axis: `.pm3` export has no sample-rate metadata.
+- **Config for v4.23346**
+  - `config/config_rrgv4.23346.json` (default).
 
-***
+---
 
-## About Compiled Windows clients
+## 2. Verified status
 
-A cool guy [Gator96100](https://github.com/Gator96100) creates [ProxSpace](https://github.com/Gator96100/ProxSpace) and makes it possible to compile both the firmware and the client on Windows.  
-Also, he makes the [pre-compiled Windows client](https://www.proxmarkbuilds.org/) so you can download it and run your PM3 client on Windows instantly.  
-I included his compiled client in my releases so you can use the GUI on the fly, and you can also use the GUI with your prefered client.  
-Great thanks to him.  
+Legend:
 
-***
+- **Verified (client/device)** — actually exercised against the specified client and real device.
+- **Client-integrated** — command/parameters checked against v4.23346 help/source; not successful on real hardware.
+- **Not verified** — no compatible tag/firmware for a success test.
+- **Experimental** — UI/implementation present but hardware-verified status is incomplete.
 
-## Download binaries for Windows 
-You can download pre-built Windows binaries in [release](https://github.com/wh201906/Proxmark3GUI/releases) page  
-`Vx.x.x-win64.7z` only contains the GUI  
-`Vx.x.x-win64-xxxxxxx.7z` contains the GUI and corresponding client. You just need to open `Vx.x.x-win64-xxxxxxx\GUI\Proxmark3GUI.exe`  
+| Area | Status |
+|---|---|
+| Build (Qt 5.15.19, MinGW 16.2.0) | Verified |
+| Standalone dist without MSYS2 PATH | Verified |
+| Chinese installation path startup | Verified |
+| Connect to v4.23346 / version/model/firmware | **Verified (client/device)** |
+| Disconnect / client crash detection | **Verified (client/device)** |
+| Raw terminal / UTF-8 command text | Verified |
+| `hf 14a info` UID/ATQA/SAK parsing | **Verified (client/device)** |
+| `hf mf chk --1k` (27 s) | **Verified (client/device, read-only)** |
+| MIFARE Classic successful read/write/attacks | **Not verified** (current card is HID SEOS/EMV) |
+| MIFARE simulation | Client-integrated (`-x`); not executed |
+| Trace GUI Load → Save round-trip | **Verified (client/device, SHA-256 identical)** |
+| LF Read/Sniff | **Not verified on physical hardware** — current 256K firmware has no LF |
+| T55xx | **Experimental / Not verified** — no LF firmware |
+| NTAG / Ultralight | **Not verified** — no NTAG/UL tag |
+| LF waveform | Verified with synthetic GraphBuffer; real LF not verified |
 
-You can also download them in SourceForge  
-[![Download Proxmark3GUI](https://a.fsdn.com/con/app/sf-download-button)](https://sourceforge.net/projects/proxmark3gui/files/latest/download)  
+The connected 256K `PM3 GENERIC` firmware has no LF support (`hw status` has no LF sampling/T55xx sections; `lf read` returns “not available”). No firmware was flashed or modified.
 
-## Build on Linux
+---
+
+## 3. Build
+
+See **[BUILD_GUIDE.md](BUILD_GUIDE.md)** for the exact environment and packaging steps.
+
+Quick build (MSYS2 UCRT64 Qt 5.15.19):
+
+```powershell
+$env:PATH = "C:\msys64\ucrt64\bin;" + $env:PATH
+mkdir build
+cd build
+qmake-qt5 ..\src\Proxmark3GUI.pro -spec win32-g++ CONFIG+=release
+mingw32-make -j4
 ```
-cd ~
-sudo apt-get update
-sudo apt-get install git build-essential
-sudo apt-get install qt5-default libqt5serialport5-dev
-git clone https://github.com/wh201906/Proxmark3GUI.git --depth=1
-cd Proxmark3GUI
-mkdir build && cd build
-qmake ../src
-make -j4 && make clean
-./Proxmark3GUI
+
+Output:
+
+```text
+build\release\Proxmark3GUI.exe
 ```
 
-## Build on macOS
-```
-cd ~
-brew update
-brew install qt@5
-brew link qt5 --force
-git clone https://github.com/wh201906/Proxmark3GUI.git --depth=1
-cd Proxmark3GUI
-mkdir build && cd build
-qmake ../src
-make -j4 && make clean
-open Proxmark3GUI.app
+A ready-to-run directory is generated at:
+
+```text
+dist\Proxmark3GUI\
 ```
 
-> In order for the GUI to connect to the device in macOS, you'd need to tweak the settings a little bit
+It includes Qt DLLs, platform/style plugins and the required MSYS2 transitive DLLs.
 
-Client Path must be path to pm3 console client like "/usr/local/bin/pm3/"
+---
 
-![macOS_settings](doc/README/macOS_settings.png)
+## 4. Run
 
-***
+1. Start `dist\Proxmark3GUI\Proxmark3GUI.exe`.
+2. Set **Client Path** to your `proxmark3.exe`.
+3. Select the Proxmark3 **Port**.
+4. Settings → Client:
+   - Start arguments: `<port> -f` (the GUI also ensures `-f`);
+   - Config file: `config_rrgv4.23346.json`;
+   - Working directory: default `../data`;
+   - Preload script only if the client needs environment variables.
+5. Click **Connect**.
 
-## Tutorial
+Expected status:
 
-[1.Quickstart](doc/tutorial/Quickstart/quickstart.md)  
-[2.Work with ProxSpace](doc/tutorial/Work_With_ProxSpace/work_with_proxspace.md)  
-[3.Edit Mifare Classic data](doc/tutorial/Edit_Mifare_Classic_data/Edit_Mifare_Classic_data.md)(Proxmark3 hardware is not necessary)  
+```text
+HW Version: Iceman/master/v4.23346-suspect ... / PM3 GENERIC / ...
+PM3: Connected
+```
 
-***
+---
 
-## Change Log
-[Change Log](CHANGELOG.md)
+## 5. Page guide
+
+### 5.1 MIFARE
+
+Original workflow preserved. Destructive actions now ask for confirmation:
+
+- Restore;
+- Magic Card wipe;
+- Lock UFUID;
+- Set Parameter.
+
+### 5.2 T55xx (Experimental)
+
+- Original page restored, including Block 0 and Option Block editors.
+- `Get from Data` / `Set to Data` encode/decode the verified Block 0 fields.
+- `Detect` / `Read Info` call `lf t55xx detect` / `lf t55xx info`.
+- `Apply` calls `lf t55xx config` with modulation/rate/offset/inverted/ST/q5.
+- Fields whose bit layout is not verified are disabled, not faked.
+- EM410x Read/Clone calls `lf em 410x reader` / `lf em 410x clone --id ... [--q5]`.
+
+Requires LF-capable firmware. The current test device does not have LF.
+
+### 5.3 NTAG / Ultralight
+
+- `Detect / Read Info` → `hf mfu info`.
+- `Read All` / `Read Selected` / `Read Page` → `hf mfu rdbl`.
+- `Write Page` / `Write Selected` → `hf mfu wrbl`, followed by `rdbl` verification.
+- Pages 0–3 (UID/lock/CC) are read-only.
+- Config/OTP/key pages are read-only once `cfg0` reports the config start.
+- Unknown card layouts disable writes.
+- Optional key supports 4-byte (NTAG/EV1) or 16-byte (UL-C/AES) hex.
+
+### 5.4 LF waveform
+
+- Run LF Read/Sniff first on LF-capable firmware (or load a GraphBuffer with `data load`).
+- Click **Show Waveform**.
+- The GUI runs `data save -f pm3gui_lf_wave`, reads the `.pm3` text file and plots the raw samples.
+- The `.pm3` file has no sample-rate metadata, so the x-axis is **sample index**, not a fabricated time axis.
+- Decoded protocol text remains in RawCommand; it is never converted into a waveform.
+
+---
+
+## 6. Known limitations
+
+- No real-hardware success test for MIFARE Classic read/write/attacks (current card is HID SEOS/EMV).
+- No LF/T55xx success test: current 256K firmware is built without LF.
+- No NTAG/Ultralight success test: no tag available.
+- No persistent log file; RawCommand is the only output view.
+- Raw/fire-and-forget commands do not enter the FIFO; long commands still require Stop.
+- `keepClientActive` checkbox is retained for settings compatibility but no longer controls serial-port polling.
+- T55xx option-block field semantics and some Block 0 fields remain disabled/unimplemented.
+- No dynamic command discovery or multi-version compatibility framework (intentional scope limit).
+- Qt 5 is end-of-life; Qt6 migration is out of scope.
+
+---
+
+## 7. Documentation
+
+- [AUDIT_STAGE1.md](AUDIT_STAGE1.md)
+- [ICEMAN_COMPATIBILITY_MATRIX.md](ICEMAN_COMPATIBILITY_MATRIX.md)
+- [ARCHITECTURE_UPGRADE.md](ARCHITECTURE_UPGRADE.md)
+- [TEST_REPORT.md](TEST_REPORT.md)
+- [BUILD_GUIDE.md](BUILD_GUIDE.md)
+- [CHANGELOG.md](CHANGELOG.md)
+- Stage reports: `docs/STAGE0_REPORT.md` … `docs/STAGE5_REPORT.md`
+
+---
+
+## 8. Credits / License
+
+Original project: [wh201906/Proxmark3GUI](https://github.com/wh201906/Proxmark3GUI).  
+Proxmark3 client/firmware: [RfidResearchGroup/proxmark3](https://github.com/RfidResearchGroup/proxmark3).  
+QDarkStyleSheet: [ColinDuquesnoy/QDarkStyleSheet](https://github.com/ColinDuquesnoy/QDarkStyleSheet) (MIT).
+
+This project retains the original LGPL-2.1 license (`LICENSE`).  
+The Proxmark3 client is GPLv3 and is used as a separate process; if redistributed with the GUI, its GPLv3 obligations apply.

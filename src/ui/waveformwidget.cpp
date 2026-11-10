@@ -1,4 +1,4 @@
-#include "waveformwidget.h"
+﻿#include "waveformwidget.h"
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -180,7 +180,7 @@ void WaveformWidget::wheelEvent(QWheelEvent *event)
 
     const QRect area = rect().adjusted(46, 18, -18, -30);
     const int oldCount = m_viewCount > 0 ? m_viewCount : m_samples.size();
-    const int cursorX = qBound(area.left(), int(event->pos().x()), area.right());
+    const int cursorX = qBound(area.left(), int(event->position().toPoint().x()), area.right());
     const double ratio = area.width() > 0 ? double(cursorX - area.left()) / area.width() : 0.5;
     const int cursorSample = m_viewStart + int(ratio * oldCount);
 
@@ -233,3 +233,4 @@ void WaveformWidget::mouseDoubleClickEvent(QMouseEvent *)
 {
     fit();
 }
+

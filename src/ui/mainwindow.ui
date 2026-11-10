@@ -3163,7 +3163,7 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
                     </widget>
                    </item>
                    <item>
-                    <widget class="QLabel" name="label_17">
+                    <widget class="QLabel" name="label_themeRestart">
                      <property name="text">
                       <string>(Restart this app to use new theme)</string>
                      </property>
@@ -3386,6 +3386,7 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
  <resources/>
  <connections/>
 </ui>
+
 
 
 

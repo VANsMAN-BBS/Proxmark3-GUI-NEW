@@ -2,6 +2,21 @@
 
 [中文](doc/CHANGELOG/CHANGELOG_zh_CN.md)  
 
+### V0.3.0
++ Target Iceman/RRG v4.23346; add `config_rrgv4.23346.json`
++ Add Core `ClientSession`: FIFO queue, `rem` completion sentinel, timeouts, UTF-8/ANSI/CR, process exit/error handling
++ Remove `QSerialPortInfo::isBusy()` disconnect polling
++ Fix `hf 14a info` UID/ATQA/SAK parsing
++ Increase `hf mf chk` timeout (v4.23346 takes ~27 s) and Nested timeout
++ Fix MIFARE simulation `--crack` -> `-x`
++ Fix Trace Load trigger and `trace save -1` buffer semantics
++ Harden MIFARE dump/key file IO and Access Bits bounds
++ Add confirmations for Restore/Wipe/Lock/Set Parameter
++ Restore the original T55xx page and implement verified Block 0 / `lf t55xx detect/info/config` experiments
++ Add NTAG/Ultralight page with page protection, read/write and verify
++ Add optional LF raw-sample waveform via Client GraphBuffer export
++ Add standalone dist packaging and Qt5.15 build guide (MSYS2 UCRT64)
+
 ### V0.2.8
 + Add support for Iceman/RRG repo v4.16717  
 + Fix some bugs  

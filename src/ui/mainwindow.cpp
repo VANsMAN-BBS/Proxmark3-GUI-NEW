@@ -983,7 +983,7 @@ void MainWindow::on_MF_Sniff_loadButton_clicked() // use a tmp file to support c
     qDebug() << filename;
     if(filename != "")
     {
-        QString tmpFile = "tmp" + QString::number(QDateTime::currentDateTimeUtc().toTime_t()) + defaultExtension;
+        QString tmpFile = "tmp" + QString::number(QDateTime::currentDateTimeUtc().toSecsSinceEpoch()) + defaultExtension;
         if(QFile::copy(filename, clientTracePath.absolutePath() + "/" + tmpFile))
         {
             mifare->loadSniff(tmpFile);
@@ -1020,7 +1020,7 @@ void MainWindow::on_MF_Sniff_saveButton_clicked()
     qDebug() << filename;
     if(filename != "")
     {
-        QString tmpFile = "tmp" + QString::number(QDateTime::currentDateTimeUtc().toTime_t()) + defaultExtension;
+        QString tmpFile = "tmp" + QString::number(QDateTime::currentDateTimeUtc().toSecsSinceEpoch()) + defaultExtension;
         mifare->saveSniff(tmpFile);
         for(int i = 0; i < 100; i++)
         {
@@ -1138,7 +1138,7 @@ void MainWindow::uiInit()
     MFCardTypeBtnGroup->addButton(ui->MF_Type_1kButton, 1);
     MFCardTypeBtnGroup->addButton(ui->MF_Type_2kButton, 2);
     MFCardTypeBtnGroup->addButton(ui->MF_Type_4kButton, 4);
-    connect(MFCardTypeBtnGroup, QOverload<int, bool>::of(&QButtonGroup::buttonToggled), this, &MainWindow::MF_onMFCardTypeChanged);
+    connect(MFCardTypeBtnGroup, &QButtonGroup::idToggled, this, &MainWindow::MF_onMFCardTypeChanged);
 
     ui->MF_keyWidget->installEventFilter(this);
     ui->MF_dataWidget->installEventFilter(this);
@@ -1742,4 +1742,5 @@ void MainWindow::on_Set_UI_CMDFont_setButton_clicked()
     settings->setValue("CMDFont_Size", ui->Set_UI_CMDFont_sizeBox->value());
     settings->endGroup();
 }
+
 
