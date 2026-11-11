@@ -1,4 +1,5 @@
 ﻿#include "ui/mainwindow.h"
+#include "core/logger.h"
 
 #include <QApplication>
 #include <QSettings>
@@ -23,6 +24,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QTextCodec::setCodecForLocale(QTextCodec::codecForName("UTF-8"));
     QApplication a(argc, argv);
+
+    Logger::init();
+    Logger::info(QStringLiteral("App"),
+                 QStringLiteral("Starting Proxmark3GUI %1").arg(QCoreApplication::applicationVersion()));
+    Logger::info(QStringLiteral("App"), QStringLiteral("Log file: %1").arg(Logger::logFilePath()));
 
     QSettings* settings = new QSettings("GUIsettings.ini", QSettings::IniFormat);
     settings->setIniCodec("UTF-8");
@@ -58,7 +64,10 @@ int main(int argc, char *argv[])
     if(translator->load(languageFile))
         a.installTranslator(translator);
     else
+    {
+        Logger::warning(QStringLiteral("i18n"), QStringLiteral("Failed to load translation: %1").arg(languageFile));
         QMessageBox::information(nullptr, "Error", "Can't load " + languageFile + " as translation file.");
+    }
 
     QFile* themeFile = new QFile();
     QTextStream* themeStream = new QTextStream();
@@ -91,7 +100,10 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.initUI();
     w.show();
-    return a.exec();
+    const int rc = a.exec();
+    Logger::info(QStringLiteral("App"), QStringLiteral("Exit code %1").arg(rc));
+    Logger::shutdown();
+    return rc;
 }
 
 
