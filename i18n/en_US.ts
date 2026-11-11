@@ -2,6 +2,517 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>AmiiboPage</name>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="97"/>
+        <source>Amiibo data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="104"/>
+        <source>Add sample</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="105"/>
+        <source>Import file...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="106"/>
+        <source>Save as...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="107"/>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="119"/>
+        <source>The built-in sample is synthetic test data, not a real Amiibo. Import your own NTAG215 dump (540 bytes) to inspect or write it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="129"/>
+        <source>Selected data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="132"/>
+        <location filename="../src/module/amiibopage.cpp" line="323"/>
+        <source>(none)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="136"/>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="137"/>
+        <source>Source:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="138"/>
+        <source>Size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="139"/>
+        <source>Format:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="146"/>
+        <source>Hexadecimal preview of the selected data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="153"/>
+        <location filename="../src/module/amiibopage.cpp" line="339"/>
+        <location filename="../src/module/amiibopage.cpp" line="827"/>
+        <source>No image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="157"/>
+        <source>Tag operations (NTAG215 / Type 2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="160"/>
+        <source>Detect tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="161"/>
+        <source>Read tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="162"/>
+        <source>Write tag...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="163"/>
+        <source>Verify tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="164"/>
+        <source>Start emulation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="165"/>
+        <source>Stop emulation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="181"/>
+        <source>Writing overwrites the tag and is only started after confirmation; the data is read back afterwards. Lock/OTP/password changes are never performed. Emulation uses the client emulator memory (hf mfu eload + hf mfu sim -t 7).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="189"/>
+        <source>Idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="193"/>
+        <source>Online catalog (metadata)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="196"/>
+        <source>Catalog URL:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="198"/>
+        <source>https://example.org/amiibo.json</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="204"/>
+        <source>Search name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="205"/>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="206"/>
+        <source>Download data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="221"/>
+        <source>No catalog is configured. Metadata browsing is optional and network access only happens when you press Search. Binary Amiibo data is not bundled or distributed by this program.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="310"/>
+        <source>Source: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="333"/>
+        <source>%1 bytes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="346"/>
+        <source>NTAG215 image (540 bytes)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="348"/>
+        <source>NTAG213-sized image (1024 bytes)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="350"/>
+        <source>NTAG216-sized image (2048 bytes)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="351"/>
+        <source>Unknown (%1 bytes)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="386"/>
+        <source>Synthetic NTAG215 sample</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="387"/>
+        <source>built-in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="388"/>
+        <source>synthetic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="391"/>
+        <source>Synthetic sample added (not a real Amiibo).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="397"/>
+        <source>Import NTAG215 dump</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="398"/>
+        <source>Dump files (*.bin *.dump);;All files (*)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="404"/>
+        <location filename="../src/module/amiibopage.cpp" line="412"/>
+        <location filename="../src/module/amiibopage.cpp" line="431"/>
+        <location filename="../src/module/amiibopage.cpp" line="444"/>
+        <location filename="../src/module/amiibopage.cpp" line="482"/>
+        <location filename="../src/module/amiibopage.cpp" line="521"/>
+        <location filename="../src/module/amiibopage.cpp" line="541"/>
+        <location filename="../src/module/amiibopage.cpp" line="547"/>
+        <location filename="../src/module/amiibopage.cpp" line="565"/>
+        <location filename="../src/module/amiibopage.cpp" line="580"/>
+        <location filename="../src/module/amiibopage.cpp" line="588"/>
+        <location filename="../src/module/amiibopage.cpp" line="595"/>
+        <location filename="../src/module/amiibopage.cpp" line="609"/>
+        <location filename="../src/module/amiibopage.cpp" line="618"/>
+        <location filename="../src/module/amiibopage.cpp" line="625"/>
+        <location filename="../src/module/amiibopage.cpp" line="639"/>
+        <location filename="../src/module/amiibopage.cpp" line="651"/>
+        <location filename="../src/module/amiibopage.cpp" line="657"/>
+        <location filename="../src/module/amiibopage.cpp" line="665"/>
+        <location filename="../src/module/amiibopage.cpp" line="676"/>
+        <source>Amiibo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="405"/>
+        <source>Cannot open the file:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="413"/>
+        <source>Unsupported data length: %1 bytes.
+An NTAG215 dump must be 540 bytes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="419"/>
+        <source>file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="423"/>
+        <source>Loaded %1 (%2 bytes).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="431"/>
+        <location filename="../src/module/amiibopage.cpp" line="541"/>
+        <location filename="../src/module/amiibopage.cpp" line="609"/>
+        <location filename="../src/module/amiibopage.cpp" line="651"/>
+        <source>Select data first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="436"/>
+        <source>Save Amiibo data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="438"/>
+        <source>Binary dump (*.bin)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="445"/>
+        <source>Failed to save the file:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="449"/>
+        <source>Saved %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="469"/>
+        <source>Detecting tag...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="481"/>
+        <source>No NTAG/Ultralight tag detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="483"/>
+        <source>No NTAG/Ultralight tag answered.
+Place the tag on the antenna and try again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="487"/>
+        <source>Detected: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="502"/>
+        <source>Read-back failed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="515"/>
+        <source>Reading tag...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="522"/>
+        <source>The tag could not be read. Check that it is an NTAG215 and stays on the antenna.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="527"/>
+        <source>Tag %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="528"/>
+        <source>tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="531"/>
+        <source>Read %1 bytes from the tag.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="548"/>
+        <source>Writing requires a 540-byte NTAG215 image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="552"/>
+        <source>Write tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="553"/>
+        <source>This overwrites the NTAG215 tag with:
+%1 (%2 bytes).
+
+Amiibo tags are usually locked and only accept writes on rewritable (&quot;magic&quot;) NTAG215 tags. Continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="565"/>
+        <location filename="../src/module/amiibopage.cpp" line="665"/>
+        <source>Cannot write a temporary file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="570"/>
+        <source>Writing tag...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="581"/>
+        <source>Write finished but the read-back failed, so the result cannot be verified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="587"/>
+        <source>Write verified: the tag matches the data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="589"/>
+        <source>Write succeeded and was verified by reading the tag back.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="594"/>
+        <source>Write verification FAILED.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="596"/>
+        <source>The tag does not match the written data (read %1 bytes).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="612"/>
+        <source>Reading the tag for verification...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="618"/>
+        <source>The tag could not be read.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="624"/>
+        <source>Verification OK: tag matches the selected data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="625"/>
+        <source>The tag matches the data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="638"/>
+        <source>Verification FAILED (first difference at %1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="640"/>
+        <source>The tag differs from the data (first difference at byte %1; read %2 bytes).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="658"/>
+        <source>Emulation requires a 540-byte NTAG215 image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="670"/>
+        <source>Loading emulator memory...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="677"/>
+        <source>The client refused to start the simulation. Press Stop and retry.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="682"/>
+        <source>Emulating NTAG215 from the selected data. Press Stop to end.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="699"/>
+        <source>Stopping emulation...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="703"/>
+        <source>Emulation stopped.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="712"/>
+        <source>Set a catalog URL first. The catalog must return JSON: {&quot;items&quot;:[{&quot;name&quot;,&quot;series&quot;,&quot;image_url&quot;,&quot;bin_url&quot;}]}.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="720"/>
+        <source>The catalog URL is not valid.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="726"/>
+        <source>Searching...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="759"/>
+        <source>Catalog request failed: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="769"/>
+        <source>Downloaded data has an unsupported length (%1 bytes).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="775"/>
+        <source>Downloaded data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="776"/>
+        <source>online</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="779"/>
+        <source>Downloaded %1 bytes and added it to the library.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="788"/>
+        <source>The catalog returned invalid JSON.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="814"/>
+        <source>%1 catalog entries.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="845"/>
+        <source>Downloading %1...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ClientSession</name>
     <message>
         <location filename="../src/core/clientsession.cpp" line="131"/>
@@ -1100,7 +1611,7 @@ It could make the whole sector blocked irreversibly!</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="914"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1011"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1046"/>
         <source>About UID Card</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1514,7 +2025,7 @@ or the communication between a tag and a reader.</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2658"/>
-        <location filename="../src/ui/mainwindow.cpp" line="451"/>
+        <location filename="../src/ui/mainwindow.cpp" line="486"/>
         <source>History:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1688,49 +2199,49 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="121"/>
-        <location filename="../src/ui/mainwindow.cpp" line="232"/>
-        <location filename="../src/ui/mainwindow.cpp" line="239"/>
-        <location filename="../src/ui/mainwindow.cpp" line="318"/>
-        <location filename="../src/ui/mainwindow.cpp" line="375"/>
-        <location filename="../src/ui/mainwindow.cpp" line="554"/>
-        <location filename="../src/ui/mainwindow.cpp" line="768"/>
-        <location filename="../src/ui/mainwindow.cpp" line="788"/>
-        <location filename="../src/ui/mainwindow.cpp" line="801"/>
-        <location filename="../src/ui/mainwindow.cpp" line="821"/>
-        <location filename="../src/ui/mainwindow.cpp" line="835"/>
-        <location filename="../src/ui/mainwindow.cpp" line="863"/>
-        <location filename="../src/ui/mainwindow.cpp" line="877"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1083"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1125"/>
+        <location filename="../src/ui/mainwindow.cpp" line="149"/>
+        <location filename="../src/ui/mainwindow.cpp" line="260"/>
+        <location filename="../src/ui/mainwindow.cpp" line="267"/>
+        <location filename="../src/ui/mainwindow.cpp" line="346"/>
+        <location filename="../src/ui/mainwindow.cpp" line="403"/>
+        <location filename="../src/ui/mainwindow.cpp" line="589"/>
+        <location filename="../src/ui/mainwindow.cpp" line="803"/>
+        <location filename="../src/ui/mainwindow.cpp" line="823"/>
+        <location filename="../src/ui/mainwindow.cpp" line="836"/>
+        <location filename="../src/ui/mainwindow.cpp" line="856"/>
+        <location filename="../src/ui/mainwindow.cpp" line="870"/>
+        <location filename="../src/ui/mainwindow.cpp" line="898"/>
+        <location filename="../src/ui/mainwindow.cpp" line="912"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1118"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1160"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="239"/>
+        <location filename="../src/ui/mainwindow.cpp" line="267"/>
         <source>Plz choose a port first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="394"/>
+        <location filename="../src/ui/mainwindow.cpp" line="429"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="400"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1210"/>
+        <location filename="../src/ui/mainwindow.cpp" line="435"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1245"/>
         <source>Not Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="821"/>
-        <location filename="../src/ui/mainwindow.cpp" line="835"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1083"/>
+        <location filename="../src/ui/mainwindow.cpp" line="856"/>
+        <location filename="../src/ui/mainwindow.cpp" line="870"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1118"/>
         <source>Failed to open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="554"/>
+        <location filename="../src/ui/mainwindow.cpp" line="589"/>
         <source>Continue?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1760,242 +2271,260 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="121"/>
+        <location filename="../src/ui/mainwindow.cpp" line="149"/>
         <source>Failed to load config file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="308"/>
+        <location filename="../src/ui/mainwindow.cpp" line="336"/>
         <source>Connecting...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="350"/>
+        <location filename="../src/ui/mainwindow.cpp" line="378"/>
         <source>Long command running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="368"/>
+        <location filename="../src/ui/mainwindow.cpp" line="396"/>
         <source>Timeout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="370"/>
+        <location filename="../src/ui/mainwindow.cpp" line="398"/>
         <source>Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="554"/>
+        <location filename="../src/ui/mainwindow.cpp" line="589"/>
         <source>Some of the data and key will be cleared.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="768"/>
+        <location filename="../src/ui/mainwindow.cpp" line="803"/>
         <source>Data must consists of 32 Hex symbols(Whitespace is allowed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="788"/>
-        <location filename="../src/ui/mainwindow.cpp" line="801"/>
+        <location filename="../src/ui/mainwindow.cpp" line="823"/>
+        <location filename="../src/ui/mainwindow.cpp" line="836"/>
         <source>Key must consists of 12 Hex symbols(Whitespace is allowed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="813"/>
+        <location filename="../src/ui/mainwindow.cpp" line="848"/>
         <source>Plz select the data file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="814"/>
-        <location filename="../src/ui/mainwindow.cpp" line="856"/>
-        <location filename="../src/ui/mainwindow.cpp" line="860"/>
+        <location filename="../src/ui/mainwindow.cpp" line="849"/>
+        <location filename="../src/ui/mainwindow.cpp" line="891"/>
+        <location filename="../src/ui/mainwindow.cpp" line="895"/>
         <source>Binary Data Files(*.bin *.dump)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="814"/>
-        <location filename="../src/ui/mainwindow.cpp" line="828"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1069"/>
+        <location filename="../src/ui/mainwindow.cpp" line="849"/>
+        <location filename="../src/ui/mainwindow.cpp" line="863"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1104"/>
         <source>All Files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="827"/>
+        <location filename="../src/ui/mainwindow.cpp" line="862"/>
         <source>Plz select the key file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="855"/>
+        <location filename="../src/ui/mainwindow.cpp" line="890"/>
         <source>Plz select the location to save data file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="863"/>
-        <location filename="../src/ui/mainwindow.cpp" line="877"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1125"/>
+        <location filename="../src/ui/mainwindow.cpp" line="898"/>
+        <location filename="../src/ui/mainwindow.cpp" line="912"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1160"/>
         <source>Failed to save to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="869"/>
+        <location filename="../src/ui/mainwindow.cpp" line="904"/>
         <source>Plz select the location to save key file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="828"/>
-        <location filename="../src/ui/mainwindow.cpp" line="870"/>
-        <location filename="../src/ui/mainwindow.cpp" line="874"/>
+        <location filename="../src/ui/mainwindow.cpp" line="863"/>
+        <location filename="../src/ui/mainwindow.cpp" line="905"/>
+        <location filename="../src/ui/mainwindow.cpp" line="909"/>
         <source>Binary Key Files(*.bin *.dump)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="232"/>
+        <location filename="../src/ui/mainwindow.cpp" line="92"/>
+        <source>JTAG functions are not implemented in this build.
+
+This tab only groups the Amiibo sub-page. Amiibo tags are NFC Forum Type 2 / NTAG215 tags and are not JTAG devices.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="99"/>
+        <location filename="../src/ui/mainwindow.cpp" line="101"/>
+        <source>JTAG</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="100"/>
+        <source>Amiibo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="260"/>
         <source>The client path is invalid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="375"/>
+        <location filename="../src/ui/mainwindow.cpp" line="403"/>
         <source>Failed to connect to the hardware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="814"/>
-        <location filename="../src/ui/mainwindow.cpp" line="856"/>
+        <location filename="../src/ui/mainwindow.cpp" line="849"/>
+        <location filename="../src/ui/mainwindow.cpp" line="891"/>
         <source>Text Data Files(*.txt *.eml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="996"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1031"/>
         <source>    Normally, the Block 0 of a typical Mifare card, which contains the UID, is locked during the manufacture. Users cannot write anything to Block 0 or set a new UID to a normal Mifare card.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="997"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1032"/>
         <source>    Chinese Magic Cards(aka UID Cards) are some special cards whose Block 0 are writeable. And you can change UID by writing to it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="999"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1034"/>
         <source>There are two versions of Chinese Magic Cards, the Gen1 and the Gen2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1000"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1035"/>
         <source>    Gen1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1000"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1035"/>
         <source>    also called UID card in China. It responses to some backdoor commands so you can access any blocks without password. The Proxmark3 has a bunch of related commands(csetblk, cgetblk, ...) to deal with this type of card, and my GUI also support these commands.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1001"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1036"/>
         <source>    Gen2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1001"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1036"/>
         <source>    doesn&apos;t response to the backdoor commands, which means that a reader cannot detect whether it is a Chinese Magic Card or not by sending backdoor commands.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1003"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1038"/>
         <source>There are some types of Chinese Magic Card Gen2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1004"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1039"/>
         <source>    CUID Card:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1004"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1039"/>
         <source>    the Block 0 is writeable, you can write to this block repeatedly by normal wrbl command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1005"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1040"/>
         <source>    (hf mf wrbl 0 A FFFFFFFFFFFF &lt;the data you want to write&gt;)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1006"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1041"/>
         <source>    FUID Card:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1006"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1041"/>
         <source>    you can only write to Block 0 once. After that, it seems like a typical Mifare card(Block 0 cannot be written to).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1007"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1042"/>
         <source>    (some readers might try changing the Block 0, which could detect the CUID Card. In that case, you should use FUID card.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1008"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1043"/>
         <source>    UFUID Card:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1008"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1043"/>
         <source>    It behaves like a CUID card(or UID card? I&apos;m not sure) before you send some special command to lock it. Once it is locked, you cannot change its Block 0(just like a typical Mifare card).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1010"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1045"/>
         <source>    Seemingly, these Chinese Magic Cards are more easily to be compromised by Nested Attack(it takes little time to get an unknown key).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1068"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1103"/>
         <source>Plz select the trace file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1069"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1107"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1104"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1142"/>
         <source>Trace Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1106"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1141"/>
         <source>Plz select the location to save trace file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1235"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1270"/>
         <source>(None)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1236"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1271"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1237"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1272"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1298"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1333"/>
         <source>External file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="341"/>
-        <location filename="../src/ui/mainwindow.cpp" line="355"/>
-        <location filename="../src/ui/mainwindow.cpp" line="366"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1211"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1475"/>
+        <location filename="../src/ui/mainwindow.cpp" line="369"/>
+        <location filename="../src/ui/mainwindow.cpp" line="383"/>
+        <location filename="../src/ui/mainwindow.cpp" line="394"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1246"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1510"/>
         <source>Idle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1213"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1248"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2021,30 +2550,30 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1412"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1447"/>
         <source>HW Version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1414"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1449"/>
         <source>PM3:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1416"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1451"/>
         <source>State:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="309"/>
-        <location filename="../src/ui/mainwindow.cpp" line="339"/>
-        <location filename="../src/ui/mainwindow.cpp" line="364"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1471"/>
+        <location filename="../src/ui/mainwindow.cpp" line="337"/>
+        <location filename="../src/ui/mainwindow.cpp" line="367"/>
+        <location filename="../src/ui/mainwindow.cpp" line="392"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1506"/>
         <source>Running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1660"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1695"/>
         <source>Actural Freq: </source>
         <translation type="unfinished"></translation>
     </message>

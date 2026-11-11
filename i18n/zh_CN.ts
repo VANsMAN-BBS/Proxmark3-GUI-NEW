@@ -1,6 +1,524 @@
 <?xml version='1.0' encoding='utf-8'?>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>AmiiboPage</name>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="97" />
+        <source>Amiibo data</source>
+        <translation>Amiibo 数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="104" />
+        <source>Add sample</source>
+        <translation>添加示例</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="105" />
+        <source>Import file...</source>
+        <translation>导入文件…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="106" />
+        <source>Save as...</source>
+        <translation>另存为…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="107" />
+        <source>Remove</source>
+        <translation>移除</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="119" />
+        <source>The built-in sample is synthetic test data, not a real Amiibo. Import your own NTAG215 dump (540 bytes) to inspect or write it.</source>
+        <translation>内置示例为合成测试数据，并非真实 Amiibo。请导入自有的 NTAG215 数据（540 字节）以查看或写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="129" />
+        <source>Selected data</source>
+        <translation>已选数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="132" />
+        <location filename="../src/module/amiibopage.cpp" line="323" />
+        <source>(none)</source>
+        <translation>（无）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="136" />
+        <source>Name:</source>
+        <translation>名称：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="137" />
+        <source>Source:</source>
+        <translation>来源：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="138" />
+        <source>Size:</source>
+        <translation>大小：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="139" />
+        <source>Format:</source>
+        <translation>格式：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="146" />
+        <source>Hexadecimal preview of the selected data</source>
+        <translation>所选数据的十六进制预览</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="153" />
+        <location filename="../src/module/amiibopage.cpp" line="339" />
+        <location filename="../src/module/amiibopage.cpp" line="827" />
+        <source>No image</source>
+        <translation>无图片</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="157" />
+        <source>Tag operations (NTAG215 / Type 2)</source>
+        <translation>标签操作（NTAG215 / Type 2）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="160" />
+        <source>Detect tag</source>
+        <translation>检测标签</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="161" />
+        <source>Read tag</source>
+        <translation>读取标签</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="162" />
+        <source>Write tag...</source>
+        <translation>写入标签…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="163" />
+        <source>Verify tag</source>
+        <translation>校验标签</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="164" />
+        <source>Start emulation</source>
+        <translation>开始模拟</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="165" />
+        <source>Stop emulation</source>
+        <translation>停止模拟</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="181" />
+        <source>Writing overwrites the tag and is only started after confirmation; the data is read back afterwards. Lock/OTP/password changes are never performed. Emulation uses the client emulator memory (hf mfu eload + hf mfu sim -t 7).</source>
+        <translation>写入会覆盖标签内容，仅在确认后开始，并在写入后复读校验。不会修改锁定/OTP/密码等设置。模拟使用客户端模拟内存（hf mfu eload + hf mfu sim -t 7）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="189" />
+        <source>Idle</source>
+        <translation>空闲</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="193" />
+        <source>Online catalog (metadata)</source>
+        <translation>在线目录（元数据）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="196" />
+        <source>Catalog URL:</source>
+        <translation>目录地址：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="198" />
+        <source>https://example.org/amiibo.json</source>
+        <translation>https://example.org/amiibo.json</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="204" />
+        <source>Search name</source>
+        <translation>搜索名称</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="205" />
+        <source>Search</source>
+        <translation>搜索</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="206" />
+        <source>Download data</source>
+        <translation>下载数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="221" />
+        <source>No catalog is configured. Metadata browsing is optional and network access only happens when you press Search. Binary Amiibo data is not bundled or distributed by this program.</source>
+        <translation>未配置在线目录。元数据浏览为可选功能，仅在点击“搜索”时联网。本程序不内置、也不分发 Amiibo 二进制数据。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="310" />
+        <source>Source: %1</source>
+        <translation>来源：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="333" />
+        <source>%1 bytes</source>
+        <translation>%1 字节</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="346" />
+        <source>NTAG215 image (540 bytes)</source>
+        <translation>NTAG215 镜像（540 字节）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="348" />
+        <source>NTAG213-sized image (1024 bytes)</source>
+        <translation>NTAG213 尺寸镜像（1024 字节）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="350" />
+        <source>NTAG216-sized image (2048 bytes)</source>
+        <translation>NTAG216 尺寸镜像（2048 字节）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="351" />
+        <source>Unknown (%1 bytes)</source>
+        <translation>未知（%1 字节）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="386" />
+        <source>Synthetic NTAG215 sample</source>
+        <translation>合成 NTAG215 示例</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="387" />
+        <source>built-in</source>
+        <translation>内置</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="388" />
+        <source>synthetic</source>
+        <translation>合成</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="391" />
+        <source>Synthetic sample added (not a real Amiibo).</source>
+        <translation>已添加合成示例（并非真实 Amiibo）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="397" />
+        <source>Import NTAG215 dump</source>
+        <translation>导入 NTAG215 数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="398" />
+        <source>Dump files (*.bin *.dump);;All files (*)</source>
+        <translation>数据文件 (*.bin *.dump);;所有文件 (*)</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="404" />
+        <location filename="../src/module/amiibopage.cpp" line="412" />
+        <location filename="../src/module/amiibopage.cpp" line="431" />
+        <location filename="../src/module/amiibopage.cpp" line="444" />
+        <location filename="../src/module/amiibopage.cpp" line="482" />
+        <location filename="../src/module/amiibopage.cpp" line="521" />
+        <location filename="../src/module/amiibopage.cpp" line="541" />
+        <location filename="../src/module/amiibopage.cpp" line="547" />
+        <location filename="../src/module/amiibopage.cpp" line="565" />
+        <location filename="../src/module/amiibopage.cpp" line="580" />
+        <location filename="../src/module/amiibopage.cpp" line="588" />
+        <location filename="../src/module/amiibopage.cpp" line="595" />
+        <location filename="../src/module/amiibopage.cpp" line="609" />
+        <location filename="../src/module/amiibopage.cpp" line="618" />
+        <location filename="../src/module/amiibopage.cpp" line="625" />
+        <location filename="../src/module/amiibopage.cpp" line="639" />
+        <location filename="../src/module/amiibopage.cpp" line="651" />
+        <location filename="../src/module/amiibopage.cpp" line="657" />
+        <location filename="../src/module/amiibopage.cpp" line="665" />
+        <location filename="../src/module/amiibopage.cpp" line="676" />
+        <source>Amiibo</source>
+        <translation>Amiibo</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="405" />
+        <source>Cannot open the file:
+%1</source>
+        <translation>无法打开文件：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="413" />
+        <source>Unsupported data length: %1 bytes.
+An NTAG215 dump must be 540 bytes.</source>
+        <translation>数据长度不受支持：%1 字节。
+NTAG215 数据必须为 540 字节。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="419" />
+        <source>file</source>
+        <translation>文件</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="423" />
+        <source>Loaded %1 (%2 bytes).</source>
+        <translation>已加载 %1（%2 字节）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="431" />
+        <location filename="../src/module/amiibopage.cpp" line="541" />
+        <location filename="../src/module/amiibopage.cpp" line="609" />
+        <location filename="../src/module/amiibopage.cpp" line="651" />
+        <source>Select data first.</source>
+        <translation>请先选择数据。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="436" />
+        <source>Save Amiibo data</source>
+        <translation>保存 Amiibo 数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="438" />
+        <source>Binary dump (*.bin)</source>
+        <translation>二进制数据 (*.bin)</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="445" />
+        <source>Failed to save the file:
+%1</source>
+        <translation>保存文件失败：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="449" />
+        <source>Saved %1.</source>
+        <translation>已保存 %1。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="469" />
+        <source>Detecting tag...</source>
+        <translation>正在检测标签…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="481" />
+        <source>No NTAG/Ultralight tag detected.</source>
+        <translation>未检测到 NTAG/Ultralight 标签。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="483" />
+        <source>No NTAG/Ultralight tag answered.
+Place the tag on the antenna and try again.</source>
+        <translation>没有 NTAG/Ultralight 标签响应。
+请将标签放到天线处后重试。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="487" />
+        <source>Detected: %1</source>
+        <translation>已检测到：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="502" />
+        <source>Read-back failed.</source>
+        <translation>复读失败。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="515" />
+        <source>Reading tag...</source>
+        <translation>正在读取标签…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="522" />
+        <source>The tag could not be read. Check that it is an NTAG215 and stays on the antenna.</source>
+        <translation>无法读取标签。请确认其为 NTAG215 并保持在天线上。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="527" />
+        <source>Tag %1</source>
+        <translation>标签 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="528" />
+        <source>tag</source>
+        <translation>标签</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="531" />
+        <source>Read %1 bytes from the tag.</source>
+        <translation>已从标签读取 %1 字节。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="548" />
+        <source>Writing requires a 540-byte NTAG215 image.</source>
+        <translation>写入需要 540 字节的 NTAG215 数据。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="552" />
+        <source>Write tag</source>
+        <translation>写入标签</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="553" />
+        <source>This overwrites the NTAG215 tag with:
+%1 (%2 bytes).
+
+Amiibo tags are usually locked and only accept writes on rewritable ("magic") NTAG215 tags. Continue?</source>
+        <translation>这将用以下数据覆盖 NTAG215 标签：
+%1（%2 字节）。
+
+Amiibo 标签通常已锁定，只有可重写的（“magic”）NTAG215 才能写入。是否继续？</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="565" />
+        <location filename="../src/module/amiibopage.cpp" line="665" />
+        <source>Cannot write a temporary file.</source>
+        <translation>无法写入临时文件。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="570" />
+        <source>Writing tag...</source>
+        <translation>正在写入标签…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="581" />
+        <source>Write finished but the read-back failed, so the result cannot be verified.</source>
+        <translation>写入已完成，但复读失败，无法验证结果。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="587" />
+        <source>Write verified: the tag matches the data.</source>
+        <translation>写入校验通过：标签与数据一致。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="589" />
+        <source>Write succeeded and was verified by reading the tag back.</source>
+        <translation>写入成功，并已通过复读完成验证。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="594" />
+        <source>Write verification FAILED.</source>
+        <translation>写入校验失败。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="596" />
+        <source>The tag does not match the written data (read %1 bytes).</source>
+        <translation>标签与写入数据不一致（读取到 %1 字节）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="612" />
+        <source>Reading the tag for verification...</source>
+        <translation>正在读取标签以校验…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="618" />
+        <source>The tag could not be read.</source>
+        <translation>无法读取标签。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="624" />
+        <source>Verification OK: tag matches the selected data.</source>
+        <translation>校验通过：标签与所选数据一致。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="625" />
+        <source>The tag matches the data.</source>
+        <translation>标签与数据一致。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="638" />
+        <source>Verification FAILED (first difference at %1).</source>
+        <translation>校验失败（首个差异位于 %1）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="640" />
+        <source>The tag differs from the data (first difference at byte %1; read %2 bytes).</source>
+        <translation>标签与数据不一致（首个差异位于字节 %1；读取到 %2 字节）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="658" />
+        <source>Emulation requires a 540-byte NTAG215 image.</source>
+        <translation>模拟需要 540 字节的 NTAG215 数据。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="670" />
+        <source>Loading emulator memory...</source>
+        <translation>正在加载模拟内存…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="677" />
+        <source>The client refused to start the simulation. Press Stop and retry.</source>
+        <translation>客户端拒绝启动模拟。请按“停止”后重试。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="682" />
+        <source>Emulating NTAG215 from the selected data. Press Stop to end.</source>
+        <translation>正在用所选数据模拟 NTAG215。按“停止”结束。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="699" />
+        <source>Stopping emulation...</source>
+        <translation>正在停止模拟…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="703" />
+        <source>Emulation stopped.</source>
+        <translation>模拟已停止。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="712" />
+        <source>Set a catalog URL first. The catalog must return JSON: {"items":[{"name","series","image_url","bin_url"}]}.</source>
+        <translation>请先设置目录地址。目录需返回 JSON：{"items":[{"name","series","image_url","bin_url"}]}。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="720" />
+        <source>The catalog URL is not valid.</source>
+        <translation>目录地址无效。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="726" />
+        <source>Searching...</source>
+        <translation>正在搜索…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="759" />
+        <source>Catalog request failed: %1</source>
+        <translation>目录请求失败：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="769" />
+        <source>Downloaded data has an unsupported length (%1 bytes).</source>
+        <translation>下载的数据长度不受支持（%1 字节）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="775" />
+        <source>Downloaded data</source>
+        <translation>已下载数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="776" />
+        <source>online</source>
+        <translation>在线</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="779" />
+        <source>Downloaded %1 bytes and added it to the library.</source>
+        <translation>已下载 %1 字节并加入列表。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="788" />
+        <source>The catalog returned invalid JSON.</source>
+        <translation>目录返回的 JSON 无效。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="814" />
+        <source>%1 catalog entries.</source>
+        <translation>共 %1 条目录记录。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="845" />
+        <source>Downloading %1...</source>
+        <translation>正在下载 %1…</translation>
+    </message>
+</context>
+<context>
     <name>ClientSession</name>
     <message>
         <location filename="../src/core/clientsession.cpp" line="131" />
@@ -1071,7 +1589,7 @@ It could make the whole sector blocked irreversibly!</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="914" />
-        <location filename="../src/ui/mainwindow.cpp" line="1011" />
+        <location filename="../src/ui/mainwindow.cpp" line="1046" />
         <source>About UID Card</source>
         <translation>关于UID卡</translation>
     </message>
@@ -1495,7 +2013,7 @@ or the communication between a tag and a reader.</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2658" />
-        <location filename="../src/ui/mainwindow.cpp" line="451" />
+        <location filename="../src/ui/mainwindow.cpp" line="486" />
         <source>History:</source>
         <translation>命令历史：</translation>
     </message>
@@ -1710,49 +2228,49 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>在PM3断开后保持客户端运行（实验性功能）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="121" />
-        <location filename="../src/ui/mainwindow.cpp" line="232" />
-        <location filename="../src/ui/mainwindow.cpp" line="239" />
-        <location filename="../src/ui/mainwindow.cpp" line="318" />
-        <location filename="../src/ui/mainwindow.cpp" line="375" />
-        <location filename="../src/ui/mainwindow.cpp" line="554" />
-        <location filename="../src/ui/mainwindow.cpp" line="768" />
-        <location filename="../src/ui/mainwindow.cpp" line="788" />
-        <location filename="../src/ui/mainwindow.cpp" line="801" />
-        <location filename="../src/ui/mainwindow.cpp" line="821" />
-        <location filename="../src/ui/mainwindow.cpp" line="835" />
-        <location filename="../src/ui/mainwindow.cpp" line="863" />
-        <location filename="../src/ui/mainwindow.cpp" line="877" />
-        <location filename="../src/ui/mainwindow.cpp" line="1083" />
-        <location filename="../src/ui/mainwindow.cpp" line="1125" />
+        <location filename="../src/ui/mainwindow.cpp" line="149" />
+        <location filename="../src/ui/mainwindow.cpp" line="260" />
+        <location filename="../src/ui/mainwindow.cpp" line="267" />
+        <location filename="../src/ui/mainwindow.cpp" line="346" />
+        <location filename="../src/ui/mainwindow.cpp" line="403" />
+        <location filename="../src/ui/mainwindow.cpp" line="589" />
+        <location filename="../src/ui/mainwindow.cpp" line="803" />
+        <location filename="../src/ui/mainwindow.cpp" line="823" />
+        <location filename="../src/ui/mainwindow.cpp" line="836" />
+        <location filename="../src/ui/mainwindow.cpp" line="856" />
+        <location filename="../src/ui/mainwindow.cpp" line="870" />
+        <location filename="../src/ui/mainwindow.cpp" line="898" />
+        <location filename="../src/ui/mainwindow.cpp" line="912" />
+        <location filename="../src/ui/mainwindow.cpp" line="1118" />
+        <location filename="../src/ui/mainwindow.cpp" line="1160" />
         <source>Info</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="239" />
+        <location filename="../src/ui/mainwindow.cpp" line="267" />
         <source>Plz choose a port first</source>
         <translation>请先选择端口</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="394" />
+        <location filename="../src/ui/mainwindow.cpp" line="429" />
         <source>Connected</source>
         <translation>已连接</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="400" />
-        <location filename="../src/ui/mainwindow.cpp" line="1210" />
+        <location filename="../src/ui/mainwindow.cpp" line="435" />
+        <location filename="../src/ui/mainwindow.cpp" line="1245" />
         <source>Not Connected</source>
         <translation>未连接</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="821" />
-        <location filename="../src/ui/mainwindow.cpp" line="835" />
-        <location filename="../src/ui/mainwindow.cpp" line="1083" />
+        <location filename="../src/ui/mainwindow.cpp" line="856" />
+        <location filename="../src/ui/mainwindow.cpp" line="870" />
+        <location filename="../src/ui/mainwindow.cpp" line="1118" />
         <source>Failed to open</source>
         <translation>无法打开</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="554" />
+        <location filename="../src/ui/mainwindow.cpp" line="589" />
         <source>Continue?</source>
         <translation>确定？</translation>
     </message>
@@ -1772,7 +2290,7 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="121" />
+        <location filename="../src/ui/mainwindow.cpp" line="149" />
         <source>Failed to load config file</source>
         <translation>无法打开配置文件</translation>
     </message>
@@ -1781,71 +2299,71 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation type="vanished">无法启动客户端</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="375" />
+        <location filename="../src/ui/mainwindow.cpp" line="403" />
         <source>Failed to connect to the hardware</source>
         <translation>无法连接到PM3硬件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="554" />
+        <location filename="../src/ui/mainwindow.cpp" line="589" />
         <source>Some of the data and key will be cleared.</source>
         <translation>部分数据和密码将被清除</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="768" />
+        <location filename="../src/ui/mainwindow.cpp" line="803" />
         <source>Data must consists of 32 Hex symbols(Whitespace is allowed)</source>
         <translation>数据必须由32个十六进制字符组成（中间可含有空格）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="788" />
-        <location filename="../src/ui/mainwindow.cpp" line="801" />
+        <location filename="../src/ui/mainwindow.cpp" line="823" />
+        <location filename="../src/ui/mainwindow.cpp" line="836" />
         <source>Key must consists of 12 Hex symbols(Whitespace is allowed)</source>
         <translation>密钥必须由12个十六进制字符组成（中间可含有空格）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="813" />
+        <location filename="../src/ui/mainwindow.cpp" line="848" />
         <source>Plz select the data file:</source>
         <translation>请选择数据文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="814" />
-        <location filename="../src/ui/mainwindow.cpp" line="856" />
-        <location filename="../src/ui/mainwindow.cpp" line="860" />
+        <location filename="../src/ui/mainwindow.cpp" line="849" />
+        <location filename="../src/ui/mainwindow.cpp" line="891" />
+        <location filename="../src/ui/mainwindow.cpp" line="895" />
         <source>Binary Data Files(*.bin *.dump)</source>
         <translation>二进制数据文件(*.bin *.dump)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="814" />
-        <location filename="../src/ui/mainwindow.cpp" line="828" />
-        <location filename="../src/ui/mainwindow.cpp" line="1069" />
+        <location filename="../src/ui/mainwindow.cpp" line="849" />
+        <location filename="../src/ui/mainwindow.cpp" line="863" />
+        <location filename="../src/ui/mainwindow.cpp" line="1104" />
         <source>All Files(*.*)</source>
         <translation>所有文件(*.*)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="827" />
+        <location filename="../src/ui/mainwindow.cpp" line="862" />
         <source>Plz select the key file:</source>
         <translation>请选择密钥文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="855" />
+        <location filename="../src/ui/mainwindow.cpp" line="890" />
         <source>Plz select the location to save data file:</source>
         <translation>请选择数据文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="863" />
-        <location filename="../src/ui/mainwindow.cpp" line="877" />
-        <location filename="../src/ui/mainwindow.cpp" line="1125" />
+        <location filename="../src/ui/mainwindow.cpp" line="898" />
+        <location filename="../src/ui/mainwindow.cpp" line="912" />
+        <location filename="../src/ui/mainwindow.cpp" line="1160" />
         <source>Failed to save to</source>
         <translation>无法保存至</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="869" />
+        <location filename="../src/ui/mainwindow.cpp" line="904" />
         <source>Plz select the location to save key file:</source>
         <translation>请选择密钥文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="828" />
-        <location filename="../src/ui/mainwindow.cpp" line="870" />
-        <location filename="../src/ui/mainwindow.cpp" line="874" />
+        <location filename="../src/ui/mainwindow.cpp" line="863" />
+        <location filename="../src/ui/mainwindow.cpp" line="905" />
+        <location filename="../src/ui/mainwindow.cpp" line="909" />
         <source>Binary Key Files(*.bin *.dump)</source>
         <translation>二进制密码文件(*.bin *.dump)</translation>
     </message>
@@ -1860,168 +2378,188 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>eMRTD 读取</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="232" />
+        <location filename="../src/ui/mainwindow.cpp" line="92" />
+        <source>JTAG functions are not implemented in this build.
+
+This tab only groups the Amiibo sub-page. Amiibo tags are NFC Forum Type 2 / NTAG215 tags and are not JTAG devices.</source>
+        <translation>本版本未实现 JTAG 功能。
+
+此标签页仅用于归类 Amiibo 子页面。Amiibo 标签属于 NFC Forum Type 2 / NTAG215，并非 JTAG 设备。</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="99" />
+        <location filename="../src/ui/mainwindow.cpp" line="101" />
+        <source>JTAG</source>
+        <translation>JTAG</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="100" />
+        <source>Amiibo</source>
+        <translation>Amiibo</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="260" />
         <source>The client path is invalid</source>
         <translation>客户端路径无效</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="308" />
+        <location filename="../src/ui/mainwindow.cpp" line="336" />
         <source>Connecting...</source>
         <translation>正在连接…</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="350" />
+        <location filename="../src/ui/mainwindow.cpp" line="378" />
         <source>Long command running</source>
         <translation>长命令执行中</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="368" />
+        <location filename="../src/ui/mainwindow.cpp" line="396" />
         <source>Timeout</source>
         <translation>超时</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="370" />
+        <location filename="../src/ui/mainwindow.cpp" line="398" />
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="814" />
-        <location filename="../src/ui/mainwindow.cpp" line="856" />
+        <location filename="../src/ui/mainwindow.cpp" line="849" />
+        <location filename="../src/ui/mainwindow.cpp" line="891" />
         <source>Text Data Files(*.txt *.eml)</source>
         <translation>文本数据文件(*.txt *.eml)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="996" />
+        <location filename="../src/ui/mainwindow.cpp" line="1031" />
         <source>    Normally, the Block 0 of a typical Mifare card, which contains the UID, is locked during the manufacture. Users cannot write anything to Block 0 or set a new UID to a normal Mifare card.</source>
         <translation>    普通Mifare卡的块0无法写入，卡号也不能更改</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="997" />
+        <location filename="../src/ui/mainwindow.cpp" line="1032" />
         <source>    Chinese Magic Cards(aka UID Cards) are some special cards whose Block 0 are writeable. And you can change UID by writing to it.</source>
         <translation>    UID卡（在国外叫Chinese Magic Card）的块0可写，卡号可变。</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="999" />
+        <location filename="../src/ui/mainwindow.cpp" line="1034" />
         <source>There are two versions of Chinese Magic Cards, the Gen1 and the Gen2.</source>
         <translation>国外把UID卡分为Chinese Magic Card Gen1和Gen2</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1000" />
+        <location filename="../src/ui/mainwindow.cpp" line="1035" />
         <source>    Gen1:</source>
         <translation />
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1000" />
+        <location filename="../src/ui/mainwindow.cpp" line="1035" />
         <source>    also called UID card in China. It responses to some backdoor commands so you can access any blocks without password. The Proxmark3 has a bunch of related commands(csetblk, cgetblk, ...) to deal with this type of card, and my GUI also support these commands.</source>
         <translation>    指通常所说的UID卡，可以通过后门指令直接读写块而无需密码，在PM3和此GUI中有特殊命令处理这类卡片</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1001" />
+        <location filename="../src/ui/mainwindow.cpp" line="1036" />
         <source>    Gen2:</source>
         <translation />
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1001" />
+        <location filename="../src/ui/mainwindow.cpp" line="1036" />
         <source>    doesn't response to the backdoor commands, which means that a reader cannot detect whether it is a Chinese Magic Card or not by sending backdoor commands.</source>
         <translation>    这个叫法在国内比较罕见，在国外指CUID/FUID/UFUID这类对后门指令不响应的卡（防火墙卡）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1003" />
+        <location filename="../src/ui/mainwindow.cpp" line="1038" />
         <source>There are some types of Chinese Magic Card Gen2.</source>
         <translation>以下是Gen2卡的详细介绍</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1004" />
+        <location filename="../src/ui/mainwindow.cpp" line="1039" />
         <source>    CUID Card:</source>
         <translation>    CUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1004" />
+        <location filename="../src/ui/mainwindow.cpp" line="1039" />
         <source>    the Block 0 is writeable, you can write to this block repeatedly by normal wrbl command.</source>
         <translation>    可通过普通的写块命令来写块0，可重复擦写</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1005" />
+        <location filename="../src/ui/mainwindow.cpp" line="1040" />
         <source>    (hf mf wrbl 0 A FFFFFFFFFFFF &lt;the data you want to write&gt;)</source>
         <translation>    (hf mf wrbl 0 A FFFFFFFFFFFF &lt;待写入数据&gt;)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1006" />
+        <location filename="../src/ui/mainwindow.cpp" line="1041" />
         <source>    FUID Card:</source>
         <translation>    FUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1006" />
+        <location filename="../src/ui/mainwindow.cpp" line="1041" />
         <source>    you can only write to Block 0 once. After that, it seems like a typical Mifare card(Block 0 cannot be written to).</source>
         <translation>    块0只能写入一次</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1007" />
+        <location filename="../src/ui/mainwindow.cpp" line="1042" />
         <source>    (some readers might try changing the Block 0, which could detect the CUID Card. In that case, you should use FUID card.)</source>
         <translation>    (更高级的穿防火墙卡，可以过一些能识别出CUID卡的读卡器)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1008" />
+        <location filename="../src/ui/mainwindow.cpp" line="1043" />
         <source>    UFUID Card:</source>
         <translation>    UFUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1008" />
+        <location filename="../src/ui/mainwindow.cpp" line="1043" />
         <source>    It behaves like a CUID card(or UID card? I'm not sure) before you send some special command to lock it. Once it is locked, you cannot change its Block 0(just like a typical Mifare card).</source>
         <translation>    锁卡前和普通UID/CUID卡一样可以反复读写块0，用特殊命令锁卡后就和FUID卡一样了</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1010" />
+        <location filename="../src/ui/mainwindow.cpp" line="1045" />
         <source>    Seemingly, these Chinese Magic Cards are more easily to be compromised by Nested Attack(it takes little time to get an unknown key).</source>
         <translation>    所有UID卡都似乎更容易被Nested攻击破解</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1068" />
+        <location filename="../src/ui/mainwindow.cpp" line="1103" />
         <source>Plz select the trace file:</source>
         <translation>请选择trace文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1069" />
-        <location filename="../src/ui/mainwindow.cpp" line="1107" />
+        <location filename="../src/ui/mainwindow.cpp" line="1104" />
+        <location filename="../src/ui/mainwindow.cpp" line="1142" />
         <source>Trace Files</source>
         <translation>Trace文件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1106" />
+        <location filename="../src/ui/mainwindow.cpp" line="1141" />
         <source>Plz select the location to save trace file:</source>
         <translation>请选择trace文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1235" />
+        <location filename="../src/ui/mainwindow.cpp" line="1270" />
         <source>(None)</source>
         <translation>(无)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1236" />
+        <location filename="../src/ui/mainwindow.cpp" line="1271" />
         <source>Dark</source>
         <translation>暗黑</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1237" />
+        <location filename="../src/ui/mainwindow.cpp" line="1272" />
         <source>Light</source>
         <translation>明亮</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1298" />
+        <location filename="../src/ui/mainwindow.cpp" line="1333" />
         <source>External file</source>
         <translation>外部文件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="341" />
-        <location filename="../src/ui/mainwindow.cpp" line="355" />
-        <location filename="../src/ui/mainwindow.cpp" line="366" />
-        <location filename="../src/ui/mainwindow.cpp" line="1211" />
-        <location filename="../src/ui/mainwindow.cpp" line="1475" />
+        <location filename="../src/ui/mainwindow.cpp" line="369" />
+        <location filename="../src/ui/mainwindow.cpp" line="383" />
+        <location filename="../src/ui/mainwindow.cpp" line="394" />
+        <location filename="../src/ui/mainwindow.cpp" line="1246" />
+        <location filename="../src/ui/mainwindow.cpp" line="1510" />
         <source>Idle</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1213" />
+        <location filename="../src/ui/mainwindow.cpp" line="1248" />
         <source>Stop</source>
         <translation>停止</translation>
     </message>
@@ -2047,30 +2585,30 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>密钥B</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1412" />
+        <location filename="../src/ui/mainwindow.cpp" line="1447" />
         <source>HW Version:</source>
         <translation>固件版本：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1414" />
+        <location filename="../src/ui/mainwindow.cpp" line="1449" />
         <source>PM3:</source>
         <translation>连接状态：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1416" />
+        <location filename="../src/ui/mainwindow.cpp" line="1451" />
         <source>State:</source>
         <translation>运行状态：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="309" />
-        <location filename="../src/ui/mainwindow.cpp" line="339" />
-        <location filename="../src/ui/mainwindow.cpp" line="364" />
-        <location filename="../src/ui/mainwindow.cpp" line="1471" />
+        <location filename="../src/ui/mainwindow.cpp" line="337" />
+        <location filename="../src/ui/mainwindow.cpp" line="367" />
+        <location filename="../src/ui/mainwindow.cpp" line="392" />
+        <location filename="../src/ui/mainwindow.cpp" line="1506" />
         <source>Running</source>
         <translation>正在运行</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1660" />
+        <location filename="../src/ui/mainwindow.cpp" line="1695" />
         <source>Actural Freq: </source>
         <translation>实际频率： </translation>
     </message>
@@ -2596,7 +3134,7 @@ Continue?</source>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="34" />
         <source>Fit</source>
-        <translation type="unfinished" />
+        <translation type="unfinished">适应窗口</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="35" />

@@ -1,4 +1,4 @@
-QT       += core gui serialport
+QT       += core gui serialport network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -26,6 +26,7 @@ SOURCES += \
     module/t55xx.cpp \
     module/ntagtab.cpp \
     module/emrtd.cpp \
+    module/amiibopage.cpp \
     ui/mf_trailerdecoderdialog.cpp \
     ui/mf_sim_simdialog.cpp \
     ui/mf_uid_parameterdialog.cpp \
@@ -45,6 +46,7 @@ HEADERS += \
     module/t55xx.h \
     module/ntagtab.h \
     module/emrtd.h \
+    module/amiibopage.h \
     ui/mf_trailerdecoderdialog.h \
     ui/mf_sim_simdialog.h \
     ui/mf_uid_parameterdialog.h \

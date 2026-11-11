@@ -69,13 +69,41 @@ MainWindow::MainWindow(QWidget *parent):
     {
         if(emrtdPage)
             emrtdPage->setDeviceInfo(text, ui->PM3_pathBox->currentText());
+        if(amiiboPage)
+            amiiboPage->setDeviceInfo(text, ui->PM3_pathBox->currentText(),
+                                      clientWorkingDir->absolutePath());
     });
     connect(ui->PM3_pathBox, &QComboBox::currentTextChanged, this, [this](const QString &text)
     {
         if(emrtdPage)
             emrtdPage->setDeviceInfo(ui->PM3_portBox->currentText(), text);
+        if(amiiboPage)
+            amiiboPage->setDeviceInfo(ui->PM3_portBox->currentText(), text,
+                                      clientWorkingDir->absolutePath());
     });
     emrtdPage->setDeviceInfo(ui->PM3_portBox->currentText(), ui->PM3_pathBox->currentText());
+
+    // JTAG container: this build has no JTAG implementation, so the container
+    // only groups the Amiibo (NTAG215) sub-page as requested.
+    QTabWidget *jtagTabs = new QTabWidget(this);
+    QWidget *jtagPlaceholder = new QWidget(jtagTabs);
+    QVBoxLayout *jtagLayout = new QVBoxLayout(jtagPlaceholder);
+    QLabel *jtagNote = new QLabel(
+        tr("JTAG functions are not implemented in this build.\n\n"
+           "This tab only groups the Amiibo sub-page. Amiibo tags are NFC "
+           "Forum Type 2 / NTAG215 tags and are not JTAG devices."), jtagPlaceholder);
+    jtagNote->setWordWrap(true);
+    jtagLayout->addWidget(jtagNote);
+    jtagLayout->addStretch(1);
+    amiiboPage = new AmiiboPage(util, pm3, this);
+    jtagTabs->addTab(jtagPlaceholder, tr("JTAG"));
+    jtagTabs->addTab(amiiboPage, tr("Amiibo"));
+    ui->funcTab->insertTab(5, jtagTabs, tr("JTAG"));
+
+    connect(amiiboPage, &AmiiboPage::stopRequested, this, [this]()
+    {
+        pm3->restartClient();
+    });
 
     connect(lf, &LF::LFfreqConfChanged, this, &MainWindow::onLFfreqConfChanged);
 
@@ -382,6 +410,13 @@ void MainWindow::onPM3StateChanged(bool st, const QString& info)
     if(emrtdPage)
         emrtdPage->setDeviceInfo(ui->PM3_portBox->currentText(),
                                  ui->PM3_pathBox->currentText());
+    if(amiiboPage)
+    {
+        amiiboPage->setDeviceInfo(ui->PM3_portBox->currentText(),
+                                  ui->PM3_pathBox->currentText(),
+                                  clientWorkingDir->absolutePath());
+        amiiboPage->setClientConnected(st);
+    }
     pm3state = st;
     setState(st);
     if(st == true)
