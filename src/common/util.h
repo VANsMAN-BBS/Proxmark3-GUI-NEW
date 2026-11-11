@@ -57,6 +57,7 @@ public:
 
     void setSession(ClientSession *session);
     void execCMD(const QString& cmd);
+    void execDetached(const QString& cmd);
     QString execCMDWithOutput(const QString& cmd, ReturnTrigger trigger = 10000, bool rawOutput = false);
     void delay(unsigned int msec);
     static ClientType getClientType();
@@ -80,7 +81,8 @@ private:
     static Ui::MainWindow *ui;
 signals:
     void refreshOutput(const QString& output);
-    void write(QString data); // connected to PM3Process::write(QString data);
+    void write(QString data); // connected to ClientSession::sendRawCommand
+    void writeDetached(QString data); // connected to ClientSession::executeDetached
 };
 
 #endif // UTIL_H

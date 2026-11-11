@@ -59,6 +59,9 @@ public slots:
     void onConnecting();
     void onClientError(const QString& message);
     void onVersionUpdated(const ClientInfo& info);
+    void onClientBusyChanged(bool busy);
+    void onClientDetachedChanged(bool detached);
+    void onCommandStateChanged(const QString& state, const QString& detail);
     void MF_onMFCardTypeChanged(int id, bool st);
     void on_Raw_keyPressed(QObject *obj_addr, QEvent &event);
     void on_MF_keyWidget_resized(QObject *obj_addr, QEvent &event);

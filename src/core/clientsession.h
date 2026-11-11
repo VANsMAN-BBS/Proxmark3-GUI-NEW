@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QStringList>
 #include <QByteArray>
+#include <QElapsedTimer>
 
 #include "core/clientinfo.h"
 
@@ -35,6 +36,7 @@ public:
 
     bool isConnected() const;
     bool isBusy() const;
+    bool isDetached() const;
     ClientInfo clientInfo() const;
     QString lastError() const;
     QString clientPath() const;
@@ -52,6 +54,12 @@ public:
      * sentinel arrives or the user stops the client.
      */
     quint64 executeCommand(const QString &cmd, int timeoutMs = 15000, bool rawOutput = false);
+
+    /**
+     * Start a long-running/interactive command without a completion sentinel.
+     * The session stays detached until stopClient()/restartClient().
+     */
+    bool executeDetached(const QString &cmd);
 
     /**
      * Send a line without queueing or completion tracking.
@@ -76,6 +84,8 @@ signals:
     void changeClientType(bool isIceman);
     void versionUpdated(const ClientInfo &info);
     void busyChanged(bool busy);
+    void detachedChanged(bool detached);
+    void commandStateChanged(const QString &state, const QString &detail);
     void commandFinished(quint64 id, const QString &output, bool success,
                          bool timedOut, const QString &error);
 
@@ -106,9 +116,11 @@ private:
     QQueue<Request> m_queue;
     Request m_active;
     bool m_hasActive = false;
+    bool m_detached = false;
     quint64 m_nextId = 1;
 
     QString m_activeToken;
+    QElapsedTimer m_activeTimer;
     QString m_clientPath;
     QStringList m_clientArgs;
     QString m_workingDir;

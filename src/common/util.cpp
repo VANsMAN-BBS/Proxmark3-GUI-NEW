@@ -41,8 +41,15 @@ void Util::processOutput(const QString& output)
 void Util::execCMD(const QString& cmd)
 {
     qDebug() << "executing: " << cmd;
-    if(isRunning)
+    if(session && session->isConnected())
         emit write(cmd + "\n");
+}
+
+void Util::execDetached(const QString& cmd)
+{
+    qDebug() << "executing detached: " << cmd;
+    if(session && session->isConnected())
+        emit writeDetached(cmd + "\n");
 }
 
 QString Util::execCMDWithOutput(const QString& cmd, ReturnTrigger trigger, bool rawOutput)

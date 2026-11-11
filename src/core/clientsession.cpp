@@ -1,4 +1,5 @@
 #include "clientsession.h"
+#include "logger.h"
 
 #include <QDateTime>
 #include <QElapsedTimer>
@@ -47,7 +48,12 @@ bool ClientSession::isConnected() const
 
 bool ClientSession::isBusy() const
 {
-    return m_hasActive || !m_queue.isEmpty();
+    return m_detached || m_hasActive || !m_queue.isEmpty();
+}
+
+bool ClientSession::isDetached() const
+{
+    return m_detached;
 }
 
 ClientInfo ClientSession::clientInfo() const
@@ -118,6 +124,9 @@ void ClientSession::setEnvironment(const QStringList &env)
 
 void ClientSession::startClient(const QString &path, const QStringList &args)
 {
+    Logger::info(QStringLiteral("ClientSession"),
+                 QStringLiteral("start client: %1 args=%2")
+                 .arg(path, args.join(QLatin1Char(' '))));
     if (path.isEmpty()) {
         failConnection(tr("The client path is empty."));
         return;
@@ -155,7 +164,6 @@ void ClientSession::startClient(const QString &path, const QStringList &args)
     emit connecting();
     m_process->start(path, m_clientArgs, QIODevice::ReadWrite);
 }
-
 void ClientSession::onStarted()
 {
     if (!m_connecting) {
@@ -178,6 +186,7 @@ void ClientSession::onHandshakeTimeout()
 
 void ClientSession::failConnection(const QString &message)
 {
+    Logger::error(QStringLiteral("ClientSession"), QStringLiteral("connection failed: %1").arg(message));
     m_lastError = message;
     m_connecting = false;
     m_handshakeTimer->stop();
@@ -409,15 +418,28 @@ void ClientSession::parseVersionOutput(const QString &text)
     if (match.hasMatch()) {
         m_info.hardware = match.captured(1).trimmed();
     }
+
+    Logger::info(QStringLiteral("ClientSession"),
+                 QStringLiteral("connected: client=%1 firmware=%2 model=%3 hardware=%4")
+                 .arg(m_info.clientVersion, m_info.firmwareVersion, m_info.model, m_info.hardware));
 }
 
 void ClientSession::onFinished(int exitCode, QProcess::ExitStatus status)
 {
     const bool wasStopping = m_stopping;
+    Logger::log(wasStopping ? Logger::Info : Logger::Warning,
+                QStringLiteral("ClientSession"),
+                QStringLiteral("client finished: exit=%1 crash=%2")
+                .arg(exitCode).arg(status == QProcess::CrashExit));
 
     m_connecting = false;
     m_handshakeTimer->stop();
     m_commandTimer->stop();
+
+    if (m_detached) {
+        m_detached = false;
+        emit detachedChanged(false);
+    }
 
     if (m_hasActive) {
         Request req = m_active;
@@ -425,11 +447,20 @@ void ClientSession::onFinished(int exitCode, QProcess::ExitStatus status)
         m_active = Request();
         m_activeToken.clear();
         if (!req.timeoutEmitted) {
+            Logger::warning(QStringLiteral("ClientSession"),
+                            QStringLiteral("active command lost: %1").arg(Logger::commandSummary(req.cmd)));
             emit commandFinished(req.id, req.output, false, false,
                                  tr("The client process exited before the command completed."));
         }
         emit busyChanged(false);
     }
+
+    while (!m_queue.isEmpty()) {
+        Request req = m_queue.dequeue();
+        emit commandFinished(req.id, QString(), false, false,
+                             tr("The client process exited before the command started."));
+    }
+    emit busyChanged(false);
 
     m_info.connected = false;
 
@@ -450,6 +481,18 @@ void ClientSession::onFinished(int exitCode, QProcess::ExitStatus status)
 
 void ClientSession::onErrorOccurred(QProcess::ProcessError error)
 {
+    if (m_stopping || error == QProcess::Crashed) {
+        // A command-driven Stop/kill is expected; do not report it as a fault.
+        if (m_stopping)
+            Logger::info(QStringLiteral("ClientSession"),
+                         QStringLiteral("process stopped: %1").arg(m_process->errorString()));
+        else
+            Logger::warning(QStringLiteral("ClientSession"),
+                            QStringLiteral("process error %1: %2").arg(int(error)).arg(m_process->errorString()));
+    } else {
+        Logger::error(QStringLiteral("ClientSession"),
+                      QStringLiteral("process error %1: %2").arg(int(error)).arg(m_process->errorString()));
+    }
     if (error == QProcess::FailedToStart) {
         failConnection(tr("Failed to start the client: %1").arg(m_process->errorString()));
         return;
@@ -473,10 +516,21 @@ quint64 ClientSession::executeCommand(const QString &cmd, int timeoutMs, bool ra
 {
     const quint64 id = m_nextId++;
     if (!isConnected()) {
+        Logger::warning(QStringLiteral("ClientSession"),
+                        QStringLiteral("command rejected (not connected): %1").arg(Logger::commandSummary(cmd)));
         // Report asynchronously so a caller that starts a local event loop
         // immediately still receives the result.
         QTimer::singleShot(0, this, [this, id]() {
             emit commandFinished(id, QString(), false, false, tr("The client is not connected."));
+        });
+        return id;
+    }
+    if (m_detached) {
+        Logger::warning(QStringLiteral("ClientSession"),
+                        QStringLiteral("command rejected (detached): %1").arg(Logger::commandSummary(cmd)));
+        QTimer::singleShot(0, this, [this, id]() {
+            emit commandFinished(id, QString(), false, false,
+                                 tr("A long-running client command is active; press Stop first."));
         });
         return id;
     }
@@ -487,13 +541,15 @@ quint64 ClientSession::executeCommand(const QString &cmd, int timeoutMs, bool ra
     req.timeoutMs = qMax(1000, timeoutMs);
     req.rawOutput = rawOutput;
     m_queue.enqueue(req);
+    Logger::info(QStringLiteral("ClientSession"),
+                 QStringLiteral("queued #%1: %2").arg(id).arg(Logger::commandSummary(cmd)));
     processQueue();
     return id;
 }
 
 void ClientSession::processQueue()
 {
-    if (!isConnected() || m_hasActive || m_queue.isEmpty()) {
+    if (!isConnected() || m_hasActive || m_detached || m_queue.isEmpty()) {
         return;
     }
 
@@ -502,6 +558,11 @@ void ClientSession::processQueue()
     m_active.output.clear();
     m_active.timeoutEmitted = false;
     m_activeToken = makeToken(m_active.id);
+    m_activeTimer.start();
+    Logger::info(QStringLiteral("ClientSession"),
+                 QStringLiteral("running #%1: %2 (timeout %3 ms)")
+                 .arg(m_active.id).arg(Logger::commandSummary(m_active.cmd)).arg(m_active.timeoutMs));
+    emit commandStateChanged(QStringLiteral("running"), Logger::commandSummary(m_active.cmd));
 
     QString cmd = m_active.cmd;
     cmd.replace(QLatin1Char('\r'), QLatin1Char(' '));
@@ -528,14 +589,24 @@ void ClientSession::finishActive(bool success, bool timedOut, const QString &err
 
     Request req = m_active;
     const bool alreadyReported = req.timeoutEmitted;
+    const qint64 elapsed = m_activeTimer.isValid() ? m_activeTimer.elapsed() : -1;
     m_hasActive = false;
     m_active = Request();
     m_activeToken.clear();
     m_commandTimer->stop();
 
+    Logger::log(success ? Logger::Info : Logger::Warning,
+                QStringLiteral("ClientSession"),
+                QStringLiteral("finished #%1 %2 in %3 ms%4")
+                .arg(req.id)
+                .arg(success ? QStringLiteral("OK") : QStringLiteral("FAILED"))
+                .arg(elapsed)
+                .arg(error.isEmpty() ? QString() : QStringLiteral(": ") + error));
     if (!alreadyReported) {
         emit commandFinished(req.id, req.output, success, timedOut, error);
     }
+    emit commandStateChanged(success ? QStringLiteral("completed") : QStringLiteral("failed"),
+                             Logger::commandSummary(req.cmd));
     emit busyChanged(false);
     processQueue();
 }
@@ -548,34 +619,84 @@ void ClientSession::onCommandTimeout()
 
     m_active.timeoutEmitted = true;
     m_commandTimer->stop();
+    Logger::warning(QStringLiteral("ClientSession"),
+                    QStringLiteral("timeout #%1 after %2 ms: %3")
+                    .arg(m_active.id).arg(m_active.timeoutMs)
+                    .arg(Logger::commandSummary(m_active.cmd)));
+    emit commandStateChanged(QStringLiteral("timeout"), Logger::commandSummary(m_active.cmd));
     emit commandFinished(m_active.id, m_active.output, false, true,
                          tr("The command did not complete within %1 ms. "
-                            "The client is still draining; press Stop if it does not return.")
+                            "The client will be restarted automatically.")
                          .arg(m_active.timeoutMs));
-    // Keep m_hasActive=true so a late sentinel can drain cleanly and no next
-    // command is written while the previous one may still be running.
+
+    // The command state is unknown: the client may still be executing it, so a
+    // late sentinel can never be trusted for the next command. Restart the
+    // client so the queue cannot stay blocked forever.
+    Logger::warning(QStringLiteral("ClientSession"),
+                    QStringLiteral("restarting client after timeout"));
+    QTimer::singleShot(0, this, [this]() {
+        if (m_info.connected || m_process->state() != QProcess::NotRunning)
+            restartClient();
+    });
 }
 
 void ClientSession::sendRawCommand(const QString &cmd)
 {
     if (!isConnected()) {
+        Logger::warning(QStringLiteral("ClientSession"),
+                        QStringLiteral("raw command rejected (not connected): %1").arg(Logger::commandSummary(cmd)));
         emit clientError(tr("Cannot send command: the client is not connected."));
         return;
     }
-    QByteArray payload = cmd.toUtf8();
-    if (!payload.endsWith('\n')) {
-        payload.append('\n');
+    Logger::info(QStringLiteral("ClientSession"),
+                 QStringLiteral("raw queued: %1").arg(Logger::commandSummary(cmd)));
+    // Raw commands use the same sentinel/FIFO path as normal commands. This
+    // prevents a Raw command from interleaving with a module command.
+    executeCommand(cmd, 30000, true);
+}
+
+bool ClientSession::executeDetached(const QString &cmd)
+{
+    if (!isConnected()) {
+        emit clientError(tr("Cannot start the command: the client is not connected."));
+        return false;
     }
+    if (isBusy()) {
+        Logger::warning(QStringLiteral("ClientSession"),
+                        QStringLiteral("detached command rejected (busy): %1").arg(Logger::commandSummary(cmd)));
+        emit clientError(tr("The client is busy with another command; press Stop first."));
+        return false;
+    }
+
+    QByteArray payload = cmd.toUtf8();
+    if (!payload.endsWith('\n'))
+        payload.append('\n');
     if (m_process->write(payload) < 0) {
         emit clientError(tr("Failed to write to the client: %1").arg(m_process->errorString()));
+        return false;
     }
+    m_process->waitForBytesWritten(100);
+    m_detached = true;
+    Logger::info(QStringLiteral("ClientSession"),
+                 QStringLiteral("detached started: %1").arg(Logger::commandSummary(cmd)));
+    emit busyChanged(true);
+    emit detachedChanged(true);
+    emit commandStateChanged(QStringLiteral("detached"), Logger::commandSummary(cmd));
+    return true;
 }
 
 void ClientSession::stopClient()
 {
+    Logger::info(QStringLiteral("ClientSession"), QStringLiteral("stop requested"));
     m_connecting = false;
     m_handshakeTimer->stop();
     m_commandTimer->stop();
+
+    if (m_detached) {
+        m_detached = false;
+        emit detachedChanged(false);
+        emit busyChanged(false);
+    }
 
     if (m_hasActive) {
         Request req = m_active;
@@ -583,11 +704,16 @@ void ClientSession::stopClient()
         m_active = Request();
         m_activeToken.clear();
         if (!req.timeoutEmitted) {
+            Logger::warning(QStringLiteral("ClientSession"),
+                            QStringLiteral("stopped active command: %1").arg(Logger::commandSummary(req.cmd)));
             emit commandFinished(req.id, req.output, false, false, tr("The client was stopped."));
         }
         emit busyChanged(false);
     }
-    m_queue.clear();
+    while (!m_queue.isEmpty()) {
+        Request req = m_queue.dequeue();
+        emit commandFinished(req.id, QString(), false, false, tr("The client was stopped."));
+    }
 
     if (m_process->state() != QProcess::NotRunning) {
         m_stopping = true;

@@ -56,7 +56,7 @@ void LF::tune()
     QVariantMap config = configMap["tune"].toMap();
     QString cmd = config["cmd"].toString();
     cmd.replace("<divisor>", QString::number(currLFConfig.divisor));
-    util->execCMD(cmd);
+    util->execDetached(cmd);
     Util::gotoRawTab();
 }
 
@@ -258,3 +258,4 @@ void LF::showWaveform()
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }
+

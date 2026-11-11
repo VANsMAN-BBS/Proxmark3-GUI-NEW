@@ -1,5 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "core/logger.h"
 
 #include <QJsonDocument>
 #include <QDirIterator>
@@ -30,6 +31,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     settings = new QSettings("GUIsettings.ini", QSettings::IniFormat);
     settings->setIniCodec("UTF-8");
+    Logger::info(QStringLiteral("UI"), QStringLiteral("MainWindow constructing"));
 
     pm3 = new ClientSession(this);
     connect(QApplication::instance(), &QApplication::aboutToQuit, pm3, &ClientSession::stopClient);
@@ -84,6 +86,7 @@ void MainWindow::loadConfig()
     QFile configList(filename);
     if(!configList.open(QFile::ReadOnly | QFile::Text))
     {
+        Logger::error(QStringLiteral("Config"), QStringLiteral("Failed to open config: %1").arg(filename));
         QMessageBox::information(this, tr("Info"), tr("Failed to load config file"));
         return;
     }
@@ -102,6 +105,7 @@ void MainWindow::initUI() // will be called by main.app
     signalInit();
     setState(false);
     dockInit();
+    Logger::info(QStringLiteral("UI"), QStringLiteral("UI initialized"));
 }
 
 // ******************** basic functions ********************
@@ -166,6 +170,9 @@ void MainWindow::on_PM3_connectButton_clicked()
     qDebug() << "port:" << port;
     QString startArgs = ui->Set_Client_startArgsEdit->text();
     QString clientPath = ui->PM3_pathBox->currentText();
+    Logger::info(QStringLiteral("UI"),
+                 QStringLiteral("Connect requested: client=%1 port=%2 args=%3")
+                 .arg(clientPath, port, startArgs));
     QFileInfo clientFile(clientPath);
     bool clientExist = false;
 
@@ -293,6 +300,45 @@ void MainWindow::onVersionUpdated(const ClientInfo& info)
     setStatusBar(PM3VersionBar, text);
 }
 
+void MainWindow::onClientBusyChanged(bool busy)
+{
+    if(!pm3state)
+        return;
+    if(busy && !pm3->isDetached())
+        setStatusBar(programStatusBar, tr("Running"));
+    else if(!busy)
+        setStatusBar(programStatusBar, tr("Idle"));
+    Logger::debug(QStringLiteral("UI"), QStringLiteral("client busy=%1").arg(busy));
+}
+
+void MainWindow::onClientDetachedChanged(bool detached)
+{
+    Logger::info(QStringLiteral("UI"), QStringLiteral("detached state=%1").arg(detached));
+    if(detached)
+    {
+        setStatusBar(programStatusBar, tr("Long command running"));
+        setState(false);
+    }
+    else if(pm3state)
+    {
+        setStatusBar(programStatusBar, tr("Idle"));
+        setState(true);
+    }
+}
+
+void MainWindow::onCommandStateChanged(const QString& state, const QString& detail)
+{
+    Q_UNUSED(detail);
+    if(state == QLatin1String("running") || state == QLatin1String("detached"))
+        setStatusBar(programStatusBar, tr("Running"));
+    else if(state == QLatin1String("completed"))
+        setStatusBar(programStatusBar, tr("Idle"));
+    else if(state == QLatin1String("timeout"))
+        setStatusBar(programStatusBar, tr("Timeout"));
+    else if(state == QLatin1String("failed"))
+        setStatusBar(programStatusBar, tr("Error"));
+}
+
 void MainWindow::onPM3HWConnectFailed()
 {
     QMessageBox::information(this, tr("Info"), tr("Failed to connect to the hardware"));
@@ -300,6 +346,8 @@ void MainWindow::onPM3HWConnectFailed()
 
 void MainWindow::onPM3StateChanged(bool st, const QString& info)
 {
+    Logger::info(QStringLiteral("UI"),
+                 QStringLiteral("PM3 state=%1 info=%2").arg(st).arg(info));
     pm3state = st;
     setState(st);
     if(st == true)
@@ -321,6 +369,7 @@ void MainWindow::onPM3StateChanged(bool st, const QString& info)
 
 void MainWindow::on_PM3_disconnectButton_clicked()
 {
+    Logger::info(QStringLiteral("UI"), QStringLiteral("Disconnect requested"));
     pm3->stopClient();
 }
 
@@ -734,6 +783,7 @@ void MainWindow::on_MF_File_loadButton_clicked()
         {
             if(!mifare->data_loadDataFile(filename))
             {
+                Logger::error(QStringLiteral("FileIO"), QStringLiteral("Failed to open: %1").arg(filename));
                 QMessageBox::information(this, tr("Info"), tr("Failed to open") + "\n" + filename);
             }
         }
@@ -747,6 +797,7 @@ void MainWindow::on_MF_File_loadButton_clicked()
         {
             if(!mifare->data_loadKeyFile(filename))
             {
+                Logger::error(QStringLiteral("FileIO"), QStringLiteral("Failed to open: %1").arg(filename));
                 QMessageBox::information(this, tr("Info"), tr("Failed to open") + "\n" + filename);
             }
         }
@@ -774,6 +825,7 @@ void MainWindow::on_MF_File_saveButton_clicked()
         {
             if(!mifare->data_saveDataFile(filename, selectedType == tr("Binary Data Files(*.bin *.dump)")))
             {
+                Logger::error(QStringLiteral("FileIO"), QStringLiteral("Failed to save: %1").arg(filename));
                 QMessageBox::information(this, tr("Info"), tr("Failed to save to") + "\n" + filename);
             }
         }
@@ -787,6 +839,7 @@ void MainWindow::on_MF_File_saveButton_clicked()
         {
             if(!mifare->data_saveKeyFile(filename, selectedType == tr("Binary Key Files(*.bin *.dump)")))
             {
+                Logger::error(QStringLiteral("FileIO"), QStringLiteral("Failed to save: %1").arg(filename));
                 QMessageBox::information(this, tr("Info"), tr("Failed to save to") + "\n" + filename);
             }
         }
@@ -992,7 +1045,8 @@ void MainWindow::on_MF_Sniff_loadButton_clicked() // use a tmp file to support c
         }
         else
         {
-            QMessageBox::information(this, tr("Info"), tr("Failed to open") + "\n" + filename);
+            Logger::error(QStringLiteral("FileIO"), QStringLiteral("Failed to open: %1").arg(filename));
+                QMessageBox::information(this, tr("Info"), tr("Failed to open") + "\n" + filename);
         }
     }
 }
@@ -1033,7 +1087,8 @@ void MainWindow::on_MF_Sniff_saveButton_clicked()
             QFile::remove(filename);
         if(!QFile::copy(clientTracePath.absolutePath() + "/" + tmpFile, filename))
         {
-            QMessageBox::information(this, tr("Info"), tr("Failed to save to") + "\n" + filename);
+            Logger::error(QStringLiteral("FileIO"), QStringLiteral("Failed to save: %1").arg(filename));
+                QMessageBox::information(this, tr("Info"), tr("Failed to save to") + "\n" + filename);
         }
         QFile::remove(clientTracePath.absolutePath() + "/" + tmpFile);
     }
@@ -1295,8 +1350,14 @@ void MainWindow::signalInit()
     });
     connect(pm3, &ClientSession::clientError, this, &MainWindow::onClientError);
     connect(pm3, &ClientSession::versionUpdated, this, &MainWindow::onVersionUpdated);
+    connect(pm3, &ClientSession::busyChanged, this, &MainWindow::onClientBusyChanged);
+    connect(pm3, &ClientSession::detachedChanged, this, &MainWindow::onClientDetachedChanged);
+    connect(pm3, &ClientSession::commandStateChanged, this, &MainWindow::onCommandStateChanged);
 
     connect(util, &Util::write, pm3, &ClientSession::sendRawCommand);
+    connect(util, &Util::writeDetached, this, [this](const QString &cmd) {
+        pm3->executeDetached(cmd);
+    });
 
     connect(ui->MF_typeGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
     connect(ui->MF_fileGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
@@ -1742,5 +1803,6 @@ void MainWindow::on_Set_UI_CMDFont_setButton_clicked()
     settings->setValue("CMDFont_Size", ui->Set_UI_CMDFont_sizeBox->value());
     settings->endGroup();
 }
+
 
 

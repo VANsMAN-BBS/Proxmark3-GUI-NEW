@@ -326,7 +326,7 @@ void Mifare::hardnested()
 {
     QVariantMap config = configMap["hardnested"].toMap();
     MF_Attack_hardnestedDialog dialog(cardType.block_size, config);
-    connect(&dialog, &MF_Attack_hardnestedDialog::sendCMD, util, &Util::execCMD);
+    connect(&dialog, &MF_Attack_hardnestedDialog::sendCMD, this, [this](const QString &cmd) { util->execDetached(cmd); });
     if(dialog.exec() == QDialog::Accepted)
         Util::gotoRawTab();
 }
@@ -343,7 +343,7 @@ void Mifare::sniff()
 {
     QVariantMap config = configMap["sniff"].toMap();
     sniffBufferLoaded = false;
-    util->execCMD(config["cmd"].toString());
+    util->execDetached(config["cmd"].toString());
 
     Util::gotoRawTab();
 }
@@ -352,7 +352,7 @@ void Mifare::sniff14a()
 {
     QVariantMap config = configMap["sniff 14a"].toMap();
     sniffBufferLoaded = false;
-    util->execCMD(config["cmd"].toString());
+    util->execDetached(config["cmd"].toString());
 
     Util::gotoRawTab();
 }
@@ -913,7 +913,7 @@ void Mifare::wipeE()
 void Mifare::simulate()
 {
     MF_Sim_simDialog dialog(cardType.type, cardType.typeText);
-    connect(&dialog, &MF_Sim_simDialog::sendCMD, util, &Util::execCMD);
+    connect(&dialog, &MF_Sim_simDialog::sendCMD, this, [this](const QString &cmd) { util->execDetached(cmd); });
     if(dialog.exec() == QDialog::Accepted)
         Util::gotoRawTab();
 }
@@ -1524,3 +1524,5 @@ QString Mifare::getTraceSavePath()
         return QString();
     return reMatch.captured(1).trimmed();
 }
+
+
