@@ -2,6 +2,15 @@
 
 [中文](doc/CHANGELOG/CHANGELOG_zh_CN.md)  
 
+### V0.3.1
++ Add lightweight persistent logging: `%LOCALAPPDATA%\Proxmark3GUI\logs\Proxmark3GUI.log`, levels, timestamps, module names, size rotation (2 MiB x 5 by default, `PM3GUI_LOG_MAX_BYTES` / `PM3GUI_LOG_MAX_FILES` overrides). Falls back to `<app>/logs` when the user profile is not writable.
++ Log startup/exit, client path and version, connect/disconnect, session state, queued/running/finished commands, timeouts, client exit and file IO failures. Sensitive values (MRZ, BAC keys, APDU payloads, full Amiibo data) are never logged.
++ Route Raw commands through the same FIFO queue and `rem` sentinel as module commands so long commands can no longer interleave output.
++ Add explicit detached-command state for long/interactive commands (`hf sniff`, `hf 14a sniff`, hardnested, MIFARE simulation, LF tune, Show Waveform): the queue is blocked and the UI shows "Long command running" until Stop.
++ Fix queue cleanup on stop/crash: queued commands are failed explicitly instead of silently dropped, and no next command is written while a detached command may still run.
++ Recover automatically from a command timeout by restarting the client, so the command queue cannot stay blocked.
++ Log deliberate stops as normal events instead of "process crashed", and keep the GUI state in sync with real client/device state.
+
 ### V0.3.0
 + Target Iceman/RRG v4.23346; add `config_rrgv4.23346.json`
 + Add Core `ClientSession`: FIFO queue, `rem` completion sentinel, timeouts, UTF-8/ANSI/CR, process exit/error handling
