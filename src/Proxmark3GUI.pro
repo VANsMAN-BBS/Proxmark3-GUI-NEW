@@ -25,6 +25,7 @@ SOURCES += \
     module/mifare.cpp \
     module/t55xx.cpp \
     module/ntagtab.cpp \
+    module/emrtd.cpp \
     ui/mf_trailerdecoderdialog.cpp \
     ui/mf_sim_simdialog.cpp \
     ui/mf_uid_parameterdialog.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     module/mifare.h \
     module/t55xx.h \
     module/ntagtab.h \
+    module/emrtd.h \
     ui/mf_trailerdecoderdialog.h \
     ui/mf_sim_simdialog.h \
     ui/mf_uid_parameterdialog.h \

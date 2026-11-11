@@ -2,6 +2,625 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="en_US">
 <context>
+    <name>ClientSession</name>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="131"/>
+        <source>The client path is empty.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="183"/>
+        <source>Timed out waiting for the Proxmark3 client to report its version.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="309"/>
+        <source>The client is running, but no firmware version was reported. Check that the device is connected and the client is Iceman v4.23346.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="453"/>
+        <source>The client process exited before the command completed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="461"/>
+        <source>The client process exited before the command started.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="470"/>
+        <source>The Proxmark3 client crashed (exit code %1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="472"/>
+        <source>The Proxmark3 client exited (exit code %1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="497"/>
+        <source>Failed to start the client: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="503"/>
+        <source>The Proxmark3 client crashed: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="508"/>
+        <source>Client process error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="510"/>
+        <source>Client I/O error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="524"/>
+        <source>The client is not connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="533"/>
+        <source>A long-running client command is active; press Stop first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="578"/>
+        <source>Failed to write the command to the client.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="628"/>
+        <source>The command did not complete within %1 ms. The client will be restarted automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="648"/>
+        <source>Cannot send command: the client is not connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="661"/>
+        <source>Cannot start the command: the client is not connected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="667"/>
+        <source>The client is busy with another command; press Stop first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="675"/>
+        <source>Failed to write to the client: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/core/clientsession.cpp" line="709"/>
+        <location filename="../src/core/clientsession.cpp" line="715"/>
+        <source>The client was stopped.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>EMRTDPage</name>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="46"/>
+        <source>Surname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="47"/>
+        <source>Given names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="48"/>
+        <source>Name (native script)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="49"/>
+        <source>Document number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="50"/>
+        <source>Nationality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="51"/>
+        <source>Issuing state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="52"/>
+        <source>Document code</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="53"/>
+        <source>Date of birth</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="54"/>
+        <source>Sex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="55"/>
+        <source>Date of expiry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="56"/>
+        <source>Personal number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="57"/>
+        <source>Note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="110"/>
+        <source>Document MRZ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="114"/>
+        <source>Paste the machine readable zone (TD1, TD2 or TD3). The document number, date of birth and expiry are read from it, so no BAC key has to be entered manually.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="121"/>
+        <source>P&lt;UTO...
+L898902C36UTO...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="129"/>
+        <source>Validate MRZ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="130"/>
+        <source>Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="138"/>
+        <location filename="../src/module/emrtd.cpp" line="428"/>
+        <source>MRZ not checked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="143"/>
+        <source>Read</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="146"/>
+        <location filename="../src/module/emrtd.cpp" line="258"/>
+        <source>Port: not selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="151"/>
+        <source>Start Reading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="152"/>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="166"/>
+        <source>Idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="183"/>
+        <source>Field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="183"/>
+        <source>Value</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="192"/>
+        <source>Copy all information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="193"/>
+        <source>Copy MRZ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="194"/>
+        <source>Copy selected field</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="203"/>
+        <source>Personal information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="208"/>
+        <source>Zoom in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="209"/>
+        <source>Zoom out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="210"/>
+        <source>Fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="211"/>
+        <source>Save portrait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="228"/>
+        <location filename="../src/module/emrtd.cpp" line="716"/>
+        <source>No portrait read yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="232"/>
+        <source>Portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="238"/>
+        <location filename="../src/module/emrtd.cpp" line="667"/>
+        <source>Other data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="259"/>
+        <source>Port: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="302"/>
+        <source>Checking MRZ</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="303"/>
+        <source>Connecting to Proxmark3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="304"/>
+        <source>Selecting the eMRTD application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="305"/>
+        <source>Getting challenge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="306"/>
+        <source>BAC authentication</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="307"/>
+        <source>Reading EF.COM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="308"/>
+        <source>Reading DG1 (personal data)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="309"/>
+        <source>Reading DG2 (portrait)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="310"/>
+        <source>Reading DG11 (additional data)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="311"/>
+        <source>Reading DG12 (additional data)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="312"/>
+        <source>Parsing data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="313"/>
+        <location filename="../src/module/emrtd.cpp" line="328"/>
+        <location filename="../src/module/emrtd.cpp" line="699"/>
+        <source>Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="336"/>
+        <source>Paste the MRZ first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="342"/>
+        <source>The eMRTD reader runtime was not found:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="357"/>
+        <location filename="../src/module/emrtd.cpp" line="490"/>
+        <location filename="../src/module/emrtd.cpp" line="779"/>
+        <source>Cannot start the eMRTD reader:
+%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="366"/>
+        <source>MRZ validation timed out.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="384"/>
+        <source>MRZ invalid: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="400"/>
+        <source>line length does not match %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="402"/>
+        <source>check digit failed: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="404"/>
+        <source>date of birth must be YYMMDD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="406"/>
+        <source>expiry must be YYMMDD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="408"/>
+        <source>non-ICAO layout; verify the document number and dates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="416"/>
+        <source>%1 | document %2 | born %3 | expires %4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="417"/>
+        <source>unknown layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="419"/>
+        <source>MRZ valid. %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="421"/>
+        <source>Check the MRZ: %1. %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="439"/>
+        <location filename="../src/module/emrtd.cpp" line="453"/>
+        <location filename="../src/module/emrtd.cpp" line="737"/>
+        <location filename="../src/module/emrtd.cpp" line="769"/>
+        <location filename="../src/module/emrtd.cpp" line="843"/>
+        <location filename="../src/module/emrtd.cpp" line="880"/>
+        <source>eMRTD Reader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="440"/>
+        <source>Paste the MRZ of the document first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="446"/>
+        <source>The eMRTD reader runtime was not found:
+%1
+
+Install the packaged build or set PM3GUI_EMRTD_EXE.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="454"/>
+        <source>Select the Proxmark3 port on the main window first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="466"/>
+        <location filename="../src/module/emrtd.cpp" line="467"/>
+        <source>Starting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="502"/>
+        <source>Cancelling...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="558"/>
+        <source>%1 - skipped</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="579"/>
+        <source>Authentication or card error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="581"/>
+        <source>Proxmark3 communication error: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="583"/>
+        <source>Invalid input: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="585"/>
+        <source>Reading was cancelled.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="586"/>
+        <location filename="../src/module/emrtd.cpp" line="765"/>
+        <source>Failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="634"/>
+        <source>EF.COM</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="635"/>
+        <source>LDS version: %1
+Unicode version: %2
+Data groups: %3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="654"/>
+        <source>DG11</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="655"/>
+        <source>DG12</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="663"/>
+        <source>Raw (hex)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="667"/>
+        <source>No additional files were returned by the document.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="683"/>
+        <source>The portrait could not be decoded (%1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="695"/>
+        <source>The document did not return a portrait.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="760"/>
+        <source>The reader process crashed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="761"/>
+        <source>The reader exited with code %1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="844"/>
+        <source>There is no portrait to save.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="848"/>
+        <source>Save portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="850"/>
+        <source>PNG image (*.png);;JPEG image (*.jpg *.jpeg)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="881"/>
+        <source>Failed to save the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LF</name>
+    <message>
+        <location filename="../src/module/lf.cpp" line="23"/>
+        <source>Show Waveform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/lf.cpp" line="24"/>
+        <source>Export the Client GraphBuffer (data save) and plot the raw LF samples. Requires a completed LF Read/Sniff on LF-capable firmware.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/lf.cpp" line="188"/>
+        <location filename="../src/module/lf.cpp" line="221"/>
+        <location filename="../src/module/lf.cpp" line="230"/>
+        <location filename="../src/module/lf.cpp" line="251"/>
+        <source>LF Waveform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/lf.cpp" line="189"/>
+        <source>No graph data was exported.
+Run LF Read/Sniff first on LF-capable firmware, or load a graph buffer with `data load` in RawCommand.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/lf.cpp" line="222"/>
+        <source>The Client reported a graph export, but the .pm3 file could not be found.
+Check the Client working directory in Settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/lf.cpp" line="230"/>
+        <source>Failed to open %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/lf.cpp" line="252"/>
+        <source>The graph buffer contains fewer than 2 samples; no waveform can be drawn.
+Run LF Read/Sniff first, or load a graph buffer with `data load`.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MF_Attack_hardnestedDialog</name>
     <message>
         <location filename="../src/ui/mf_attack_hardnesteddialog.ui" line="14"/>
@@ -100,6 +719,40 @@
     <message>
         <location filename="../src/ui/mf_uid_parameterdialog.ui" line="14"/>
         <source>Set Parameter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="31"/>
+        <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="36"/>
+        <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="41"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="31"/>
+        <source>UID must be 4, 7 or 10 bytes of hex.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="36"/>
+        <source>ATQA must be 2 bytes of hex.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="41"/>
+        <source>SAK must be 1 byte of hex.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="46"/>
+        <source>Set Magic Card Parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="47"/>
+        <source>This writes UID / ATQA / SAK to a Chinese Magic Card.
+
+Continue?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -447,7 +1100,7 @@ It could make the whole sector blocked irreversibly!</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="914"/>
-        <location filename="../src/ui/mainwindow.cpp" line="916"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1011"/>
         <source>About UID Card</source>
         <translation type="unfinished"></translation>
     </message>
@@ -604,6 +1257,7 @@ When setting the freq, the &quot;hw setlfdivisor&quot; will also be called.</sou
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="1683"/>
+        <location filename="../src/ui/mainwindow.ui" line="2590"/>
         <source>Read</source>
         <translation type="unfinished"></translation>
     </message>
@@ -634,7 +1288,6 @@ or the communication between a tag and a reader.</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="1883"/>
-        <location filename="../src/ui/mainwindow.cpp" line="48"/>
         <source>T55xx</source>
         <translation type="unfinished"></translation>
     </message>
@@ -795,11 +1448,6 @@ or the communication between a tag and a reader.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2422"/>
-        <source>T55xx Read Config</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/mainwindow.ui" line="2437"/>
         <source>Bit Rate:</source>
         <translation type="unfinished"></translation>
@@ -830,461 +1478,524 @@ or the communication between a tag and a reader.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2523"/>
+        <location filename="../src/ui/mainwindow.ui" line="2510"/>
+        <source>Detect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="2517"/>
+        <source>Read Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="2524"/>
+        <source>Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="2554"/>
+        <source>Clone to T55xx (Experimental)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="2562"/>
+        <source>Target Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="2600"/>
+        <source>Clone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="2611"/>
         <source>RawCommand</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2570"/>
-        <location filename="../src/ui/mainwindow.cpp" line="360"/>
+        <location filename="../src/ui/mainwindow.ui" line="2658"/>
+        <location filename="../src/ui/mainwindow.cpp" line="451"/>
         <source>History:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2602"/>
+        <location filename="../src/ui/mainwindow.ui" line="2690"/>
         <source>ClearHistory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2625"/>
+        <location filename="../src/ui/mainwindow.ui" line="2713"/>
         <source>Send</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2632"/>
+        <location filename="../src/ui/mainwindow.ui" line="2720"/>
         <source>ClearOutput</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2642"/>
+        <location filename="../src/ui/mainwindow.ui" line="2730"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2689"/>
+        <location filename="../src/ui/mainwindow.ui" line="2777"/>
         <source>Client</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2695"/>
+        <location filename="../src/ui/mainwindow.ui" line="2783"/>
         <source>GUI working directory:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2716"/>
+        <location filename="../src/ui/mainwindow.ui" line="2804"/>
         <source>Preload script path(Reconnect to apply):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2748"/>
+        <location filename="../src/ui/mainwindow.ui" line="2836"/>
         <source>Client working directory(Reconnect to apply):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2762"/>
+        <location filename="../src/ui/mainwindow.ui" line="2850"/>
         <source>On Windows, the client working directory should not be identical to the path of GUI, otherwise the client will use the wrong .dll file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2779"/>
+        <location filename="../src/ui/mainwindow.ui" line="2867"/>
         <source>Start arguments(Reconnect to apply):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2793"/>
+        <location filename="../src/ui/mainwindow.ui" line="2881"/>
         <source>-f is necessary because the GUI need to handle the output in time. In some cases, the arguments should be set to &quot;-p /dev/&lt;port&gt; -f&quot; or &quot;-p &lt;port&gt; -f&quot;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2841"/>
+        <location filename="../src/ui/mainwindow.ui" line="2929"/>
         <source>config.json</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2848"/>
+        <location filename="../src/ui/mainwindow.ui" line="2936"/>
         <source>Different clients require different config files. You can change the content of config file if the command format changes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2938"/>
+        <location filename="../src/ui/mainwindow.ui" line="3026"/>
         <source>Keep the client active even the PM3 hardware is disconnected.(Experimental)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2953"/>
+        <location filename="../src/ui/mainwindow.ui" line="3041"/>
         <source>UI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3012"/>
+        <location filename="../src/ui/mainwindow.ui" line="3100"/>
         <source>Opacity:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3056"/>
+        <location filename="../src/ui/mainwindow.ui" line="3144"/>
         <source>Theme:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3073"/>
-        <location filename="../src/ui/mainwindow.ui" line="3114"/>
-        <location filename="../src/ui/mainwindow.ui" line="3148"/>
-        <location filename="../src/ui/mainwindow.ui" line="3182"/>
+        <location filename="../src/ui/mainwindow.ui" line="3161"/>
+        <location filename="../src/ui/mainwindow.ui" line="3202"/>
+        <location filename="../src/ui/mainwindow.ui" line="3236"/>
+        <location filename="../src/ui/mainwindow.ui" line="3270"/>
         <source>Set</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3080"/>
+        <location filename="../src/ui/mainwindow.ui" line="3168"/>
         <source>(Restart this app to use new theme)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3091"/>
+        <location filename="../src/ui/mainwindow.ui" line="3179"/>
         <source>Global Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3125"/>
+        <location filename="../src/ui/mainwindow.ui" line="3213"/>
         <source>Data Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3159"/>
+        <location filename="../src/ui/mainwindow.ui" line="3247"/>
         <source>Command Font:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3196"/>
+        <location filename="../src/ui/mainwindow.ui" line="3284"/>
         <source>Latest Release:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3226"/>
+        <location filename="../src/ui/mainwindow.ui" line="3314"/>
         <source>Report Bugs:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2755"/>
+        <location filename="../src/ui/mainwindow.ui" line="2843"/>
         <source>../data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2730"/>
+        <location filename="../src/ui/mainwindow.ui" line="2422"/>
+        <source>T55xx Read Config (Exp.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="2818"/>
         <source>If the client requires some enviroment variables, you can make a script file(*.bat on Windows or *.sh on Linux) to configure them, then put the path of the script there.
 The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quot;Client Path&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2786"/>
+        <location filename="../src/ui/mainwindow.ui" line="2874"/>
         <source>&lt;port&gt; -f</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2810"/>
+        <location filename="../src/ui/mainwindow.ui" line="2898"/>
         <source>Config file(Reconnect to apply):</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2892"/>
+        <location filename="../src/ui/mainwindow.ui" line="2980"/>
         <source>Keep buttons enabled even the client is running or disconnected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2961"/>
+        <location filename="../src/ui/mainwindow.ui" line="3049"/>
         <source>Language: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2968"/>
+        <location filename="../src/ui/mainwindow.ui" line="3056"/>
         <source>Choose Language</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2975"/>
+        <location filename="../src/ui/mainwindow.ui" line="3063"/>
         <source>(Restart this app to use new language)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="91"/>
-        <location filename="../src/ui/mainwindow.cpp" line="198"/>
-        <location filename="../src/ui/mainwindow.cpp" line="205"/>
-        <location filename="../src/ui/mainwindow.cpp" line="277"/>
-        <location filename="../src/ui/mainwindow.cpp" line="282"/>
-        <location filename="../src/ui/mainwindow.cpp" line="463"/>
-        <location filename="../src/ui/mainwindow.cpp" line="677"/>
-        <location filename="../src/ui/mainwindow.cpp" line="697"/>
-        <location filename="../src/ui/mainwindow.cpp" line="710"/>
-        <location filename="../src/ui/mainwindow.cpp" line="729"/>
-        <location filename="../src/ui/mainwindow.cpp" line="742"/>
-        <location filename="../src/ui/mainwindow.cpp" line="769"/>
-        <location filename="../src/ui/mainwindow.cpp" line="782"/>
-        <location filename="../src/ui/mainwindow.cpp" line="987"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1028"/>
+        <location filename="../src/ui/mainwindow.cpp" line="121"/>
+        <location filename="../src/ui/mainwindow.cpp" line="232"/>
+        <location filename="../src/ui/mainwindow.cpp" line="239"/>
+        <location filename="../src/ui/mainwindow.cpp" line="318"/>
+        <location filename="../src/ui/mainwindow.cpp" line="375"/>
+        <location filename="../src/ui/mainwindow.cpp" line="554"/>
+        <location filename="../src/ui/mainwindow.cpp" line="768"/>
+        <location filename="../src/ui/mainwindow.cpp" line="788"/>
+        <location filename="../src/ui/mainwindow.cpp" line="801"/>
+        <location filename="../src/ui/mainwindow.cpp" line="821"/>
+        <location filename="../src/ui/mainwindow.cpp" line="835"/>
+        <location filename="../src/ui/mainwindow.cpp" line="863"/>
+        <location filename="../src/ui/mainwindow.cpp" line="877"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1083"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1125"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="205"/>
+        <location filename="../src/ui/mainwindow.cpp" line="239"/>
         <source>Plz choose a port first</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="293"/>
+        <location filename="../src/ui/mainwindow.cpp" line="394"/>
         <source>Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="299"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1113"/>
+        <location filename="../src/ui/mainwindow.cpp" line="400"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1210"/>
         <source>Not Connected</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="729"/>
-        <location filename="../src/ui/mainwindow.cpp" line="742"/>
-        <location filename="../src/ui/mainwindow.cpp" line="987"/>
+        <location filename="../src/ui/mainwindow.cpp" line="821"/>
+        <location filename="../src/ui/mainwindow.cpp" line="835"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1083"/>
         <source>Failed to open</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="463"/>
+        <location filename="../src/ui/mainwindow.cpp" line="554"/>
         <source>Continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="12"/>
+        <location filename="../src/ui/mainwindow.cpp" line="14"/>
         <source>Dock all windows</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="14"/>
+        <location filename="../src/ui/mainwindow.cpp" line="16"/>
         <source>Ver: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="15"/>
+        <location filename="../src/ui/mainwindow.cpp" line="17"/>
         <source>Check Update</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="91"/>
+        <location filename="../src/ui/mainwindow.cpp" line="48"/>
+        <source>NTAG/Ultralight</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="52"/>
+        <source>eMRTD Reader</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="121"/>
         <source>Failed to load config file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="463"/>
+        <location filename="../src/ui/mainwindow.cpp" line="308"/>
+        <source>Connecting...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="350"/>
+        <source>Long command running</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="368"/>
+        <source>Timeout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="370"/>
+        <source>Error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="554"/>
         <source>Some of the data and key will be cleared.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="677"/>
+        <location filename="../src/ui/mainwindow.cpp" line="768"/>
         <source>Data must consists of 32 Hex symbols(Whitespace is allowed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="697"/>
-        <location filename="../src/ui/mainwindow.cpp" line="710"/>
+        <location filename="../src/ui/mainwindow.cpp" line="788"/>
+        <location filename="../src/ui/mainwindow.cpp" line="801"/>
         <source>Key must consists of 12 Hex symbols(Whitespace is allowed)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="722"/>
+        <location filename="../src/ui/mainwindow.cpp" line="813"/>
         <source>Plz select the data file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="723"/>
-        <location filename="../src/ui/mainwindow.cpp" line="763"/>
-        <location filename="../src/ui/mainwindow.cpp" line="767"/>
+        <location filename="../src/ui/mainwindow.cpp" line="814"/>
+        <location filename="../src/ui/mainwindow.cpp" line="856"/>
+        <location filename="../src/ui/mainwindow.cpp" line="860"/>
         <source>Binary Data Files(*.bin *.dump)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="723"/>
-        <location filename="../src/ui/mainwindow.cpp" line="736"/>
-        <location filename="../src/ui/mainwindow.cpp" line="974"/>
+        <location filename="../src/ui/mainwindow.cpp" line="814"/>
+        <location filename="../src/ui/mainwindow.cpp" line="828"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1069"/>
         <source>All Files(*.*)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="735"/>
+        <location filename="../src/ui/mainwindow.cpp" line="827"/>
         <source>Plz select the key file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="762"/>
+        <location filename="../src/ui/mainwindow.cpp" line="855"/>
         <source>Plz select the location to save data file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="769"/>
-        <location filename="../src/ui/mainwindow.cpp" line="782"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1028"/>
+        <location filename="../src/ui/mainwindow.cpp" line="863"/>
+        <location filename="../src/ui/mainwindow.cpp" line="877"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1125"/>
         <source>Failed to save to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="775"/>
+        <location filename="../src/ui/mainwindow.cpp" line="869"/>
         <source>Plz select the location to save key file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="736"/>
-        <location filename="../src/ui/mainwindow.cpp" line="776"/>
-        <location filename="../src/ui/mainwindow.cpp" line="780"/>
+        <location filename="../src/ui/mainwindow.cpp" line="828"/>
+        <location filename="../src/ui/mainwindow.cpp" line="870"/>
+        <location filename="../src/ui/mainwindow.cpp" line="874"/>
         <source>Binary Key Files(*.bin *.dump)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="198"/>
+        <location filename="../src/ui/mainwindow.cpp" line="232"/>
         <source>The client path is invalid</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="277"/>
-        <source>Failed to start the client</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/mainwindow.cpp" line="282"/>
+        <location filename="../src/ui/mainwindow.cpp" line="375"/>
         <source>Failed to connect to the hardware</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="723"/>
-        <location filename="../src/ui/mainwindow.cpp" line="763"/>
+        <location filename="../src/ui/mainwindow.cpp" line="814"/>
+        <location filename="../src/ui/mainwindow.cpp" line="856"/>
         <source>Text Data Files(*.txt *.eml)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="901"/>
+        <location filename="../src/ui/mainwindow.cpp" line="996"/>
         <source>    Normally, the Block 0 of a typical Mifare card, which contains the UID, is locked during the manufacture. Users cannot write anything to Block 0 or set a new UID to a normal Mifare card.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="902"/>
+        <location filename="../src/ui/mainwindow.cpp" line="997"/>
         <source>    Chinese Magic Cards(aka UID Cards) are some special cards whose Block 0 are writeable. And you can change UID by writing to it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="904"/>
+        <location filename="../src/ui/mainwindow.cpp" line="999"/>
         <source>There are two versions of Chinese Magic Cards, the Gen1 and the Gen2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="905"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1000"/>
         <source>    Gen1:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="905"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1000"/>
         <source>    also called UID card in China. It responses to some backdoor commands so you can access any blocks without password. The Proxmark3 has a bunch of related commands(csetblk, cgetblk, ...) to deal with this type of card, and my GUI also support these commands.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="906"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1001"/>
         <source>    Gen2:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="906"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1001"/>
         <source>    doesn&apos;t response to the backdoor commands, which means that a reader cannot detect whether it is a Chinese Magic Card or not by sending backdoor commands.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="908"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1003"/>
         <source>There are some types of Chinese Magic Card Gen2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="909"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1004"/>
         <source>    CUID Card:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="909"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1004"/>
         <source>    the Block 0 is writeable, you can write to this block repeatedly by normal wrbl command.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="910"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1005"/>
         <source>    (hf mf wrbl 0 A FFFFFFFFFFFF &lt;the data you want to write&gt;)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="911"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1006"/>
         <source>    FUID Card:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="911"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1006"/>
         <source>    you can only write to Block 0 once. After that, it seems like a typical Mifare card(Block 0 cannot be written to).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="912"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1007"/>
         <source>    (some readers might try changing the Block 0, which could detect the CUID Card. In that case, you should use FUID card.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="913"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1008"/>
         <source>    UFUID Card:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="913"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1008"/>
         <source>    It behaves like a CUID card(or UID card? I&apos;m not sure) before you send some special command to lock it. Once it is locked, you cannot change its Block 0(just like a typical Mifare card).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="915"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1010"/>
         <source>    Seemingly, these Chinese Magic Cards are more easily to be compromised by Nested Attack(it takes little time to get an unknown key).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="973"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1068"/>
         <source>Plz select the trace file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="974"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1011"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1069"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1107"/>
         <source>Trace Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1010"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1106"/>
         <source>Plz select the location to save trace file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1138"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1235"/>
         <source>(None)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1139"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1236"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1140"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1237"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1201"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1298"/>
         <source>External file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1114"/>
-        <location filename="../src/ui/mainwindow.cpp" line="1371"/>
+        <location filename="../src/ui/mainwindow.cpp" line="341"/>
+        <location filename="../src/ui/mainwindow.cpp" line="355"/>
+        <location filename="../src/ui/mainwindow.cpp" line="366"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1211"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1475"/>
         <source>Idle</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1116"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1213"/>
         <source>Stop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1310,27 +2021,30 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1308"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1412"/>
         <source>HW Version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1310"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1414"/>
         <source>PM3:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1312"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1416"/>
         <source>State:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1367"/>
+        <location filename="../src/ui/mainwindow.cpp" line="309"/>
+        <location filename="../src/ui/mainwindow.cpp" line="339"/>
+        <location filename="../src/ui/mainwindow.cpp" line="364"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1471"/>
         <source>Running</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1555"/>
+        <location filename="../src/ui/mainwindow.cpp" line="1660"/>
         <source>Actural Freq: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -1338,53 +2052,468 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
 <context>
     <name>Mifare</name>
     <message>
-        <location filename="../src/module/mifare.cpp" line="650"/>
-        <location filename="../src/module/mifare.cpp" line="721"/>
+        <location filename="../src/module/mifare.cpp" line="722"/>
+        <location filename="../src/module/mifare.cpp" line="793"/>
         <source>Succeed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/module/mifare.cpp" line="216"/>
-        <location filename="../src/module/mifare.cpp" line="650"/>
-        <location filename="../src/module/mifare.cpp" line="654"/>
-        <location filename="../src/module/mifare.cpp" line="678"/>
-        <location filename="../src/module/mifare.cpp" line="721"/>
-        <location filename="../src/module/mifare.cpp" line="734"/>
-        <location filename="../src/module/mifare.cpp" line="791"/>
+        <location filename="../src/module/mifare.cpp" line="286"/>
+        <location filename="../src/module/mifare.cpp" line="722"/>
+        <location filename="../src/module/mifare.cpp" line="726"/>
+        <location filename="../src/module/mifare.cpp" line="750"/>
+        <location filename="../src/module/mifare.cpp" line="793"/>
+        <location filename="../src/module/mifare.cpp" line="806"/>
+        <location filename="../src/module/mifare.cpp" line="877"/>
         <source>Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/module/mifare.cpp" line="216"/>
+        <location filename="../src/module/mifare.cpp" line="286"/>
         <source>Plz provide at least one known key</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/module/mifare.cpp" line="475"/>
-        <location filename="../src/module/mifare.cpp" line="654"/>
+        <location filename="../src/module/mifare.cpp" line="547"/>
+        <location filename="../src/module/mifare.cpp" line="726"/>
         <source>Failed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/module/mifare.cpp" line="679"/>
+        <location filename="../src/module/mifare.cpp" line="751"/>
         <source>The Access Bits is invalid!
 It could make the whole sector blocked irreversibly!
 Continue to write?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/module/mifare.cpp" line="734"/>
+        <location filename="../src/module/mifare.cpp" line="806"/>
         <source>Failed to write to these blocks:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/module/mifare.cpp" line="738"/>
+        <location filename="../src/module/mifare.cpp" line="810"/>
         <source>Select them?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/module/mifare.cpp" line="791"/>
+        <location filename="../src/module/mifare.cpp" line="844"/>
+        <source>Restore MIFARE Classic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/mifare.cpp" line="845"/>
+        <source>This will write a dump file to the card and may overwrite the current data.
+The client selects the default dump file by the current card UID.
+
+Continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/mifare.cpp" line="862"/>
+        <source>Wipe Magic Card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/mifare.cpp" line="863"/>
+        <source>This will erase the writable data of a Chinese Magic Card.
+
+Continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/mifare.cpp" line="877"/>
         <source>Failed to read card.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/mifare.cpp" line="895"/>
+        <source>Lock UFUID Card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/mifare.cpp" line="896"/>
+        <source>This sends the UFUID locking sequence and may be irreversible.
+
+Continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NtagTab</name>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="40"/>
+        <source>Card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="43"/>
+        <source>Detect / Read Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="47"/>
+        <source>UID:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="52"/>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="53"/>
+        <location filename="../src/module/ntagtab.cpp" line="339"/>
+        <source>Not detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="57"/>
+        <source>Pages:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="61"/>
+        <source>Key (optional):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="63"/>
+        <source>UL-C/AES 16 bytes or NTAG/EV1 4 bytes, hex</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="67"/>
+        <source>Pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="71"/>
+        <source>Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="71"/>
+        <source>Data (hex)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="71"/>
+        <source>ASCII</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="71"/>
+        <source>Access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="83"/>
+        <source>Read All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="84"/>
+        <source>Read Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="85"/>
+        <source>Read Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="88"/>
+        <source>Page </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="98"/>
+        <source>Page data: 8 hex digits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="99"/>
+        <source>Write Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="100"/>
+        <source>Write Selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="101"/>
+        <source>Verify Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="102"/>
+        <source>Data:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="109"/>
+        <source>Experimental: no NTAG/Ultralight hardware verification yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="256"/>
+        <location filename="../src/module/ntagtab.cpp" line="257"/>
+        <source>(not reported)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="258"/>
+        <source>unknown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="267"/>
+        <source>writable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="269"/>
+        <source>read-only (system)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="271"/>
+        <source>read-only (config/OTP)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="273"/>
+        <source>read-only (unknown layout)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="325"/>
+        <location filename="../src/module/ntagtab.cpp" line="380"/>
+        <location filename="../src/module/ntagtab.cpp" line="477"/>
+        <source>Key must be 8 or 32 hex digits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="341"/>
+        <source>No response from `hf mfu info`. No NTAG/Ultralight tag was detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="350"/>
+        <source>Tag information did not contain UID/TYPE. See the RawCommand output for details.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="357"/>
+        <source>Card type is unknown. Page count and write access are not assumed; use Read Page at your own risk.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="361"/>
+        <source>Detected %1 pages. Writable pages: 4..%2. Config/OTP pages are read-only.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="366"/>
+        <source>Recognized type but layout is not enabled for writing. Read-only mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="392"/>
+        <source>Failed to parse page %1 data. See the RawCommand output.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="407"/>
+        <source>Detect a card first; page count is unknown.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="422"/>
+        <source>Read %1 of %2 pages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="433"/>
+        <source>Select one or more page rows first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="447"/>
+        <source>Read %1 of %2 selected pages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="457"/>
+        <source>Page %1 read.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="465"/>
+        <source>Page data must be 8 hex digits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="470"/>
+        <source>Page %1 is not writable under the detected layout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="484"/>
+        <source>Write NTAG/Ultralight page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="485"/>
+        <source>Write %1 to page %2?
+This is an experimental operation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="499"/>
+        <source>Write to page %1 failed. See the RawCommand output.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="509"/>
+        <source>Page %1 write returned success but verification differs (wrote %2, read %3).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="520"/>
+        <source>Page %1 written and verified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="534"/>
+        <source>Select one or more writable page rows first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="539"/>
+        <source>Write selected NTAG/Ultralight pages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="540"/>
+        <source>This will write %1 page(s).
+This is an experimental operation. Continue?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="552"/>
+        <source>Wrote and verified %1 of %2 pages.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="565"/>
+        <source>Page %1 read; no previous value was stored to compare.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="569"/>
+        <source>Page %1 verification OK.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="570"/>
+        <source>Page %1 verification mismatch: expected %2, read %3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>T55xx</name>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="87"/>
+        <source>Not implemented in this version. The control is kept for UI compatibility and is marked Experimental.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="116"/>
+        <source>Experimental. The current firmware has no LF support, so this is not hardware-verified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="117"/>
+        <source>Experimental. Commands are verified against Iceman v4.23346 help, but the attached firmware lacks LF.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="283"/>
+        <location filename="../src/module/t55xx.cpp" line="327"/>
+        <location filename="../src/module/t55xx.cpp" line="340"/>
+        <source>Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="283"/>
+        <source>Block 0 must be 8 hex digits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="327"/>
+        <source>Option block must be 8 hex digits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="340"/>
+        <source>Option block must be 32 binary digits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="354"/>
+        <location filename="../src/module/t55xx.cpp" line="360"/>
+        <location filename="../src/module/t55xx.cpp" line="422"/>
+        <location filename="../src/module/t55xx.cpp" line="428"/>
+        <location filename="../src/module/t55xx.cpp" line="441"/>
+        <location filename="../src/module/t55xx.cpp" line="508"/>
+        <source>T55xx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="355"/>
+        <source>No response from `lf t55xx detect`. The current firmware may not include LF support.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="361"/>
+        <source>`lf t55xx detect` is not available on the connected firmware.
+This is expected on a 256K build without LF; the page remains Experimental.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="423"/>
+        <source>No response from `lf t55xx info`. The current firmware may not include LF support.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="429"/>
+        <source>`lf t55xx info` is not available on the connected firmware.
+The page remains Experimental.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="442"/>
+        <source>Could not parse block 0 from `lf t55xx info`. See the RawCommand output.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="508"/>
+        <source>EM410x ID must be 10 hex digits.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="513"/>
+        <source>Clone to T55xx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="514"/>
+        <source>This writes the EM410x ID to a T55xx tag. The operation is Experimental and not verified on this firmware.
+
+Continue?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1414,18 +2543,81 @@ Continue to write?</source>
 <context>
     <name>Util</name>
     <message>
-        <location filename="../src/common/util.cpp" line="122"/>
+        <location filename="../src/common/util.cpp" line="151"/>
         <source>Load from external file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/util.cpp" line="126"/>
+        <location filename="../src/common/util.cpp" line="155"/>
         <source>Choose a language:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/common/util.cpp" line="131"/>
+        <location filename="../src/common/util.cpp" line="160"/>
         <source>Select the translation file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WaveformDialog</name>
+    <message>
+        <location filename="../src/ui/waveformdialog.cpp" line="17"/>
+        <source>LF Raw Sample Waveform - %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformdialog.cpp" line="34"/>
+        <source>Fit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformdialog.cpp" line="35"/>
+        <source>Zoom In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformdialog.cpp" line="36"/>
+        <source>Zoom Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformdialog.cpp" line="46"/>
+        <source>Waveform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformdialog.cpp" line="57"/>
+        <source>... %1 more samples not shown ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformdialog.cpp" line="60"/>
+        <source>Sample Text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformdialog.cpp" line="90"/>
+        <source>Raw sample waveform from the Client GraphBuffer (`data save`). Samples: %1, range: %2..%3. The .pm3 text file has no sample-rate metadata, so the horizontal axis is sample index, not a fabricated time axis. Decoded protocol text remains in RawCommand.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WaveformWidget</name>
+    <message>
+        <location filename="../src/ui/waveformwidget.cpp" line="137"/>
+        <source>No raw samples.
+Run LF Read/Sniff (with LF-capable firmware)
+or load a graph buffer with `data load`.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformwidget.cpp" line="145"/>
+        <source>Insufficient samples to draw a waveform.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/waveformwidget.cpp" line="171"/>
+        <source>Sample index %1 .. %2  (rate not provided by data save)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

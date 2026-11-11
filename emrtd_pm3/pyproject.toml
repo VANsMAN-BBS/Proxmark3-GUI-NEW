@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "emrtd-pm3"
+version = "0.1.0"
+description = "Read ICAO 9303 eMRTDs through a Proxmark3 using BAC"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["pycryptodome>=3.19"]
+
+[project.optional-dependencies]
+png = ["pillow>=10"]
+ports = ["pyserial>=3.5"]
+dev = ["pytest>=8"]
+
+[project.scripts]
+emrtd-pm3 = "emrtd_pm3.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["emrtd_pm3*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

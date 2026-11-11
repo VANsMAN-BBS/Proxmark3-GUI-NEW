@@ -46,6 +46,37 @@ MainWindow::MainWindow(QWidget *parent):
     t55xx = new T55xx(ui, util, this);
     ntag = new NtagTab(util, this);
     ui->funcTab->insertTab(3, ntag, tr("NTAG/Ultralight"));
+
+    emrtdPage = new EMRTDPage(this);
+    emrtdReconnect = false;
+    ui->funcTab->insertTab(4, emrtdPage, tr("eMRTD Reader"));
+    connect(emrtdPage, &EMRTDPage::aboutToRead, this, [this]()
+    {
+        // Only one process may own the serial port: release ours first.
+        emrtdReconnect = pm3->isConnected();
+        if(emrtdReconnect)
+            pm3->stopClient();
+    });
+    connect(emrtdPage, &EMRTDPage::readFinished, this, [this]()
+    {
+        if(emrtdReconnect)
+        {
+            emrtdReconnect = false;
+            pm3->restartClient();
+        }
+    });
+    connect(ui->PM3_portBox, &QComboBox::currentTextChanged, this, [this](const QString &text)
+    {
+        if(emrtdPage)
+            emrtdPage->setDeviceInfo(text, ui->PM3_pathBox->currentText());
+    });
+    connect(ui->PM3_pathBox, &QComboBox::currentTextChanged, this, [this](const QString &text)
+    {
+        if(emrtdPage)
+            emrtdPage->setDeviceInfo(ui->PM3_portBox->currentText(), text);
+    });
+    emrtdPage->setDeviceInfo(ui->PM3_portBox->currentText(), ui->PM3_pathBox->currentText());
+
     connect(lf, &LF::LFfreqConfChanged, this, &MainWindow::onLFfreqConfChanged);
 
     keyEventFilter = new MyEventFilter(QEvent::KeyPress);
@@ -348,6 +379,9 @@ void MainWindow::onPM3StateChanged(bool st, const QString& info)
 {
     Logger::info(QStringLiteral("UI"),
                  QStringLiteral("PM3 state=%1 info=%2").arg(st).arg(info));
+    if(emrtdPage)
+        emrtdPage->setDeviceInfo(ui->PM3_portBox->currentText(),
+                                 ui->PM3_pathBox->currentText());
     pm3state = st;
     setState(st);
     if(st == true)
