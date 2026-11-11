@@ -1,5 +1,15 @@
 # ICEMAN_COMPATIBILITY_MATRIX.md
 
+## v0.4.0 新增命令依赖
+
+| 功能 | 命令 | 状态 |
+|---|---|---|
+| eMRTD 读取 | `hf 14a apdu -k/-sk` | Client 支持；真实证件未验证 |
+| NTAG215 识别 | `hf mfu info` | Client 支持；无标签 |
+| NTAG215 读取 | `hf mfu dump` | Client 支持；无标签 |
+| NTAG215 写入 | `hf mfu restore` | Client 支持；无标签 |
+| NTAG215 模拟 | `hf mfu eload` + `hf mfu sim -t 7` | Client 支持（8 KB 模拟内存）；未验证 |
+
 **目标 Client：** Iceman v4.23346（Windows 64-bit）  
 **上游 Tag：** `v4.23346`  
 **Tag commit：** `dc0110c29d320e04b37ea436ee2924901407ae72`  

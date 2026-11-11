@@ -1,5 +1,28 @@
 ﻿# TEST_REPORT.md
 
+## v0.4.0 追加测试（2026-11-12）
+
+环境同上（Qt 5.15.19 / MinGW GCC 16.2.0 / PM3 COM14）。新增 eMRTD 与 Amiibo 页面。
+
+| 项目 | 结果 |
+|---|---|
+| Python 原有 32 项 pytest | 通过 |
+| eMRTD 协议完整读取（FakeChip 模拟） | 通过 |
+| MRZ 校验（合法 / 校验位错误 / 非 ICAO） | 通过 |
+| 读取取消 | 通过（退出码 5） |
+| GUI ↔ Python 串口交接、读取后自动重连 | 通过（始终 1 个 client） |
+| eMRTD 结果表格、人像显示、另存 PNG、复制字段/全部/MRZ | 通过 |
+| eMRTD 错误提示（无卡 / 通信错误） | 通过 |
+| 新页面中文界面 | 通过 |
+| 独立发布目录（PATH 仅 System32）启动 | 通过 |
+| 中文/空格路径启动 | 通过 |
+| 发布目录内 Python 运行时 MRZ 校验 | 通过 |
+| JTAG/Amiibo 标签页、内置示例、导入、另存、十六进制 | 通过 |
+| 真实护照 / 港澳通行证读取 | 未验证（无证件） |
+| 真实 NTAG215 读取/写入/校验/模拟 | 未验证（无标签/游戏机） |
+
+详见 `docs/STAGE10_REPORT.md`、`docs/STAGE7_REPORT.md`、`docs/STAGE8_REPORT.md`、`docs/STAGE9_REPORT.md` 与 `docs/HARDWARE_VALIDATION_MATRIX.md`。
+
 **版本：** Proxmark3GUI v0.3.0  
 **日期：** 2026-11-10  
 **分支：** `upgrade/iceman-v4.23346`  

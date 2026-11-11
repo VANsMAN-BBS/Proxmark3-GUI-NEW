@@ -2,6 +2,18 @@
 
 [中文](doc/CHANGELOG/CHANGELOG_zh_CN.md)  
 
+### V0.4.0
++ Add **eMRTD Reader** page: integrates the existing `emrtd_pm3` Python project for passports and HK/Macau permits (TD1/TD2/TD3 + national MRZ), with BAC, secure messaging and DG1/DG2/DG11/DG12 decoding kept in Python
++ Add a machine interface `emrtd_pm3 gui` (NDJSON progress on stdout, JSON request on stdin, cancel, exit codes); MRZ never appears on the command line
++ Hand the serial port over explicitly: the GUI stops its `ClientSession` before the reader starts and reconnects afterwards; only one `proxmark3.exe` owns the port
++ Ship a standalone Python runtime (`emrtd\`) built by `scripts/package-emrtd-runtime.ps1`; no user Python/MSYS2 install, works from a Chinese path
++ eMRTD UI: MRZ validation with field-level issues, real progress stages, cancel, personal data table, portrait display/zoom/fit/save (JPEG/PNG, no re-encoding for JPEG), copy field/all/MRZ, EF.COM/DG11/DG12/hex tabs
++ Add **JTAG** container tab with an explicit placeholder and an **Amiibo** sub-page (NTAG215 / Type 2)
++ Amiibo: built-in synthetic sample, import/save 540-byte images, hex view, size validation, Detect/Read/Verify via `hf mfu`, write with confirmation and read-back verification, emulation via `hf mfu eload` + `hf mfu sim -t 7`
++ Optional online catalog (configurable URL, metadata only, user-initiated); no commercial Amiibo binary data is bundled or redistributed
++ Add Chinese translations for the new eMRTD, Amiibo and session strings
++ Add `docs/EMRTD_INTEGRATION.md`, `docs/AMIIBO_COMPATIBILITY.md`, `docs/HARDWARE_VALIDATION_MATRIX.md` and stage reports
+
 ### V0.3.1
 + Add lightweight persistent logging: `%LOCALAPPDATA%\Proxmark3GUI\logs\Proxmark3GUI.log`, levels, timestamps, module names, size rotation (2 MiB x 5 by default, `PM3GUI_LOG_MAX_BYTES` / `PM3GUI_LOG_MAX_FILES` overrides). Falls back to `<app>/logs` when the user profile is not writable.
 + Log startup/exit, client path and version, connect/disconnect, session state, queued/running/finished commands, timeouts, client exit and file IO failures. Sensitive values (MRZ, BAC keys, APDU payloads, full Amiibo data) are never logged.

@@ -1,5 +1,22 @@
 # BUILD_GUIDE.md
 
+## v0.4.0 追加：eMRTD 独立运行时
+
+发布目录需要额外的 Python 运行时（约 50 MB）：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\package-emrtd-runtime.ps1 `
+    -PythonHome "$env:LOCALAPPDATA\Programs\Python\Python312" `
+    -Destination "build-runtime\emrtd"
+
+robocopy build-runtime\emrtd dist\Proxmark3GUI\emrtd /MIR
+```
+
+- 需要本机 Python 3.12 + `pycryptodome` + `Pillow`（仅构建机需要，最终用户不需要）。
+- 运行时只包含标准库、`Crypto`、`PIL` 与 `emrtd_pm3`。
+- GUI 查找顺序：`PM3GUI_EMRTD_EXE` → `<GUI>/emrtd/python.exe` → `<GUI>/../build-runtime/emrtd/python.exe`。
+- 新增 `QT += network`（在线目录，可选）；`windeployqt` 会带上 `Qt5Network.dll`。
+
 **项目：** Proxmark3GUI v0.3.0  
 **目标平台：** Windows 64-bit  
 **技术栈：** Qt 5.15.x + Qt Widgets + qmake + MinGW-w64  

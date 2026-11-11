@@ -1,4 +1,4 @@
-# Proxmark3GUI v0.3.0
+# Proxmark3GUI v0.4.0
 
 A cross-platform Qt Widgets GUI for the Proxmark3 **Iceman/RRG** client.
 
@@ -54,6 +54,26 @@ This repository is a modernized fork of [wh201906/Proxmark3GUI](https://github.c
   - no fabricated time axis: `.pm3` export has no sample-rate metadata.
 - **Config for v4.23346**
   - `config/config_rrgv4.23346.json` (default).
+- **Persistent logging (v0.3.1)**
+  - `%LOCALAPPDATA%\Proxmark3GUI\logs\Proxmark3GUI.log` (falls back to `<app>/logs`);
+  - levels, timestamps, module names, 2 MiB × 5 rotation (`PM3GUI_LOG_MAX_BYTES` / `PM3GUI_LOG_MAX_FILES`);
+  - no MRZ, BAC keys, APDU payloads or full Amiibo data in logs.
+- **Unified command scheduling (v0.3.1)**
+  - Raw commands use the same FIFO + `rem` sentinel as module commands;
+  - long/interactive commands are explicitly *detached* and block the queue until Stop;
+  - timeouts restart the client automatically, so the GUI cannot stay locked.
+- **eMRTD Reader page (v0.4.0)**
+  - integrates the existing Python `emrtd_pm3` project (BAC, secure messaging, TLV, DG1/DG2/DG11/DG12);
+  - ships a standalone Python runtime under `emrtd\` (no user Python install);
+  - explicit serial-port hand-over between the GUI client and the reader;
+  - MRZ validation, real progress stages, cancel, portrait display/zoom/save, copy fields;
+  - nothing is uploaded or saved by default.
+- **JTAG → Amiibo page (v0.4.0)**
+  - JTAG sub-tab is an explicit placeholder (no JTAG implementation exists in this build);
+  - Amiibo sub-tab manages NTAG215 images: built-in synthetic sample, import/save, hex view;
+  - Detect/Read/Write/Verify via `hf mfu`; write requires confirmation and is verified by read-back;
+  - emulation via `hf mfu eload` + `hf mfu sim -t 7` (not UID spoofing);
+  - optional, user-configured online metadata catalog; no binary Amiibo data is bundled.
 
 ---
 

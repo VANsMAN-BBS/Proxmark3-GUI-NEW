@@ -1,5 +1,18 @@
 # ARCHITECTURE_UPGRADE.md
 
+## v0.4.0 新增结构
+
+```text
+src/module/emrtd.{h,cpp}      EMRTDPage：Qt 界面 + QProcess 管理器
+src/module/amiibopage.{h,cpp} AmiiboPage：库/详情/设备操作/在线目录
+emrtd_pm3/                    Python 项目（含 gui.py 机器接口）
+scripts/package-emrtd-runtime.ps1  组装独立 Python 运行时
+```
+
+- **eMRTD**：GUI 不解析任何证件协议；`emrtd_pm3 gui` 子进程通过 stdin/stdout 交换 JSON/NDJSON。串口由 `aboutToRead` / `readFinished` 显式交接。
+- **Amiibo**：页面直接复用 `Util` / `ClientSession` 的 FIFO 与 detached 通道；模拟是 detached 长命令，Stop 通过 `restartClient()` 结束。
+- **在线目录**：`QNetworkAccessManager`，仅在用户点击时联网；本地功能不依赖网络。
+
 **项目：** Proxmark3GUI  
 **升级版本：** v0.3.0  
 **目标 Client：** Iceman v4.23346  
