@@ -29,11 +29,10 @@ struct AmiiboEntry
 };
 
 /**
- * Amiibo sub-page (grouped under the JTAG tab).
+ * Amiibo sub-page of the NTAG group.
  *
- * Amiibo tags are NFC Forum Type 2 / NTAG215, not JTAG devices.  The page is
- * placed under JTAG only because the product layout groups it there; it never
- * performs JTAG operations.
+ * Amiibo tags are NFC Forum Type 2 / NTAG215, so they belong with the NTAG
+ * functionality (they were grouped under JTAG in v0.4.0 by mistake).
  *
  * Writing requires an explicit confirmation and is always followed by a
  * read-back verification.  No irreversible commands (lock/OTP/PWD) are issued.

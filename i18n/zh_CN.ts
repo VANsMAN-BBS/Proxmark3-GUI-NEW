@@ -685,291 +685,293 @@ Amiibo 标签通常已锁定，只有可重写的（“magic”）NTAG215 才能
         <translation>备注</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="110" />
+        <location filename="../src/module/emrtd.cpp" line="140" />
         <source>Document MRZ</source>
         <translation>证件 MRZ</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="114" />
+        <location filename="../src/module/emrtd.cpp" line="144" />
         <source>Paste the machine readable zone (TD1, TD2 or TD3). The document number, date of birth and expiry are read from it, so no BAC key has to be entered manually.</source>
         <translation>粘贴机读区（TD1、TD2 或 TD3）。证件号码、出生日期和有效期将从 MRZ 中读取，无需手动输入 BAC 密钥。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="121" />
+        <location filename="../src/module/emrtd.cpp" line="151" />
         <source>P&lt;UTO...
 L898902C36UTO...</source>
         <translation>P&lt;UTO…
 L898902C36UTO…</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="129" />
+        <location filename="../src/module/emrtd.cpp" line="159" />
         <source>Validate MRZ</source>
         <translation>校验 MRZ</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="130" />
+        <location filename="../src/module/emrtd.cpp" line="160" />
         <source>Clear</source>
         <translation>清空</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="138" />
-        <location filename="../src/module/emrtd.cpp" line="428" />
+        <location filename="../src/module/emrtd.cpp" line="168" />
+        <location filename="../src/module/emrtd.cpp" line="466" />
         <source>MRZ not checked.</source>
         <translation>尚未校验 MRZ。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="143" />
+        <location filename="../src/module/emrtd.cpp" line="173" />
         <source>Read</source>
         <translation>读取</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="146" />
-        <location filename="../src/module/emrtd.cpp" line="258" />
+        <location filename="../src/module/emrtd.cpp" line="176" />
+        <location filename="../src/module/emrtd.cpp" line="296" />
         <source>Port: not selected</source>
         <translation>端口：未选择</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="151" />
+        <location filename="../src/module/emrtd.cpp" line="181" />
         <source>Start Reading</source>
         <translation>开始读取</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="152" />
+        <location filename="../src/module/emrtd.cpp" line="182" />
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="166" />
+        <location filename="../src/module/emrtd.cpp" line="196" />
         <source>Idle</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="183" />
+        <location filename="../src/module/emrtd.cpp" line="213" />
         <source>Field</source>
         <translation>字段</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="183" />
+        <location filename="../src/module/emrtd.cpp" line="213" />
         <source>Value</source>
         <translation>值</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="192" />
+        <location filename="../src/module/emrtd.cpp" line="222" />
         <source>Copy all information</source>
         <translation>复制全部信息</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="193" />
+        <location filename="../src/module/emrtd.cpp" line="223" />
         <source>Copy MRZ</source>
         <translation>复制 MRZ</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="194" />
+        <location filename="../src/module/emrtd.cpp" line="224" />
         <source>Copy selected field</source>
         <translation>复制选中字段</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="203" />
+        <location filename="../src/module/emrtd.cpp" line="233" />
         <source>Personal information</source>
         <translation>个人信息</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="208" />
+        <location filename="../src/module/emrtd.cpp" line="238" />
         <source>Zoom in</source>
         <translation>放大</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="209" />
+        <location filename="../src/module/emrtd.cpp" line="239" />
         <source>Zoom out</source>
         <translation>缩小</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="210" />
+        <location filename="../src/module/emrtd.cpp" line="240" />
         <source>Fit</source>
         <translation>适应窗口</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="211" />
+        <location filename="../src/module/emrtd.cpp" line="241" />
         <source>Save portrait...</source>
         <translation>保存人像…</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="228" />
-        <location filename="../src/module/emrtd.cpp" line="716" />
+        <location filename="../src/module/emrtd.cpp" line="258" />
+        <location filename="../src/module/emrtd.cpp" line="833" />
         <source>No portrait read yet.</source>
         <translation>尚未读取人像。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="232" />
+        <location filename="../src/module/emrtd.cpp" line="262" />
         <source>Portrait</source>
         <translation>人像照片</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="238" />
-        <location filename="../src/module/emrtd.cpp" line="667" />
+        <location filename="../src/module/emrtd.cpp" line="268" />
+        <location filename="../src/module/emrtd.cpp" line="769" />
         <source>Other data</source>
         <translation>其他数据</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="259" />
+        <location filename="../src/module/emrtd.cpp" line="297" />
         <source>Port: %1</source>
         <translation>端口：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="302" />
+        <location filename="../src/module/emrtd.cpp" line="340" />
         <source>Checking MRZ</source>
         <translation>正在校验 MRZ</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="303" />
+        <location filename="../src/module/emrtd.cpp" line="341" />
         <source>Connecting to Proxmark3</source>
         <translation>正在连接 Proxmark3</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="304" />
+        <location filename="../src/module/emrtd.cpp" line="342" />
         <source>Selecting the eMRTD application</source>
         <translation>正在选择 eMRTD 应用</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="305" />
+        <location filename="../src/module/emrtd.cpp" line="343" />
         <source>Getting challenge</source>
         <translation>正在获取随机数</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="306" />
+        <location filename="../src/module/emrtd.cpp" line="344" />
         <source>BAC authentication</source>
         <translation>正在进行 BAC 认证</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="307" />
+        <location filename="../src/module/emrtd.cpp" line="345" />
         <source>Reading EF.COM</source>
         <translation>正在读取 EF.COM</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="308" />
+        <location filename="../src/module/emrtd.cpp" line="346" />
         <source>Reading DG1 (personal data)</source>
         <translation>正在读取 DG1（个人资料）</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="309" />
+        <location filename="../src/module/emrtd.cpp" line="347" />
         <source>Reading DG2 (portrait)</source>
         <translation>正在读取 DG2（人像）</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="310" />
+        <location filename="../src/module/emrtd.cpp" line="348" />
         <source>Reading DG11 (additional data)</source>
         <translation>正在读取 DG11（附加资料）</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="311" />
+        <location filename="../src/module/emrtd.cpp" line="349" />
         <source>Reading DG12 (additional data)</source>
         <translation>正在读取 DG12（附加资料）</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="312" />
+        <location filename="../src/module/emrtd.cpp" line="350" />
         <source>Parsing data</source>
         <translation>正在解析数据</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="313" />
-        <location filename="../src/module/emrtd.cpp" line="328" />
-        <location filename="../src/module/emrtd.cpp" line="699" />
+        <location filename="../src/module/emrtd.cpp" line="351" />
+        <location filename="../src/module/emrtd.cpp" line="366" />
+        <location filename="../src/module/emrtd.cpp" line="596" />
+        <location filename="../src/module/emrtd.cpp" line="601" />
+        <location filename="../src/module/emrtd.cpp" line="815" />
         <source>Done</source>
         <translation>完成</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="336" />
+        <location filename="../src/module/emrtd.cpp" line="374" />
         <source>Paste the MRZ first.</source>
         <translation>请先粘贴 MRZ。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="342" />
+        <location filename="../src/module/emrtd.cpp" line="380" />
         <source>The eMRTD reader runtime was not found:
 %1</source>
         <translation>未找到 eMRTD 读取运行时：
 %1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="357" />
-        <location filename="../src/module/emrtd.cpp" line="490" />
-        <location filename="../src/module/emrtd.cpp" line="779" />
+        <location filename="../src/module/emrtd.cpp" line="395" />
+        <location filename="../src/module/emrtd.cpp" line="528" />
+        <location filename="../src/module/emrtd.cpp" line="899" />
         <source>Cannot start the eMRTD reader:
 %1</source>
         <translation>无法启动 eMRTD 读取程序：
 %1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="366" />
+        <location filename="../src/module/emrtd.cpp" line="404" />
         <source>MRZ validation timed out.</source>
         <translation>MRZ 校验超时。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="384" />
+        <location filename="../src/module/emrtd.cpp" line="422" />
         <source>MRZ invalid: %1</source>
         <translation>MRZ 无效：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="400" />
+        <location filename="../src/module/emrtd.cpp" line="438" />
         <source>line length does not match %1</source>
         <translation>行长度与 %1 不符</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="402" />
+        <location filename="../src/module/emrtd.cpp" line="440" />
         <source>check digit failed: %1</source>
         <translation>校验位错误：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="404" />
+        <location filename="../src/module/emrtd.cpp" line="442" />
         <source>date of birth must be YYMMDD</source>
         <translation>出生日期必须为 YYMMDD</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="406" />
+        <location filename="../src/module/emrtd.cpp" line="444" />
         <source>expiry must be YYMMDD</source>
         <translation>有效期必须为 YYMMDD</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="408" />
+        <location filename="../src/module/emrtd.cpp" line="446" />
         <source>non-ICAO layout; verify the document number and dates</source>
         <translation>非 ICAO 版式；请核对证件号码和日期</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="416" />
+        <location filename="../src/module/emrtd.cpp" line="454" />
         <source>%1 | document %2 | born %3 | expires %4</source>
         <translation>%1 | 证件 %2 | 出生 %3 | 有效期 %4</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="417" />
+        <location filename="../src/module/emrtd.cpp" line="455" />
         <source>unknown layout</source>
         <translation>未知版式</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="419" />
+        <location filename="../src/module/emrtd.cpp" line="457" />
         <source>MRZ valid. %1</source>
         <translation>MRZ 校验通过。%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="421" />
+        <location filename="../src/module/emrtd.cpp" line="459" />
         <source>Check the MRZ: %1. %2</source>
         <translation>请检查 MRZ：%1。%2</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="439" />
-        <location filename="../src/module/emrtd.cpp" line="453" />
-        <location filename="../src/module/emrtd.cpp" line="737" />
-        <location filename="../src/module/emrtd.cpp" line="769" />
-        <location filename="../src/module/emrtd.cpp" line="843" />
-        <location filename="../src/module/emrtd.cpp" line="880" />
+        <location filename="../src/module/emrtd.cpp" line="477" />
+        <location filename="../src/module/emrtd.cpp" line="491" />
+        <location filename="../src/module/emrtd.cpp" line="854" />
+        <location filename="../src/module/emrtd.cpp" line="889" />
+        <location filename="../src/module/emrtd.cpp" line="963" />
+        <location filename="../src/module/emrtd.cpp" line="1000" />
         <source>eMRTD Reader</source>
         <translation>eMRTD 读取</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="440" />
+        <location filename="../src/module/emrtd.cpp" line="478" />
         <source>Paste the MRZ of the document first.</source>
         <translation>请先粘贴证件 MRZ。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="446" />
+        <location filename="../src/module/emrtd.cpp" line="484" />
         <source>The eMRTD reader runtime was not found:
 %1
 
@@ -980,59 +982,106 @@ Install the packaged build or set PM3GUI_EMRTD_EXE.</source>
 请使用打包版本，或设置环境变量 PM3GUI_EMRTD_EXE。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="454" />
+        <location filename="../src/module/emrtd.cpp" line="492" />
         <source>Select the Proxmark3 port on the main window first.</source>
         <translation>请先在主窗口选择 Proxmark3 端口。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="466" />
-        <location filename="../src/module/emrtd.cpp" line="467" />
+        <location filename="../src/module/emrtd.cpp" line="504" />
+        <location filename="../src/module/emrtd.cpp" line="505" />
         <source>Starting...</source>
         <translation>正在启动…</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="502" />
+        <location filename="../src/module/emrtd.cpp" line="546" />
+        <location filename="../src/module/emrtd.cpp" line="547" />
+        <source>Cancelled</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="552" />
         <source>Cancelling...</source>
         <translation>正在取消…</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="558" />
+        <location filename="../src/module/emrtd.cpp" line="573" />
+        <source>Still working...</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="574" />
+        <source>The reader has not produced output for 15 seconds. Reading a large DG2 can take a while; Cancel is still available.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="644" />
         <source>%1 - skipped</source>
         <translation>%1 - 已跳过</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="579" />
+        <location filename="../src/module/emrtd.cpp" line="649" />
+        <source>Reading DG2 (%1 / %2 bytes)</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="651" />
+        <source>Receiving the facial image data from the document.</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="654" />
+        <source>Parsing DG2 structure</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="656" />
+        <source>Extracting facial image</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="658" />
+        <location filename="../src/module/emrtd.cpp" line="793" />
+        <source>Decoding facial image</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="660" />
+        <source>Updating preview</source>
+        <translation type="unfinished" />
+    </message>
+    <message>
+        <location filename="../src/module/emrtd.cpp" line="681" />
         <source>Authentication or card error: %1</source>
         <translation>认证或卡片错误：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="581" />
+        <location filename="../src/module/emrtd.cpp" line="683" />
         <source>Proxmark3 communication error: %1</source>
         <translation>Proxmark3 通信错误：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="583" />
+        <location filename="../src/module/emrtd.cpp" line="685" />
         <source>Invalid input: %1</source>
         <translation>输入无效：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="585" />
+        <location filename="../src/module/emrtd.cpp" line="687" />
         <source>Reading was cancelled.</source>
         <translation>读取已取消。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="586" />
-        <location filename="../src/module/emrtd.cpp" line="765" />
+        <location filename="../src/module/emrtd.cpp" line="688" />
+        <location filename="../src/module/emrtd.cpp" line="885" />
         <source>Failed</source>
         <translation>失败</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="634" />
+        <location filename="../src/module/emrtd.cpp" line="736" />
         <source>EF.COM</source>
         <translation>EF.COM</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="635" />
+        <location filename="../src/module/emrtd.cpp" line="737" />
         <source>LDS version: %1
 Unicode version: %2
 Data groups: %3</source>
@@ -1041,62 +1090,63 @@ Unicode 版本：%2
 数据组：%3</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="654" />
+        <location filename="../src/module/emrtd.cpp" line="756" />
         <source>DG11</source>
         <translation>DG11</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="655" />
+        <location filename="../src/module/emrtd.cpp" line="757" />
         <source>DG12</source>
         <translation>DG12</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="663" />
+        <location filename="../src/module/emrtd.cpp" line="765" />
         <source>Raw (hex)</source>
         <translation>原始数据（十六进制）</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="667" />
+        <location filename="../src/module/emrtd.cpp" line="769" />
         <source>No additional files were returned by the document.</source>
         <translation>证件未返回其他文件。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="683" />
+        <location filename="../src/module/emrtd.cpp" line="592" />
         <source>The portrait could not be decoded (%1).</source>
         <translation>人像无法解码（%1）。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="695" />
+        <location filename="../src/module/emrtd.cpp" line="786" />
+        <location filename="../src/module/emrtd.cpp" line="809" />
         <source>The document did not return a portrait.</source>
         <translation>证件未返回人像。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="760" />
+        <location filename="../src/module/emrtd.cpp" line="880" />
         <source>The reader process crashed.</source>
         <translation>读取进程已崩溃。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="761" />
+        <location filename="../src/module/emrtd.cpp" line="881" />
         <source>The reader exited with code %1.</source>
         <translation>读取进程退出，代码 %1。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="844" />
+        <location filename="../src/module/emrtd.cpp" line="964" />
         <source>There is no portrait to save.</source>
         <translation>没有人像可保存。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="848" />
+        <location filename="../src/module/emrtd.cpp" line="968" />
         <source>Save portrait</source>
         <translation>保存人像</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="850" />
+        <location filename="../src/module/emrtd.cpp" line="970" />
         <source>PNG image (*.png);;JPEG image (*.jpg *.jpeg)</source>
         <translation>PNG 图片 (*.png);;JPEG 图片 (*.jpg *.jpeg)</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="881" />
+        <location filename="../src/module/emrtd.cpp" line="1001" />
         <source>Failed to save the image.</source>
         <translation>保存图片失败。</translation>
     </message>
@@ -1589,7 +1639,7 @@ It could make the whole sector blocked irreversibly!</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="914" />
-        <location filename="../src/ui/mainwindow.cpp" line="1046" />
+        <location filename="../src/ui/mainwindow.cpp" line="1035" />
         <source>About UID Card</source>
         <translation>关于UID卡</translation>
     </message>
@@ -2013,7 +2063,7 @@ or the communication between a tag and a reader.</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2658" />
-        <location filename="../src/ui/mainwindow.cpp" line="486" />
+        <location filename="../src/ui/mainwindow.cpp" line="475" />
         <source>History:</source>
         <translation>命令历史：</translation>
     </message>
@@ -2228,49 +2278,49 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>在PM3断开后保持客户端运行（实验性功能）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="149" />
-        <location filename="../src/ui/mainwindow.cpp" line="260" />
-        <location filename="../src/ui/mainwindow.cpp" line="267" />
-        <location filename="../src/ui/mainwindow.cpp" line="346" />
-        <location filename="../src/ui/mainwindow.cpp" line="403" />
-        <location filename="../src/ui/mainwindow.cpp" line="589" />
-        <location filename="../src/ui/mainwindow.cpp" line="803" />
-        <location filename="../src/ui/mainwindow.cpp" line="823" />
-        <location filename="../src/ui/mainwindow.cpp" line="836" />
-        <location filename="../src/ui/mainwindow.cpp" line="856" />
-        <location filename="../src/ui/mainwindow.cpp" line="870" />
-        <location filename="../src/ui/mainwindow.cpp" line="898" />
-        <location filename="../src/ui/mainwindow.cpp" line="912" />
-        <location filename="../src/ui/mainwindow.cpp" line="1118" />
-        <location filename="../src/ui/mainwindow.cpp" line="1160" />
+        <location filename="../src/ui/mainwindow.cpp" line="138" />
+        <location filename="../src/ui/mainwindow.cpp" line="249" />
+        <location filename="../src/ui/mainwindow.cpp" line="256" />
+        <location filename="../src/ui/mainwindow.cpp" line="335" />
+        <location filename="../src/ui/mainwindow.cpp" line="392" />
+        <location filename="../src/ui/mainwindow.cpp" line="578" />
+        <location filename="../src/ui/mainwindow.cpp" line="792" />
+        <location filename="../src/ui/mainwindow.cpp" line="812" />
+        <location filename="../src/ui/mainwindow.cpp" line="825" />
+        <location filename="../src/ui/mainwindow.cpp" line="845" />
+        <location filename="../src/ui/mainwindow.cpp" line="859" />
+        <location filename="../src/ui/mainwindow.cpp" line="887" />
+        <location filename="../src/ui/mainwindow.cpp" line="901" />
+        <location filename="../src/ui/mainwindow.cpp" line="1107" />
+        <location filename="../src/ui/mainwindow.cpp" line="1149" />
         <source>Info</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="267" />
+        <location filename="../src/ui/mainwindow.cpp" line="256" />
         <source>Plz choose a port first</source>
         <translation>请先选择端口</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="429" />
+        <location filename="../src/ui/mainwindow.cpp" line="418" />
         <source>Connected</source>
         <translation>已连接</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="435" />
-        <location filename="../src/ui/mainwindow.cpp" line="1245" />
+        <location filename="../src/ui/mainwindow.cpp" line="424" />
+        <location filename="../src/ui/mainwindow.cpp" line="1234" />
         <source>Not Connected</source>
         <translation>未连接</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="856" />
-        <location filename="../src/ui/mainwindow.cpp" line="870" />
-        <location filename="../src/ui/mainwindow.cpp" line="1118" />
+        <location filename="../src/ui/mainwindow.cpp" line="845" />
+        <location filename="../src/ui/mainwindow.cpp" line="859" />
+        <location filename="../src/ui/mainwindow.cpp" line="1107" />
         <source>Failed to open</source>
         <translation>无法打开</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="589" />
+        <location filename="../src/ui/mainwindow.cpp" line="578" />
         <source>Continue?</source>
         <translation>确定？</translation>
     </message>
@@ -2290,7 +2340,12 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="149" />
+        <location filename="../src/ui/mainwindow.cpp" line="51" />
+        <source>NTAG</source>
+        <translation>NTAG</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="138" />
         <source>Failed to load config file</source>
         <translation>无法打开配置文件</translation>
     </message>
@@ -2299,267 +2354,264 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation type="vanished">无法启动客户端</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="403" />
+        <location filename="../src/ui/mainwindow.cpp" line="392" />
         <source>Failed to connect to the hardware</source>
         <translation>无法连接到PM3硬件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="589" />
+        <location filename="../src/ui/mainwindow.cpp" line="578" />
         <source>Some of the data and key will be cleared.</source>
         <translation>部分数据和密码将被清除</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="803" />
+        <location filename="../src/ui/mainwindow.cpp" line="792" />
         <source>Data must consists of 32 Hex symbols(Whitespace is allowed)</source>
         <translation>数据必须由32个十六进制字符组成（中间可含有空格）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="823" />
-        <location filename="../src/ui/mainwindow.cpp" line="836" />
+        <location filename="../src/ui/mainwindow.cpp" line="812" />
+        <location filename="../src/ui/mainwindow.cpp" line="825" />
         <source>Key must consists of 12 Hex symbols(Whitespace is allowed)</source>
         <translation>密钥必须由12个十六进制字符组成（中间可含有空格）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="848" />
+        <location filename="../src/ui/mainwindow.cpp" line="837" />
         <source>Plz select the data file:</source>
         <translation>请选择数据文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="849" />
-        <location filename="../src/ui/mainwindow.cpp" line="891" />
-        <location filename="../src/ui/mainwindow.cpp" line="895" />
+        <location filename="../src/ui/mainwindow.cpp" line="838" />
+        <location filename="../src/ui/mainwindow.cpp" line="880" />
+        <location filename="../src/ui/mainwindow.cpp" line="884" />
         <source>Binary Data Files(*.bin *.dump)</source>
         <translation>二进制数据文件(*.bin *.dump)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="849" />
-        <location filename="../src/ui/mainwindow.cpp" line="863" />
-        <location filename="../src/ui/mainwindow.cpp" line="1104" />
+        <location filename="../src/ui/mainwindow.cpp" line="838" />
+        <location filename="../src/ui/mainwindow.cpp" line="852" />
+        <location filename="../src/ui/mainwindow.cpp" line="1093" />
         <source>All Files(*.*)</source>
         <translation>所有文件(*.*)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="862" />
+        <location filename="../src/ui/mainwindow.cpp" line="851" />
         <source>Plz select the key file:</source>
         <translation>请选择密钥文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="890" />
+        <location filename="../src/ui/mainwindow.cpp" line="879" />
         <source>Plz select the location to save data file:</source>
         <translation>请选择数据文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="898" />
-        <location filename="../src/ui/mainwindow.cpp" line="912" />
-        <location filename="../src/ui/mainwindow.cpp" line="1160" />
+        <location filename="../src/ui/mainwindow.cpp" line="887" />
+        <location filename="../src/ui/mainwindow.cpp" line="901" />
+        <location filename="../src/ui/mainwindow.cpp" line="1149" />
         <source>Failed to save to</source>
         <translation>无法保存至</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="904" />
+        <location filename="../src/ui/mainwindow.cpp" line="893" />
         <source>Plz select the location to save key file:</source>
         <translation>请选择密钥文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="863" />
-        <location filename="../src/ui/mainwindow.cpp" line="905" />
-        <location filename="../src/ui/mainwindow.cpp" line="909" />
+        <location filename="../src/ui/mainwindow.cpp" line="852" />
+        <location filename="../src/ui/mainwindow.cpp" line="894" />
+        <location filename="../src/ui/mainwindow.cpp" line="898" />
         <source>Binary Key Files(*.bin *.dump)</source>
         <translation>二进制密码文件(*.bin *.dump)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="48" />
+        <location filename="../src/ui/mainwindow.cpp" line="54" />
         <source>NTAG/Ultralight</source>
         <translation type="unfinished" />
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="52" />
+        <location filename="../src/ui/mainwindow.cpp" line="63" />
         <source>eMRTD Reader</source>
         <translation>eMRTD 读取</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="92" />
         <source>JTAG functions are not implemented in this build.
 
 This tab only groups the Amiibo sub-page. Amiibo tags are NFC Forum Type 2 / NTAG215 tags and are not JTAG devices.</source>
-        <translation>本版本未实现 JTAG 功能。
+        <translation type="vanished">本版本未实现 JTAG 功能。
 
 此标签页仅用于归类 Amiibo 子页面。Amiibo 标签属于 NFC Forum Type 2 / NTAG215，并非 JTAG 设备。</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="99" />
-        <location filename="../src/ui/mainwindow.cpp" line="101" />
         <source>JTAG</source>
-        <translation>JTAG</translation>
+        <translation type="vanished">JTAG</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="100" />
+        <location filename="../src/ui/mainwindow.cpp" line="53" />
         <source>Amiibo</source>
         <translation>Amiibo</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="260" />
+        <location filename="../src/ui/mainwindow.cpp" line="249" />
         <source>The client path is invalid</source>
         <translation>客户端路径无效</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="336" />
+        <location filename="../src/ui/mainwindow.cpp" line="325" />
         <source>Connecting...</source>
         <translation>正在连接…</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="378" />
+        <location filename="../src/ui/mainwindow.cpp" line="367" />
         <source>Long command running</source>
         <translation>长命令执行中</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="396" />
+        <location filename="../src/ui/mainwindow.cpp" line="385" />
         <source>Timeout</source>
         <translation>超时</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="398" />
+        <location filename="../src/ui/mainwindow.cpp" line="387" />
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="849" />
-        <location filename="../src/ui/mainwindow.cpp" line="891" />
+        <location filename="../src/ui/mainwindow.cpp" line="838" />
+        <location filename="../src/ui/mainwindow.cpp" line="880" />
         <source>Text Data Files(*.txt *.eml)</source>
         <translation>文本数据文件(*.txt *.eml)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1031" />
+        <location filename="../src/ui/mainwindow.cpp" line="1020" />
         <source>    Normally, the Block 0 of a typical Mifare card, which contains the UID, is locked during the manufacture. Users cannot write anything to Block 0 or set a new UID to a normal Mifare card.</source>
         <translation>    普通Mifare卡的块0无法写入，卡号也不能更改</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1032" />
+        <location filename="../src/ui/mainwindow.cpp" line="1021" />
         <source>    Chinese Magic Cards(aka UID Cards) are some special cards whose Block 0 are writeable. And you can change UID by writing to it.</source>
         <translation>    UID卡（在国外叫Chinese Magic Card）的块0可写，卡号可变。</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1034" />
+        <location filename="../src/ui/mainwindow.cpp" line="1023" />
         <source>There are two versions of Chinese Magic Cards, the Gen1 and the Gen2.</source>
         <translation>国外把UID卡分为Chinese Magic Card Gen1和Gen2</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1035" />
+        <location filename="../src/ui/mainwindow.cpp" line="1024" />
         <source>    Gen1:</source>
         <translation />
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1035" />
+        <location filename="../src/ui/mainwindow.cpp" line="1024" />
         <source>    also called UID card in China. It responses to some backdoor commands so you can access any blocks without password. The Proxmark3 has a bunch of related commands(csetblk, cgetblk, ...) to deal with this type of card, and my GUI also support these commands.</source>
         <translation>    指通常所说的UID卡，可以通过后门指令直接读写块而无需密码，在PM3和此GUI中有特殊命令处理这类卡片</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1036" />
+        <location filename="../src/ui/mainwindow.cpp" line="1025" />
         <source>    Gen2:</source>
         <translation />
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1036" />
+        <location filename="../src/ui/mainwindow.cpp" line="1025" />
         <source>    doesn't response to the backdoor commands, which means that a reader cannot detect whether it is a Chinese Magic Card or not by sending backdoor commands.</source>
         <translation>    这个叫法在国内比较罕见，在国外指CUID/FUID/UFUID这类对后门指令不响应的卡（防火墙卡）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1038" />
+        <location filename="../src/ui/mainwindow.cpp" line="1027" />
         <source>There are some types of Chinese Magic Card Gen2.</source>
         <translation>以下是Gen2卡的详细介绍</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1039" />
+        <location filename="../src/ui/mainwindow.cpp" line="1028" />
         <source>    CUID Card:</source>
         <translation>    CUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1039" />
+        <location filename="../src/ui/mainwindow.cpp" line="1028" />
         <source>    the Block 0 is writeable, you can write to this block repeatedly by normal wrbl command.</source>
         <translation>    可通过普通的写块命令来写块0，可重复擦写</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1040" />
+        <location filename="../src/ui/mainwindow.cpp" line="1029" />
         <source>    (hf mf wrbl 0 A FFFFFFFFFFFF &lt;the data you want to write&gt;)</source>
         <translation>    (hf mf wrbl 0 A FFFFFFFFFFFF &lt;待写入数据&gt;)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1041" />
+        <location filename="../src/ui/mainwindow.cpp" line="1030" />
         <source>    FUID Card:</source>
         <translation>    FUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1041" />
+        <location filename="../src/ui/mainwindow.cpp" line="1030" />
         <source>    you can only write to Block 0 once. After that, it seems like a typical Mifare card(Block 0 cannot be written to).</source>
         <translation>    块0只能写入一次</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1042" />
+        <location filename="../src/ui/mainwindow.cpp" line="1031" />
         <source>    (some readers might try changing the Block 0, which could detect the CUID Card. In that case, you should use FUID card.)</source>
         <translation>    (更高级的穿防火墙卡，可以过一些能识别出CUID卡的读卡器)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1043" />
+        <location filename="../src/ui/mainwindow.cpp" line="1032" />
         <source>    UFUID Card:</source>
         <translation>    UFUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1043" />
+        <location filename="../src/ui/mainwindow.cpp" line="1032" />
         <source>    It behaves like a CUID card(or UID card? I'm not sure) before you send some special command to lock it. Once it is locked, you cannot change its Block 0(just like a typical Mifare card).</source>
         <translation>    锁卡前和普通UID/CUID卡一样可以反复读写块0，用特殊命令锁卡后就和FUID卡一样了</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1045" />
+        <location filename="../src/ui/mainwindow.cpp" line="1034" />
         <source>    Seemingly, these Chinese Magic Cards are more easily to be compromised by Nested Attack(it takes little time to get an unknown key).</source>
         <translation>    所有UID卡都似乎更容易被Nested攻击破解</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1103" />
+        <location filename="../src/ui/mainwindow.cpp" line="1092" />
         <source>Plz select the trace file:</source>
         <translation>请选择trace文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1104" />
-        <location filename="../src/ui/mainwindow.cpp" line="1142" />
+        <location filename="../src/ui/mainwindow.cpp" line="1093" />
+        <location filename="../src/ui/mainwindow.cpp" line="1131" />
         <source>Trace Files</source>
         <translation>Trace文件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1141" />
+        <location filename="../src/ui/mainwindow.cpp" line="1130" />
         <source>Plz select the location to save trace file:</source>
         <translation>请选择trace文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1270" />
+        <location filename="../src/ui/mainwindow.cpp" line="1259" />
         <source>(None)</source>
         <translation>(无)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1271" />
+        <location filename="../src/ui/mainwindow.cpp" line="1260" />
         <source>Dark</source>
         <translation>暗黑</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1272" />
+        <location filename="../src/ui/mainwindow.cpp" line="1261" />
         <source>Light</source>
         <translation>明亮</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1333" />
+        <location filename="../src/ui/mainwindow.cpp" line="1322" />
         <source>External file</source>
         <translation>外部文件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="369" />
+        <location filename="../src/ui/mainwindow.cpp" line="358" />
+        <location filename="../src/ui/mainwindow.cpp" line="372" />
         <location filename="../src/ui/mainwindow.cpp" line="383" />
-        <location filename="../src/ui/mainwindow.cpp" line="394" />
-        <location filename="../src/ui/mainwindow.cpp" line="1246" />
-        <location filename="../src/ui/mainwindow.cpp" line="1510" />
+        <location filename="../src/ui/mainwindow.cpp" line="1235" />
+        <location filename="../src/ui/mainwindow.cpp" line="1499" />
         <source>Idle</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1248" />
+        <location filename="../src/ui/mainwindow.cpp" line="1237" />
         <source>Stop</source>
         <translation>停止</translation>
     </message>
@@ -2585,30 +2637,30 @@ This tab only groups the Amiibo sub-page. Amiibo tags are NFC Forum Type 2 / NTA
         <translation>密钥B</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1447" />
+        <location filename="../src/ui/mainwindow.cpp" line="1436" />
         <source>HW Version:</source>
         <translation>固件版本：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1449" />
+        <location filename="../src/ui/mainwindow.cpp" line="1438" />
         <source>PM3:</source>
         <translation>连接状态：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1451" />
+        <location filename="../src/ui/mainwindow.cpp" line="1440" />
         <source>State:</source>
         <translation>运行状态：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="337" />
-        <location filename="../src/ui/mainwindow.cpp" line="367" />
-        <location filename="../src/ui/mainwindow.cpp" line="392" />
-        <location filename="../src/ui/mainwindow.cpp" line="1506" />
+        <location filename="../src/ui/mainwindow.cpp" line="326" />
+        <location filename="../src/ui/mainwindow.cpp" line="356" />
+        <location filename="../src/ui/mainwindow.cpp" line="381" />
+        <location filename="../src/ui/mainwindow.cpp" line="1495" />
         <source>Running</source>
         <translation>正在运行</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1695" />
+        <location filename="../src/ui/mainwindow.cpp" line="1684" />
         <source>Actural Freq: </source>
         <translation>实际频率： </translation>
     </message>

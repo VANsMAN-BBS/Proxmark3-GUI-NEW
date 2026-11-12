@@ -45,7 +45,18 @@ MainWindow::MainWindow(QWidget *parent):
     lf = new LF(ui, util, this);
     t55xx = new T55xx(ui, util, this);
     ntag = new NtagTab(util, this);
-    ui->funcTab->insertTab(3, ntag, tr("NTAG/Ultralight"));
+    // Amiibo is an NTAG215 / Type 2 feature, so it lives with the NTAG page.
+    // This build has no JTAG implementation, so no JTAG tab is shown.
+    QTabWidget *ntagTabs = new QTabWidget(this);
+    ntagTabs->addTab(ntag, tr("NTAG"));
+    amiiboPage = new AmiiboPage(util, pm3, this);
+    ntagTabs->addTab(amiiboPage, tr("Amiibo"));
+    ui->funcTab->insertTab(3, ntagTabs, tr("NTAG/Ultralight"));
+
+    connect(amiiboPage, &AmiiboPage::stopRequested, this, [this]()
+    {
+        pm3->restartClient();
+    });
 
     emrtdPage = new EMRTDPage(this);
     emrtdReconnect = false;
@@ -82,28 +93,6 @@ MainWindow::MainWindow(QWidget *parent):
                                       clientWorkingDir->absolutePath());
     });
     emrtdPage->setDeviceInfo(ui->PM3_portBox->currentText(), ui->PM3_pathBox->currentText());
-
-    // JTAG container: this build has no JTAG implementation, so the container
-    // only groups the Amiibo (NTAG215) sub-page as requested.
-    QTabWidget *jtagTabs = new QTabWidget(this);
-    QWidget *jtagPlaceholder = new QWidget(jtagTabs);
-    QVBoxLayout *jtagLayout = new QVBoxLayout(jtagPlaceholder);
-    QLabel *jtagNote = new QLabel(
-        tr("JTAG functions are not implemented in this build.\n\n"
-           "This tab only groups the Amiibo sub-page. Amiibo tags are NFC "
-           "Forum Type 2 / NTAG215 tags and are not JTAG devices."), jtagPlaceholder);
-    jtagNote->setWordWrap(true);
-    jtagLayout->addWidget(jtagNote);
-    jtagLayout->addStretch(1);
-    amiiboPage = new AmiiboPage(util, pm3, this);
-    jtagTabs->addTab(jtagPlaceholder, tr("JTAG"));
-    jtagTabs->addTab(amiiboPage, tr("Amiibo"));
-    ui->funcTab->insertTab(5, jtagTabs, tr("JTAG"));
-
-    connect(amiiboPage, &AmiiboPage::stopRequested, this, [this]()
-    {
-        pm3->restartClient();
-    });
 
     connect(lf, &LF::LFfreqConfChanged, this, &MainWindow::onLFfreqConfChanged);
 
