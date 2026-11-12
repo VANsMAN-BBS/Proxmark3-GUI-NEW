@@ -1,4 +1,4 @@
-# Proxmark3GUI v0.4.0
+# Proxmark3GUI v0.4.1
 
 A cross-platform Qt Widgets GUI for the Proxmark3 **Iceman/RRG** client.
 
@@ -68,12 +68,20 @@ This repository is a modernized fork of [wh201906/Proxmark3GUI](https://github.c
   - explicit serial-port hand-over between the GUI client and the reader;
   - MRZ validation, real progress stages, cancel, portrait display/zoom/save, copy fields;
   - nothing is uploaded or saved by default.
-- **JTAG → Amiibo page (v0.4.0)**
-  - JTAG sub-tab is an explicit placeholder (no JTAG implementation exists in this build);
-  - Amiibo sub-tab manages NTAG215 images: built-in synthetic sample, import/save, hex view;
+- **NTAG / Amiibo page (v0.4.1)**
+  - Amiibo belongs to the NTAG group: `NTAG/Ultralight` → `NTAG` + `Amiibo` (the incorrect JTAG container of v0.4.0 was removed; no JTAG tab is shown);
+  - Amiibo manages NTAG215 images: built-in synthetic sample, import/save, hex view;
   - Detect/Read/Write/Verify via `hf mfu`; write requires confirmation and is verified by read-back;
   - emulation via `hf mfu eload` + `hf mfu sim -t 7` (not UID spoofing);
   - optional, user-configured online metadata catalog; no binary Amiibo data is bundled.
+- **DG2 reliability (v0.4.1)**
+  - APDU completion now keys on the client's `<<<` response marker (0.552 s → 0.142 s per APDU on real hardware);
+  - byte-level DG2 progress plus parsing/extracting/decoding/preview sub-stages;
+  - images decode on a worker thread; cancel works during receive and decode;
+  - DG2 larger than the 15-bit READ BINARY limit fails with an explicit size error.
+- **Application icon (v0.4.1)**
+  - original Proxmark3 PCB icon (USB + antenna coil), SVG source, PNG sizes and a 7-frame ICO;
+  - embedded in the EXE (`RC_ICONS`) and used for the window/taskbar.
 
 ---
 

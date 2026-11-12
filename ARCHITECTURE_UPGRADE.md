@@ -1,5 +1,11 @@
 # ARCHITECTURE_UPGRADE.md
 
+## v0.4.1 调整
+
+- **Amiibo 归属**：`NTAG/Ultralight` 顶层标签改为容器（`NTAG` + `Amiibo`）；原 `JTAG` 容器删除（该版本无 JTAG 功能）。`AmiiboPage` 未改写。
+- **eMRTD DG2**：`pm3.py` 对 `hf 14a apdu` 使用响应标记（`<<<`）完成判定；`card.read_file` 提供进度回调；`gui.py` 发出 `receiving/parsing/extracting/decoding/preview` 子阶段；`EMRTDPage` 用 `ImageDecodeTask`（QThread）解码人像。
+- **图标**：`resources/icons/`（SVG/PNG/ICO）+ `RC_ICONS` + `QApplication::setWindowIcon()`；由 `scripts/make-icons.py` 统一生成。
+
 ## v0.4.0 新增结构
 
 ```text

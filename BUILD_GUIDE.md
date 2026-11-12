@@ -1,5 +1,23 @@
 # BUILD_GUIDE.md
 
+## v0.4.1 追加：应用图标
+
+图标资源位于 `resources/icons/`（SVG + PNG + ICO）。修改设计后运行：
+
+```powershell
+python scripts\make-icons.py
+```
+
+脚本同时生成 `app-icon.svg`、7 个尺寸的 PNG、512×512 `app-icon.png` 和多帧 `app-icon.ico`。
+`.pro` 已包含：
+
+```qmake
+RESOURCES += ../resources/icons/icons.qrc
+win32: RC_ICONS = ../resources/icons/app-icon.ico
+```
+
+修改后需重新运行 qmake 并构建，EXE 图标与窗口图标才会更新。
+
 ## v0.4.0 追加：eMRTD 独立运行时
 
 发布目录需要额外的 Python 运行时（约 50 MB）：
