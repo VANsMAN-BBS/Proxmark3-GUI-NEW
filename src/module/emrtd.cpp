@@ -615,7 +615,15 @@ void EMRTDPage::onProcessStdout()
         QJsonParseError error;
         const QJsonDocument doc = QJsonDocument::fromJson(line, &error);
         if(error.error != QJsonParseError::NoError || !doc.isObject())
-            continue; // diagnostics from a dependency are not part of the protocol
+        {
+            // Never drop a line silently: log size and offset only (the line
+            // may contain personal data, so its content must not be logged).
+            Logger::warning(QStringLiteral("eMRTD"),
+                            QStringLiteral("dropped unparsable reader line: %1 bytes, "
+                                           "error at offset %2")
+                            .arg(line.size()).arg(error.offset));
+            continue;
+        }
         handleEvent(doc.object());
     }
 }

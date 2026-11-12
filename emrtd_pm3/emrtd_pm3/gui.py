@@ -84,7 +84,16 @@ class RequestError(Exception):
 
 
 def _emit(stream, payload: dict) -> None:
-    stream.write(json.dumps(payload, ensure_ascii=False) + "\n")
+    # The wire protocol is UTF-8 regardless of the Windows console code page.
+    # Writing str through a pipe would otherwise use the locale encoding (GBK
+    # on zh-CN), and Qt's UTF-8 JSON parser would drop the whole line.
+    line = json.dumps(payload, ensure_ascii=False) + "\n"
+    buffer = getattr(stream, "buffer", None)
+    if buffer is not None:
+        buffer.write(line.encode("utf-8"))
+        buffer.flush()
+        return
+    stream.write(line)
     stream.flush()
 
 
@@ -497,11 +506,14 @@ def main(request: dict | None = None, *, stdin=None, stdout=None,
     """Entry point used by ``python -m emrtd_pm3 gui``."""
     stdin = stdin if stdin is not None else sys.stdin
     stdout = stdout if stdout is not None else sys.stdout
-    if hasattr(stdout, "reconfigure"):
-        try:
-            stdout.reconfigure(errors="replace")
-        except (ValueError, OSError):
-            pass
+    # Windows pipes default to the console code page (GBK on zh-CN); the
+    # protocol is UTF-8, so fix both directions explicitly.
+    for stream in (stdin, stdout):
+        if hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except (ValueError, OSError):
+                pass
 
     if request is None:
         try:

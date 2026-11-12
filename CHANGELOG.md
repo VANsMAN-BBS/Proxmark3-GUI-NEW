@@ -1,18 +1,19 @@
-# Change Log
+﻿# Change Log
 
-[中文](doc/CHANGELOG/CHANGELOG_zh_CN.md)  
+[涓枃](doc/CHANGELOG/CHANGELOG_zh_CN.md)  
 
 ### V0.4.1
-+ Fix eMRTD DG2 appearing to hang: APDU completion now waits for the client's `<<<` response marker instead of a fixed 350 ms quiet window (measured 0.552 s → 0.142 s per APDU; a 20 KB DG2 drops from ~49 s to ~13 s)
++ Fix eMRTD DG2 appearing to hang: APDU completion now waits for the client's `<<<` response marker instead of a fixed 350 ms quiet window (measured 0.552 s 鈫?0.142 s per APDU; a 20 KB DG2 drops from ~49 s to ~13 s)
 + Add real DG2 progress: byte-level `Reading DG2 (x / y bytes)` plus parsing / extracting / decoding / preview sub-stages; no synthetic progress timers
 + Report DG2 files beyond the 15-bit READ BINARY limit (32768 bytes) immediately with the actual size instead of failing after a long silent read
 + Decode portraits on a worker thread (QImage in a QThread, QPixmap on the GUI thread); cancel now works during DG2 receive and during decoding
 + Add a 15-second no-output watchdog that reports "Still working..." without fabricating progress
-+ Normalize full-width/typographic MRZ characters (`《`, full-width digits) entered from Chinese documents
-+ Move Amiibo into the NTAG group (`NTAG/Ultralight` → `NTAG` + `Amiibo`) and remove the incorrect JTAG container; Amiibo implementation is reused unchanged
-+ Add an original Proxmark3 application icon: SVG source, 16–256 px PNGs, a 7-frame ICO, EXE resource, window and taskbar icon
++ Normalize full-width/typographic MRZ characters (`銆奰, full-width digits) entered from Chinese documents
++ Move Amiibo into the NTAG group (`NTAG/Ultralight` 鈫?`NTAG` + `Amiibo`) and remove the incorrect JTAG container; Amiibo implementation is reused unchanged
++ Add an original Proxmark3 application icon: SVG source, 16鈥?56 px PNGs, a 7-frame ICO, EXE resource, window and taskbar icon
 + Complete the Chinese translation: 587 strings finished, 0 unfinished (including the v0.3.0 T55xx/NTAG leftovers); shorten four legacy labels that clipped at 125% DPI
 + Add 15 eMRTD protocol tests (DG2 progress, large DG2, oversized DG2, corrupt TLV, unsupported image, cancel, NDJSON framing, full-width MRZ)
++ Fix mixed-encoding results: the reader now writes NDJSON as UTF-8 bytes regardless of the Windows console code page (GBK results were silently dropped by the GUI, which looked like eader exited with code 0 on documents with Chinese names)
 
 ### V0.4.0
 + Add **eMRTD Reader** page: integrates the existing `emrtd_pm3` Python project for passports and HK/Macau permits (TD1/TD2/TD3 + national MRZ), with BAC, secure messaging and DG1/DG2/DG11/DG12 decoding kept in Python
