@@ -187,25 +187,35 @@ class EMRTD:
             pos += count
         return pos + length
 
-    def read_file(self, fid: int, chunk: int | None = None) -> bytes:
+    def read_file(self, fid: int, chunk: int | None = None, progress=None) -> bytes:
         chunk = chunk or self.chunk
         self.select_ef(fid)
 
         header = self.read_binary(0, 4)
         total = self._total_length(header)
+        # READ BINARY (ISO 7816-4, short EF addressing) only has a 15-bit
+        # offset.  Fail with the actual size instead of hanging near the limit.
+        if total > 0x8000:
+            raise EMRTDError(
+                "file length %d exceeds the 15-bit READ BINARY limit (32768); "
+                "this document needs an extended-length reader" % total)
         data = bytearray(header)
+        if progress is not None:
+            progress(len(data), total)
         while len(data) < total:
             want = min(chunk, total - len(data))
             part = self.read_binary(len(data), want)
             if not part:
                 raise EMRTDError("empty read at offset %d" % len(data))
             data += part
+            if progress is not None:
+                progress(len(data), total)
         return bytes(data[:total])
 
-    def read_ef_com(self) -> bytes:
-        return self.read_file(FID_BY_NAME["EF_COM"])
+    def read_ef_com(self, progress=None) -> bytes:
+        return self.read_file(FID_BY_NAME["EF_COM"], progress=progress)
 
-    def read_dg(self, name: str | int, chunk: int | None = None) -> bytes:
+    def read_dg(self, name: str | int, chunk: int | None = None, progress=None) -> bytes:
         if isinstance(name, int):
             fid = FID_BY_NAME.get("DG%d" % name)
             if fid is None:
@@ -217,4 +227,4 @@ class EMRTD:
             if key not in FID_BY_NAME:
                 raise ValueError("unknown file %r" % name)
             fid = FID_BY_NAME[key]
-        return self.read_file(fid, chunk=chunk)
+        return self.read_file(fid, chunk=chunk, progress=progress)

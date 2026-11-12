@@ -59,10 +59,27 @@ QString fieldLabel(const QString &key)
 }
 }
 
-EMRTDPage::EMRTDPage(QWidget *parent)
-    : QWidget(parent)
+ImageDecodeTask::ImageDecodeTask(const QByteArray &data, quint64 generation, QObject *parent)
+    : QThread(parent)
+    , m_data(data)
+    , m_generation(generation)
+{
+}
+
+void ImageDecodeTask::run()
+{
+    QImage image;
+    const bool ok = image.loadFromData(m_data);
+    emit decoded(m_generation, image, ok);
+}
+
+EMRTDPage::EMRTDPage(QWidget *parent)    : QWidget(parent)
     , process(nullptr)
     , cancelTimer(nullptr)
+    , stallTimer(nullptr)
+    , decoder(nullptr)
+    , imageGeneration(0)
+    , decoding(false)
     , reading(false)
     , gotResult(false)
     , zoom(1.0)
@@ -89,11 +106,24 @@ EMRTDPage::EMRTDPage(QWidget *parent)
     cancelTimer->setInterval(4000);
     connect(cancelTimer, &QTimer::timeout, this, &EMRTDPage::onCancelTimeout);
 
+    // A read can legitimately take tens of seconds on DG2; report that the
+    // reader is still alive instead of showing a frozen stage.
+    stallTimer = new QTimer(this);
+    stallTimer->setSingleShot(true);
+    stallTimer->setInterval(15000);
+    connect(stallTimer, &QTimer::timeout, this, &EMRTDPage::onStallTimeout);
+
     setBusy(false);
 }
 
 EMRTDPage::~EMRTDPage()
 {
+    ++imageGeneration; // invalidate a pending decode result
+    if(decoder)
+    {
+        decoder->wait(3000);
+        decoder = nullptr;
+    }
     stopReaderProcess();
 }
 
@@ -243,6 +273,14 @@ void EMRTDPage::buildUi()
     splitter->setStretchFactor(0, 0);
     splitter->setStretchFactor(1, 0);
     splitter->setStretchFactor(2, 1);
+
+    // The portrait is only laid out once its tab becomes visible, so fit it
+    // again when the user switches to it.
+    connect(resultTabs, &QTabWidget::currentChanged, this, [this](int index)
+    {
+        if(index == 1)
+            fitPortrait();
+    });
 }
 
 void EMRTDPage::setDeviceInfo(const QString &port, const QString &clientPath)
@@ -266,7 +304,7 @@ void EMRTDPage::setPythonExecutable(const QString &path)
 
 bool EMRTDPage::isReading() const
 {
-    return reading;
+    return reading || decoding;
 }
 
 QString EMRTDPage::pythonExecutable() const
@@ -431,7 +469,7 @@ void EMRTDPage::clearMrz()
 
 void EMRTDPage::startRead()
 {
-    if(reading)
+    if(reading || decoding)
         return;
     const QString text = mrzEdit->toPlainText().trimmed();
     if(text.isEmpty())
@@ -493,10 +531,22 @@ void EMRTDPage::startRead()
     }
     process->write(QJsonDocument(request).toJson(QJsonDocument::Compact) + "\n");
     process->waitForBytesWritten(1000);
+    stallTimer->start();
 }
 
 void EMRTDPage::cancelRead()
 {
+    if(decoding)
+    {
+        // The reader already finished; only the portrait worker is running.
+        ++imageGeneration;
+        decoding = false;
+        progress->setRange(0, 100);
+        progress->setValue(0);
+        stageLabelWidget->setText(tr("Cancelled"));
+        portraitLabel->setText(tr("Cancelled"));
+        return;
+    }
     if(!reading || process->state() == QProcess::NotRunning)
         return;
     stageLabelWidget->setText(tr("Cancelling..."));
@@ -516,8 +566,44 @@ void EMRTDPage::onCancelTimeout()
     }
 }
 
+void EMRTDPage::onStallTimeout()
+{
+    if(!reading && !decoding)
+        return;
+    stageLabelWidget->setText(tr("Still working..."));
+    detailLabel->setText(tr("The reader has not produced output for 15 seconds. "
+                            "Reading a large DG2 can take a while; Cancel is "
+                            "still available."));
+    stallTimer->start();
+}
+
+void EMRTDPage::onImageDecoded(quint64 generation, const QImage &image, bool ok)
+{
+    if(generation != imageGeneration)
+        return; // superseded or cancelled
+    decoding = false;
+    progress->setRange(0, 100);
+    progress->setValue(100);
+    stallTimer->stop();
+    if(!ok || image.isNull())
+    {
+        portrait = QPixmap();
+        portraitLabel->setPixmap(QPixmap());
+        portraitLabel->setText(tr("The portrait could not be decoded (%1).")
+                               .arg(portraitFormat));
+        Logger::warning(QStringLiteral("eMRTD"),
+                        QStringLiteral("portrait decode failed: %1").arg(portraitFormat));
+        stageLabelWidget->setText(tr("Done"));
+        return;
+    }
+    portrait = QPixmap::fromImage(image);
+    fitPortrait();
+    stageLabelWidget->setText(tr("Done"));
+}
+
 void EMRTDPage::onProcessStdout()
 {
+    stallTimer->start(); // the reader is alive
     stdoutBuffer += process->readAllStandardOutput();
     int newline = -1;
     while((newline = stdoutBuffer.indexOf('\n')) >= 0)
@@ -556,6 +642,22 @@ void EMRTDPage::handleEvent(const QJsonObject &event)
             stageLabelWidget->setText(stageLabel(stage));
         else if(status == QLatin1String("skip"))
             stageLabelWidget->setText(tr("%1 - skipped").arg(stageLabel(stage)));
+        else if(stage == QLatin1String("dg2") && status == QLatin1String("receiving"))
+        {
+            const int readBytes = event.value(QStringLiteral("bytes_read")).toInt();
+            const int totalBytes = event.value(QStringLiteral("bytes_total")).toInt();
+            stageLabelWidget->setText(tr("Reading DG2 (%1 / %2 bytes)")
+                                      .arg(readBytes).arg(totalBytes));
+            detailLabel->setText(tr("Receiving the facial image data from the document."));
+        }
+        else if(stage == QLatin1String("dg2") && status == QLatin1String("parsing"))
+            stageLabelWidget->setText(tr("Parsing DG2 structure"));
+        else if(stage == QLatin1String("dg2") && status == QLatin1String("extracting"))
+            stageLabelWidget->setText(tr("Extracting facial image"));
+        else if(stage == QLatin1String("dg2") && status == QLatin1String("decoding"))
+            stageLabelWidget->setText(tr("Decoding facial image"));
+        else if(stage == QLatin1String("dg2") && status == QLatin1String("preview"))
+            stageLabelWidget->setText(tr("Updating preview"));
         if(event.contains(QStringLiteral("detail")))
             detailLabel->setText(event.value(QStringLiteral("detail")).toString());
     }
@@ -667,27 +769,39 @@ void EMRTDPage::applyResult(const QJsonObject &data)
         addTextPage(tr("Other data"), tr("No additional files were returned by the document."));
     }
 
-    // Portrait.
+    // Portrait: decode off the GUI thread.
     const QJsonObject face = data.value(QStringLiteral("face")).toObject();
     portrait = QPixmap();
     portraitBytes.clear();
     portraitMime.clear();
     portraitFormat = face.value(QStringLiteral("format")).toString();
+    bool decodeStarted = false;
     if(!face.isEmpty())
     {
         portraitMime = face.value(QStringLiteral("mime")).toString();
         portraitBytes = QByteArray::fromBase64(
                     face.value(QStringLiteral("data_b64")).toString().toLatin1());
-        if(!portrait.loadFromData(portraitBytes))
+        if(portraitBytes.isEmpty())
         {
-            portraitLabel->setText(tr("The portrait could not be decoded (%1).")
-                                   .arg(portraitFormat));
-            Logger::warning(QStringLiteral("eMRTD"),
-                            QStringLiteral("portrait decode failed: %1").arg(portraitFormat));
+            portraitLabel->setText(tr("The document did not return a portrait."));
         }
         else
         {
-            fitPortrait();
+            ++imageGeneration;
+            decoding = true;
+            decodeStarted = true;
+            stageLabelWidget->setText(tr("Decoding facial image"));
+            progress->setRange(0, 0); // indeterminate: decoding time varies
+            if(decoder)
+            {
+                decoder->wait(3000);
+                decoder = nullptr;
+            }
+            decoder = new ImageDecodeTask(portraitBytes, imageGeneration, this);
+            connect(decoder, &ImageDecodeTask::decoded,
+                    this, &EMRTDPage::onImageDecoded, Qt::QueuedConnection);
+            connect(decoder, &QThread::finished, decoder, &QObject::deleteLater);
+            decoder->start();
         }
     }
     else
@@ -695,8 +809,11 @@ void EMRTDPage::applyResult(const QJsonObject &data)
         portraitLabel->setText(tr("The document did not return a portrait."));
     }
 
-    progress->setValue(100);
-    stageLabelWidget->setText(tr("Done"));
+    if(!decodeStarted)
+    {
+        progress->setValue(100);
+        stageLabelWidget->setText(tr("Done"));
+    }
     resultTabs->setCurrentIndex(0);
 
     const QJsonArray warnings = data.value(QStringLiteral("warnings")).toArray();
@@ -740,12 +857,15 @@ void EMRTDPage::showError(const QString &message, const QString &field)
 void EMRTDPage::onProcessFinished(int exitCode, QProcess::ExitStatus status)
 {
     cancelTimer->stop();
+    stallTimer->stop();
     onProcessStdout(); // drain anything still buffered
     onProcessStderr();
     setBusy(false);
     // Give the serial port back before any modal dialog can block the event
     // loop; the owner reconnects its own client here.
     emit readFinished();
+    if(decoding)
+        cancelButton->setEnabled(true); // the portrait worker can still be stopped
     if(gotResult)    {
         Logger::info(QStringLiteral("eMRTD"), QStringLiteral("read finished"));
     }

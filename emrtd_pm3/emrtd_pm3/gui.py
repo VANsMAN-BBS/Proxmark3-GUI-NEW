@@ -36,6 +36,8 @@ import io
 import json
 import sys
 import threading
+import time
+import unicodedata
 
 from . import card as card_module
 from . import dg as dg_module
@@ -126,7 +128,25 @@ class _Canceller:
 
 
 def _normalize_mrz(text: str) -> str:
-    return text.replace("\r\n", "\n").replace("\r", "\n").strip("\n")
+    # Text copied from Chinese documents/PDFs often contains full-width or
+    # typographic angle brackets instead of the ASCII '<' required by ICAO.
+    # NFKC folds full-width digits/letters, the translation covers the CJK
+    # double angle bracket used as a visual substitute.
+    text = unicodedata.normalize("NFKC", text)
+    text = text.translate(_MRZ_LOOKALIKES)
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    lines = [line.rstrip() for line in text.split("\n")]
+    return "\n".join(lines).strip("\n").upper()
+
+
+_MRZ_LOOKALIKES = str.maketrans({
+    "\u3008": "<",  # 《
+    "\u3009": ">",  # 》
+    "\u2039": "<",  # ‹
+    "\u203a": ">",  # ›
+    "\uff1c": "<",  # ＜
+    "\uff1e": ">",  # ＞
+})
 
 
 def _mrz_layout_from_text(text: str) -> str:
@@ -191,7 +211,7 @@ def _b64(data: bytes) -> str:
     return base64.b64encode(data).decode("ascii")
 
 
-def _face_payload(face: dict) -> dict:
+def _face_payload(face: dict, progress=None) -> dict:
     data = face["data"]
     out = {
         "format": face["format"],
@@ -203,6 +223,8 @@ def _face_payload(face: dict) -> dict:
         out["data_b64"] = _b64(data)
         return out
     if face["format"] in ("jpeg2000", "jp2"):
+        if progress is not None:
+            progress("decoding")
         try:
             from PIL import Image
 
@@ -254,6 +276,7 @@ def _document_view(parsed: dict) -> dict:
 def run(request: dict, emit, transport_factory=None, cancel_check=None) -> int:
     """Execute one read request.  ``emit`` receives the event dictionaries."""
     total = len(STAGES)
+    stage_total = total
     order = {name: index + 1 for index, name in enumerate(STAGES)}
 
     def progress(stage: str, status: str, detail: str | None = None) -> None:
@@ -371,8 +394,24 @@ def run(request: dict, emit, transport_factory=None, cancel_check=None) -> int:
                 progress(stage, "skip", detail="not requested")
                 continue
             progress(stage, "start")
+            last_report = [0.0]
+
+            def report(read: int, total: int, _stage=stage) -> None:
+                # Cancel must work while a large DG2 is being received.
+                if cancel_check is not None:
+                    cancel_check()
+                # Throttle: byte-level progress must not flood the pipe.
+                now = time.monotonic()
+                if read < total and now - last_report[0] < 0.2:
+                    return
+                last_report[0] = now
+                emit({"event": "progress", "stage": _stage,
+                      "index": order[_stage], "total": stage_total,
+                      "status": "receiving",
+                      "bytes_read": read, "bytes_total": total})
+
             try:
-                data = reader.read_dg(name)
+                data = reader.read_dg(name, progress=report)
             except (card_module.EMRTDError, ValueError) as exc:
                 result["warnings"].append("%s: %s" % (name, exc))
                 progress(stage, "skip", detail=str(exc))
@@ -380,6 +419,23 @@ def run(request: dict, emit, transport_factory=None, cancel_check=None) -> int:
             raw[name] = data
             result["files"][name] = len(data)
             progress(stage, "ok", detail="%d bytes" % len(data))
+
+            # DG2 is decoded as soon as it is read so the sub-stages belong to
+            # the DG2 step instead of hiding inside "parse".
+            if name == "DG2":
+                progress("dg2", "parsing")
+                face = dg_module.extract_face(data)
+                if face:
+                    progress("dg2", "extracting",
+                             detail=face["format"])
+                    result["face"] = _face_payload(
+                        face,
+                        progress=lambda what: progress("dg2", what))
+                    if result["face"].get("warning"):
+                        result["warnings"].append(result["face"]["warning"])
+                    progress("dg2", "preview")
+                else:
+                    result["warnings"].append("DG2: no facial image (5F2E)")
 
         progress("parse", "start")
         document: dict = {}
@@ -414,13 +470,6 @@ def run(request: dict, emit, transport_factory=None, cancel_check=None) -> int:
                 result["dg12"] = dg_module.parse_dg12(raw["DG12"])
             except ValueError as exc:
                 result["warnings"].append("DG12: %s" % exc)
-
-        if "DG2" in raw:
-            face = dg_module.extract_face(raw["DG2"])
-            if face:
-                result["face"] = _face_payload(face)
-                if result["face"].get("warning"):
-                    result["warnings"].append(result["face"]["warning"])
 
         result["document"] = _document_view(document)
         result["dg1_parsed"] = {

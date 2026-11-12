@@ -123,13 +123,37 @@ class Proxmark3:
                     return True
         return False
 
+    def _settle_response(self, timeout: float, start: int) -> bool:
+        """Wait for an APDU ``<<<`` line (or an error) instead of going quiet.
+
+        ``hf 14a apdu`` prints exactly one ``<<< hex`` line per command, so the
+        fixed 350 ms quiet window is unnecessary here.  Waiting for the marker
+        removes ~0.35 s from *every* APDU, which dominates large DG2 reads.
+        """
+        deadline = time.time() + timeout
+        grace_deadline = None
+        while time.time() < deadline:
+            time.sleep(0.02)
+            with self._lock:
+                new_lines = self.lines[start:]
+            if grace_deadline is None:
+                for line in new_lines:
+                    if RESPONSE.search(line) or "[!]" in line or "[-]" in line:
+                        # give the client a moment to finish the trailing prompt
+                        grace_deadline = time.time() + 0.06
+                        break
+            elif time.time() >= grace_deadline:
+                return True
+        return bool(new_lines)
+
     def _tail(self, limit: int = 400) -> str:
         """Last part of the client output, for actionable error messages."""
         with self._lock:
             text = "".join(self.lines).strip()
         return text[-limit:]
 
-    def command(self, command: str, timeout: float = 30.0) -> str:
+    def command(self, command: str, timeout: float = 30.0,
+                response_mode: bool = False) -> str:
         if self.proc.poll() is not None:
             raise PM3Error(
                 "Proxmark3 client exited (code %s) before '%s' could be sent: %s"
@@ -145,8 +169,11 @@ class Proxmark3:
                 "cannot talk to the Proxmark3 client: %s (%s)"
                 % (exc, self._tail() or "no output")
             ) from exc
-        time.sleep(0.05)
-        self._settle(timeout, min_lines=start + 1)
+        if response_mode:
+            self._settle_response(timeout, start)
+        else:
+            time.sleep(0.05)
+            self._settle(timeout, min_lines=start + 1)
         with self._lock:
             chunk = "".join(self.lines[start:])
         return ANSI.sub("", chunk)
@@ -160,7 +187,8 @@ class Proxmark3:
         call keeps the field on (``-k``) so the card session survives.
         """
         flags = "-sk" if select else "-k"
-        output = self.command("hf 14a apdu %s -d %s" % (flags, raw_hex), timeout)
+        output = self.command("hf 14a apdu %s -d %s" % (flags, raw_hex), timeout,
+                              response_mode=True)
 
         response = None
         for line in output.splitlines():

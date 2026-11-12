@@ -6,6 +6,34 @@
 #include <QJsonObject>
 #include <QPixmap>
 #include <QProcess>
+#include <QThread>
+#include <QImage>
+
+class QPlainTextEdit;
+class QLabel;
+class QProgressBar;
+class QPushButton;
+class QTableWidget;
+class QTabWidget;
+class QTimer;
+
+/**
+ * Decodes the portrait in a worker thread: large DG2 images must never block
+ * the GUI thread.  QPixmap is created later on the GUI thread from the QImage.
+ */
+class ImageDecodeTask : public QThread
+{
+    Q_OBJECT
+public:
+    ImageDecodeTask(const QByteArray &data, quint64 generation, QObject *parent = nullptr);
+signals:
+    void decoded(quint64 generation, const QImage &image, bool ok);
+protected:
+    void run() override;
+private:
+    QByteArray m_data;
+    quint64 m_generation;
+};
 
 class QPlainTextEdit;
 class QLabel;
@@ -55,6 +83,8 @@ private slots:
     void onProcessFinished(int exitCode, QProcess::ExitStatus status);
     void onProcessError(QProcess::ProcessError error);
     void onCancelTimeout();
+    void onStallTimeout();
+    void onImageDecoded(quint64 generation, const QImage &image, bool ok);
     void copyAllFields();
     void copyMrz();
     void copySelection();
@@ -95,6 +125,10 @@ private:
 
     QProcess *process;
     QTimer *cancelTimer;
+    QTimer *stallTimer;
+    ImageDecodeTask *decoder;
+    quint64 imageGeneration;
+    bool decoding;
     QByteArray stdoutBuffer;
     QByteArray stderrBuffer;
 
