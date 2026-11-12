@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Proxmark3GUI application icon. Original artwork, no third-party logo. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="256" height="256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#24303F"/>
+      <stop offset="1" stop-color="#0C1016"/>
+    </linearGradient>
+  </defs>
+  <rect x="24" y="24" width="976" height="976" rx="210" fill="url(#bg)"
+        stroke="#3A4A5E" stroke-width="6"/>
+  <rect x="168" y="298" width="688" height="428" rx="46" fill="#1A5C42"
+        stroke="#489870" stroke-width="8"/>
+  <rect x="92" y="440" width="122" height="144" rx="22" fill="#C8D0DA"
+        stroke="#767E88" stroke-width="6"/>
+  <rect x="116" y="486" width="56" height="52" rx="9" fill="#545C66"/>
+  <g fill="none" stroke="#D69236">
+    <rect x="556" y="356" width="246" height="312" rx="66" stroke-width="20"/>
+    <rect x="600" y="400" width="158" height="224" rx="48" stroke-width="18"/>
+    <rect x="644" y="444" width="70" height="136" rx="30" stroke-width="16"/>
+  </g>
+  <g fill="#0C1016">
+    <rect x="278" y="392" width="136" height="102" rx="10"/>
+    <rect x="278" y="548" width="94" height="86" rx="10"/>
+  </g>
+  <g stroke="#C6AA60" stroke-width="6">
+    <path d="M300 384V400 M326 384V400 M352 384V400 M378 384V400"/>
+    <path d="M300 486V502 M326 486V502 M352 486V502 M378 486V502"/>
+    <path d="M296 540V552 M320 540V552 M344 540V552"/>
+  </g>
+  <g stroke="#A86C24" stroke-width="9" stroke-linecap="round">
+    <path d="M414 444H520L556 480"/>
+    <path d="M372 590H500L556 620"/>
+  </g>
+  <circle cx="802" cy="338" r="16" fill="#D0E0D8"/>
+  <rect x="236" y="640" width="94" height="12" rx="6" fill="#D0E0D8"/>
+</svg>

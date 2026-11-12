@@ -79,5 +79,10 @@ QMAKE_TARGET_COMPANY = "wh201906"
 RESOURCES += \
     ../i18n/language.qrc \
     ../config/config.qrc \
+    ../resources/icons/icons.qrc \
     qdarkstyle/dark/darkstyle.qrc \
     qdarkstyle/light/lightstyle.qrc
+
+# Windows executable icon (multi-size ICO). qmake generates the .rc so relative
+# paths stay correct regardless of the shadow-build directory.
+win32: RC_ICONS = ../resources/icons/app-icon.ico

@@ -2,6 +2,7 @@
 #include "core/logger.h"
 
 #include <QApplication>
+#include <QIcon>
 #include <QSettings>
 #include <QTranslator>
 #include <QMessageBox>
@@ -29,6 +30,19 @@ int main(int argc, char *argv[])
     Logger::info(QStringLiteral("App"),
                  QStringLiteral("Starting Proxmark3GUI %1").arg(QCoreApplication::applicationVersion()));
     Logger::info(QStringLiteral("App"), QStringLiteral("Log file: %1").arg(Logger::logFilePath()));
+
+    // Application icon: the EXE icon covers Explorer/shortcuts, this covers the
+    // window title bar and (when running) the taskbar.
+    QIcon appIcon;
+    appIcon.addFile(QStringLiteral(":/icons/app-icon-16.png"), QSize(16, 16));
+    appIcon.addFile(QStringLiteral(":/icons/app-icon-24.png"), QSize(24, 24));
+    appIcon.addFile(QStringLiteral(":/icons/app-icon-32.png"), QSize(32, 32));
+    appIcon.addFile(QStringLiteral(":/icons/app-icon-48.png"), QSize(48, 48));
+    appIcon.addFile(QStringLiteral(":/icons/app-icon-64.png"), QSize(64, 64));
+    appIcon.addFile(QStringLiteral(":/icons/app-icon-128.png"), QSize(128, 128));
+    appIcon.addFile(QStringLiteral(":/icons/app-icon-256.png"), QSize(256, 256));
+    appIcon.setThemeName(QStringLiteral("proxmark3gui"));
+    QApplication::setWindowIcon(appIcon);
 
     QSettings* settings = new QSettings("GUIsettings.ini", QSettings::IniFormat);
     settings->setIniCodec("UTF-8");
@@ -98,6 +112,7 @@ int main(int argc, char *argv[])
     settings = nullptr;
 
     MainWindow w;
+    w.setWindowIcon(QApplication::windowIcon());
     w.initUI();
     w.show();
     const int rc = a.exec();
