@@ -996,7 +996,7 @@ Install the packaged build or set PM3GUI_EMRTD_EXE.</source>
         <location filename="../src/module/emrtd.cpp" line="546" />
         <location filename="../src/module/emrtd.cpp" line="547" />
         <source>Cancelled</source>
-        <translation type="unfinished" />
+        <translation>已取消</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="552" />
@@ -1006,12 +1006,12 @@ Install the packaged build or set PM3GUI_EMRTD_EXE.</source>
     <message>
         <location filename="../src/module/emrtd.cpp" line="573" />
         <source>Still working...</source>
-        <translation type="unfinished" />
+        <translation>仍在处理…</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="574" />
         <source>The reader has not produced output for 15 seconds. Reading a large DG2 can take a while; Cancel is still available.</source>
-        <translation type="unfinished" />
+        <translation>读取程序已 15 秒没有输出。较大的 DG2 读取可能需要较长时间；仍可点击“取消”。</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="644" />
@@ -1021,33 +1021,33 @@ Install the packaged build or set PM3GUI_EMRTD_EXE.</source>
     <message>
         <location filename="../src/module/emrtd.cpp" line="649" />
         <source>Reading DG2 (%1 / %2 bytes)</source>
-        <translation type="unfinished" />
+        <translation>正在读取 DG2（%1 / %2 字节）</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="651" />
         <source>Receiving the facial image data from the document.</source>
-        <translation type="unfinished" />
+        <translation>正在从证件接收人像数据。</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="654" />
         <source>Parsing DG2 structure</source>
-        <translation type="unfinished" />
+        <translation>正在解析 DG2 结构</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="656" />
         <source>Extracting facial image</source>
-        <translation type="unfinished" />
+        <translation>正在提取人脸图像</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="658" />
         <location filename="../src/module/emrtd.cpp" line="793" />
         <source>Decoding facial image</source>
-        <translation type="unfinished" />
+        <translation>正在解码人脸图像</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="660" />
         <source>Updating preview</source>
-        <translation type="unfinished" />
+        <translation>正在更新预览</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="681" />
@@ -1156,12 +1156,12 @@ Unicode 版本：%2
     <message>
         <location filename="../src/module/lf.cpp" line="23" />
         <source>Show Waveform</source>
-        <translation type="unfinished" />
+        <translation>显示波形</translation>
     </message>
     <message>
         <location filename="../src/module/lf.cpp" line="24" />
         <source>Export the Client GraphBuffer (data save) and plot the raw LF samples. Requires a completed LF Read/Sniff on LF-capable firmware.</source>
-        <translation type="unfinished" />
+        <translation>导出客户端 GraphBuffer（data save）并绘制原始 LF 采样。需要在支持 LF 的固件上完成一次 LF Read/Sniff。</translation>
     </message>
     <message>
         <location filename="../src/module/lf.cpp" line="188" />
@@ -1169,30 +1169,33 @@ Unicode 版本：%2
         <location filename="../src/module/lf.cpp" line="230" />
         <location filename="../src/module/lf.cpp" line="251" />
         <source>LF Waveform</source>
-        <translation type="unfinished" />
+        <translation>LF 波形</translation>
     </message>
     <message>
         <location filename="../src/module/lf.cpp" line="189" />
         <source>No graph data was exported.
 Run LF Read/Sniff first on LF-capable firmware, or load a graph buffer with `data load` in RawCommand.</source>
-        <translation type="unfinished" />
+        <translation>未导出图形数据。
+请先在支持 LF 的固件上执行 LF Read/Sniff，或在 RawCommand 中用 `data load` 载入图形缓冲。</translation>
     </message>
     <message>
         <location filename="../src/module/lf.cpp" line="222" />
         <source>The Client reported a graph export, but the .pm3 file could not be found.
 Check the Client working directory in Settings.</source>
-        <translation type="unfinished" />
+        <translation>客户端报告已导出图形，但找不到 .pm3 文件。
+请检查设置中的客户端工作目录。</translation>
     </message>
     <message>
         <location filename="../src/module/lf.cpp" line="230" />
         <source>Failed to open %1</source>
-        <translation type="unfinished" />
+        <translation>无法打开 %1</translation>
     </message>
     <message>
         <location filename="../src/module/lf.cpp" line="252" />
         <source>The graph buffer contains fewer than 2 samples; no waveform can be drawn.
 Run LF Read/Sniff first, or load a graph buffer with `data load`.</source>
-        <translation type="unfinished" />
+        <translation>图形缓冲少于 2 个采样，无法绘制波形。
+请先执行 LF Read/Sniff，或用 `data load` 载入图形缓冲。</translation>
     </message>
 </context>
 <context>
@@ -1301,34 +1304,36 @@ Run LF Read/Sniff first, or load a graph buffer with `data load`.</source>
         <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="36" />
         <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="41" />
         <source>Info</source>
-        <translation type="unfinished">信息</translation>
+        <translation>提示</translation>
     </message>
     <message>
         <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="31" />
         <source>UID must be 4, 7 or 10 bytes of hex.</source>
-        <translation type="unfinished" />
+        <translation>UID 必须是 4、7 或 10 字节的十六进制。</translation>
     </message>
     <message>
         <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="36" />
         <source>ATQA must be 2 bytes of hex.</source>
-        <translation type="unfinished" />
+        <translation>ATQA 必须是 2 字节的十六进制。</translation>
     </message>
     <message>
         <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="41" />
         <source>SAK must be 1 byte of hex.</source>
-        <translation type="unfinished" />
+        <translation>SAK 必须是 1 字节的十六进制。</translation>
     </message>
     <message>
         <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="46" />
         <source>Set Magic Card Parameters</source>
-        <translation type="unfinished" />
+        <translation>设置魔术卡参数</translation>
     </message>
     <message>
         <location filename="../src/ui/mf_uid_parameterdialog.cpp" line="47" />
         <source>This writes UID / ATQA / SAK to a Chinese Magic Card.
 
 Continue?</source>
-        <translation type="unfinished" />
+        <translation>这将把 UID / ATQA / SAK 写入中国魔术卡。
+
+是否继续？</translation>
     </message>
 </context>
 <context>
@@ -1874,12 +1879,12 @@ or the communication between a tag and a reader.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2007" />
         <source>Master Key:</source>
-        <translation type="unfinished" />
+        <translation>主密钥：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2014" />
         <source>Data Bit Rate:</source>
-        <translation>数据比特率(Data Bit Rate)：</translation>
+        <translation>数据速率：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2024" />
@@ -1890,57 +1895,57 @@ or the communication between a tag and a reader.</source>
         <location filename="../src/ui/mainwindow.ui" line="2031" />
         <location filename="../src/ui/mainwindow.ui" line="2430" />
         <source>Modulation:</source>
-        <translation>调制方式(Modulation)：</translation>
+        <translation>调制方式：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2038" />
         <source>PSK Clock Freq:</source>
-        <translation type="unfinished" />
+        <translation>PSK 时钟频率：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2045" />
         <source>Answer on Request:</source>
-        <translation type="unfinished" />
+        <translation>请求应答：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2058" />
         <source>One Time Pad:</source>
-        <translation type="unfinished" />
+        <translation>一次性密码本：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2065" />
         <source>Max Block:</source>
-        <translation type="unfinished" />
+        <translation>最大块：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2072" />
         <source>Password:</source>
-        <translation>密码(Password):</translation>
+        <translation>密码：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2079" />
         <source>Seq. Terminator:</source>
-        <translation type="unfinished" />
+        <translation>序列终止符：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2086" />
         <source>Seq. Start Marker:</source>
-        <translation type="unfinished" />
+        <translation>序列起始标记：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2093" />
         <source>Fast Downlink:</source>
-        <translation type="unfinished" />
+        <translation>快速下行：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2100" />
         <source>Inverse Data:</source>
-        <translation type="unfinished" />
+        <translation>数据取反：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2107" />
         <source>Init-Delay:</source>
-        <translation type="unfinished" />
+        <translation>初始化延迟：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2171" />
@@ -1950,47 +1955,47 @@ or the communication between a tag and a reader.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2286" />
         <source>Option Key:</source>
-        <translation type="unfinished" />
+        <translation>选项密钥：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2296" />
         <source>Soft Modulation:</source>
-        <translation type="unfinished" />
+        <translation>软调制：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2306" />
         <source>Clamp Voltage:</source>
-        <translation type="unfinished" />
+        <translation>钳位电压：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2316" />
         <source>Modulation Voltage:</source>
-        <translation type="unfinished" />
+        <translation>调制电压：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2326" />
         <source>Clock Detection Threshold:</source>
-        <translation type="unfinished" />
+        <translation>时钟检测阈值：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2336" />
         <source>Gap Detection Threshold:</source>
-        <translation type="unfinished" />
+        <translation>间隙检测阈值：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2346" />
         <source>Write Dampling:</source>
-        <translation type="unfinished" />
+        <translation>写入阻尼：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2353" />
         <source>Demod Delay:</source>
-        <translation type="unfinished" />
+        <translation>解调延迟：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2360" />
         <source>Downlink Protocol:</source>
-        <translation type="unfinished" />
+        <translation>下行协议：</translation>
     </message>
     <message>
         <source>T55xx Read Config</source>
@@ -1999,22 +2004,22 @@ or the communication between a tag and a reader.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2437" />
         <source>Bit Rate:</source>
-        <translation>比特率(Bit Rate)：</translation>
+        <translation>比特率：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2444" />
         <source>Seq. Term.</source>
-        <translation type="unfinished" />
+        <translation>序列终止</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2451" />
         <source>Offset:</source>
-        <translation type="unfinished" />
+        <translation>偏移：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2458" />
         <source>Inverted:</source>
-        <translation type="unfinished" />
+        <translation>反相：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2492" />
@@ -2029,32 +2034,32 @@ or the communication between a tag and a reader.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2510" />
         <source>Detect</source>
-        <translation type="unfinished" />
+        <translation>检测</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2517" />
         <source>Read Info</source>
-        <translation type="unfinished" />
+        <translation>读取信息</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2524" />
         <source>Apply</source>
-        <translation type="unfinished" />
+        <translation>应用</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2554" />
         <source>Clone to T55xx (Experimental)</source>
-        <translation type="unfinished" />
+        <translation>克隆到 T55xx（实验）</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2562" />
         <source>Target Type:</source>
-        <translation type="unfinished">目标卡片类型：</translation>
+        <translation>目标类型：</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2600" />
         <source>Clone</source>
-        <translation type="unfinished">复制</translation>
+        <translation>克隆</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2611" />
@@ -2235,7 +2240,7 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2422" />
         <source>T55xx Read Config (Exp.)</source>
-        <translation type="unfinished" />
+        <translation>T55xx 读取配置（实验）</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2804" />
@@ -2717,7 +2722,7 @@ Continue to write?</source>
     <message>
         <location filename="../src/module/mifare.cpp" line="844" />
         <source>Restore MIFARE Classic</source>
-        <translation type="unfinished" />
+        <translation>恢复 MIFARE Classic</translation>
     </message>
     <message>
         <location filename="../src/module/mifare.cpp" line="845" />
@@ -2725,19 +2730,24 @@ Continue to write?</source>
 The client selects the default dump file by the current card UID.
 
 Continue?</source>
-        <translation type="unfinished" />
+        <translation>这将把 dump 文件写入卡片，可能覆盖当前数据。
+客户端会按当前卡片 UID 选择默认 dump 文件。
+
+是否继续？</translation>
     </message>
     <message>
         <location filename="../src/module/mifare.cpp" line="862" />
         <source>Wipe Magic Card</source>
-        <translation type="unfinished" />
+        <translation>擦除魔术卡</translation>
     </message>
     <message>
         <location filename="../src/module/mifare.cpp" line="863" />
         <source>This will erase the writable data of a Chinese Magic Card.
 
 Continue?</source>
-        <translation type="unfinished" />
+        <translation>这将擦除中国魔术卡的可写数据。
+
+是否继续？</translation>
     </message>
     <message>
         <location filename="../src/module/mifare.cpp" line="877" />
@@ -2747,14 +2757,16 @@ Continue?</source>
     <message>
         <location filename="../src/module/mifare.cpp" line="895" />
         <source>Lock UFUID Card</source>
-        <translation type="unfinished">锁定UFUID卡</translation>
+        <translation>锁定 UFUID 卡</translation>
     </message>
     <message>
         <location filename="../src/module/mifare.cpp" line="896" />
         <source>This sends the UFUID locking sequence and may be irreversible.
 
 Continue?</source>
-        <translation type="unfinished" />
+        <translation>这将发送 UFUID 锁定序列，可能不可逆。
+
+是否继续？</translation>
     </message>
 </context>
 <context>
@@ -2762,283 +2774,285 @@ Continue?</source>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="40" />
         <source>Card</source>
-        <translation type="unfinished" />
+        <translation>卡片</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="43" />
         <source>Detect / Read Info</source>
-        <translation type="unfinished" />
+        <translation>检测 / 读取信息</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="47" />
         <source>UID:</source>
-        <translation type="unfinished" />
+        <translation>UID：</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="52" />
         <source>Type:</source>
-        <translation type="unfinished" />
+        <translation>类型：</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="53" />
         <location filename="../src/module/ntagtab.cpp" line="339" />
         <source>Not detected</source>
-        <translation type="unfinished" />
+        <translation>未检测</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="57" />
         <source>Pages:</source>
-        <translation type="unfinished" />
+        <translation>页数：</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="61" />
         <source>Key (optional):</source>
-        <translation type="unfinished" />
+        <translation>密钥（可选）：</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="63" />
         <source>UL-C/AES 16 bytes or NTAG/EV1 4 bytes, hex</source>
-        <translation type="unfinished" />
+        <translation>UL-C/AES 16 字节或 NTAG/EV1 4 字节，十六进制</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="67" />
         <source>Pages</source>
-        <translation type="unfinished" />
+        <translation>页</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="71" />
         <source>Page</source>
-        <translation type="unfinished" />
+        <translation>页</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="71" />
         <source>Data (hex)</source>
-        <translation type="unfinished" />
+        <translation>数据（十六进制）</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="71" />
         <source>ASCII</source>
-        <translation type="unfinished" />
+        <translation>ASCII</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="71" />
         <source>Access</source>
-        <translation type="unfinished" />
+        <translation>访问权限</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="83" />
         <source>Read All</source>
-        <translation type="unfinished" />
+        <translation>读取全部</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="84" />
         <source>Read Selected</source>
-        <translation type="unfinished">读取选中块</translation>
+        <translation>读取选中</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="85" />
         <source>Read Page</source>
-        <translation type="unfinished" />
+        <translation>读取页</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="88" />
         <source>Page </source>
-        <translation type="unfinished" />
+        <translation>页 </translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="98" />
         <source>Page data: 8 hex digits</source>
-        <translation type="unfinished" />
+        <translation>页数据：8 位十六进制</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="99" />
         <source>Write Page</source>
-        <translation type="unfinished" />
+        <translation>写入页</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="100" />
         <source>Write Selected</source>
-        <translation type="unfinished">写入选中块</translation>
+        <translation>写入选中</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="101" />
         <source>Verify Page</source>
-        <translation type="unfinished" />
+        <translation>校验页</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="102" />
         <source>Data:</source>
-        <translation type="unfinished">数据：</translation>
+        <translation>数据：</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="109" />
         <source>Experimental: no NTAG/Ultralight hardware verification yet.</source>
-        <translation type="unfinished" />
+        <translation>实验功能：尚未在真实 NTAG/Ultralight 标签上验证。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="256" />
         <location filename="../src/module/ntagtab.cpp" line="257" />
         <source>(not reported)</source>
-        <translation type="unfinished" />
+        <translation>（未报告）</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="258" />
         <source>unknown</source>
-        <translation type="unfinished" />
+        <translation>未知</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="267" />
         <source>writable</source>
-        <translation type="unfinished" />
+        <translation>可写</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="269" />
         <source>read-only (system)</source>
-        <translation type="unfinished" />
+        <translation>只读（系统页）</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="271" />
         <source>read-only (config/OTP)</source>
-        <translation type="unfinished" />
+        <translation>只读（配置/OTP）</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="273" />
         <source>read-only (unknown layout)</source>
-        <translation type="unfinished" />
+        <translation>只读（未知布局）</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="325" />
         <location filename="../src/module/ntagtab.cpp" line="380" />
         <location filename="../src/module/ntagtab.cpp" line="477" />
         <source>Key must be 8 or 32 hex digits.</source>
-        <translation type="unfinished" />
+        <translation>密钥必须为 8 或 32 位十六进制。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="341" />
         <source>No response from `hf mfu info`. No NTAG/Ultralight tag was detected.</source>
-        <translation type="unfinished" />
+        <translation>`hf mfu info` 无响应，未检测到 NTAG/Ultralight 标签。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="350" />
         <source>Tag information did not contain UID/TYPE. See the RawCommand output for details.</source>
-        <translation type="unfinished" />
+        <translation>标签信息中没有 UID/类型。详情见 RawCommand 输出。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="357" />
         <source>Card type is unknown. Page count and write access are not assumed; use Read Page at your own risk.</source>
-        <translation type="unfinished" />
+        <translation>卡片类型未知。程序不会假定页数与写权限；使用“读取页”风险自负。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="361" />
         <source>Detected %1 pages. Writable pages: 4..%2. Config/OTP pages are read-only.</source>
-        <translation type="unfinished" />
+        <translation>检测到 %1 页。可写页：4..%2。配置/OTP 页为只读。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="366" />
         <source>Recognized type but layout is not enabled for writing. Read-only mode.</source>
-        <translation type="unfinished" />
+        <translation>已识别类型，但该布局未启用写入，当前为只读模式。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="392" />
         <source>Failed to parse page %1 data. See the RawCommand output.</source>
-        <translation type="unfinished" />
+        <translation>无法解析第 %1 页数据。详情见 RawCommand 输出。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="407" />
         <source>Detect a card first; page count is unknown.</source>
-        <translation type="unfinished" />
+        <translation>请先检测卡片；页数未知。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="422" />
         <source>Read %1 of %2 pages.</source>
-        <translation type="unfinished" />
+        <translation>已读取 %1 / %2 页。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="433" />
         <source>Select one or more page rows first.</source>
-        <translation type="unfinished" />
+        <translation>请先选择一个或多个页。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="447" />
         <source>Read %1 of %2 selected pages.</source>
-        <translation type="unfinished" />
+        <translation>已读取选中的 %1 / %2 页。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="457" />
         <source>Page %1 read.</source>
-        <translation type="unfinished" />
+        <translation>第 %1 页已读取。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="465" />
         <source>Page data must be 8 hex digits.</source>
-        <translation type="unfinished" />
+        <translation>页数据必须为 8 位十六进制。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="470" />
         <source>Page %1 is not writable under the detected layout.</source>
-        <translation type="unfinished" />
+        <translation>在当前布局下第 %1 页不可写。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="484" />
         <source>Write NTAG/Ultralight page</source>
-        <translation type="unfinished" />
+        <translation>写入 NTAG/Ultralight 页</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="485" />
         <source>Write %1 to page %2?
 This is an experimental operation.</source>
-        <translation type="unfinished" />
+        <translation>将 %1 写入第 %2 页？
+这是实验性操作。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="499" />
         <source>Write to page %1 failed. See the RawCommand output.</source>
-        <translation type="unfinished" />
+        <translation>写入第 %1 页失败。详情见 RawCommand 输出。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="509" />
         <source>Page %1 write returned success but verification differs (wrote %2, read %3).</source>
-        <translation type="unfinished" />
+        <translation>第 %1 页写入返回成功，但校验不一致（写入 %2，读回 %3）。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="520" />
         <source>Page %1 written and verified.</source>
-        <translation type="unfinished" />
+        <translation>第 %1 页已写入并通过校验。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="534" />
         <source>Select one or more writable page rows first.</source>
-        <translation type="unfinished" />
+        <translation>请先选择一个或多个可写页。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="539" />
         <source>Write selected NTAG/Ultralight pages</source>
-        <translation type="unfinished" />
+        <translation>写入选中的 NTAG/Ultralight 页</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="540" />
         <source>This will write %1 page(s).
 This is an experimental operation. Continue?</source>
-        <translation type="unfinished" />
+        <translation>将写入 %1 页。
+这是实验性操作。是否继续？</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="552" />
         <source>Wrote and verified %1 of %2 pages.</source>
-        <translation type="unfinished" />
+        <translation>已写入并通过校验 %1 / %2 页。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="565" />
         <source>Page %1 read; no previous value was stored to compare.</source>
-        <translation type="unfinished" />
+        <translation>已读取第 %1 页；没有可比较的旧值。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="569" />
         <source>Page %1 verification OK.</source>
-        <translation type="unfinished" />
+        <translation>第 %1 页校验通过。</translation>
     </message>
     <message>
         <location filename="../src/module/ntagtab.cpp" line="570" />
         <source>Page %1 verification mismatch: expected %2, read %3.</source>
-        <translation type="unfinished" />
+        <translation>第 %1 页校验不一致：期望 %2，读回 %3。</translation>
     </message>
 </context>
 <context>
@@ -3046,39 +3060,39 @@ This is an experimental operation. Continue?</source>
     <message>
         <location filename="../src/module/t55xx.cpp" line="87" />
         <source>Not implemented in this version. The control is kept for UI compatibility and is marked Experimental.</source>
-        <translation type="unfinished" />
+        <translation>本版本未实现。该控件仅为界面兼容保留，并标记为实验性。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="116" />
         <source>Experimental. The current firmware has no LF support, so this is not hardware-verified.</source>
-        <translation type="unfinished" />
+        <translation>实验性功能。当前固件不支持 LF，因此未做硬件验证。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="117" />
         <source>Experimental. Commands are verified against Iceman v4.23346 help, but the attached firmware lacks LF.</source>
-        <translation type="unfinished" />
+        <translation>实验性功能。命令已对照 Iceman v4.23346 帮助验证，但当前固件缺少 LF。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="283" />
         <location filename="../src/module/t55xx.cpp" line="327" />
         <location filename="../src/module/t55xx.cpp" line="340" />
         <source>Info</source>
-        <translation type="unfinished">信息</translation>
+        <translation>提示</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="283" />
         <source>Block 0 must be 8 hex digits.</source>
-        <translation type="unfinished" />
+        <translation>Block 0 必须为 8 位十六进制。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="327" />
         <source>Option block must be 8 hex digits.</source>
-        <translation type="unfinished" />
+        <translation>选项块必须为 8 位十六进制。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="340" />
         <source>Option block must be 32 binary digits.</source>
-        <translation type="unfinished" />
+        <translation>选项块必须为 32 位二进制。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="354" />
@@ -3093,46 +3107,50 @@ This is an experimental operation. Continue?</source>
     <message>
         <location filename="../src/module/t55xx.cpp" line="355" />
         <source>No response from `lf t55xx detect`. The current firmware may not include LF support.</source>
-        <translation type="unfinished" />
+        <translation>`lf t55xx detect` 无响应。当前固件可能不含 LF 支持。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="361" />
         <source>`lf t55xx detect` is not available on the connected firmware.
 This is expected on a 256K build without LF; the page remains Experimental.</source>
-        <translation type="unfinished" />
+        <translation>当前固件不支持 `lf t55xx detect`。
+256K 无 LF 固件属于预期情况；该页面仍为实验性。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="423" />
         <source>No response from `lf t55xx info`. The current firmware may not include LF support.</source>
-        <translation type="unfinished" />
+        <translation>`lf t55xx info` 无响应。当前固件可能不含 LF 支持。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="429" />
         <source>`lf t55xx info` is not available on the connected firmware.
 The page remains Experimental.</source>
-        <translation type="unfinished" />
+        <translation>当前固件不支持 `lf t55xx info`。
+该页面仍为实验性。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="442" />
         <source>Could not parse block 0 from `lf t55xx info`. See the RawCommand output.</source>
-        <translation type="unfinished" />
+        <translation>无法从 `lf t55xx info` 解析 Block 0。详情见 RawCommand 输出。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="508" />
         <source>EM410x ID must be 10 hex digits.</source>
-        <translation type="unfinished" />
+        <translation>EM410x ID 必须为 10 位十六进制。</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="513" />
         <source>Clone to T55xx</source>
-        <translation type="unfinished">复制到T55xx卡</translation>
+        <translation>克隆到 T55xx</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="514" />
         <source>This writes the EM410x ID to a T55xx tag. The operation is Experimental and not verified on this firmware.
 
 Continue?</source>
-        <translation type="unfinished" />
+        <translation>这将把 EM410x ID 写入 T55xx 标签。该操作是实验性的，且未在当前固件上验证。
+
+是否继续？</translation>
     </message>
 </context>
 <context>
@@ -3181,42 +3199,42 @@ Continue?</source>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="17" />
         <source>LF Raw Sample Waveform - %1</source>
-        <translation type="unfinished" />
+        <translation>LF 原始采样波形 - %1</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="34" />
         <source>Fit</source>
-        <translation type="unfinished">适应窗口</translation>
+        <translation>适应</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="35" />
         <source>Zoom In</source>
-        <translation type="unfinished" />
+        <translation>放大</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="36" />
         <source>Zoom Out</source>
-        <translation type="unfinished" />
+        <translation>缩小</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="46" />
         <source>Waveform</source>
-        <translation type="unfinished" />
+        <translation>波形</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="57" />
         <source>... %1 more samples not shown ...</source>
-        <translation type="unfinished" />
+        <translation>... 还有 %1 个采样未显示 ...</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="60" />
         <source>Sample Text</source>
-        <translation type="unfinished" />
+        <translation>采样文本</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformdialog.cpp" line="90" />
         <source>Raw sample waveform from the Client GraphBuffer (`data save`). Samples: %1, range: %2..%3. The .pm3 text file has no sample-rate metadata, so the horizontal axis is sample index, not a fabricated time axis. Decoded protocol text remains in RawCommand.</source>
-        <translation type="unfinished" />
+        <translation>来自客户端 GraphBuffer 的原始采样波形（`data save`）。采样数：%1，范围：%2..%3。.pm3 文本文件不含采样率信息，因此横轴为采样序号，而不是虚构的时间轴。协议解码文本仍显示在 RawCommand。</translation>
     </message>
 </context>
 <context>
@@ -3226,17 +3244,19 @@ Continue?</source>
         <source>No raw samples.
 Run LF Read/Sniff (with LF-capable firmware)
 or load a graph buffer with `data load`.</source>
-        <translation type="unfinished" />
+        <translation>没有原始采样。
+请在支持 LF 的固件上执行 LF Read/Sniff，
+或用 `data load` 载入图形缓冲。</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformwidget.cpp" line="145" />
         <source>Insufficient samples to draw a waveform.</source>
-        <translation type="unfinished" />
+        <translation>采样不足，无法绘制波形。</translation>
     </message>
     <message>
         <location filename="../src/ui/waveformwidget.cpp" line="171" />
         <source>Sample index %1 .. %2  (rate not provided by data save)</source>
-        <translation type="unfinished" />
+        <translation>采样序号 %1 .. %2（data save 未提供采样率）</translation>
     </message>
 </context>
 </TS>
