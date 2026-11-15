@@ -306,8 +306,8 @@ Repository → Settings → Branches → Default branch → 切换到 upgrade/v0
 ## 13. 当前状态
 
 - 本地分支：`upgrade/v0.4.1-polish`
-- 已发布远程 HEAD：`e0216517d43a34c192021b27a5f7b079dee67bbc`
-- Stage 5.2 修复已准备提交
+- 已发布远程 HEAD：`095fea615a54d533c368d7f5553e42561a987d86`
+- Stage 5.2 代码修复已提交并推送：`095fea615a54d533c368d7f5553e42561a987d86`
 - 默认分支：仍为 `main`（PENDING）
 - 已发布历史作者仍显示 `Audit Agent <audit@local>`；未重写历史
 
