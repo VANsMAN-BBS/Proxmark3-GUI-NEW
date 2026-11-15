@@ -27,12 +27,12 @@ MRZ (doc no / DOB / expiry)
 * `pillow` (optional, converts JPEG 2000 portraits to PNG)
 * Proxmark3 with iceman firmware and a working `proxmark3` client
 * The document must be an **ISO 14443-A** eMRTD that supports **BAC**
-  (the 256 KB iceman build used during development has no ISO 14443-B support)
+  (256 KB iceman builds may not include ISO 14443-B support)
 
 ## Install
 
 ```bat
-cd E:\Opencode_project\emrtd_pm3
+cd emrtd_pm3
 py -3 -m pip install -e .
 ```
 
@@ -49,10 +49,10 @@ with `pyserial` installed).
 
 ```bat
 :: 1. quick probe: select the eMRTD application and request a challenge
-py -3 -m emrtd_pm3 selftest --port COM14
+py -3 -m emrtd_pm3 selftest --port <PORT>
 
 :: 2. read the document (keep the card still on the antenna)
-py -3 -m emrtd_pm3 read --port COM14 ^
+py -3 -m emrtd_pm3 read --port <PORT> ^
     --doc C12345678 --dob 900101 --exp 300101 ^
     --out dump
 ```
@@ -76,7 +76,7 @@ Useful flags:
 ```python
 from emrtd_pm3 import EMRTD, Proxmark3, dg, mrz
 
-with Proxmark3("COM14") as pm3:
+with Proxmark3("<PORT>") as pm3:
     card = EMRTD(pm3)
     card.select_aid()
     card.authenticate("C12345678", "900101", "300101")

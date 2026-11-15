@@ -25,8 +25,8 @@ It is **read-only**.  It does not write, clone, emulate, or alter documents.
 ## Commands
 
 ```bat
-py -3 -m emrtd_pm3 selftest --port COM14
-py -3 -m emrtd_pm3 read --port COM14 --doc <DOC> --dob <YYMMDD> --exp <YYMMDD> --out <DIR>
+py -3 -m emrtd_pm3 selftest --port <PORT>
+py -3 -m emrtd_pm3 read --port <PORT> --doc <DOC> --dob <YYMMDD> --exp <YYMMDD> --out <DIR>
 py -3 -m emrtd_pm3 read --help
 ```
 

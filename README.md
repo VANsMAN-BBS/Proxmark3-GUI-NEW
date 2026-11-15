@@ -215,31 +215,19 @@ Linux and macOS builds are not verified in this repository.
 
 ## Documentation
 
-Current project and validation material:
-
 - [Build Guide](BUILD_GUIDE.md)
 - [Changelog](CHANGELOG.md)
 - [v0.4.1 release notes](docs/RELEASE_NOTES_v0.4.1.md)
-- [Architecture Upgrade](ARCHITECTURE_UPGRADE.md)
-- [NTAG / Amiibo upgrade notes](docs/NTAG_AMIIBO_UPGRADE.md)
-- [Amiibo compatibility](docs/AMIIBO_COMPATIBILITY.md)
-- [eMRTD integration](docs/EMRTD_INTEGRATION.md)
-- [LF Parser core](docs/LF_CORE/README.md)
-- [LF audit and command mapping](docs/LF_AUDIT/README.md)
-- [Stage 3.3 NTAG read stability report](docs/STAGE3_3_REPORT.md)
-- [Stage 3.4 NTAG write/erase report](docs/STAGE3_4_REPORT.md)
-- [Stage 4 UI consolidation report](docs/STAGE4_UI_REPORT.md)
-- [Stage 5.2 publishing remediation report](docs/STAGE5_2_REMEDIATION_REPORT.md)
-- [Stage 5.3 homepage report](docs/STAGE5_3_HOMEPAGE_REPORT.md)
-
-Historical documents:
-
-- [Iceman compatibility matrix](ICEMAN_COMPATIBILITY_MATRIX.md)
+- [Architecture](ARCHITECTURE_UPGRADE.md)
 - [Test report](TEST_REPORT.md)
 - [Hardware validation matrix](docs/HARDWARE_VALIDATION_MATRIX.md)
-- Stage reports `docs/STAGE0_REPORT.md` … `docs/STAGE5_REPORT.md`
-
-Some historical matrices predate the NTAG215 hardware validation and the Stage 4 navigation changes. The latest stage reports above take precedence when they disagree.
+- [Iceman compatibility matrix](ICEMAN_COMPATIBILITY_MATRIX.md)
+- [Amiibo compatibility](docs/AMIIBO_COMPATIBILITY.md)
+- [eMRTD integration](docs/EMRTD_INTEGRATION.md)
+- [eMRTD DG2 troubleshooting](docs/DG2_DIAGNOSIS.md)
+- [LF Parser core](docs/LF_CORE/README.md)
+- [LF reference notes](docs/LF_AUDIT/README.md)
+- [Icon design](docs/ICON_DESIGN.md)
 
 ---
 
@@ -377,10 +365,16 @@ mingw32-make -j4
 
 - 构建：[BUILD_GUIDE.md](BUILD_GUIDE.md)
 - 更新记录：[CHANGELOG.md](CHANGELOG.md)
+- 发行说明：[docs/RELEASE_NOTES_v0.4.1.md](docs/RELEASE_NOTES_v0.4.1.md)
 - 架构：[ARCHITECTURE_UPGRADE.md](ARCHITECTURE_UPGRADE.md)
-- NTAG/Amiibo：[docs/NTAG_AMIIBO_UPGRADE.md](docs/NTAG_AMIIBO_UPGRADE.md)
+- 测试报告：[TEST_REPORT.md](TEST_REPORT.md)
+- 硬件验证矩阵：[docs/HARDWARE_VALIDATION_MATRIX.md](docs/HARDWARE_VALIDATION_MATRIX.md)
+- Iceman 兼容性矩阵：[ICEMAN_COMPATIBILITY_MATRIX.md](ICEMAN_COMPATIBILITY_MATRIX.md)
+- Amiibo 兼容性：[docs/AMIIBO_COMPATIBILITY.md](docs/AMIIBO_COMPATIBILITY.md)
 - eMRTD：[docs/EMRTD_INTEGRATION.md](docs/EMRTD_INTEGRATION.md)
+- eMRTD DG2 排查：[docs/DG2_DIAGNOSIS.md](docs/DG2_DIAGNOSIS.md)
 - LF Parser：[docs/LF_CORE/README.md](docs/LF_CORE/README.md)
-- 最新阶段报告：[docs/STAGE3_3_REPORT.md](docs/STAGE3_3_REPORT.md)、[docs/STAGE3_4_REPORT.md](docs/STAGE3_4_REPORT.md)、[docs/STAGE4_UI_REPORT.md](docs/STAGE4_UI_REPORT.md)、[docs/STAGE5_2_REMEDIATION_REPORT.md](docs/STAGE5_2_REMEDIATION_REPORT.md)、[docs/STAGE5_3_HOMEPAGE_REPORT.md](docs/STAGE5_3_HOMEPAGE_REPORT.md)
+- LF 参考：[docs/LF_AUDIT/README.md](docs/LF_AUDIT/README.md)
+- 图标设计：[docs/ICON_DESIGN.md](docs/ICON_DESIGN.md)
 
 项目继续使用 **GNU LGPL-2.1-or-later**，详见 [LICENSE](LICENSE)。QDarkStyleSheet 的 MIT/CC-BY-4.0 声明见 [src/qdarkstyle/LICENSE.rst](src/qdarkstyle/LICENSE.rst)。Proxmark3 Client 为独立进程，采用 GPLv3；若随 GUI 一起分发客户端二进制，需遵守其 GPLv3 义务。

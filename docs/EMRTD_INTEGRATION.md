@@ -48,8 +48,8 @@ stdin 一行 JSON：
 ```json
 {
   "mrz": "P<UTO...\nL898902C3...",
-  "port": "COM14",
-  "pm3_exe": "E:/.../proxmark3.exe",
+  "port": "<PORT>",
+  "pm3_exe": "<CLIENT_DIR>/proxmark3.exe",
   "dgs": "DG1,DG2,DG11,DG12",
   "incognito": true
 }
@@ -168,9 +168,9 @@ eMRTD 仍为**只读**：不写入、不克隆、不模拟证件。
 ## 7. 无证件时的验证方式
 
 1. **协议层**：`tests/fake_chip.py` 软件模拟芯片，覆盖 SELECT AID → GET CHALLENGE → BAC → 读文件。
-2. **GUi 协议层**：用 `transport_factory` 注入 `FakeChip`，验证事件、进度、结果、校验、取消。
+2. **GUI 协议层**：用 `transport_factory` 注入 `FakeChip`，验证事件、进度、结果、校验、取消。
 3. **界面层**：临时用合成结果填充页面，验证表格、人像显示与保存、复制、其他数据标签。
-4. **真实设备**：本机 Proxmark3（COM14）+ 非 eMRTD 卡片，可验证串口交接、client 启动、错误提示与自动恢复；**真实护照读取未验证**。
+4. **真实设备**：连接的 Proxmark3 设备 + 非 eMRTD 卡片，可验证串口交接、client 启动、错误提示与自动恢复；**真实护照读取未验证**。
 
 ---
 

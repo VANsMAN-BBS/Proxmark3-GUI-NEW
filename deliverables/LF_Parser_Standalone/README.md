@@ -133,4 +133,3 @@ Documentation index:
 | `docs/INTEGRATION_GUIDE.md` | copy/registration/build integration |
 | `LICENSE_NOTES.md` | provenance and GPL risk review |
 | `CHANGELOG.md` | Stage 1 → Stage 2 changes |
-| `docs/STAGE2_FINAL_REPORT.md` | stage completion report |

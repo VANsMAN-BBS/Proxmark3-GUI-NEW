@@ -1,8 +1,7 @@
 # LF 命令映射：Phosphor ↔ Iceman Client
 
-**Client 基线：** `E:\Opencode_project\pm3-256-iceman-v4.23346\proxmark3.exe`
-（`Iceman/master/v4.23346-suspect`，通过 `-t` / `--fulltext` 离线导出帮助）
-**固件基线：** `fullimage.elf`（无 LF，见 `PM3_HARDWARE_COMPATIBILITY.md`）
+**Client 基线：** `Iceman/master/v4.23346-suspect`（通过 `-t` / `--fulltext` 离线导出帮助）
+**固件基线：** 256 KB 构建（无 LF 支持）
 
 > **本文件的 "Client 是否支持" 是静态确认（帮助文本 + 二进制字符串），不是运行确认。**
 > **"固件是否支持" 一律为 否**——当前固件无任何 LF 代码或 LF FPGA 镜像。
@@ -149,9 +148,9 @@ available offline: yes
 
 ```
 [=] Note: False Positives ARE possible
-[=] 
+[=]
 [=] Checking for known tags...
-[=] 
+[=]
 [-] No known 125/134 kHz tags found!
 [=] Checking for unknown tags...
 
@@ -272,7 +271,7 @@ available offline: yes
 | **设备占用** | 每个命令一个独立 `proxmark3.exe` 进程，独占串口。因此**不能并发**；Phosphor 没有队列，靠 UI 串行。主项目有 FIFO 队列 + detached 互斥，**更安全**。 |
 | **停止当前命令** | Phosphor：无。主项目：`Stop` = `restartClient()`，能强制结束 `lf tune`/`lf read` 这类 detached 命令。 |
 | **FPGA 切换** | LF 命令会要求设备切换到 LF FPGA 模式；**当前固件没有 LF 镜像**，因此必然失败（见硬件文档）。Client 侧不携带 `.ncd`，镜像由固件提供。 |
-| **固件版本依赖** | 强依赖。LF 命令存在**不代表**固件实现。建议移植前先做能力探测（见 `PM3_HARDWARE_COMPATIBILITY.md` §6）。 |
+| **固件版本依赖** | 强依赖。LF 命令存在**不代表**固件实现。建议移植前先做能力探测（见 `docs/HARDWARE_VALIDATION_MATRIX.md`）。 |
 
 ---
 

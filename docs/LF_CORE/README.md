@@ -1,7 +1,6 @@
 # LF-Core Stage 1 — LF Parser Module
 
-**版本：** Stage 1（文本解析器）
-**基线：** Proxmark3GUI v0.4.1 / `upgrade/v0.4.1-polish` / `245b184`
+**模块版本：** v0.4.1（文本解析器）
 **模块位置：** `src/lf/`
 **测试位置：** `tests/lfparser/`
 **许可证：** 随主项目 LGPL-2.1-or-later

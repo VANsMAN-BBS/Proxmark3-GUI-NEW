@@ -1,6 +1,7 @@
 # Amiibo / NTAG215 兼容性说明
 
-**版本：** v0.4.0  
+**版本：** v0.4.1
+
 **Client：** Iceman v4.23346（256 KB 固件）
 
 ---
@@ -10,9 +11,9 @@
 | 项目 | 状态 |
 |---|---|
 | NTAG215 识别 | 支持（`hf mfu info`） |
-| NTAG215 读取 | 支持（`hf mfu dump`）——**真实标签未验证** |
-| NTAG215 写入 | 支持（`hf mfu restore`）——**真实标签未验证** |
-| 写入后校验 | 支持（复读比对）——**真实标签未验证** |
+| NTAG215 读取 | 支持（`hf mfu dump`）——已在 NTAG215 测试标签验证 |
+| NTAG215 写入 | 支持（`hf mfu restore`）——已在 NTAG215 测试标签验证 |
+| 写入后校验 | 支持（复读比对）——已在 NTAG215 测试标签验证 |
 | NTAG215 模拟 | Client 支持（`hf mfu eload` + `hf mfu sim -t 7`）——**真实标签/游戏机未验证** |
 | Amiibo 解密 | Client 支持（`hf mfu amiibo --dec`）——界面未集成 |
 | UID 冒充 | **未使用**（不是完整模拟，绝不以此冒充） |
@@ -22,7 +23,7 @@
 ## 2. 为什么 Amiibo 不是 JTAG
 
 Amiibo 使用 NFC Forum Type 2（NTAG215）数据结构，通过 13.56 MHz ISO 14443-A 交互，与 JTAG 无关。  
-本程序按产品要求把 Amiibo 放在 JTAG 标签页下，但 JTAG 子页本身明确标注“未实现”，不会执行任何 JTAG 操作。
+自 v0.4.1 起，Amiibo 与 NTAG 一起放在 **NTAG / Ultralight** 标签页下；JTAG 占位页已移除。
 
 ---
 

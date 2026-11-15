@@ -1,56 +1,8 @@
-﻿# TEST_REPORT.md
+﻿# 测试报告
 
-## v0.4.1 追加测试（2026-11-12）
+验证对象：Proxmark3 GUI v0.4.1（Windows x64 / Qt 5.15.19 / MinGW-w64 GCC 16.2.0）。
 
-| 项目 | 结果 |
-|---|---|
-| 原有 32 项 pytest | 通过（保留） |
-| 新增 15 项 eMRTD 协议测试 | 通过 |
-| pytest 合计 | 47 passed |
-| APDU 时延（真机 COM14） | 0.552 s → 0.142 s |
-| DG2 字节进度 / 子阶段 / 完成 | 通过（节奏化测试替身） |
-| DG2 接收期间取消 | 通过 |
-| DG2 超 32768 字节 | 明确报错，不挂起 |
-| Amiibo 位于 NTAG、无 JTAG 标签 | 通过 |
-| 应用图标（ICO 7 帧 / EXE / 窗口） | 通过 |
-| 中文/英文界面 | 通过 |
-| 100% / 125% / 150% 缩放 | 通过（修复一处 T55xx 标签裁切） |
-| 多显示器 / 跨 DPI | 未验证 |
-| 独立发布目录（最小 PATH / 中文路径） | 通过 |
-| 发布目录 Python 运行时 | 通过 |
-| 真实护照 DG2、真实 NTAG215 | 未验证（无硬件） |
-
-## v0.4.0 追加测试（2026-11-12）
-
-环境同上（Qt 5.15.19 / MinGW GCC 16.2.0 / PM3 COM14）。新增 eMRTD 与 Amiibo 页面。
-
-| 项目 | 结果 |
-|---|---|
-| Python 原有 32 项 pytest | 通过 |
-| eMRTD 协议完整读取（FakeChip 模拟） | 通过 |
-| MRZ 校验（合法 / 校验位错误 / 非 ICAO） | 通过 |
-| 读取取消 | 通过（退出码 5） |
-| GUI ↔ Python 串口交接、读取后自动重连 | 通过（始终 1 个 client） |
-| eMRTD 结果表格、人像显示、另存 PNG、复制字段/全部/MRZ | 通过 |
-| eMRTD 错误提示（无卡 / 通信错误） | 通过 |
-| 新页面中文界面 | 通过 |
-| 独立发布目录（PATH 仅 System32）启动 | 通过 |
-| 中文/空格路径启动 | 通过 |
-| 发布目录内 Python 运行时 MRZ 校验 | 通过 |
-| JTAG/Amiibo 标签页、内置示例、导入、另存、十六进制 | 通过 |
-| 真实护照 / 港澳通行证读取 | 未验证（无证件） |
-| 真实 NTAG215 读取/写入/校验/模拟 | 未验证（无标签/游戏机） |
-
-详见 `docs/STAGE10_REPORT.md`、`docs/STAGE7_REPORT.md`、`docs/STAGE8_REPORT.md`、`docs/STAGE9_REPORT.md` 与 `docs/HARDWARE_VALIDATION_MATRIX.md`。
-
-**版本：** Proxmark3GUI v0.3.0  
-**日期：** 2026-11-10  
-**分支：** `upgrade/iceman-v4.23346`  
-**目标 Client：** Iceman v4.23346  
-**测试设备：** Proxmark3 `PM3 GENERIC`，AT91SAM7S256，256K flash，COM14  
-**测试原则：** 仅执行只读/本地命令；未写卡、未锁卡、未擦除、未刷写、未执行仿真。
-
----
+> 本报告只列当前有效的验证结论。“通过（模拟）”表示使用软件模拟芯片或合成数据，不代表真实卡片/证件成功。未验证项目不得视为已完成。
 
 ## 1. 测试环境
 
@@ -58,156 +10,67 @@
 |---|---|
 | OS | Windows 64-bit |
 | Qt | 5.15.19（MSYS2 UCRT64，OpenSource） |
-| qmake | Qt 5.15.19 / QMake 3.1 |
 | 编译器 | MinGW-w64 GCC 16.2.0（UCRT64） |
-| make | GNU Make 4.4.1 |
-| Client | `pm3-256-iceman-v4.23346\proxmark3.exe` |
-| Client 版本 | `Iceman/master/v4.23346-suspect 2026-09-18 ... 9ce8a4b6c` |
-| 固件 | `PM3 GENERIC`，AT91SAM7S256，256K；无 LF |
-| 设备 | VID `0x9AC4` / PID `0x4B8F`，序列号 `ICEMAN` |
-| 当前卡 | HID SEOS / EMV（非 MIFARE Classic，非 NTAG/UL） |
+| Client | Iceman/RRG v4.23346（外部提供，不随 GUI 分发） |
+| 设备 | Proxmark3 `PM3 GENERIC`，AT91SAM7S256，256 KB 固件（无 LF） |
+| 卡片 | NTAG215 测试标签；HID SEOS/EMV（非 MIFARE Classic） |
 
----
+## 2. 自动化测试
 
-## 2. A. 静态与构建验证
-
-| 项目 | 结果 | 证据 |
+| 测试套件 | 用例数 | 结果 |
 |---|---|---|
-| qmake 读取工程 | 通过 | Makefile 生成 |
-| 完整编译/链接 | 通过 | `Proxmark3GUI.exe` **977,408 bytes（最终 clean build）** |
-| 新增代码编译警告 | 无 | `build-final/clean-build.log` 无 `warning:` |
-| 资源嵌入 | 通过 | config/language/qdarkstyle qrc 编译 |
-| 配置文件加载 | 通过 | 默认选择 `config_rrgv4.23346.json` |
-| 独立依赖打包 | 通过 | dist 29 files / ~71.7 MB，含 Qt + ICU + 插件 |
-| 无 MSYS2 PATH 启动 | 通过 | PATH 仅为 System32/Windows 时正常启动 |
-| 中文安装路径启动 | 通过 | `dist\测试 路径\Proxmark3GUI.exe` 正常启动 |
-| 安全边界 | 未执行写/刷写 | 测试记录无写操作 |
+| ntagmodel | 67 | 通过 |
+| amiibodata | 22 | 通过 |
+| lfparser | 59 | 通过 |
+| lfparser_stage2 | 126 | 通过 |
+| emrtd pytest | 47 | 通过 |
 
----
+## 3. 构建与启动
 
-## 3. B. Client 集成验证
-
-### 3.1 连接/版本
-
-| 测试 | 结果 | 证据 |
-|---|---|---|
-| 启动指定 Client | 通过 | 状态栏 `Iceman/master/v4.23346-suspect` |
-| 解析 Firmware | 通过 | `/ PM3 GENERIC` |
-| 解析硬件 | 通过 | `/ AT91SAM7S256 Rev D` |
-| `PM3:Connected` | 通过 | 状态栏 |
-| Disconnect | 通过 | `PM3:Not Connected`，无残留进程 |
-| 再次 Connect | 通过 | 重新连接成功 |
-| Client 异常退出 | 通过 | 状态先变为 Not Connected，再显示错误 |
-| 内部哨兵隐藏 | 通过 | Raw 无 `remark: PM3GUI_` / 握手 `rem PM3GUI_` |
-| 命令队列 | 通过 | 普通命令按 FIFO；`hf mf chk` 27 s 期间不串命令 |
-
-### 3.2 UTF-8 / 输出
-
-| 测试 | 结果 | 证据 |
-|---|---|---|
-| 中文命令参数 | 通过 | Raw 显示 `rem 中文测试` / `remark: 中文测试` |
-| ANSI/CR | 通过 | Client 输出无控制码污染；CR 归一化 |
-| 多行输出 | 通过 | `hw version`、`hf 14a info` 完整 |
-| 输出过长 | 部分 | 无持久日志/上限；当前测试输出有限 |
-
-### 3.3 MIFARE
-
-| 测试 | 结果 | 说明 |
-|---|---|---|
-| `hf 14a info` UID/ATQA/SAK | 通过 | `2F7B5454 / 0004 / 20`（HID SEOS） |
-| Set Parameter 预填/校验 | 通过 | 未提交写卡 |
-| `hf mf chk --1k` | 通过 | 27 s 完成，16 行表格，无超时 |
-| MIFARE Classic 读块/写块 | 未验证 | 当前卡不是 MF Classic |
-| Nested/StaticNested/Hardnested | 未验证 | 同上 |
-| MIFARE 仿真 | 参数已验证 | `hf mf sim --help` 确认 `-x`；未执行仿真 |
-| 文件 IO | 静态/代码验证 | 边界检查已加固；未做完整 UI round-trip |
-
-### 3.4 Trace
-
-| 测试 | 结果 | 证据 |
-|---|---|---|
-| Client round-trip | 通过 | 3070 bytes，SHA-256 一致 |
-| GUI Load | 通过 | `Recorded Activity (TraceLen = 3070 bytes)` |
-| GUI Save（buffer） | 通过 | 确认执行 `trace save -1 -f tmp...` |
-| GUI round-trip | 通过 | 保存 3070 bytes，SHA-256 与源一致 |
-| 设备 trace | 未执行 | 无写；未做 HF sniff trace |
-
-### 3.5 LF
-
-| 测试 | 结果 | 说明 |
-|---|---|---|
-| `lf read -v` | 不可用 | 当前 firmware 无 LF，返回 not available |
-| `lf sniff -v` | 不可用 | 同上 |
-| `hw status` LF 段 | 不存在 | 256K firmware 裁剪 LF |
-| LF Config 解析 | 未验证 | 无 LF 输出，GUI 保持默认值；不宣称成功 |
-| Show Waveform（合成数据） | 通过 | `data load` 200 points → `data save` → 波形显示 |
-| 真实 LF 波形 | 未验证 | Not verified on physical hardware（firmware lacks LF） |
-
-### 3.6 T55xx
-
-| 测试 | 结果 | 说明 |
-|---|---|---|
-| 原 UI 显示 | 通过 | 三个配置分组 + 克隆组 |
-| Block0 hex/bin | 通过 | `00107060` → 正确二进制 |
-| Block0 字段解码 | 通过 | FSK2a / RF50 / MaxBlock 3 |
-| 未验证控件禁用 | 通过 | 灰显 + tooltip |
-| `lf t55xx detect/info/config` | 未验证 | 当前固件无 LF |
-| EM410x clone | 未验证 | 无 LF/标签，未写 |
-
-### 3.7 NTAG / Ultralight
-
-| 测试 | 结果 | 说明 |
-|---|---|---|
-| 页面显示 | 通过 | 独立标签页 |
-| Detect 在非 NTAG 卡 | 通过 | 明确提示 UID/TYPE 缺失，无崩溃 |
-| 成功识别 NTAG/UL | 未验证 | 无标签 |
-| 页面读写/复读 | 未验证 | 未执行写 |
-| 页数/保护映射 | 静态检查 | 源码常量 + `cfg0`；未知型号禁写 |
-
-### 3.8 设置/页面
-
-| 测试 | 结果 |
+| 项目 | 结果 |
 |---|---|
-| Mifare / LF / T55xx / NTAG/Ultralight / RawCommand / Settings 页切换 | 通过 |
-| Client Path / Port / Refresh / Connect / Disconnect | 通过 |
-| 客户端路径历史 | 通过（设置文件） |
-| 主题/语言/字体设置 | 保留（未逐项回归） |
-| 关闭窗口/退出 | 通过（Stop/Disconnect 后无残留 Client） |
+| qmake Release clean build | 通过，0 warning / 0 error |
+| 独立目录启动（PATH 仅 System32/Windows） | 通过 |
+| Qt 插件与 MSYS2 运行时齐全 | 通过 |
+| eMRTD Python 运行时导入 | 通过 |
+| 100% / 125% / 150% 缩放 | 通过（修复 T55xx 标签裁切） |
+| 多显示器 / 跨 DPI | 未验证 |
 
----
+## 4. 真实硬件验证
 
-## 4. C. 真实硬件验证
-
-| 项目 | 状态 |
+| 项目 | 结果 |
 |---|---|
-| 连接/版本/型号 | **已通过（只读）** |
-| `hw version` / `hw status` | **已通过（只读）** |
-| `hf 14a info` | **已通过（只读）** |
-| `hf mf chk --1k` | **已通过（只读；无写）** |
-| Trace Load/Save | **已通过（只读文件操作）** |
-| MIFARE Classic 读写 | **Not verified**（卡不匹配） |
-| LF Read/Sniff/T55xx | **Not verified on physical hardware**（firmware 无 LF） |
-| NTAG/Ultralight | **Not verified**（无标签） |
-| 写卡/锁卡/擦除/恢复/仿真 | **未执行**（按纪律） |
+| 连接、版本与型号识别 | 通过（只读） |
+| `hw version` / `hw status` | 通过（只读） |
+| `hf 14a info` | 通过（只读） |
+| `hf mf chk --1k` | 通过（只读） |
+| Trace Load/Save | 通过（只读） |
+| NTAG215 识别 / 读取 / 写入 / 写后校验 | 通过（测试标签） |
+| NTAG215 整卡清空（126 页） | 未执行（仅验证快照/计划/取消，3 页） |
+| MIFARE Classic 读/写/攻击/仿真 | 未验证（无 Classic 卡） |
+| LF / T55xx 射频操作 | 未验证（测试固件无 LF） |
+| Amiibo 模拟（游戏机） | 未验证 |
+| 真实 eMRTD 证件（BAC/DG） | 未验证（FakeChip 与合成数据通过） |
+| 写卡/锁卡/擦除/恢复/仿真 | 未执行 |
 
----
+## 5. 客户端与界面
 
-## 5. 测试结论
+| 项目 | 结果 |
+|---|---|
+| 启动/断开/重连、无残留进程 | 通过 |
+| Client 异常退出后的状态与提示 | 通过 |
+| 命令超时自动重启 | 通过 |
+| 长命令 detached（Stop 重启） | 通过 |
+| FIFO 命令串行化、内部哨兵隐藏 | 通过 |
+| UTF-8 / ANSI / CR 输出处理 | 通过 |
+| MIFARE / LF / NTAG / eMRTD / RawCommand / Settings 页面切换 | 通过 |
+| 中文 / 英文界面 | 通过 |
+| 主题、字体设置 | 保留（未逐项回归） |
 
-- **可以构建、启动、独立运行、连接指定 Client 并读取真实设备版本。**
-- 核心通信层修复经过真实 Client/设备验证。
-- Trace 和 MIFARE 信息/检查路径经过真实设备验证（只读）。
-- LF/T55xx/NTAG 成功路径受硬件/标签限制，明确标记未验证。
-- 没有任何把模拟结果冒充真实硬件验证的结论。
+## 6. 重要限制
 
----
-
-## 6. 未完成/未验证清单
-
-1. MIFARE Classic 成功读/写/攻击/仿真；
-2. LF Read/Sniff 真实采样与 T55xx 设备操作；
-3. NTAG/Ultralight 成功识别、读写、锁定/OTP；
-4. 中文文件路径的 Client 文件读写（仅 GUI 路径启动已验证）；
-5. 长时间/大输出日志与内存上限；
-6. 多显示器/高 DPI/不同主题的完整回归；
-7. 自动化单元测试与 Mock Client（本次未建立测试工程）。
+1. 256 KB 测试固件无 LF，LF/T55xx 射频路径无法在该固件上验证。
+2. 无 MIFARE Classic 卡，仅验证了命令下发、表格与解析流程。
+3. eMRTD 协议流程用 FakeChip 验证；没有真实护照/通行证。
+4. Amiibo 写入与复读仅在 NTAG215 测试标签验证，未在游戏机上验证。
+5. 自动化测试通过不等同于真实硬件验证。

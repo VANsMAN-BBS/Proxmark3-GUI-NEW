@@ -49,7 +49,7 @@ firmware builds and device models were not verified for this release.
 | Compiler | MinGW-w64 GCC 16.2.0 |
 | Build system | qmake, `win32-g++`, Release |
 | Client baseline | Iceman/RRG v4.23346 |
-| Test hardware | PM3 GENERIC, AT91SAM7S256, 256 KB, COM14 |
+| Test hardware | PM3 GENERIC, AT91SAM7S256, 256 KB |
 | Linux / macOS | Not verified |
 
 The 256 KB test firmware has no LF support. LF/T55XX radio success paths could

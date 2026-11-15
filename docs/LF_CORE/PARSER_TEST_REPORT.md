@@ -128,9 +128,9 @@ fixtures 清单（`tests/lfparser/fixtures/`）：
 ```powershell
 $env:PATH = "C:\msys64\ucrt64\bin;$env:PATH"
 
-mkdir C:\temp\lfcore-build
-cd C:\temp\lfcore-build
-qmake-qt5 E:\Opencode_project\Proxmark3GUI-master\tests\lfparser\lfparser_tests.pro
+mkdir <BUILD_DIR>
+cd <BUILD_DIR>
+qmake-qt5 <PROJECT_DIR>\tests\lfparser\lfparser_tests.pro
 mingw32-make -j4
 release\tst_lfparser.exe
 ```

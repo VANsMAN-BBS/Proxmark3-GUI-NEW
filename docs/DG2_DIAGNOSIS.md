@@ -8,7 +8,7 @@
 
 ## 1. 诊断方法
 
-1. 在真实设备（COM14，Iceman v4.23346）上测量 `hf 14a apdu` 的端到端耗时。
+1. 在真实 Proxmark3 设备（Iceman v4.23346）上测量 `hf 14a apdu` 的端到端耗时。
 2. 用 FakeChip 合成大尺寸 DG2，统计协议输出与阶段事件。
 3. 代码审查：`pm3.py`、`card.py`、`gui.py`、`EMRTDPage`。
 4. 用真实 GUI + 节奏化测试替身观察阶段文字与取消行为。

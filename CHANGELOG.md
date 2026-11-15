@@ -1,6 +1,6 @@
 ﻿# Change Log
 
-[涓枃](doc/CHANGELOG/CHANGELOG_zh_CN.md)  
+[中文](README.md#中文介绍)
 
 ### V0.4.1
 + Fix eMRTD DG2 appearing to hang: APDU completion now waits for the client's `<<<` response marker instead of a fixed 350 ms quiet window (measured 0.552 s 鈫?0.142 s per APDU; a 20 KB DG2 drops from ~49 s to ~13 s)

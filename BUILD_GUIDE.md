@@ -230,7 +230,7 @@ dist/
    ```text
    <你的路径>\proxmark3.exe
    ```
-4. `Port` 选择 Proxmark3 串口（如 `COM14`）。
+4. `Port` 选择 Proxmark3 串口（如 `COMx`）。
 5. `Settings → Client`：
    - Start arguments：`<port> -f`（GUI 会自动补 `-f`，但建议保留）；
    - Config file：默认 `config_rrgv4.23346.json`；
@@ -244,10 +244,10 @@ dist/
 
 ### 指定 Client
 
-本次目标：
+使用任意与 Iceman/RRG v4.23346 兼容的 Windows 构建：
 
 ```text
-E:\Opencode_project\pm3-256-iceman-v4.23346\proxmark3.exe
+<CLIENT_DIR>\proxmark3.exe
 ```
 
 其他 v4.23346 Windows 构建只要具备相同命令/输出即可；不承诺其他版本。
@@ -276,6 +276,6 @@ src/
 └─ qdarkstyle/    theme
 config/           JSON command configs
 i18n/             translations
-docs/             stage reports + assets
+docs/             功能说明、参考文档与截图
 dist/             (ignored) standalone build output
 ```
