@@ -141,16 +141,26 @@ The 256 KB test firmware is a specific device configuration. Its missing LF supp
 
 ## Download and installation
 
-**As of 2026-11-15, there is no official binary release on GitHub Releases.** The repository is source-first; no installer or release archive is published.
+### Windows x64 — v0.4.1
 
-The local `dist/Proxmark3GUI/` directory mentioned in the build guide is a build output, not a downloadable release.
+- [GitHub Release v0.4.1](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/tag/v0.4.1)
+- [Proxmark3-GUI-v0.4.1-win-x64.zip](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.4.1/Proxmark3-GUI-v0.4.1-win-x64.zip)
+- [SHA256SUMS.txt](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.4.1/SHA256SUMS.txt)
+
+```text
+SHA-256  211BD1F39A74D34198F8514DEAE21400B23F0309B8A654AEF6140CF8CBEFB9DE
+Size     52,499,142 bytes
+```
+
+The ZIP contains the GUI, Qt 5.15 runtime, MinGW/MSYS2 runtime and the eMRTD
+Python runtime. It does **not** contain the Proxmark3 client or firmware.
 
 A complete setup has four separate parts:
 
 1. **Proxmark3GUI** — this Qt desktop application.
 2. **Proxmark3 client** — a compatible `proxmark3.exe` (Iceman/RRG v4.23346 baseline).
 3. **Proxmark3 firmware** — installed on the device; features depend on the firmware build.
-4. **eMRTD Python runtime** — only for the eMRTD page; built with `scripts/package-emrtd-runtime.ps1`.
+4. **eMRTD Python runtime** — bundled in the release ZIP; source builds use `scripts/package-emrtd-runtime.ps1`.
 
 The GUI does **not** contain the Proxmark3 firmware or a complete client distribution.
 
@@ -165,7 +175,7 @@ The GUI does **not** contain the Proxmark3 firmware or a complete client distrib
 5. In **Settings → Client**, confirm:
    - Start arguments: `<port> -f`
    - Config file: `config_rrgv4.23346.json`
-   - Working directory: default `../data`
+   - Working directory: your Proxmark3 client directory or its data directory
 6. Click **Connect** and verify the client version, firmware and hardware in the status bar.
 7. Start with a read-only action such as Detect or Read All before using any write/erase function.
 8. Use LF/T55XX only if the installed firmware exposes LF support.
@@ -209,6 +219,7 @@ Current project and validation material:
 
 - [Build Guide](BUILD_GUIDE.md)
 - [Changelog](CHANGELOG.md)
+- [v0.4.1 release notes](docs/RELEASE_NOTES_v0.4.1.md)
 - [Architecture Upgrade](ARCHITECTURE_UPGRADE.md)
 - [NTAG / Amiibo upgrade notes](docs/NTAG_AMIIBO_UPGRADE.md)
 - [Amiibo compatibility](docs/AMIIBO_COMPATIBILITY.md)
@@ -310,14 +321,26 @@ lfparser_stage2 126 passed
 
 ### 下载与运行
 
-截至 2026-11-15，**没有 GitHub Releases 二进制发行版**，仓库以源码为主。`dist/` 只是本地构建输出，不是官方下载包。
+### Windows x64 — v0.4.1
+
+- [GitHub Release v0.4.1](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/tag/v0.4.1)
+- [Proxmark3-GUI-v0.4.1-win-x64.zip](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.4.1/Proxmark3-GUI-v0.4.1-win-x64.zip)
+- [SHA256SUMS.txt](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.4.1/SHA256SUMS.txt)
+
+```text
+SHA-256  211BD1F39A74D34198F8514DEAE21400B23F0309B8A654AEF6140CF8CBEFB9DE
+大小     52,499,142 字节
+```
+
+ZIP 包含 GUI、Qt 5.15 运行时、MinGW/MSYS2 运行时和 eMRTD Python 运行时；
+不包含 Proxmark3 客户端或固件。
 
 完整使用需要分别准备：
 
-1. 本 GUI；
+1. 本 GUI（可直接下载上面的 ZIP）；
 2. 兼容的 Iceman/RRG `proxmark3.exe`；
 3. 设备上的 Proxmark3 固件；
-4. 仅 eMRTD 页面需要的 Python 运行时（由构建脚本生成）。
+4. eMRTD 页面所需 Python 运行时（发行 ZIP 已包含；源码构建使用 `scripts/package-emrtd-runtime.ps1`）。
 
 GUI 不包含完整 Proxmark3 客户端或固件。
 
