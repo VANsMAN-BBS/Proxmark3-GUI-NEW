@@ -240,9 +240,9 @@ void TestAmiiboData::structuredParsingDoesNotTouchRaw()
 void TestAmiiboData::asciiClientPathPolicy()
 {
     QVERIFY(!Amiibo::requiresAsciiClientPath(
-                QStringLiteral("E:/Opencode_project/amiibo plain 540.bin")));
+                QStringLiteral("amiibo plain 540.bin")));
     QVERIFY(Amiibo::requiresAsciiClientPath(
-                QStringLiteral("E:/Opencode_project/测试 Amiibo 540.bin")));
+                QStringLiteral("测试 Amiibo 540.bin")));
 }
 
 void TestAmiiboData::clientCopyPreservesBytes()

@@ -1,25 +1,26 @@
-# Stage 5 报告：GitHub 首次发布与远程仓库同步
+# Stage 5 / 5.1 报告：GitHub 首次发布与远程仓库同步
 
 日期：2026-11-15
+
+> 本报告在远程推送完成后更新。更新内容属于后续本地修改，**不包含在远程 `e021651` 提交中**。
 
 ## 1. 本地仓库审计
 
 - 分支：`upgrade/v0.4.1-polish`
-- 起始 HEAD：`1f0036ceb02d9b249fa0d6b32452094da49ca70c`
-- 当前本地历史：
+- 推送前 HEAD：`e0216517d43a34c192021b27a5f7b079dee67bbc`
+- 推送分支历史：
 
 ```text
-(本报告所在提交) chore(license): add QDarkStyleSheet notices and ignore build outputs
+e021651 chore(license): add QDarkStyleSheet notices and ignore build outputs
 1f0036c refactor(ui): consolidate LF, NTAG and navigation layouts
 b222668 feat: add NTAG, Amiibo and LF functionality
-245b184 (tag: upgrade-v0.4.1) fix: keep eMRTD protocol output UTF-8 on Windows pipes
+245b184 fix: keep eMRTD protocol output UTF-8 on Windows pipes
 ```
 
-- 已跟踪工作区：干净
-- 暂存区：空
-- 未跟踪构建输出已通过 `.gitignore` 忽略，未删除任何文件
+- 推送前工作区：已跟踪文件干净，暂存区为空
+- 构建输出由 `.gitignore` 忽略，未删除任何文件
 
-## 2. 远程仓库状态
+## 2. 远程仓库初始状态
 
 目标：
 
@@ -27,32 +28,25 @@ b222668 feat: add NTAG, Amiibo and LF functionality
 https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW.git
 ```
 
-检查结果：
+推送前：
 
 - 仓库公开、非 fork、默认分支 `main`
-- 远程只有 `main` 一个分支
-- 远程 `main`：`1bbdde0b8c757f257b9cbdf0a3269da98cf3f428`
+- 只有 `main` 一个分支
+- `main`：`1bbdde0b8c757f257b9cbdf0a3269da98cf3f428`
 - 无其他分支、无标签
-- 初始化提交仅包含：
-  - `LICENSE`：GNU LGPL-2.1，504 行
-  - `README.md`：2 行通用说明
-- 本地 `LICENSE` blob 与远程初始 `LICENSE` 完全一致：
+- 初始化提交仅包含 LGPL-2.1 `LICENSE` 和 2 行通用 README
+- 本地 `LICENSE` blob 与远程初始 `LICENSE` 一致：
   `8000a6faacf471c537530805ab29523c7732e11a`
-- 本地 `README.md` 是完整项目 README，与远程 2 行 README 不同
-- 目标分支 `upgrade/v0.4.1-polish` 在远程不存在
-
-结论：远程没有代码成果；推送目标为**新分支**，不会覆盖 `main` 的 README/LICENSE，不需要 force。
+- 目标分支 `upgrade/v0.4.1-polish` 不存在
 
 ## 3. origin 配置
-
-已配置：
 
 ```text
 origin  https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW.git (fetch)
 origin  https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW.git (push)
 ```
 
-未配置其他 remote，未修改 remote URL。
+未修改其他 remote。
 
 ## 4. 敏感信息审计
 
@@ -78,15 +72,14 @@ origin  https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW.git (push)
 
 - `tests/amiibodata/tst_amiibodata.cpp:243,245` 含本机路径
   `E:/Opencode_project/...`
-  这不是密钥或用户数据，但属于本机绝对路径，建议后续改为 fixture 相对路径。
-- 邮箱匹配均为占位符 `name@example.com` 或 `@2x.png` 文件名误报，未发现个人邮箱。
+  不是密钥或用户数据，但属于本机绝对路径。
 
 ## 5. 用户数据与构建产物
 
 - 仓库没有跟踪任何 `.bin` 文件。
 - 没有跟踪 NTAG/Amiibo 用户数据。
 - 没有跟踪 `dist/`、`data/`、根 `build*`。
-- 原有的 tests/deliverables 构建输出未被提交、未被删除，现已通过 `.gitignore` 忽略。
+- tests/deliverables 构建输出未被提交、未被删除，已通过 `.gitignore` 忽略。
 
 ## 6. 许可证审计
 
@@ -100,9 +93,7 @@ origin  https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW.git (push)
 
 ### 6.2 QDarkStyleSheet 合规修复
 
-原仓库包含 QDarkStyleSheet 的样式和 209 个图片资源，但只有一行来源说明，缺少 MIT/CC-BY-4.0 许可文本。
-
-根据上游 commit `6ff5fdf` 的 `LICENSE.rst`，已新增：
+已新增：
 
 - `src/qdarkstyle/LICENSE.rst`
   - MIT License（代码）
@@ -113,7 +104,7 @@ origin  https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW.git (push)
   - 说明代码 MIT、图片 CC-BY-4.0
   - 指向 `LICENSE.rst`
 
-该修复不改变主项目 LGPL-2.1-or-later，也不改变任何功能代码。
+该修复不改变主项目 LGPL-2.1-or-later，也不改变功能代码。
 
 ## 7. .gitignore
 
@@ -132,63 +123,197 @@ origin  https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW.git (push)
 - `deliverables` 源码/文档不被忽略
 - 未删除任何文件
 
-## 8. 推送命令与当前结果
+## 8. 远程推送
 
-计划命令：
+### 8.1 推送前状态
 
-```text
-git push -u origin upgrade/v0.4.1-polish
-```
+- 本地 HEAD：`e0216517d43a34c192021b27a5f7b079dee67bbc`
+- 目标分支：`upgrade/v0.4.1-polish`
+- 远程目标分支：不存在
+- 远程 `main`：`1bbdde0`（保持不变）
 
-已尝试执行，但本机 Git 没有配置任何凭据：
-
-- `credential.helper`：空
-- `GH_TOKEN` / `GITHUB_TOKEN`：未设置
-- SSH key：不存在
-- SSH agent：未运行
-- Git 命令在等待认证时超时，被终止
-
-因此本次**没有完成 push**，远程没有任何变化：
-
-```text
-1bbdde0  HEAD
-1bbdde0  refs/heads/main
-```
-
-目标分支 `upgrade/v0.4.1-polish` 仍不存在于远程。
-
-未执行：
-
-- `git push --force`
-- `git push --force-with-lease`
-- `git push --all`
-- `git push --tags`
-- 分支/标签修改
-
-## 9. 推送后验证（待执行）
-
-认证成功后应执行：
+### 8.2 实际命令
 
 ```text
 git push -u origin upgrade/v0.4.1-polish
-git ls-remote origin refs/heads/upgrade/v0.4.1-polish
-git status --short
-git branch -vv
-git log -5 --oneline --decorate
 ```
 
-预期：
+认证使用本机已配置的 Git Credential Manager。未将任何 Token、密码或凭据写入命令、脚本、日志或报告。
 
-- 远程分支 HEAD 等于本地 HEAD
-- `b222668`、`1f0036c` 和本合规提交均存在
-- 远程 `main` 仍保持 `1bbdde0`，不被覆盖
-- 不推送其他分支和标签
+### 8.3 推送结果
 
-## 10. 未解决问题
+成功：
 
-1. 本机缺少 GitHub 认证信息，无法完成推送。
-2. `tests/amiibodata/tst_amiibodata.cpp` 含本机绝对路径，建议后续改为相对 fixture。
-3. 远程 `main` 仍是通用 README；是否将默认分支切换到代码分支需用户后续决定。
-4. 是否需要把 `deliverables/` 的独立 LF Parser 作为单独发布物，需用户后续决定。
+```text
+* [new branch]      upgrade/v0.4.1-polish -> upgrade/v0.4.1-polish
+branch 'upgrade/v0.4.1-polish' set up to track 'origin/upgrade/v0.4.1-polish'.
+```
 
-本地提交和许可证修复已完成，等待配置凭据后推送。
+- 只推送了 `upgrade/v0.4.1-polish`
+- 未推送 `main`
+- 未推送其他分支或标签
+- 未使用 force / force-with-lease / --all / --tags
+
+## 9. 推送后验证
+
+命令：
+
+```text
+git ls-remote origin
+git fetch origin
+git rev-parse HEAD
+git rev-parse origin/upgrade/v0.4.1-polish
+git rev-list --left-right --count HEAD...origin/upgrade/v0.4.1-polish
+```
+
+结果：
+
+```text
+1bbdde0 refs/heads/main
+e0216517d43a34c192021b27a5f7b079dee67bbc refs/heads/upgrade/v0.4.1-polish
+local  HEAD: e0216517d43a34c192021b27a5f7b079dee67bbc
+remote HEAD: e0216517d43a34c192021b27a5f7b079dee67bbc
+0       0
+```
+
+- 本地与远程目标分支完全一致
+- 本地分支已跟踪 `origin/upgrade/v0.4.1-polish`
+- 远程 `main` 未变化
+- 没有其他远程分支或标签
+
+## 10. GitHub 页面检查
+
+通过 GitHub API 和远程 Git 引用检查：
+
+1. 代码可访问：目标分支指向 `e021651`。
+2. `README.md` 正常：远程 blob `ecc4ac0e805c529e8adf3e432c8bae5b8314c87b`，10590 字节。
+3. `LICENSE`：GitHub 识别为 **LGPL-2.1**。
+4. `src/qdarkstyle/LICENSE.rst` 存在，19175 字节，blob `e22b6873534d628e98f7c0f1ef0d899c624f07d2`。
+5. Stage 2–3.4 与 Stage 4 内容存在：
+   - `src/module/ntag/`
+   - `src/lf/parser/`
+   - `src/module/amiibo/`
+   - `tests/`
+   - `docs/STAGE*`、LF/Amiibo 文档
+6. `.gitignore` 存在且已包含新增构建输出规则。
+7. 远程树共 1017 个条目；未发现 `.exe/.dll/.o/.log/.dmp/.bin`、`build/`、`dist/` 等构建产物。
+8. 目标分支最新提交为 `e021651`。
+9. 仓库默认分支仍为 `main`，未修改。
+
+## 11. 推送后的本地修改
+
+本报告在推送后更新，因此本地工作区当前有一项未提交修改：
+
+```text
+M docs/STAGE5_GITHUB_PUBLISH_REPORT.md
+```
+
+该修改**未包含在远程 `e021651` 中**，属于后续文档更新。本地 HEAD 仍为 `e021651`，与远程一致。
+
+## 12. Stage 5.2 发布后修复
+
+### 12.1 Git Credential Helper
+
+原始问题：
+
+- 全局 `credential.helper` 直接写入含空格的 GCM 路径，Git 通过 shell 调用时被拆分。
+- GCM 可执行文件目录和 `C:\msys64\usr\bin` 未出现在当前进程 PATH 中，GCM 无法定位 `git.exe`。
+- 多个因素叠加导致 `git push` 等待认证或 helper 报错。
+
+修复：
+
+- 用户级 PATH 已包含 `C:\msys64\usr\bin` 和
+  `C:\Users\van\AppData\Local\Programs\Git Credential Manager`。
+- 全局配置改为 GCM 官方短名：
+
+```text
+git config --global credential.helper manager
+```
+
+- GCM 版本：`3.0.2+0d95999b8fb39bd1045770fe1d69f6a2b07101d7`
+- Git 版本：`2.56.0`
+- 使用 `git credential fill` 验证：返回 username/password，未打印任何凭据内容。
+
+结果：**已修复**。
+
+### 12.2 Git 作者身份
+
+- 仓库级 `user.name`：`VANsMAN-BBS`
+- 仓库级 `user.email`：`68843740+VANsMAN-BBS@users.noreply.github.com`
+- 已由用户确认使用该 GitHub noreply 身份。
+- 已发布历史未修改。
+
+结果：**已配置，仅影响后续提交**。
+
+### 12.3 Amiibo 测试本机路径
+
+修改前：
+
+```cpp
+QStringLiteral("E:/Opencode_project/amiibo plain 540.bin")
+QStringLiteral("E:/Opencode_project/测试 Amiibo 540.bin")
+```
+
+修改后：
+
+```cpp
+QStringLiteral("amiibo plain 540.bin")
+QStringLiteral("测试 Amiibo 540.bin")
+```
+
+该测试只验证 `requiresAsciiClientPath()` 对 ASCII/非 ASCII 字符的判断，不访问文件系统，因此无需新增 fixture。
+
+验证：
+
+- 从 `tests/amiibodata/build/release` 运行：22 passed
+- 从 `tests/` 目录运行：22 passed
+- 从项目根目录运行：22 passed
+- 测试文件已不再包含本机绝对路径
+
+结果：**已修复**。
+
+### 12.4 GitHub 默认分支
+
+- GitHub API 显示当前账号对仓库 `permissions.admin = true`
+- 尝试 PATCH `default_branch = upgrade/v0.4.1-polish`
+- GitHub 返回 **403**：
+
+```text
+Resource not accessible by personal access token
+```
+
+现有凭据可推送代码，但无权修改仓库设置，因此默认分支仍为 `main`。
+
+结果：**PENDING**。
+
+需要用户在 GitHub 网页执行：
+
+```text
+Repository → Settings → Branches → Default branch → 切换到 upgrade/v0.4.1-polish → Update
+```
+
+### 12.5 Stage 5.2 验证
+
+- Clean Build：rc=0，0 warnings，0 errors
+- 自动化测试：
+  - ntagmodel：67 passed
+  - amiibodata：22 passed
+  - lfparser：59 passed
+  - lfparser_stage2：126 passed
+- `git diff --check`：通过（i18n 保持仓库 CRLF 风格）
+- 未修改已发布历史、许可证、Amiibo 原始数据、NTAG 写入保护或 Stage 3.3/3.4 逻辑
+
+## 13. 当前状态
+
+- 本地分支：`upgrade/v0.4.1-polish`
+- 已发布远程 HEAD：`e0216517d43a34c192021b27a5f7b079dee67bbc`
+- Stage 5.2 修复已准备提交
+- 默认分支：仍为 `main`（PENDING）
+- 已发布历史作者仍显示 `Audit Agent <audit@local>`；未重写历史
+
+## 14. 结论
+
+- Stage 5.1 推送成功，本地与远程 `e021651` 一致。
+- Stage 5.2 已修复凭据链路、作者身份和 Amiibo 测试路径。
+- GitHub 默认分支切换因令牌权限不足未完成，标记 PENDING。
+- 未上传构建产物、用户数据或认证凭据。
