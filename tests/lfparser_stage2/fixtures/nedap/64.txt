@@ -1,0 +1,1 @@
+[+] NEDAP (64b) - ID: 12345 subtype: 1 customer code: 101 / 0x065 Raw: FF 82 0C A5 89 60 F8 F3

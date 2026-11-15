@@ -1,0 +1,3 @@
+[+] [C1k35s   ] HID Corporate 1000 35-bit std   FC: 123  CN: 45678  parity ( ok )
+[+] raw: 2e0ec00c87
+[+] found 1 matching 35-bit format

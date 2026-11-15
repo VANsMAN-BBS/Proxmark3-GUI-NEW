@@ -1,0 +1,2 @@
+[+] AWID - len: 26 FC: 50 Card: 1234 - Wiegand: 26409a4, Raw: 011db2881474411111111111
+[+] Valid AWID ID found!

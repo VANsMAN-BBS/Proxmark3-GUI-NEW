@@ -1,0 +1,2 @@
+[+] Indala ID found!
+[+] Fmt 26 FC: 123 Card: 1337 Parity: 11

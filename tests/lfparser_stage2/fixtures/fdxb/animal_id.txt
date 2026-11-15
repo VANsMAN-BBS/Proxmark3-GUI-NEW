@@ -1,0 +1,6 @@
+[+] Animal ID:    999-123456789012
+[+] National Code: 123456789012
+[+] CountryCode:   0999
+[+] Animal Tag:    True
+[+] CRC:           0x1A2B - [1A2B] - ok
+[+] Raw ID Hex: 28 58 99 7D 3B 9F 00 00 C0 CC 00 00 00

@@ -1,0 +1,2 @@
+[+] Securakey - len: 26 FC: 0x35 Card: 64169, Raw: 7FCB400001ADEA5344300000
+[+] Wiegand: 006BF553 parity ( ok )

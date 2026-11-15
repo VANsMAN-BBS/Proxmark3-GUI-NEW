@@ -1,0 +1,5 @@
+[+]  NexWatch raw id : 0x40c00080
+[+]      fingerprint : Quadrakey
+[+]         88bit id : 521512301 (0x1f15a56d)
+[+]             mode : 1
+[=]  Raw : 5600000000213C9F8F150C00

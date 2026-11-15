@@ -3,517 +3,555 @@
 <context>
     <name>AmiiboPage</name>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="97" />
-        <source>Amiibo data</source>
-        <translation>Amiibo 数据</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="104" />
-        <source>Add sample</source>
-        <translation>添加示例</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="105" />
-        <source>Import file...</source>
-        <translation>导入文件…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="106" />
-        <source>Save as...</source>
-        <translation>另存为…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="107" />
-        <source>Remove</source>
-        <translation>移除</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="119" />
-        <source>The built-in sample is synthetic test data, not a real Amiibo. Import your own NTAG215 dump (540 bytes) to inspect or write it.</source>
-        <translation>内置示例为合成测试数据，并非真实 Amiibo。请导入自有的 NTAG215 数据（540 字节）以查看或写入。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="129" />
-        <source>Selected data</source>
-        <translation>已选数据</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="132" />
-        <location filename="../src/module/amiibopage.cpp" line="323" />
-        <source>(none)</source>
-        <translation>（无）</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="136" />
-        <source>Name:</source>
-        <translation>名称：</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="137" />
-        <source>Source:</source>
-        <translation>来源：</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="138" />
+        <location filename="../src/module/amiibopage.cpp" line="131" />
         <source>Size:</source>
         <translation>大小：</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="139" />
-        <source>Format:</source>
-        <translation>格式：</translation>
+        <location filename="../src/module/amiibopage.cpp" line="132" />
+        <source>SHA-256:</source>
+        <translation>SHA-256：</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="146" />
-        <source>Hexadecimal preview of the selected data</source>
-        <translation>所选数据的十六进制预览</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="153" />
-        <location filename="../src/module/amiibopage.cpp" line="339" />
-        <location filename="../src/module/amiibopage.cpp" line="827" />
-        <source>No image</source>
-        <translation>无图片</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="157" />
-        <source>Tag operations (NTAG215 / Type 2)</source>
-        <translation>标签操作（NTAG215 / Type 2）</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="160" />
-        <source>Detect tag</source>
-        <translation>检测标签</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="161" />
-        <source>Read tag</source>
-        <translation>读取标签</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="162" />
-        <source>Write tag...</source>
-        <translation>写入标签…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="163" />
-        <source>Verify tag</source>
-        <translation>校验标签</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="164" />
+        <location filename="../src/module/amiibopage.cpp" line="165" />
         <source>Start emulation</source>
         <translation>开始模拟</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="165" />
+        <location filename="../src/module/amiibopage.cpp" line="167" />
         <source>Stop emulation</source>
         <translation>停止模拟</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="181" />
-        <source>Writing overwrites the tag and is only started after confirmation; the data is read back afterwards. Lock/OTP/password changes are never performed. Emulation uses the client emulator memory (hf mfu eload + hf mfu sim -t 7).</source>
-        <translation>写入会覆盖标签内容，仅在确认后开始，并在写入后复读校验。不会修改锁定/OTP/密码等设置。模拟使用客户端模拟内存（hf mfu eload + hf mfu sim -t 7）。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="439" />
+        <source>Amiibo BIN (*.bin);;All files (*)</source>
+        <translation>Amiibo BIN (*.bin);;所有文件 (*)</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="189" />
-        <source>Idle</source>
-        <translation>空闲</translation>
+        <location filename="../src/module/amiibopage.cpp" line="448" />
+        <source>Import Amiibo folder</source>
+        <translation>导入 Amiibo 文件夹</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="193" />
-        <source>Online catalog (metadata)</source>
-        <translation>在线目录（元数据）</translation>
+        <location filename="../src/module/amiibopage.cpp" line="453" />
+        <source>Scanning folder...</source>
+        <translation>正在扫描文件夹…</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="196" />
-        <source>Catalog URL:</source>
-        <translation>目录地址：</translation>
+        <location filename="../src/module/amiibopage.cpp" line="464" />
+        <source>Scanning folder... %1 file(s)</source>
+        <translation>正在扫描文件夹… %1 个文件</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="198" />
-        <source>https://example.org/amiibo.json</source>
-        <translation>https://example.org/amiibo.json</translation>
+        <location filename="../src/module/amiibopage.cpp" line="471" />
+        <location filename="../src/module/amiibopage.cpp" line="473" />
+        <source>No BIN files were found in this folder.</source>
+        <translation>此文件夹中没有找到 BIN 文件。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="204" />
-        <source>Search name</source>
-        <translation>搜索名称</translation>
+        <location filename="../src/module/amiibopage.cpp" line="476" />
+        <source>Found %1 BIN file(s). Importing...</source>
+        <translation>找到 %1 个 BIN 文件，正在导入…</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="205" />
-        <source>Search</source>
-        <translation>搜索</translation>
+        <location filename="../src/module/amiibopage.cpp" line="516" />
+        <source>Importing %1 of %2: %3</source>
+        <translation>正在导入 %1/%2：%3</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="206" />
-        <source>Download data</source>
-        <translation>下载数据</translation>
+        <location filename="../src/module/amiibopage.cpp" line="523" />
+        <source>SKIP  %1  (already in library)</source>
+        <translation>跳过  %1  （已在库中）</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="221" />
-        <source>No catalog is configured. Metadata browsing is optional and network access only happens when you press Search. Binary Amiibo data is not bundled or distributed by this program.</source>
-        <translation>未配置在线目录。元数据浏览为可选功能，仅在点击“搜索”时联网。本程序不内置、也不分发 Amiibo 二进制数据。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="531" />
+        <source>FAIL  %1  (cannot open)</source>
+        <translation>失败  %1  （无法打开）</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="310" />
-        <source>Source: %1</source>
-        <translation>来源：%1</translation>
+        <location filename="../src/module/amiibopage.cpp" line="539" />
+        <source>FAIL  %1  (empty file)</source>
+        <translation>失败  %1  （空文件）</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="333" />
+        <location filename="../src/module/amiibopage.cpp" line="552" />
+        <source>OK    %1  (%2 bytes, %3)</source>
+        <translation>成功  %1  （%2 字节，%3）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="555" />
+        <source>      note: same SHA-256 as %1</source>
+        <translation>      注意：与 %1 的 SHA-256 相同</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="575" />
+        <source>Amiibo import</source>
+        <translation>Amiibo 导入</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="576" />
+        <source>Import complete</source>
+        <translation>导入完成</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="577" />
+        <source>Success: %1
+Skipped: %2
+Failed: %3</source>
+        <translation>成功：%1
+跳过：%2
+失败：%3</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="583" />
+        <source>Imported %1 file(s), skipped %2, failed %3.</source>
+        <translation>已导入 %1 个文件，跳过 %2 个，失败 %3 个。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="618" />
+        <source>The client returned no output.</source>
+        <translation>Client 没有返回输出。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="632" />
+        <source>The client did not confirm that the file was loaded.</source>
+        <translation>Client 未确认文件已加载。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="761" />
+        <source>Cannot write the temporary client file:
+%1</source>
+        <translation>无法写入临时 Client 文件：
+%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="769" />
+        <source>Cannot verify the temporary client file.</source>
+        <translation>无法校验临时 Client 文件。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="789" />
+        <source>Connect the Proxmark3 first.</source>
+        <translation>请先连接 Proxmark3。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="908" />
+        <source>Stopping simulation...</source>
+        <translation>正在停止模拟…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="910" />
+        <source>Simulation stopped.</source>
+        <translation>模拟已停止。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="384" />
         <source>%1 bytes</source>
         <translation>%1 字节</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="346" />
-        <source>NTAG215 image (540 bytes)</source>
-        <translation>NTAG215 镜像（540 字节）</translation>
+        <location filename="../src/module/amiibopage.cpp" line="75" />
+        <source>Manage Amiibo files and simulate them through the Proxmark3.</source>
+        <translation>管理 Amiibo 数据文件并通过 Proxmark3 模拟。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="82" />
+        <source>Amiibo library</source>
+        <translation>Amiibo 库</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="90" />
+        <source>Import BIN...</source>
+        <translation>导入 BIN…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="92" />
+        <source>Import folder...</source>
+        <translation>导入文件夹…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="94" />
+        <source>Remove</source>
+        <translation>移除</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="108" />
+        <source>Selected Amiibo</source>
+        <translation>选中的 Amiibo</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="115" />
+        <location filename="../src/module/amiibopage.cpp" line="378" />
+        <location filename="../src/module/amiibopage.cpp" line="409" />
+        <location filename="../src/module/amiibopage.cpp" line="410" />
+        <location filename="../src/module/amiibopage.cpp" line="964" />
+        <location filename="../src/module/amiibopage.cpp" line="965" />
+        <source>No image</source>
+        <translation>无图片</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="119" />
+        <location filename="../src/module/amiibopage.cpp" line="372" />
+        <source>(none)</source>
+        <translation>（无）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="129" />
+        <source>Name:</source>
+        <translation>名称：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="130" />
+        <source>Source:</source>
+        <translation>来源：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="133" />
+        <source>Format:</source>
+        <translation>格式：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="141" />
+        <source>Simulation</source>
+        <translation>模拟</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="148" />
+        <source>Auto compatibility</source>
+        <translation>自动兼容</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="149" />
+        <source>Standard MFU load</source>
+        <translation>标准 MFU 加载</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="150" />
+        <source>Direct page load (compatibility)</source>
+        <translation>直接页加载（兼容）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="158" />
+        <source>Standard uses the client's MFU dump detection. Direct page load writes the 540-byte image into emulator memory without changing the BIN; it is used when the client rejects the dump header.</source>
+        <translation>标准模式使用 Client 的 MFU dump 识别。直接页加载只把 540 字节镜像写入模拟器内存，不修改 BIN；用于 Client 拒绝 dump 头的情况。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="161" />
+        <source>Load mode:</source>
+        <translation>加载方式：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="176" />
+        <location filename="../src/module/amiibopage.cpp" line="338" />
+        <location filename="../src/module/amiibopage.cpp" line="606" />
+        <source>No Amiibo selected.</source>
+        <translation>未选择 Amiibo。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="188" />
+        <source>Client output</source>
+        <translation>Client 输出</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="193" />
+        <location filename="../src/module/amiibopage.cpp" line="234" />
+        <source>Online catalog</source>
+        <translation>在线目录</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="197" />
+        <source>Catalog URL:</source>
+        <translation>目录 URL：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="200" />
+        <source>https://example.org/amiibo.json</source>
+        <translation>https://example.org/amiibo.json</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="206" />
+        <source>Search name</source>
+        <translation>搜索名称</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="207" />
+        <source>Search</source>
+        <translation>搜索</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="209" />
+        <source>Download BIN</source>
+        <translation>下载 BIN</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="228" />
+        <source>No catalog request yet.</source>
+        <translation>尚未请求在线目录。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="256" />
+        <source>Device disconnected; emulation state is unknown.</source>
+        <translation>设备已断开；模拟状态未知。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="324" />
+        <source>Source: %1</source>
+        <translation>来源：%1</translation>
     </message>
     <message>
         <location filename="../src/module/amiibopage.cpp" line="348" />
-        <source>NTAG213-sized image (1024 bytes)</source>
-        <translation>NTAG213 尺寸镜像（1024 字节）</translation>
+        <source>Ready.</source>
+        <translation>已就绪。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="350" />
-        <source>NTAG216-sized image (2048 bytes)</source>
-        <translation>NTAG216 尺寸镜像（2048 字节）</translation>
+        <location filename="../src/module/amiibopage.cpp" line="348" />
+        <source>The selected file is empty.</source>
+        <translation>选中的文件为空。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="351" />
-        <source>Unknown (%1 bytes)</source>
-        <translation>未知（%1 字节）</translation>
+        <location filename="../src/module/amiibopage.cpp" line="355" />
+        <source>Empty</source>
+        <translation>空文件</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="386" />
-        <source>Synthetic NTAG215 sample</source>
-        <translation>合成 NTAG215 示例</translation>
+        <location filename="../src/module/amiibopage.cpp" line="360" />
+        <source>Dump file (%1 pages, %2 bytes)</source>
+        <translation>Dump 文件（%1 页，%2 字节）</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="387" />
-        <source>built-in</source>
-        <translation>内置</translation>
+        <location filename="../src/module/amiibopage.cpp" line="362" />
+        <source>Raw image (%1 pages, %2 bytes)</source>
+        <translation>原始镜像（%1 页，%2 字节）</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="388" />
-        <source>synthetic</source>
-        <translation>合成</translation>
+        <location filename="../src/module/amiibopage.cpp" line="364" />
+        <source>Unrecognised (%1 bytes)</source>
+        <translation>无法识别（%1 字节）</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="391" />
-        <source>Synthetic sample added (not a real Amiibo).</source>
-        <translation>已添加合成示例（并非真实 Amiibo）。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="420" />
+        <source>Image: %1</source>
+        <translation>图片：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="397" />
-        <source>Import NTAG215 dump</source>
-        <translation>导入 NTAG215 数据</translation>
+        <location filename="../src/module/amiibopage.cpp" line="426" />
+        <location filename="../src/module/amiibopage.cpp" line="427" />
+        <source>Loading image...</source>
+        <translation>正在加载图片…</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="398" />
-        <source>Dump files (*.bin *.dump);;All files (*)</source>
-        <translation>数据文件 (*.bin *.dump);;所有文件 (*)</translation>
+        <location filename="../src/module/amiibopage.cpp" line="438" />
+        <source>Import Amiibo BIN</source>
+        <translation>导入 Amiibo BIN</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="404" />
-        <location filename="../src/module/amiibopage.cpp" line="412" />
-        <location filename="../src/module/amiibopage.cpp" line="431" />
-        <location filename="../src/module/amiibopage.cpp" line="444" />
-        <location filename="../src/module/amiibopage.cpp" line="482" />
-        <location filename="../src/module/amiibopage.cpp" line="521" />
-        <location filename="../src/module/amiibopage.cpp" line="541" />
-        <location filename="../src/module/amiibopage.cpp" line="547" />
-        <location filename="../src/module/amiibopage.cpp" line="565" />
-        <location filename="../src/module/amiibopage.cpp" line="580" />
-        <location filename="../src/module/amiibopage.cpp" line="588" />
-        <location filename="../src/module/amiibopage.cpp" line="595" />
-        <location filename="../src/module/amiibopage.cpp" line="609" />
-        <location filename="../src/module/amiibopage.cpp" line="618" />
-        <location filename="../src/module/amiibopage.cpp" line="625" />
-        <location filename="../src/module/amiibopage.cpp" line="639" />
-        <location filename="../src/module/amiibopage.cpp" line="651" />
-        <location filename="../src/module/amiibopage.cpp" line="657" />
-        <location filename="../src/module/amiibopage.cpp" line="665" />
-        <location filename="../src/module/amiibopage.cpp" line="676" />
+        <location filename="../src/module/amiibopage.cpp" line="819" />
+        <source>Loading the selected mode...</source>
+        <translation>正在按所选方式加载…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="823" />
+        <source>File: %1
+Size: %2 bytes
+SHA-256: %3
+</source>
+        <translation>文件：%1
+大小：%2 字节
+SHA-256：%3
+</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="835" />
+        <source>Client file: %1
+</source>
+        <translation>Client 文件：%1
+</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="840" />
+        <source>Could not prepare the client file.</source>
+        <translation>无法准备 Client 文件。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="851" />
+        <source>
+Standard load failed; trying direct page load.
+</source>
+        <translation>
+标准加载失败，正在尝试直接页加载。
+</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="857" />
+        <location filename="../src/module/amiibopage.cpp" line="864" />
+        <source>Standard MFU: %1
+Direct page load: %2</source>
+        <translation>标准 MFU：%1
+直接页加载：%2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="874" />
+        <source>Unknown load mode.</source>
+        <translation>未知加载方式。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="882" />
+        <source>Loading failed.</source>
+        <translation>加载失败。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="892" />
+        <source>The client accepted the data but refused to start the simulation.</source>
+        <translation>Client 接受了数据，但拒绝启动模拟。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="897" />
+        <source>Simulation running (%1).</source>
+        <translation>模拟运行中（%1）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="233" />
+        <location filename="../src/module/amiibopage.cpp" line="472" />
         <source>Amiibo</source>
         <translation>Amiibo</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="405" />
-        <source>Cannot open the file:
-%1</source>
-        <translation>无法打开文件：
-%1</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="413" />
-        <source>Unsupported data length: %1 bytes.
-An NTAG215 dump must be 540 bytes.</source>
-        <translation>数据长度不受支持：%1 字节。
-NTAG215 数据必须为 540 字节。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="419" />
+        <location filename="../src/module/amiibopage.cpp" line="545" />
         <source>file</source>
-        <translation>文件</translation>
+        <translation>本地文件</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="423" />
-        <source>Loaded %1 (%2 bytes).</source>
-        <translation>已加载 %1（%2 字节）。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="627" />
+        <source>The client could not detect or convert the MFU dump format.</source>
+        <translation>Client 无法识别或转换 MFU dump 格式。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="431" />
-        <location filename="../src/module/amiibopage.cpp" line="541" />
-        <location filename="../src/module/amiibopage.cpp" line="609" />
-        <location filename="../src/module/amiibopage.cpp" line="651" />
-        <source>Select data first.</source>
-        <translation>请先选择数据。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="630" />
+        <source>The client did not confirm MFU dump format detection.</source>
+        <translation>Client 未确认识别到 MFU dump 格式。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="436" />
-        <source>Save Amiibo data</source>
-        <translation>保存 Amiibo 数据</translation>
+        <location filename="../src/module/amiibopage.cpp" line="641" />
+        <source>Direct page load supports 540-byte images only.</source>
+        <translation>直接页加载仅支持 540 字节镜像。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="438" />
-        <source>Binary dump (*.bin)</source>
-        <translation>二进制数据 (*.bin)</translation>
+        <location filename="../src/module/amiibopage.cpp" line="652" />
+        <source>The image has no valid NTAG Capability Container (E1 10 12/3E/6D 00).</source>
+        <translation>镜像没有有效的 NTAG Capability Container（E1 10 12/3E/6D 00）。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="445" />
-        <source>Failed to save the file:
-%1</source>
-        <translation>保存文件失败：
-%1</translation>
+        <location filename="../src/module/amiibopage.cpp" line="661" />
+        <source>The image has an empty UID; it is not a usable NTAG image.</source>
+        <translation>镜像的 UID 为空，不是可用的 NTAG 镜像。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="449" />
-        <source>Saved %1.</source>
-        <translation>已保存 %1。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="469" />
-        <source>Detecting tag...</source>
-        <translation>正在检测标签…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="481" />
-        <source>No NTAG/Ultralight tag detected.</source>
-        <translation>未检测到 NTAG/Ultralight 标签。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="483" />
-        <source>No NTAG/Ultralight tag answered.
-Place the tag on the antenna and try again.</source>
-        <translation>没有 NTAG/Ultralight 标签响应。
-请将标签放到天线处后重试。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="487" />
-        <source>Detected: %1</source>
-        <translation>已检测到：%1</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="502" />
-        <source>Read-back failed.</source>
-        <translation>复读失败。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="515" />
-        <source>Reading tag...</source>
-        <translation>正在读取标签…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="522" />
-        <source>The tag could not be read. Check that it is an NTAG215 and stays on the antenna.</source>
-        <translation>无法读取标签。请确认其为 NTAG215 并保持在天线上。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="527" />
-        <source>Tag %1</source>
-        <translation>标签 %1</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="528" />
-        <source>tag</source>
-        <translation>标签</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="531" />
-        <source>Read %1 bytes from the tag.</source>
-        <translation>已从标签读取 %1 字节。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="548" />
-        <source>Writing requires a 540-byte NTAG215 image.</source>
-        <translation>写入需要 540 字节的 NTAG215 数据。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="552" />
-        <source>Write tag</source>
-        <translation>写入标签</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="553" />
-        <source>This overwrites the NTAG215 tag with:
-%1 (%2 bytes).
-
-Amiibo tags are usually locked and only accept writes on rewritable ("magic") NTAG215 tags. Continue?</source>
-        <translation>这将用以下数据覆盖 NTAG215 标签：
-%1（%2 字节）。
-
-Amiibo 标签通常已锁定，只有可重写的（“magic”）NTAG215 才能写入。是否继续？</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="565" />
-        <location filename="../src/module/amiibopage.cpp" line="665" />
-        <source>Cannot write a temporary file.</source>
-        <translation>无法写入临时文件。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="570" />
-        <source>Writing tag...</source>
-        <translation>正在写入标签…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="581" />
-        <source>Write finished but the read-back failed, so the result cannot be verified.</source>
-        <translation>写入已完成，但复读失败，无法验证结果。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="587" />
-        <source>Write verified: the tag matches the data.</source>
-        <translation>写入校验通过：标签与数据一致。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="589" />
-        <source>Write succeeded and was verified by reading the tag back.</source>
-        <translation>写入成功，并已通过复读完成验证。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="594" />
-        <source>Write verification FAILED.</source>
-        <translation>写入校验失败。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="596" />
-        <source>The tag does not match the written data (read %1 bytes).</source>
-        <translation>标签与写入数据不一致（读取到 %1 字节）。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="612" />
-        <source>Reading the tag for verification...</source>
-        <translation>正在读取标签以校验…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="618" />
-        <source>The tag could not be read.</source>
-        <translation>无法读取标签。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="624" />
-        <source>Verification OK: tag matches the selected data.</source>
-        <translation>校验通过：标签与所选数据一致。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="625" />
-        <source>The tag matches the data.</source>
-        <translation>标签与数据一致。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="638" />
-        <source>Verification FAILED (first difference at %1).</source>
-        <translation>校验失败（首个差异位于 %1）。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="640" />
-        <source>The tag differs from the data (first difference at byte %1; read %2 bytes).</source>
-        <translation>标签与数据不一致（首个差异位于字节 %1；读取到 %2 字节）。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="658" />
-        <source>Emulation requires a 540-byte NTAG215 image.</source>
-        <translation>模拟需要 540 字节的 NTAG215 数据。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="670" />
-        <source>Loading emulator memory...</source>
-        <translation>正在加载模拟内存…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="677" />
-        <source>The client refused to start the simulation. Press Stop and retry.</source>
-        <translation>客户端拒绝启动模拟。请按“停止”后重试。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="682" />
-        <source>Emulating NTAG215 from the selected data. Press Stop to end.</source>
-        <translation>正在用所选数据模拟 NTAG215。按“停止”结束。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="699" />
-        <source>Stopping emulation...</source>
-        <translation>正在停止模拟…</translation>
-    </message>
-    <message>
-        <location filename="../src/module/amiibopage.cpp" line="703" />
-        <source>Emulation stopped.</source>
-        <translation>模拟已停止。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="672" />
+        <source>[Standard MFU] %1</source>
+        <translation>[标准 MFU] %1</translation>
     </message>
     <message>
         <location filename="../src/module/amiibopage.cpp" line="712" />
-        <source>Set a catalog URL first. The catalog must return JSON: {"items":[{"name","series","image_url","bin_url"}]}.</source>
-        <translation>请先设置目录地址。目录需返回 JSON：{"items":[{"name","series","image_url","bin_url"}]}。</translation>
+        <source>Could not clear emulator memory.</source>
+        <translation>无法清空模拟器内存。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="720" />
-        <source>The catalog URL is not valid.</source>
-        <translation>目录地址无效。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="719" />
+        <source>Could not set the emulator header.</source>
+        <translation>无法设置模拟器头。</translation>
     </message>
     <message>
         <location filename="../src/module/amiibopage.cpp" line="726" />
+        <source>The emulator header was not accepted (page count mismatch).</source>
+        <translation>模拟器头未被接受（页数不匹配）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="739" />
+        <source>Could not load emulator pages %1..%2.</source>
+        <translation>无法加载模拟器第 %1..%2 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="777" />
+        <source>The temporary client file does not match the imported bytes.</source>
+        <translation>临时 Client 文件与导入字节不一致。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="794" />
+        <source>Select an Amiibo BIN first.</source>
+        <translation>请先选择一个 Amiibo BIN。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="802" />
+        <source>The selected file is no longer readable: %1</source>
+        <translation>选中的文件已无法读取：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="810" />
+        <source>The file changed after import; emulation was not started.</source>
+        <translation>文件在导入后发生变化，未启动模拟。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="920" />
+        <source>Set a catalog URL first.</source>
+        <translation>请先设置目录 URL。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="926" />
+        <source>The catalog URL is not valid.</source>
+        <translation>目录 URL 无效。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="932" />
         <source>Searching...</source>
         <translation>正在搜索…</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="759" />
+        <location filename="../src/module/amiibopage.cpp" line="960" />
+        <source>Catalog image loaded</source>
+        <translation>目录图片已加载</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="972" />
         <source>Catalog request failed: %1</source>
         <translation>目录请求失败：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="769" />
-        <source>Downloaded data has an unsupported length (%1 bytes).</source>
-        <translation>下载的数据长度不受支持（%1 字节）。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="980" />
+        <source>The catalog returned an empty BIN.</source>
+        <translation>目录返回了空 BIN。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="775" />
-        <source>Downloaded data</source>
-        <translation>已下载数据</translation>
+        <location filename="../src/module/amiibopage.cpp" line="989" />
+        <source>Cannot save the downloaded BIN.</source>
+        <translation>无法保存下载的 BIN。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="776" />
+        <location filename="../src/module/amiibopage.cpp" line="994" />
+        <source>Catalog Amiibo</source>
+        <translation>目录 Amiibo</translation>
+    </message>
+    <message>
+        <location filename="../src/module/amiibopage.cpp" line="996" />
         <source>online</source>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="779" />
-        <source>Downloaded %1 bytes and added it to the library.</source>
-        <translation>已下载 %1 字节并加入列表。</translation>
+        <location filename="../src/module/amiibopage.cpp" line="1003" />
+        <source>Downloaded %1 bytes.</source>
+        <translation>已下载 %1 字节。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="788" />
+        <location filename="../src/module/amiibopage.cpp" line="1011" />
         <source>The catalog returned invalid JSON.</source>
-        <translation>目录返回的 JSON 无效。</translation>
+        <translation>目录返回了无效 JSON。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="814" />
+        <location filename="../src/module/amiibopage.cpp" line="1037" />
         <source>%1 catalog entries.</source>
-        <translation>共 %1 条目录记录。</translation>
+        <translation>%1 个目录条目。</translation>
     </message>
     <message>
-        <location filename="../src/module/amiibopage.cpp" line="845" />
+        <location filename="../src/module/amiibopage.cpp" line="1062" />
         <source>Downloading %1...</source>
         <translation>正在下载 %1…</translation>
     </message>
@@ -795,7 +833,7 @@ L898902C36UTO…</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="258" />
-        <location filename="../src/module/emrtd.cpp" line="833" />
+        <location filename="../src/module/emrtd.cpp" line="841" />
         <source>No portrait read yet.</source>
         <translation>尚未读取人像。</translation>
     </message>
@@ -806,7 +844,7 @@ L898902C36UTO…</translation>
     </message>
     <message>
         <location filename="../src/module/emrtd.cpp" line="268" />
-        <location filename="../src/module/emrtd.cpp" line="769" />
+        <location filename="../src/module/emrtd.cpp" line="777" />
         <source>Other data</source>
         <translation>其他数据</translation>
     </message>
@@ -875,7 +913,7 @@ L898902C36UTO…</translation>
         <location filename="../src/module/emrtd.cpp" line="366" />
         <location filename="../src/module/emrtd.cpp" line="596" />
         <location filename="../src/module/emrtd.cpp" line="601" />
-        <location filename="../src/module/emrtd.cpp" line="815" />
+        <location filename="../src/module/emrtd.cpp" line="823" />
         <source>Done</source>
         <translation>完成</translation>
     </message>
@@ -894,7 +932,7 @@ L898902C36UTO…</translation>
     <message>
         <location filename="../src/module/emrtd.cpp" line="395" />
         <location filename="../src/module/emrtd.cpp" line="528" />
-        <location filename="../src/module/emrtd.cpp" line="899" />
+        <location filename="../src/module/emrtd.cpp" line="907" />
         <source>Cannot start the eMRTD reader:
 %1</source>
         <translation>无法启动 eMRTD 读取程序：
@@ -958,10 +996,10 @@ L898902C36UTO…</translation>
     <message>
         <location filename="../src/module/emrtd.cpp" line="477" />
         <location filename="../src/module/emrtd.cpp" line="491" />
-        <location filename="../src/module/emrtd.cpp" line="854" />
-        <location filename="../src/module/emrtd.cpp" line="889" />
-        <location filename="../src/module/emrtd.cpp" line="963" />
-        <location filename="../src/module/emrtd.cpp" line="1000" />
+        <location filename="../src/module/emrtd.cpp" line="862" />
+        <location filename="../src/module/emrtd.cpp" line="897" />
+        <location filename="../src/module/emrtd.cpp" line="971" />
+        <location filename="../src/module/emrtd.cpp" line="1008" />
         <source>eMRTD Reader</source>
         <translation>eMRTD 读取</translation>
     </message>
@@ -1014,74 +1052,74 @@ Install the packaged build or set PM3GUI_EMRTD_EXE.</source>
         <translation>读取程序已 15 秒没有输出。较大的 DG2 读取可能需要较长时间；仍可点击“取消”。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="644" />
+        <location filename="../src/module/emrtd.cpp" line="652" />
         <source>%1 - skipped</source>
         <translation>%1 - 已跳过</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="649" />
+        <location filename="../src/module/emrtd.cpp" line="657" />
         <source>Reading DG2 (%1 / %2 bytes)</source>
         <translation>正在读取 DG2（%1 / %2 字节）</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="651" />
+        <location filename="../src/module/emrtd.cpp" line="659" />
         <source>Receiving the facial image data from the document.</source>
         <translation>正在从证件接收人像数据。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="654" />
+        <location filename="../src/module/emrtd.cpp" line="662" />
         <source>Parsing DG2 structure</source>
         <translation>正在解析 DG2 结构</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="656" />
+        <location filename="../src/module/emrtd.cpp" line="664" />
         <source>Extracting facial image</source>
         <translation>正在提取人脸图像</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="658" />
-        <location filename="../src/module/emrtd.cpp" line="793" />
+        <location filename="../src/module/emrtd.cpp" line="666" />
+        <location filename="../src/module/emrtd.cpp" line="801" />
         <source>Decoding facial image</source>
         <translation>正在解码人脸图像</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="660" />
+        <location filename="../src/module/emrtd.cpp" line="668" />
         <source>Updating preview</source>
         <translation>正在更新预览</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="681" />
+        <location filename="../src/module/emrtd.cpp" line="689" />
         <source>Authentication or card error: %1</source>
         <translation>认证或卡片错误：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="683" />
+        <location filename="../src/module/emrtd.cpp" line="691" />
         <source>Proxmark3 communication error: %1</source>
         <translation>Proxmark3 通信错误：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="685" />
+        <location filename="../src/module/emrtd.cpp" line="693" />
         <source>Invalid input: %1</source>
         <translation>输入无效：%1</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="687" />
+        <location filename="../src/module/emrtd.cpp" line="695" />
         <source>Reading was cancelled.</source>
         <translation>读取已取消。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="688" />
-        <location filename="../src/module/emrtd.cpp" line="885" />
+        <location filename="../src/module/emrtd.cpp" line="696" />
+        <location filename="../src/module/emrtd.cpp" line="893" />
         <source>Failed</source>
         <translation>失败</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="736" />
+        <location filename="../src/module/emrtd.cpp" line="744" />
         <source>EF.COM</source>
         <translation>EF.COM</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="737" />
+        <location filename="../src/module/emrtd.cpp" line="745" />
         <source>LDS version: %1
 Unicode version: %2
 Data groups: %3</source>
@@ -1090,22 +1128,22 @@ Unicode 版本：%2
 数据组：%3</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="756" />
+        <location filename="../src/module/emrtd.cpp" line="764" />
         <source>DG11</source>
         <translation>DG11</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="757" />
+        <location filename="../src/module/emrtd.cpp" line="765" />
         <source>DG12</source>
         <translation>DG12</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="765" />
+        <location filename="../src/module/emrtd.cpp" line="773" />
         <source>Raw (hex)</source>
         <translation>原始数据（十六进制）</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="769" />
+        <location filename="../src/module/emrtd.cpp" line="777" />
         <source>No additional files were returned by the document.</source>
         <translation>证件未返回其他文件。</translation>
     </message>
@@ -1115,38 +1153,38 @@ Unicode 版本：%2
         <translation>人像无法解码（%1）。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="786" />
-        <location filename="../src/module/emrtd.cpp" line="809" />
+        <location filename="../src/module/emrtd.cpp" line="794" />
+        <location filename="../src/module/emrtd.cpp" line="817" />
         <source>The document did not return a portrait.</source>
         <translation>证件未返回人像。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="880" />
+        <location filename="../src/module/emrtd.cpp" line="888" />
         <source>The reader process crashed.</source>
         <translation>读取进程已崩溃。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="881" />
+        <location filename="../src/module/emrtd.cpp" line="889" />
         <source>The reader exited with code %1.</source>
         <translation>读取进程退出，代码 %1。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="964" />
+        <location filename="../src/module/emrtd.cpp" line="972" />
         <source>There is no portrait to save.</source>
         <translation>没有人像可保存。</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="968" />
+        <location filename="../src/module/emrtd.cpp" line="976" />
         <source>Save portrait</source>
         <translation>保存人像</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="970" />
+        <location filename="../src/module/emrtd.cpp" line="978" />
         <source>PNG image (*.png);;JPEG image (*.jpg *.jpeg)</source>
         <translation>PNG 图片 (*.png);;JPEG 图片 (*.jpg *.jpeg)</translation>
     </message>
     <message>
-        <location filename="../src/module/emrtd.cpp" line="1001" />
+        <location filename="../src/module/emrtd.cpp" line="1009" />
         <source>Failed to save the image.</source>
         <translation>保存图片失败。</translation>
     </message>
@@ -1196,6 +1234,669 @@ Check the Client working directory in Settings.</source>
 Run LF Read/Sniff first, or load a graph buffer with `data load`.</source>
         <translation>图形缓冲少于 2 个采样，无法绘制波形。
 请先执行 LF Read/Sniff，或用 `data load` 载入图形缓冲。</translation>
+    </message>
+</context>
+<context>
+    <name>LfParserTab</name>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="28" />
+        <location filename="../src/module/lfparsertab.cpp" line="218" />
+        <location filename="../src/module/lfparsertab.cpp" line="223" />
+        <location filename="../src/module/lfparsertab.cpp" line="228" />
+        <source>Not provided</source>
+        <translation>未提供</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="47" />
+        <location filename="../src/module/lfparsertab.cpp" line="58" />
+        <source>Client text input</source>
+        <translation>客户端文本输入</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="50" />
+        <source>Paste Proxmark3 LF output (lf search / protocol readers) or import a text file. Parsing is pure text and works without LF-capable firmware.</source>
+        <translation>粘贴 Proxmark3 低频输出（lf search / 各协议读取命令），或导入文本文件。解析完全基于文本，无需支持低频的固件。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="60" />
+        <source>[+] EM 410x ID 0F0368568B
+[+] Valid HID Prox ID found!</source>
+        <translation>[+] EM 410x ID 0F0368568B
+[+] Valid HID Prox ID found!</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="65" />
+        <source>Parse</source>
+        <translation>解析</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="66" />
+        <source>Clear</source>
+        <translation>清空</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="67" />
+        <source>Import text...</source>
+        <translation>导入文本…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="68" />
+        <source>Use RawCommand output</source>
+        <translation>使用原始命令输出</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="80" />
+        <source>Source: manual input</source>
+        <translation>来源：手动输入</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="86" />
+        <source>Parsed card</source>
+        <translation>解析结果</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="90" />
+        <location filename="../src/module/lfparsertab.cpp" line="200" />
+        <source>No input parsed yet.</source>
+        <translation>尚未解析任何输入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="114" />
+        <source>Parsed fields</source>
+        <translation>解析字段</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="115" />
+        <source>Field</source>
+        <translation>字段</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="115" />
+        <source>Value</source>
+        <translation>值</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="128" />
+        <source>Raw output</source>
+        <translation>原始输出</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="132" />
+        <source>Warnings and unparsed fields</source>
+        <translation>警告与未解析字段</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="136" />
+        <source>T55xx (read-only)</source>
+        <translation>T55xx（只读）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="150" />
+        <location filename="../src/module/lfparsertab.cpp" line="174" />
+        <source>manual input</source>
+        <translation>手动输入</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="156" />
+        <source>Source: %1</source>
+        <translation>来源：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="162" />
+        <source>RawCommand output</source>
+        <translation>原始命令输出</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="181" />
+        <source>Import LF output text</source>
+        <translation>导入低频输出文本</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="182" />
+        <source>Text files (*.txt *.log *.md);;All files (*)</source>
+        <translation>文本文件 (*.txt *.log *.md);;所有文件 (*)</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="188" />
+        <source>Cannot open the file.</source>
+        <translation>无法打开文件。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="194" />
+        <source>text file</source>
+        <translation>文本文件</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="233" />
+        <source>Country code</source>
+        <translation>国家代码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="234" />
+        <source>Animal bit</source>
+        <translation>动物位</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="235" />
+        <source>Extended data</source>
+        <translation>扩展数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="236" />
+        <source>Extended value</source>
+        <translation>扩展值</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="237" />
+        <source>CRC</source>
+        <translation>CRC</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="238" />
+        <source>CRC state</source>
+        <translation>CRC 状态</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="239" />
+        <source>RUDI bit</source>
+        <translation>RUDI 位</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="240" />
+        <source>Reserved</source>
+        <translation>保留</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="241" />
+        <source>Unique tag ID</source>
+        <translation>唯一标签 ID</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="242" />
+        <source>RF divisor</source>
+        <translation>射频分频</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="243" />
+        <source>Facility code (decimal)</source>
+        <translation>设施码（十进制）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="244" />
+        <source>Facility code (hex)</source>
+        <translation>设施码（十六进制）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="245" />
+        <source>Card (hex)</source>
+        <translation>卡号（十六进制）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="246" />
+        <source>Card ID (hex)</source>
+        <translation>卡 ID（十六进制）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="247" />
+        <source>Region code</source>
+        <translation>区域代码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="248" />
+        <source>OEM code</source>
+        <translation>OEM 代码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="249" />
+        <source>Customer code</source>
+        <translation>客户代码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="250" />
+        <source>Customer code (hex)</source>
+        <translation>客户代码（十六进制）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="251" />
+        <source>Issue level</source>
+        <translation>签发级别</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="252" />
+        <source>Keri type</source>
+        <translation>Keri 类型</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="253" />
+        <source>Wiegand format</source>
+        <translation>Wiegand 格式</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="254" />
+        <source>Wiegand</source>
+        <translation>Wiegand</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="255" />
+        <source>Parity</source>
+        <translation>校验位</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="256" />
+        <source>Checksum</source>
+        <translation>校验和</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="257" />
+        <source>Checksum state</source>
+        <translation>校验和状态</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="258" />
+        <source>Raw ID</source>
+        <translation>原始 ID</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="259" />
+        <source>Raw payload</source>
+        <translation>原始载荷</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="260" />
+        <source>Full code</source>
+        <translation>完整编码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="261" />
+        <source>Frame</source>
+        <translation>帧</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="262" />
+        <source>Frame data</source>
+        <translation>帧数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="263" />
+        <source>Subtype</source>
+        <translation>子类型</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="264" />
+        <source>Variant</source>
+        <translation>变体</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="265" />
+        <source>Version</source>
+        <translation>版本</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="266" />
+        <source>Year</source>
+        <translation>年份</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="267" />
+        <source>Mode</source>
+        <translation>模式</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="268" />
+        <source>Decimal (8 digits)</source>
+        <translation>十进制（8 位）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="269" />
+        <source>Decimal (14 digits)</source>
+        <translation>十进制（14 位）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="270" />
+        <source>Decimal (15 digits)</source>
+        <translation>十进制（15 位）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="271" />
+        <source>Cansec 37 facility code</source>
+        <translation>Cansec 37 设施码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="272" />
+        <source>Cansec 37 card number</source>
+        <translation>Cansec 37 卡号</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="273" />
+        <source>Keyscan 40010 facility code</source>
+        <translation>Keyscan 40010 设施码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="274" />
+        <source>Keyscan 40010 card number</source>
+        <translation>Keyscan 40010 卡号</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="275" />
+        <source>CDVI pattern facility code</source>
+        <translation>CDVI 模板设施码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="276" />
+        <source>CDVI pattern card number</source>
+        <translation>CDVI 模板卡号</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="277" />
+        <source>RBH card number</source>
+        <translation>RBH 卡号</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="278" />
+        <source>HCC40 ID</source>
+        <translation>HCC40 ID</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="279" />
+        <source>PAC card (hex)</source>
+        <translation>PAC 卡号（十六进制）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="280" />
+        <source>ID88 (hex)</source>
+        <translation>ID88（十六进制）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="281" />
+        <source>Internal ID</source>
+        <translation>内部 ID</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="282" />
+        <source>Displayed value</source>
+        <translation>显示值</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="283" />
+        <source>Printed value</source>
+        <translation>打印值</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="284" />
+        <source>Printed value (hex)</source>
+        <translation>打印值（十六进制）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="285" />
+        <source>Second card</source>
+        <translation>第二卡号</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="286" />
+        <source>Fingerprint</source>
+        <translation>指纹</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="287" />
+        <source>Electra</source>
+        <translation>Electra</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="288" />
+        <source>Heden 2L</source>
+        <translation>Heden 2L</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="289" />
+        <source>XL high bits</source>
+        <translation>XL 高位</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="290" />
+        <source>XL low bits</source>
+        <translation>XL 低位</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="291" />
+        <source>XOR</source>
+        <translation>异或</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="301" />
+        <source>Input is empty.</source>
+        <translation>输入为空。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="302" />
+        <source>Paste Proxmark3 LF output or import a text file.</source>
+        <translation>请粘贴 Proxmark3 低频输出或导入文本文件。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="315" />
+        <location filename="../src/module/lfparsertab.cpp" line="470" />
+        <source>Warnings:</source>
+        <translation>警告：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="321" />
+        <source>Unparsed fields:</source>
+        <translation>未解析字段：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="327" />
+        <source>Format candidates: %1</source>
+        <translation>候选格式：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="330" />
+        <source>No warnings.</source>
+        <translation>无警告。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="341" />
+        <source>Identified</source>
+        <translation>已识别</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="344" />
+        <source>Partial parse</source>
+        <translation>部分解析</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="347" />
+        <source>No supported protocol found</source>
+        <translation>未找到受支持的协议</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="350" />
+        <source>Invalid input</source>
+        <translation>输入无效</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="358" />
+        <source>Format: %1</source>
+        <translation>格式：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="360" />
+        <source>%1 bit</source>
+        <translation>%1 位</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="364" />
+        <source>Confidence: %1</source>
+        <translation>置信度：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="368" />
+        <source>Ambiguous format: %1 (the parser deliberately does not pick one).</source>
+        <translation>格式存在歧义：%1（解析器不会擅自选择其一）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="371" />
+        <source>Protocol recognised, but required fields are incomplete.</source>
+        <translation>已识别协议，但必需字段不完整。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="373" />
+        <source>No supported LF protocol signature was found in this text.</source>
+        <translation>该文本中未找到受支持的低频协议特征。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="378" />
+        <source>The client reports an unsupported or missing command: the connected firmware may not include LF support. Text parsing still works.</source>
+        <translation>客户端报告命令不受支持或缺失：当前固件可能不含低频功能。文本解析仍然可用。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="394" />
+        <source>Protocol</source>
+        <translation>协议</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="395" />
+        <source>Format</source>
+        <translation>格式</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="396" />
+        <source>Bit length</source>
+        <translation>位长</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="397" />
+        <source>Facility code</source>
+        <translation>设施码</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="398" />
+        <source>Card number</source>
+        <translation>卡号</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="399" />
+        <source>Hex ID</source>
+        <translation>十六进制 ID</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="400" />
+        <source>Decimal ID</source>
+        <translation>十进制 ID</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="401" />
+        <source>Raw data</source>
+        <translation>原始数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="418" />
+        <source>No T55xx detect/info data was found in this text.</source>
+        <translation>该文本中没有 T55xx detect/info 数据。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="419" />
+        <source>T55xx parsing is read-only: this page never writes, locks or erases a tag.</source>
+        <translation>T55xx 解析为只读：本页面不会写入、锁定或擦除标签。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="425" />
+        <source>Detected: %1</source>
+        <translation>检测结果：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="425" />
+        <location filename="../src/module/lfparsertab.cpp" line="429" />
+        <location filename="../src/module/lfparsertab.cpp" line="439" />
+        <location filename="../src/module/lfparsertab.cpp" line="452" />
+        <source>yes</source>
+        <translation>是</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="425" />
+        <location filename="../src/module/lfparsertab.cpp" line="429" />
+        <location filename="../src/module/lfparsertab.cpp" line="439" />
+        <location filename="../src/module/lfparsertab.cpp" line="452" />
+        <source>no</source>
+        <translation>否</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="427" />
+        <source>Chip: %1</source>
+        <translation>芯片：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="429" />
+        <source>Password set: %1</source>
+        <translation>已设置密码：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="431" />
+        <source>Block 0: %1</source>
+        <translation>块 0：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="433" />
+        <source>Modulation: %1</source>
+        <translation>调制方式：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="435" />
+        <source>Bit rate: %1</source>
+        <translation>比特率：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="437" />
+        <source>Offset: %1</source>
+        <translation>偏移：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="439" />
+        <source>Inverted: %1</source>
+        <translation>反相：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="449" />
+        <source>Block 0 decoded (read-only):</source>
+        <translation>块 0 解码（只读）：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="451" />
+        <source>  Modulation: %1</source>
+        <translation>  调制方式：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="452" />
+        <source>  Extended mode: %1</source>
+        <translation>  扩展模式：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="454" />
+        <source>  Bit rate index: %1</source>
+        <translation>  比特率索引：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="456" />
+        <source>  RF divisor: RF/%1</source>
+        <translation>  射频分频：RF/%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="458" />
+        <source>  Max block: %1</source>
+        <translation>  最大块：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="460" />
+        <source>  Master key: %1</source>
+        <translation>  主密钥：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="464" />
+        <source>  Warning: %1</source>
+        <translation>  警告：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/lfparsertab.cpp" line="475" />
+        <source>This page is read-only for T55xx: no write, lock, OTP or password operation is offered.</source>
+        <translation>本页面对 T55xx 仅做只读展示：不提供写入、锁定、OTP 或密码操作。</translation>
     </message>
 </context>
 <context>
@@ -1490,11 +2191,6 @@ It could make the whole sector blocked irreversibly!</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="156" />
-        <source>Mifare</source>
-        <translation>Mifare(IC)卡</translation>
-    </message>
-    <message>
         <location filename="../src/ui/mainwindow.ui" line="259" />
         <source>Select Trailer</source>
         <translation>选中密码块</translation>
@@ -1644,7 +2340,7 @@ It could make the whole sector blocked irreversibly!</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="914" />
-        <location filename="../src/ui/mainwindow.cpp" line="1035" />
+        <location filename="../src/ui/mainwindow.cpp" line="1058" />
         <source>About UID Card</source>
         <translation>关于UID卡</translation>
     </message>
@@ -1837,11 +2533,6 @@ or the communication between a tag and a reader.</source>
 或者卡片与读卡器的交互过程。</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="1883" />
-        <source>T55xx</source>
-        <translation />
-    </message>
-    <message>
         <location filename="../src/ui/mainwindow.ui" line="1895" />
         <source>Basic Configuration(Page 0 Block 0)</source>
         <translation>基本配置区(页0 块0)</translation>
@@ -1998,10 +2689,6 @@ or the communication between a tag and a reader.</source>
         <translation>下行协议：</translation>
     </message>
     <message>
-        <source>T55xx Read Config</source>
-        <translation type="vanished">T55xx读卡配置区</translation>
-    </message>
-    <message>
         <location filename="../src/ui/mainwindow.ui" line="2437" />
         <source>Bit Rate:</source>
         <translation>比特率：</translation>
@@ -2068,7 +2755,7 @@ or the communication between a tag and a reader.</source>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2658" />
-        <location filename="../src/ui/mainwindow.cpp" line="475" />
+        <location filename="../src/ui/mainwindow.cpp" line="498" />
         <source>History:</source>
         <translation>命令历史：</translation>
     </message>
@@ -2183,16 +2870,6 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>命令字体：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="3284" />
-        <source>Latest Release:</source>
-        <translation>检查更新：</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/mainwindow.ui" line="3314" />
-        <source>Report Bugs:</source>
-        <translation>反馈问题：</translation>
-    </message>
-    <message>
         <location filename="../src/ui/mainwindow.ui" line="2980" />
         <source>Keep buttons enabled even the client is running or disconnected</source>
         <translation>保持所有按钮可点击，即使未连接客户端或有任务正在运行</translation>
@@ -2238,11 +2915,6 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>改变当前配置</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.ui" line="2422" />
-        <source>T55xx Read Config (Exp.)</source>
-        <translation>T55xx 读取配置（实验）</translation>
-    </message>
-    <message>
         <location filename="../src/ui/mainwindow.ui" line="2804" />
         <source>Preload script path(Reconnect to apply):</source>
         <translation>预加载脚本路径(重连后生效)：</translation>
@@ -2283,49 +2955,49 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>在PM3断开后保持客户端运行（实验性功能）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="138" />
-        <location filename="../src/ui/mainwindow.cpp" line="249" />
-        <location filename="../src/ui/mainwindow.cpp" line="256" />
-        <location filename="../src/ui/mainwindow.cpp" line="335" />
-        <location filename="../src/ui/mainwindow.cpp" line="392" />
-        <location filename="../src/ui/mainwindow.cpp" line="578" />
-        <location filename="../src/ui/mainwindow.cpp" line="792" />
-        <location filename="../src/ui/mainwindow.cpp" line="812" />
-        <location filename="../src/ui/mainwindow.cpp" line="825" />
-        <location filename="../src/ui/mainwindow.cpp" line="845" />
-        <location filename="../src/ui/mainwindow.cpp" line="859" />
-        <location filename="../src/ui/mainwindow.cpp" line="887" />
-        <location filename="../src/ui/mainwindow.cpp" line="901" />
-        <location filename="../src/ui/mainwindow.cpp" line="1107" />
-        <location filename="../src/ui/mainwindow.cpp" line="1149" />
+        <location filename="../src/ui/mainwindow.cpp" line="161" />
+        <location filename="../src/ui/mainwindow.cpp" line="272" />
+        <location filename="../src/ui/mainwindow.cpp" line="279" />
+        <location filename="../src/ui/mainwindow.cpp" line="358" />
+        <location filename="../src/ui/mainwindow.cpp" line="415" />
+        <location filename="../src/ui/mainwindow.cpp" line="601" />
+        <location filename="../src/ui/mainwindow.cpp" line="815" />
+        <location filename="../src/ui/mainwindow.cpp" line="835" />
+        <location filename="../src/ui/mainwindow.cpp" line="848" />
+        <location filename="../src/ui/mainwindow.cpp" line="868" />
+        <location filename="../src/ui/mainwindow.cpp" line="882" />
+        <location filename="../src/ui/mainwindow.cpp" line="910" />
+        <location filename="../src/ui/mainwindow.cpp" line="924" />
+        <location filename="../src/ui/mainwindow.cpp" line="1130" />
+        <location filename="../src/ui/mainwindow.cpp" line="1172" />
         <source>Info</source>
         <translation>信息</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="256" />
+        <location filename="../src/ui/mainwindow.cpp" line="279" />
         <source>Plz choose a port first</source>
         <translation>请先选择端口</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="418" />
+        <location filename="../src/ui/mainwindow.cpp" line="441" />
         <source>Connected</source>
         <translation>已连接</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="424" />
-        <location filename="../src/ui/mainwindow.cpp" line="1234" />
+        <location filename="../src/ui/mainwindow.cpp" line="447" />
+        <location filename="../src/ui/mainwindow.cpp" line="1257" />
         <source>Not Connected</source>
         <translation>未连接</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="845" />
-        <location filename="../src/ui/mainwindow.cpp" line="859" />
-        <location filename="../src/ui/mainwindow.cpp" line="1107" />
+        <location filename="../src/ui/mainwindow.cpp" line="868" />
+        <location filename="../src/ui/mainwindow.cpp" line="882" />
+        <location filename="../src/ui/mainwindow.cpp" line="1130" />
         <source>Failed to open</source>
         <translation>无法打开</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="578" />
+        <location filename="../src/ui/mainwindow.cpp" line="601" />
         <source>Continue?</source>
         <translation>确定？</translation>
     </message>
@@ -2340,283 +3012,252 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>版本： </translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="17" />
-        <source>Check Update</source>
-        <translation>检查更新</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/mainwindow.cpp" line="51" />
+        <location filename="../src/ui/mainwindow.cpp" line="75" />
         <source>NTAG</source>
         <translation>NTAG</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="138" />
+        <location filename="../src/ui/mainwindow.cpp" line="161" />
         <source>Failed to load config file</source>
         <translation>无法打开配置文件</translation>
     </message>
     <message>
-        <source>Failed to start the client</source>
-        <translation type="vanished">无法启动客户端</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/mainwindow.cpp" line="392" />
+        <location filename="../src/ui/mainwindow.cpp" line="415" />
         <source>Failed to connect to the hardware</source>
         <translation>无法连接到PM3硬件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="578" />
+        <location filename="../src/ui/mainwindow.cpp" line="601" />
         <source>Some of the data and key will be cleared.</source>
         <translation>部分数据和密码将被清除</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="792" />
+        <location filename="../src/ui/mainwindow.cpp" line="815" />
         <source>Data must consists of 32 Hex symbols(Whitespace is allowed)</source>
         <translation>数据必须由32个十六进制字符组成（中间可含有空格）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="812" />
-        <location filename="../src/ui/mainwindow.cpp" line="825" />
+        <location filename="../src/ui/mainwindow.cpp" line="835" />
+        <location filename="../src/ui/mainwindow.cpp" line="848" />
         <source>Key must consists of 12 Hex symbols(Whitespace is allowed)</source>
         <translation>密钥必须由12个十六进制字符组成（中间可含有空格）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="837" />
+        <location filename="../src/ui/mainwindow.cpp" line="860" />
         <source>Plz select the data file:</source>
         <translation>请选择数据文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="838" />
-        <location filename="../src/ui/mainwindow.cpp" line="880" />
-        <location filename="../src/ui/mainwindow.cpp" line="884" />
+        <location filename="../src/ui/mainwindow.cpp" line="861" />
+        <location filename="../src/ui/mainwindow.cpp" line="903" />
+        <location filename="../src/ui/mainwindow.cpp" line="907" />
         <source>Binary Data Files(*.bin *.dump)</source>
         <translation>二进制数据文件(*.bin *.dump)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="838" />
-        <location filename="../src/ui/mainwindow.cpp" line="852" />
-        <location filename="../src/ui/mainwindow.cpp" line="1093" />
+        <location filename="../src/ui/mainwindow.cpp" line="861" />
+        <location filename="../src/ui/mainwindow.cpp" line="875" />
+        <location filename="../src/ui/mainwindow.cpp" line="1116" />
         <source>All Files(*.*)</source>
         <translation>所有文件(*.*)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="851" />
+        <location filename="../src/ui/mainwindow.cpp" line="874" />
         <source>Plz select the key file:</source>
         <translation>请选择密钥文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="879" />
+        <location filename="../src/ui/mainwindow.cpp" line="902" />
         <source>Plz select the location to save data file:</source>
         <translation>请选择数据文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="887" />
-        <location filename="../src/ui/mainwindow.cpp" line="901" />
-        <location filename="../src/ui/mainwindow.cpp" line="1149" />
+        <location filename="../src/ui/mainwindow.cpp" line="910" />
+        <location filename="../src/ui/mainwindow.cpp" line="924" />
+        <location filename="../src/ui/mainwindow.cpp" line="1172" />
         <source>Failed to save to</source>
         <translation>无法保存至</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="893" />
+        <location filename="../src/ui/mainwindow.cpp" line="916" />
         <source>Plz select the location to save key file:</source>
         <translation>请选择密钥文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="852" />
-        <location filename="../src/ui/mainwindow.cpp" line="894" />
-        <location filename="../src/ui/mainwindow.cpp" line="898" />
+        <location filename="../src/ui/mainwindow.cpp" line="875" />
+        <location filename="../src/ui/mainwindow.cpp" line="917" />
+        <location filename="../src/ui/mainwindow.cpp" line="921" />
         <source>Binary Key Files(*.bin *.dump)</source>
         <translation>二进制密码文件(*.bin *.dump)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="54" />
-        <source>NTAG/Ultralight</source>
-        <translation type="unfinished" />
-    </message>
-    <message>
-        <location filename="../src/ui/mainwindow.cpp" line="63" />
-        <source>eMRTD Reader</source>
-        <translation>eMRTD 读取</translation>
-    </message>
-    <message>
-        <source>JTAG functions are not implemented in this build.
-
-This tab only groups the Amiibo sub-page. Amiibo tags are NFC Forum Type 2 / NTAG215 tags and are not JTAG devices.</source>
-        <translation type="vanished">本版本未实现 JTAG 功能。
-
-此标签页仅用于归类 Amiibo 子页面。Amiibo 标签属于 NFC Forum Type 2 / NTAG215，并非 JTAG 设备。</translation>
-    </message>
-    <message>
-        <source>JTAG</source>
-        <translation type="vanished">JTAG</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/mainwindow.cpp" line="53" />
+        <location filename="../src/ui/mainwindow.cpp" line="77" />
         <source>Amiibo</source>
         <translation>Amiibo</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="249" />
+        <location filename="../src/ui/mainwindow.cpp" line="272" />
         <source>The client path is invalid</source>
         <translation>客户端路径无效</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="325" />
+        <location filename="../src/ui/mainwindow.cpp" line="348" />
         <source>Connecting...</source>
         <translation>正在连接…</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="367" />
+        <location filename="../src/ui/mainwindow.cpp" line="390" />
         <source>Long command running</source>
         <translation>长命令执行中</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="385" />
+        <location filename="../src/ui/mainwindow.cpp" line="408" />
         <source>Timeout</source>
         <translation>超时</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="387" />
+        <location filename="../src/ui/mainwindow.cpp" line="410" />
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="838" />
-        <location filename="../src/ui/mainwindow.cpp" line="880" />
+        <location filename="../src/ui/mainwindow.cpp" line="861" />
+        <location filename="../src/ui/mainwindow.cpp" line="903" />
         <source>Text Data Files(*.txt *.eml)</source>
         <translation>文本数据文件(*.txt *.eml)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1020" />
+        <location filename="../src/ui/mainwindow.cpp" line="1043" />
         <source>    Normally, the Block 0 of a typical Mifare card, which contains the UID, is locked during the manufacture. Users cannot write anything to Block 0 or set a new UID to a normal Mifare card.</source>
         <translation>    普通Mifare卡的块0无法写入，卡号也不能更改</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1021" />
+        <location filename="../src/ui/mainwindow.cpp" line="1044" />
         <source>    Chinese Magic Cards(aka UID Cards) are some special cards whose Block 0 are writeable. And you can change UID by writing to it.</source>
         <translation>    UID卡（在国外叫Chinese Magic Card）的块0可写，卡号可变。</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1023" />
+        <location filename="../src/ui/mainwindow.cpp" line="1046" />
         <source>There are two versions of Chinese Magic Cards, the Gen1 and the Gen2.</source>
         <translation>国外把UID卡分为Chinese Magic Card Gen1和Gen2</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1024" />
+        <location filename="../src/ui/mainwindow.cpp" line="1047" />
         <source>    Gen1:</source>
         <translation />
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1024" />
+        <location filename="../src/ui/mainwindow.cpp" line="1047" />
         <source>    also called UID card in China. It responses to some backdoor commands so you can access any blocks without password. The Proxmark3 has a bunch of related commands(csetblk, cgetblk, ...) to deal with this type of card, and my GUI also support these commands.</source>
         <translation>    指通常所说的UID卡，可以通过后门指令直接读写块而无需密码，在PM3和此GUI中有特殊命令处理这类卡片</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1025" />
+        <location filename="../src/ui/mainwindow.cpp" line="1048" />
         <source>    Gen2:</source>
         <translation />
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1025" />
+        <location filename="../src/ui/mainwindow.cpp" line="1048" />
         <source>    doesn't response to the backdoor commands, which means that a reader cannot detect whether it is a Chinese Magic Card or not by sending backdoor commands.</source>
         <translation>    这个叫法在国内比较罕见，在国外指CUID/FUID/UFUID这类对后门指令不响应的卡（防火墙卡）</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1027" />
+        <location filename="../src/ui/mainwindow.cpp" line="1050" />
         <source>There are some types of Chinese Magic Card Gen2.</source>
         <translation>以下是Gen2卡的详细介绍</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1028" />
+        <location filename="../src/ui/mainwindow.cpp" line="1051" />
         <source>    CUID Card:</source>
         <translation>    CUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1028" />
+        <location filename="../src/ui/mainwindow.cpp" line="1051" />
         <source>    the Block 0 is writeable, you can write to this block repeatedly by normal wrbl command.</source>
         <translation>    可通过普通的写块命令来写块0，可重复擦写</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1029" />
+        <location filename="../src/ui/mainwindow.cpp" line="1052" />
         <source>    (hf mf wrbl 0 A FFFFFFFFFFFF &lt;the data you want to write&gt;)</source>
         <translation>    (hf mf wrbl 0 A FFFFFFFFFFFF &lt;待写入数据&gt;)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1030" />
+        <location filename="../src/ui/mainwindow.cpp" line="1053" />
         <source>    FUID Card:</source>
         <translation>    FUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1030" />
+        <location filename="../src/ui/mainwindow.cpp" line="1053" />
         <source>    you can only write to Block 0 once. After that, it seems like a typical Mifare card(Block 0 cannot be written to).</source>
         <translation>    块0只能写入一次</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1031" />
+        <location filename="../src/ui/mainwindow.cpp" line="1054" />
         <source>    (some readers might try changing the Block 0, which could detect the CUID Card. In that case, you should use FUID card.)</source>
         <translation>    (更高级的穿防火墙卡，可以过一些能识别出CUID卡的读卡器)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1032" />
+        <location filename="../src/ui/mainwindow.cpp" line="1055" />
         <source>    UFUID Card:</source>
         <translation>    UFUID卡：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1032" />
+        <location filename="../src/ui/mainwindow.cpp" line="1055" />
         <source>    It behaves like a CUID card(or UID card? I'm not sure) before you send some special command to lock it. Once it is locked, you cannot change its Block 0(just like a typical Mifare card).</source>
         <translation>    锁卡前和普通UID/CUID卡一样可以反复读写块0，用特殊命令锁卡后就和FUID卡一样了</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1034" />
+        <location filename="../src/ui/mainwindow.cpp" line="1057" />
         <source>    Seemingly, these Chinese Magic Cards are more easily to be compromised by Nested Attack(it takes little time to get an unknown key).</source>
         <translation>    所有UID卡都似乎更容易被Nested攻击破解</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1092" />
+        <location filename="../src/ui/mainwindow.cpp" line="1115" />
         <source>Plz select the trace file:</source>
         <translation>请选择trace文件：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1093" />
-        <location filename="../src/ui/mainwindow.cpp" line="1131" />
+        <location filename="../src/ui/mainwindow.cpp" line="1116" />
+        <location filename="../src/ui/mainwindow.cpp" line="1154" />
         <source>Trace Files</source>
         <translation>Trace文件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1130" />
+        <location filename="../src/ui/mainwindow.cpp" line="1153" />
         <source>Plz select the location to save trace file:</source>
         <translation>请选择trace文件保存的位置：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1259" />
+        <location filename="../src/ui/mainwindow.cpp" line="1282" />
         <source>(None)</source>
         <translation>(无)</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1260" />
+        <location filename="../src/ui/mainwindow.cpp" line="1283" />
         <source>Dark</source>
         <translation>暗黑</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1261" />
+        <location filename="../src/ui/mainwindow.cpp" line="1284" />
         <source>Light</source>
         <translation>明亮</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1322" />
+        <location filename="../src/ui/mainwindow.cpp" line="1345" />
         <source>External file</source>
         <translation>外部文件</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="358" />
-        <location filename="../src/ui/mainwindow.cpp" line="372" />
-        <location filename="../src/ui/mainwindow.cpp" line="383" />
-        <location filename="../src/ui/mainwindow.cpp" line="1235" />
-        <location filename="../src/ui/mainwindow.cpp" line="1499" />
+        <location filename="../src/ui/mainwindow.cpp" line="381" />
+        <location filename="../src/ui/mainwindow.cpp" line="395" />
+        <location filename="../src/ui/mainwindow.cpp" line="406" />
+        <location filename="../src/ui/mainwindow.cpp" line="1258" />
+        <location filename="../src/ui/mainwindow.cpp" line="1522" />
         <source>Idle</source>
         <translation>空闲</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1237" />
+        <location filename="../src/ui/mainwindow.cpp" line="1260" />
         <source>Stop</source>
         <translation>停止</translation>
     </message>
@@ -2642,34 +3283,34 @@ This tab only groups the Amiibo sub-page. Amiibo tags are NFC Forum Type 2 / NTA
         <translation>密钥B</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1436" />
+        <location filename="../src/ui/mainwindow.cpp" line="1459" />
         <source>HW Version:</source>
         <translation>固件版本：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1438" />
+        <location filename="../src/ui/mainwindow.cpp" line="1461" />
         <source>PM3:</source>
         <translation>连接状态：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1440" />
+        <location filename="../src/ui/mainwindow.cpp" line="1463" />
         <source>State:</source>
         <translation>运行状态：</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="326" />
-        <location filename="../src/ui/mainwindow.cpp" line="356" />
-        <location filename="../src/ui/mainwindow.cpp" line="381" />
-        <location filename="../src/ui/mainwindow.cpp" line="1495" />
+        <location filename="../src/ui/mainwindow.cpp" line="349" />
+        <location filename="../src/ui/mainwindow.cpp" line="379" />
+        <location filename="../src/ui/mainwindow.cpp" line="404" />
+        <location filename="../src/ui/mainwindow.cpp" line="1518" />
         <source>Running</source>
         <translation>正在运行</translation>
     </message>
     <message>
-        <location filename="../src/ui/mainwindow.cpp" line="1684" />
+        <location filename="../src/ui/mainwindow.cpp" line="1707" />
         <source>Actural Freq: </source>
         <translation>实际频率： </translation>
     </message>
-</context>
+<message><source>Low frequency functions</source><translation>低频功能</translation></message><message><source>LF multi-protocol parsing</source><translation>LF 多协议解析</translation></message></context>
 <context>
     <name>Mifare</name>
     <message>
@@ -2772,306 +3413,2053 @@ Continue?</source>
 <context>
     <name>NtagTab</name>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="40" />
+        <location filename="../src/module/ntagtab.cpp" line="88" />
         <source>Card</source>
         <translation>卡片</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="43" />
+        <location filename="../src/module/ntagtab.cpp" line="91" />
         <source>Detect / Read Info</source>
         <translation>检测 / 读取信息</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="47" />
+        <location filename="../src/module/ntagtab.cpp" line="96" />
         <source>UID:</source>
         <translation>UID：</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="52" />
+        <location filename="../src/module/ntagtab.cpp" line="102" />
+        <location filename="../src/module/ntagtab.cpp" line="220" />
         <source>Type:</source>
         <translation>类型：</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="53" />
-        <location filename="../src/module/ntagtab.cpp" line="339" />
+        <location filename="../src/module/ntagtab.cpp" line="103" />
+        <location filename="../src/module/ntagtab.cpp" line="114" />
+        <location filename="../src/module/ntagtab.cpp" line="1428" />
+        <location filename="../src/module/ntagtab.cpp" line="1430" />
         <source>Not detected</source>
         <translation>未检测</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="57" />
+        <location filename="../src/module/ntagtab.cpp" line="108" />
         <source>Pages:</source>
         <translation>页数：</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="61" />
+        <location filename="../src/module/ntagtab.cpp" line="113" />
+        <source>Model:</source>
+        <translation>型号：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="119" />
+        <source>GET_VERSION:</source>
+        <translation>GET_VERSION：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="125" />
+        <source>Capability Container:</source>
+        <translation>能力容器（CC）：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="130" />
+        <source>Capacity:</source>
+        <translation>容量：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="135" />
         <source>Key (optional):</source>
         <translation>密钥（可选）：</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="63" />
+        <location filename="../src/module/ntagtab.cpp" line="137" />
         <source>UL-C/AES 16 bytes or NTAG/EV1 4 bytes, hex</source>
         <translation>UL-C/AES 16 字节或 NTAG/EV1 4 字节，十六进制</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="67" />
+        <location filename="../src/module/ntagtab.cpp" line="165" />
         <source>Pages</source>
         <translation>页</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="71" />
+        <location filename="../src/module/ntagtab.cpp" line="170" />
         <source>Page</source>
         <translation>页</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="71" />
-        <source>Data (hex)</source>
-        <translation>数据（十六进制）</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="71" />
+        <location filename="../src/module/ntagtab.cpp" line="171" />
         <source>ASCII</source>
         <translation>ASCII</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="71" />
+        <location filename="../src/module/ntagtab.cpp" line="172" />
         <source>Access</source>
         <translation>访问权限</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="83" />
+        <location filename="../src/module/ntagtab.cpp" line="243" />
         <source>Read All</source>
         <translation>读取全部</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="84" />
+        <location filename="../src/module/ntagtab.cpp" line="247" />
         <source>Read Selected</source>
         <translation>读取选中</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="85" />
+        <location filename="../src/module/ntagtab.cpp" line="249" />
         <source>Read Page</source>
         <translation>读取页</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="88" />
+        <location filename="../src/module/ntagtab.cpp" line="254" />
         <source>Page </source>
         <translation>页 </translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="98" />
+        <location filename="../src/module/ntagtab.cpp" line="286" />
         <source>Page data: 8 hex digits</source>
         <translation>页数据：8 位十六进制</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="99" />
+        <location filename="../src/module/ntagtab.cpp" line="287" />
         <source>Write Page</source>
         <translation>写入页</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="100" />
+        <location filename="../src/module/ntagtab.cpp" line="289" />
         <source>Write Selected</source>
         <translation>写入选中</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="101" />
+        <location filename="../src/module/ntagtab.cpp" line="293" />
         <source>Verify Page</source>
         <translation>校验页</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="102" />
+        <location filename="../src/module/ntagtab.cpp" line="297" />
         <source>Data:</source>
         <translation>数据：</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="109" />
-        <source>Experimental: no NTAG/Ultralight hardware verification yet.</source>
-        <translation>实验功能：尚未在真实 NTAG/Ultralight 标签上验证。</translation>
+        <location filename="../src/module/ntagtab.cpp" line="304" />
+        <source>Erase Tag...</source>
+        <translation>清空标签…</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="256" />
-        <location filename="../src/module/ntagtab.cpp" line="257" />
+        <location filename="../src/module/ntagtab.cpp" line="306" />
+        <source>Clear writable user data pages only; UID, CC, lock, OTP, configuration and password pages are never modified.</source>
+        <translation>只清除可写的用户数据页；UID、CC、锁定、OTP、配置和密码页不会被修改。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="321" />
+        <location filename="../src/module/ntagtab.cpp" line="397" />
+        <source>NDEF</source>
+        <translation>NDEF</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="326" />
+        <source>Read the tag to parse CC / TLV / NDEF records.</source>
+        <translation>读取标签后可解析 CC / TLV / NDEF 记录。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="332" />
+        <source>Experimental: phone compatibility has not been fully verified. No new NDEF types planned; critical fixes only.</source>
+        <translation>实验性功能：手机兼容性尚未充分验证。暂不新增 NDEF 类型，仅修复严重问题。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="341" />
+        <source>Web link (https://...)</source>
+        <translation>网页链接（https://…）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="342" />
+        <source>Phone number (tel:)</source>
+        <translation>电话号码（tel:）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="343" />
+        <source>SMS (sms:)</source>
+        <translation>短信（sms:）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="344" />
+        <source>E-mail (mailto:)</source>
+        <translation>邮箱（mailto:）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="345" />
+        <source>Custom URI</source>
+        <translation>自定义 URI</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="346" />
+        <source>Wi-Fi (not supported)</source>
+        <translation>Wi-Fi（暂不支持）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="347" />
+        <source>Launch type:</source>
+        <translation>启动类型：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="349" />
+        <location filename="../src/module/ntagtab.cpp" line="3659" />
+        <source>URL:</source>
+        <translation>网址：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="354" />
+        <source>Subject:</source>
+        <translation>主题：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="358" />
+        <source>Body:</source>
+        <translation>正文：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="368" />
+        <source>Detect a tag to see the NDEF capacity.</source>
+        <translation>检测标签后显示 NDEF 容量。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="377" />
+        <source>The generated NDEF message and TLV appear here.</source>
+        <translation>生成的 NDEF 消息和 TLV 显示在这里。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="381" />
+        <source>Preview and Write...</source>
+        <translation>预览并写入…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="402" />
+        <source>Memory</source>
+        <translation>内存</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="398" />
+        <location filename="../src/module/ntagtab.cpp" line="3795" />
+        <location filename="../src/module/ntagtab.cpp" line="3800" />
+        <location filename="../src/module/ntagtab.cpp" line="3807" />
+        <location filename="../src/module/ntagtab.cpp" line="3814" />
+        <location filename="../src/module/ntagtab.cpp" line="3821" />
+        <location filename="../src/module/ntagtab.cpp" line="3834" />
+        <location filename="../src/module/ntagtab.cpp" line="3841" />
+        <location filename="../src/module/ntagtab.cpp" line="3849" />
+        <location filename="../src/module/ntagtab.cpp" line="3860" />
+        <location filename="../src/module/ntagtab.cpp" line="3873" />
+        <location filename="../src/module/ntagtab.cpp" line="3894" />
+        <location filename="../src/module/ntagtab.cpp" line="3904" />
+        <location filename="../src/module/ntagtab.cpp" line="3999" />
+        <source>Quick Launch</source>
+        <translation>快捷启动</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="571" />
+        <location filename="../src/module/ntagtab.cpp" line="572" />
+        <location filename="../src/module/ntagtab.cpp" line="1462" />
+        <location filename="../src/module/ntagtab.cpp" line="1466" />
+        <location filename="../src/module/ntagtab.cpp" line="1529" />
         <source>(not reported)</source>
         <translation>（未报告）</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="258" />
+        <location filename="../src/module/ntagtab.cpp" line="575" />
+        <location filename="../src/module/ntagtab.cpp" line="1543" />
+        <location filename="../src/module/ntagtab.cpp" line="1563" />
+        <location filename="../src/module/ntagtab.cpp" line="3727" />
         <source>unknown</source>
         <translation>未知</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="267" />
+        <location filename="../src/module/ntagtab.cpp" line="680" />
+        <location filename="../src/module/ntagtab.cpp" line="1059" />
         <source>writable</source>
         <translation>可写</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="269" />
-        <source>read-only (system)</source>
-        <translation>只读（系统页）</translation>
+        <location filename="../src/module/ntagtab.cpp" line="1834" />
+        <source>(not read)</source>
+        <translation>（未读取）</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="271" />
-        <source>read-only (config/OTP)</source>
-        <translation>只读（配置/OTP）</translation>
+        <location filename="../src/module/ntagtab.cpp" line="2040" />
+        <location filename="../src/module/ntagtab.cpp" line="2061" />
+        <source>A read is already running.</source>
+        <translation>已有读取任务正在运行。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="273" />
-        <source>read-only (unknown layout)</source>
-        <translation>只读（未知布局）</translation>
+        <location filename="../src/module/ntagtab.cpp" line="2050" />
+        <source>No client session available for asynchronous reads.</source>
+        <translation>没有可用于异步读取的 Client 会话。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="325" />
-        <location filename="../src/module/ntagtab.cpp" line="380" />
-        <location filename="../src/module/ntagtab.cpp" line="477" />
+        <location filename="../src/module/ntagtab.cpp" line="2055" />
+        <source>No writable temporary directory is available for the dump.</source>
+        <translation>没有可用于 dump 的可写临时目录。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2078" />
+        <source>Reading %1 pages...</source>
+        <translation>正在读取 %1 页…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2079" />
+        <source>Reading %1 selected page(s)...</source>
+        <translation>正在读取 %1 个选中页…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2118" />
+        <source>Reading pages %1..%2 of %3 (async)...</source>
+        <translation>正在异步读取第 %1..%2 / %3 页…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2137" />
+        <source>Reading page %1 (%2 of %3)...</source>
+        <translation>正在读取第 %1 页（%2/%3）…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2305" />
+        <source>Read cancelled: %1 of %2 pages read, %3 failed.</source>
+        <translation>读取已取消：已读 %1/%2 页，失败 %3 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2308" />
+        <source>Read finished: %1 of %2 pages read, %3 failed.</source>
+        <translation>读取结束：已读 %1/%2 页，失败 %3 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2311" />
+        <source>Read finished: %1 of %2 pages.</source>
+        <translation>读取结束：已读 %1/%2 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2320" />
+        <location filename="../src/module/ntagtab.cpp" line="2331" />
+        <source>Cancelling after the current command...</source>
+        <translation>将在当前命令结束后取消…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2330" />
+        <source>Finishing the current page verification, then stopping...</source>
+        <translation>正在完成当前页校验，然后停止...</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2339" />
+        <location filename="../src/module/ntagtab.cpp" line="2405" />
+        <location filename="../src/module/ntagtab.cpp" line="2466" />
+        <location filename="../src/module/ntagtab.cpp" line="2591" />
+        <location filename="../src/module/ntagtab.cpp" line="2659" />
+        <location filename="../src/module/ntagtab.cpp" line="2721" />
+        <location filename="../src/module/ntagtab.cpp" line="2745" />
+        <location filename="../src/module/ntagtab.cpp" line="2765" />
+        <location filename="../src/module/ntagtab.cpp" line="2806" />
+        <location filename="../src/module/ntagtab.cpp" line="2844" />
+        <location filename="../src/module/ntagtab.cpp" line="2861" />
+        <location filename="../src/module/ntagtab.cpp" line="3783" />
+        <source>Another NTAG operation is running; wait for it to finish.</source>
+        <translation>另一个 NTAG 操作正在运行，请等待其完成。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2527" />
+        <location filename="../src/module/ntagtab.cpp" line="2615" />
+        <source>Write %1 to page %2?</source>
+        <translation>将 %1 写入第 %2 页？</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2625" />
+        <location filename="../src/module/ntagtab.cpp" line="2713" />
+        <source>Write verification</source>
+        <translation>写入校验</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2758" />
+        <source>Page verification</source>
+        <translation>页校验</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2770" />
+        <source>Refusing to erase: the model or memory layout is not known.</source>
+        <translation>拒绝清空：型号或内存布局未知。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2771" />
+        <location filename="../src/module/ntagtab.cpp" line="2780" />
+        <location filename="../src/module/ntagtab.cpp" line="2812" />
+        <location filename="../src/module/ntagtab.cpp" line="3211" />
+        <location filename="../src/module/ntagtab.cpp" line="3241" />
+        <location filename="../src/module/ntagtab.cpp" line="3259" />
+        <location filename="../src/module/ntagtab.cpp" line="3268" />
+        <location filename="../src/module/ntagtab.cpp" line="3314" />
+        <location filename="../src/module/ntagtab.cpp" line="3617" />
+        <source>Erase NTAG</source>
+        <translation>清空 NTAG</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2772" />
+        <source>The tag model or its memory layout is not known, so no page range can be assumed. Detect the tag again or use manual page operations.</source>
+        <translation>标签型号或内存布局未知，无法推断页范围。请重新检测标签，或使用手动页操作。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2779" />
+        <location filename="../src/module/ntagtab.cpp" line="3239" />
+        <source>Refusing to erase: the Capability Container reports read-only access.</source>
+        <translation>拒绝清空：Capability Container 报告为只读。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2781" />
+        <location filename="../src/module/ntagtab.cpp" line="3242" />
+        <source>The Capability Container marks the tag read-only. Nothing was written.</source>
+        <translation>Capability Container 将该标签标记为只读，未写入任何内容。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2787" />
+        <source>No client session is available for an asynchronous erase.</source>
+        <translation>没有可用于异步清空的客户端会话。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2792" />
+        <source>No writable temporary directory is available for the erase snapshot.</source>
+        <translation>没有可用于清空快照的可写临时目录。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2821" />
+        <source>Reading every page before building the erase plan...</source>
+        <translation>正在读取全部页面以生成清空计划…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2834" />
+        <source>Could not start the erase snapshot command.</source>
+        <translation>无法启动清空快照命令。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2849" />
+        <source>No client session is available for asynchronous writes.</source>
+        <translation>没有可用于异步写入的客户端会话。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2854" />
+        <source>No writable temporary directory is available for verification.</source>
+        <translation>没有可用于校验的可写临时目录。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2909" />
+        <source>Writing %1 page(s)...</source>
+        <translation>正在写入 %1 页...</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2922" />
+        <location filename="../src/module/ntagtab.cpp" line="3115" />
+        <source>Write cancelled: %1 of %2 page(s) were written and verified.</source>
+        <translation>写入已取消：已写入并校验 %1/%2 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2924" />
+        <source>Write cancelled before any page was written.</source>
+        <translation>写入已取消，尚未写入任何页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2931" />
+        <source>No page was written, so there is nothing to verify.</source>
+        <translation>没有写入任何页，因此无需校验。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2943" />
+        <source>no target data for page %1</source>
+        <translation>第 %1 页没有目标数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2975" />
+        <source>the client command could not be queued</source>
+        <translation>客户端命令无法入队</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2994" />
+        <source>Reading page %1 back for verification...</source>
+        <translation>正在复读第 %1 页以校验...</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2996" />
+        <source>the client read-back command could not be queued</source>
+        <translation>客户端复读命令无法入队</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3005" />
+        <source>Retrying page %1 after: %2</source>
+        <translation>正在重试第 %1 页：%2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3035" />
+        <source>the client retry command could not be queued</source>
+        <translation>客户端重试命令无法入队</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3047" />
+        <source>Verification failed for page %1: %2</source>
+        <translation>第 %1 页校验失败：%2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3052" />
+        <source>Page %1 could not be verified: %2</source>
+        <translation>第 %1 页无法校验：%2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3074" />
+        <source>Write cancelled at page %1: %2 (%3 of %4 page(s) written).</source>
+        <translation>写入在第 %1 页取消：%2（已写入 %3/%4 页）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3076" />
+        <source>Write stopped at page %1: %2 (%3 of %4 page(s) written).</source>
+        <translation>写入在第 %1 页停止：%2（已写入 %3/%4 页）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3083" />
+        <source>Write stopped at page %1: %2
+%3 page(s) before it were written and verified. No later page was attempted.</source>
+        <translation>写入在第 %1 页停止：%2
+此前 %3 页已写入并校验。未尝试后续页面。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3137" />
+        <source>No client session is available for verification.</source>
+        <translation>没有可用于校验的客户端会话。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3141" />
+        <source>Reading the tag back to verify...</source>
+        <translation>正在复读标签以校验...</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3154" />
+        <source>Could not start the verification read.</source>
+        <translation>无法启动校验读取。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3209" />
+        <source>Refusing to erase: the tag could not be read completely.</source>
+        <translation>拒绝清空：无法完整读取标签。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3212" />
+        <source>The tag could not be read completely, so the pages that must be preserved cannot be confirmed. Nothing was written.</source>
+        <translation>无法完整读取标签，不能确认必须保留的页面，未写入任何内容。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3258" />
+        <source>Refusing to erase: %1.</source>
+        <translation>拒绝清空：%1。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3260" />
+        <source>No safe erase plan could be built: %1
+Nothing was written.</source>
+        <translation>无法生成安全的清空计划：%1
+未写入任何内容。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3267" />
+        <source>All writable user pages already contain 00 00 00 00.</source>
+        <translation>所有可写用户页已经是 00 00 00 00。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3269" />
+        <source>All %1 writable user pages (4..%2) are already blank. Nothing was written.</source>
+        <translation>全部 %1 个可写用户页（4..%2）已为空，未写入任何内容。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3277" />
+        <source>Erase cancelled before any page was written.</source>
+        <translation>清空已取消，尚未写入任何页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3297" />
+        <location filename="../src/module/ntagtab.cpp" line="3586" />
+        <source> (UID / static lock / CC)</source>
+        <translation>（UID / 静态锁定 / CC）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3299" />
+        <location filename="../src/module/ntagtab.cpp" line="3588" />
+        <source>dynamic lock page %1</source>
+        <translation>动态锁定页 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3301" />
+        <location filename="../src/module/ntagtab.cpp" line="3590" />
+        <source>configuration pages %1</source>
+        <translation>配置页 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3304" />
+        <location filename="../src/module/ntagtab.cpp" line="3592" />
+        <source>PWD/PACK pages %1</source>
+        <translation>PWD/PACK 页 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3307" />
+        <location filename="../src/module/ntagtab.cpp" line="3594" />
+        <source>Lock bits are already set. Some user pages may be permanently write-protected; they will be reported as not cleared and will not be bypassed.</source>
+        <translation>已有锁定位被设置。部分用户页可能被永久写保护；它们会报告为“未清除”，程序不会绕过锁定。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3310" />
+        <location filename="../src/module/ntagtab.cpp" line="3597" />
+        <source>No lock bits are set in the current read.</source>
+        <translation>当前读取结果中没有锁定位被设置。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3315" />
+        <source>Erase writable user data from this tag?</source>
+        <translation>清空此标签上的可写用户数据？</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3317" />
+        <source>Model: %1
+UID: %2
+
+Pages to clear: %3 (%4 page(s) currently holding data; %5 blank page(s) will be skipped)
+Preserved: %6
+
+%7
+
+Only 00 00 00 00 is written to confirmed writable user pages. UID, CC, OTP, lock, configuration and PWD/PACK pages are never modified. This cannot be undone and the original data cannot be recovered. A locked tag cannot be restored to factory state by software.</source>
+        <translation>型号：%1
+UID：%2
+
+待清空页：%3（%4 页当前有数据；跳过 %5 个空白页）
+保留：%6
+
+%7
+
+只会向确认可写的用户页写入 00 00 00 00。UID、CC、OTP、锁定、配置和 PWD/PACK 页不会被修改。此操作不可撤销，原始数据无法恢复。被锁定的标签无法通过软件恢复出厂状态。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3346" />
+        <source>Clearing %1 page(s)...</source>
+        <translation>正在清空 %1 页...</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3361" />
+        <source>the client command timed out</source>
+        <translation>客户端命令超时</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3363" />
+        <source>the client reported a write failure</source>
+        <translation>客户端报告写入失败</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3379" />
+        <source>the read-back timed out</source>
+        <translation>复读超时</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3381" />
+        <source>the page could not be read back</source>
+        <translation>该页无法复读</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3388" />
+        <source>the page read-back could not be parsed</source>
+        <translation>无法解析该页复读数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3411" />
+        <source>Page %1 verification finished.</source>
+        <translation>第 %1 页校验完成。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3421" />
+        <source>verification differs (wrote %1, read %2)</source>
+        <translation>校验不一致（写入 %1，读回 %2）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3445" />
+        <source>The tag could not be read back, so the result is unknown.</source>
+        <translation>无法复读标签，结果未知。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3448" />
+        <source>The tag could not be read back. The result cannot be verified.</source>
+        <translation>无法复读标签，无法校验结果。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3468" />
+        <source>Erase verification completed after cancel.</source>
+        <translation>取消后已完成清空校验。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3469" />
+        <source>Erase finished.</source>
+        <translation>清空完成。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3479" />
+        <source>Write verification completed after cancel: %1 page(s).</source>
+        <translation>取消后已完成写入校验：%1 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3481" />
+        <source>Write finished: %1 page(s) verified.</source>
+        <translation>写入完成：已校验 %1 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3560" />
+        <source>Unverified: %1 targeted page(s) were cleared but %2 page(s) could not be read back.</source>
+        <translation>未经确认：已清除 %1 个目标页，但 %2 个页面无法重新读取。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3566" />
+        <source>Partially erased: %1 of %2 targeted page(s) were cleared, %3 still hold data and %4 could not be read.</source>
+        <translation>部分清空：已清除 %1/%2 个目标页，%3 个页仍有数据，%4 个页无法读取。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3602" />
+        <source>Target pages: %1 (%2)</source>
+        <translation>目标页：%1（%2 页）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3842" />
+        <source>The Capability Container read back from the tag is missing or read-only. Nothing was written.</source>
+        <translation>从标签读回的 Capability Container 缺失或为只读，未写入任何内容。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3334" />
+        <source>Erase cancelled.</source>
+        <translation>已取消清空。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2958" />
+        <location filename="../src/module/ntagtab.cpp" line="3122" />
+        <source>Clearing page %1 (%2 of %3)...</source>
+        <translation>正在清除第 %1 页（%2/%3）…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3546" />
+        <source>page %1: %2</source>
+        <translation>第 %1 页：%2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3554" />
+        <source>Unknown: the tag could not be read back, so the erase result cannot be confirmed.</source>
+        <translation>无法确认：标签无法重新读取，清空结果不能确定。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3557" />
+        <source>Fully erased: all %1 targeted user page(s) now read 00 00 00 00.</source>
+        <translation>完全清空：全部 %1 个目标用户页现在均为 00 00 00 00。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3563" />
+        <source>Erase failed: none of the %1 targeted user page(s) could be cleared.</source>
+        <translation>清空失败：%1 个目标用户页均未能清除。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3600" />
+        <source>Model: %1   UID: %2</source>
+        <translation>型号：%1   UID：%2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3603" />
+        <source>Cleared: %1   Still holding data: %2   Not readable: %3</source>
+        <translation>已清除：%1   仍有数据：%2   无法读取：%3</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3606" />
+        <source>Write commands failed on: %1</source>
+        <translation>写入命令失败页：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3609" />
+        <source>Not cleared (locked or write-protected):
+  %1</source>
+        <translation>未清除（已锁定或写保护）：
+  %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3611" />
+        <source>Preserved pages: %1</source>
+        <translation>保留页：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3613" />
+        <source>The Capability Container was not modified; an NDEF TLV is no longer present because the user pages are blank.</source>
+        <translation>Capability Container 未被修改；由于用户页已清空，不再存在 NDEF TLV。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3635" />
+        <location filename="../src/module/ntagtab.cpp" line="3639" />
+        <source>Phone number:</source>
+        <translation>电话号码：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3636" />
+        <location filename="../src/module/ntagtab.cpp" line="3640" />
+        <source>+1 555 0100</source>
+        <translation>+86 138 0000 0000</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3644" />
+        <source>E-mail address:</source>
+        <translation>邮箱地址：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3645" />
+        <source>name@example.com</source>
+        <translation>name@example.com</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3650" />
+        <source>URI:</source>
+        <translation>URI：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3651" />
+        <source>https:// or another scheme:</source>
+        <translation>https:// 或其他协议：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3654" />
+        <source>Wi-Fi:</source>
+        <translation>Wi-Fi：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3660" />
+        <source>https://example.com</source>
+        <translation>https://example.com</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3672" />
+        <source>Writes a tel: URI. Most phones open the dialer; the call is not placed automatically.</source>
+        <translation>写入 tel: URI。多数手机会打开拨号界面，但不会自动拨出。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3676" />
+        <source>Writes an sms: URI with an optional body. Phones usually open the messaging app without sending.</source>
+        <translation>写入带可选正文的 sms: URI。手机通常打开短信编辑界面，不会自动发送。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3680" />
+        <source>Writes a mailto: URI. The mail app opens; the message is not sent automatically.</source>
+        <translation>写入 mailto: URI。会打开邮件应用，不会自动发送。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3684" />
+        <source>Wi-Fi NDEF is not implemented in this build: no verified record format is available, so writing is disabled instead of emitting a guess.</source>
+        <translation>此版本未实现 Wi-Fi NDEF：没有经过验证的记录格式，因此禁用写入，而不是生成猜测数据。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3689" />
+        <source>Any URI with a scheme is accepted and kept as entered. Observed behavior depends on the phone.</source>
+        <translation>接受任意带协议的 URI 并原样保留。实际表现取决于手机。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3693" />
+        <source>Writes an https/http URI record. Whether a browser opens automatically depends on the phone and its settings.</source>
+        <translation>写入 https/http URI 记录。是否自动打开浏览器取决于手机及其设置。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3718" />
+        <source>Cannot build the NDEF data: %1</source>
+        <translation>无法生成 NDEF 数据：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3722" />
+        <source>URI: %1</source>
+        <translation>URI：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3723" />
+        <source>NDEF message: %1 bytes</source>
+        <translation>NDEF 消息：%1 字节</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3724" />
+        <source>Required space (TLV + terminator): %1 bytes</source>
+        <translation>所需空间（TLV + 终止符）：%1 字节</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3725" />
+        <source>Available NDEF space: %1 bytes</source>
+        <translation>可用 NDEF 空间：%1 字节</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3728" />
+        <source>Capacity used: %1%</source>
+        <translation>容量占用：%1%</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3730" />
+        <source>Fits: %1</source>
+        <translation>是否可容纳：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3730" />
+        <source>yes</source>
+        <translation>是</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3730" />
+        <source>no</source>
+        <translation>否</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3732" />
+        <source>NDEF message (hex):</source>
+        <translation>NDEF 消息（十六进制）：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3744" />
+        <source>TLV + terminator, padded to pages:</source>
+        <translation>TLV + 终止符（按页补齐）：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3758" />
+        <source>Model: %1, user pages 4..%2, NDEF capacity %3 bytes (Capability Container %4)</source>
+        <translation>型号：%1，用户页 4..%2，NDEF 容量 %3 字节（Capability Container %4）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1068" />
+        <location filename="../src/module/ntagtab.cpp" line="3763" />
+        <source>read</source>
+        <translation>已读取</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3763" />
+        <source>not read</source>
+        <translation>未读取</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3765" />
+        <source>Detect and read a tag to calculate the capacity.</source>
+        <translation>检测并读取标签以计算容量。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3774" />
+        <source>Ready to write: the data fits the tag.</source>
+        <translation>可以写入：数据未超出容量。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3775" />
+        <source>Over capacity: writing is disabled.</source>
+        <translation>超出容量：已禁用写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3776" />
+        <source>Cannot build the payload: writing is disabled.</source>
+        <translation>无法生成数据：已禁用写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3801" />
+        <source>Detect and read the tag first; the model and memory layout must be known.</source>
+        <translation>请先检测并读取标签；必须已知型号和内存布局。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3808" />
+        <source>No valid Capability Container was read. Writing is refused because the NDEF area is unknown.</source>
+        <translation>未读到有效的 Capability Container，无法确定 NDEF 区域，已拒绝写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3815" />
+        <source>The Capability Container marks the tag read-only.</source>
+        <translation>Capability Container 将该标签标记为只读。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3822" />
+        <location filename="../src/module/ntagtab.cpp" line="3850" />
+        <source>The NDEF data needs %1 bytes but only %2 are available.</source>
+        <translation>NDEF 数据需要 %1 字节，但只有 %2 字节可用。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3835" />
+        <source>The tag could not be read before writing.</source>
+        <translation>写入前无法读取标签。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3861" />
+        <source>The data needs pages %1..%2 but the tag only allows user pages up to %3.</source>
+        <translation>数据需要第 %1..%2 页，但标签只允许用户页到 %3。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3874" />
+        <source>The static/dynamic lock pages could not be read, so write protection cannot be checked. Nothing was written.</source>
+        <translation>无法读取静态/动态锁定页，不能检查写保护，未写入任何内容。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3895" />
+        <source>Lock bits protect the target user pages (static %1, dynamic %2). The write was refused instead of bypassing the lock. No page was modified.</source>
+        <translation>锁定位保护了目标用户页（静态 %1，动态 %2）。已拒绝写入，不会绕过锁定，未修改任何页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3905" />
+        <source>Write this NDEF URI to the tag?</source>
+        <translation>将此 NDEF URI 写入标签？</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3907" />
+        <source>Model: %1
+UID: %2
+URI: %3
+Pages: %4..%5 (%6 bytes)
+
+Only user data pages are written. The Capability Container, UID, lock, OTP, configuration and PWD/PACK pages are not modified. Phones may open the dialer/messaging/mail app instead of acting automatically, and browser behavior depends on the phone.</source>
+        <translation>型号：%1
+UID：%2
+URI：%3
+页：%4..%5（%6 字节）
+
+只写入用户数据页。Capability Container、UID、锁定、OTP、配置和 PWD/PACK 页不会被修改。手机可能打开拨号/短信/邮件应用而不是自动执行，浏览器行为取决于手机。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3920" />
+        <source>Quick Launch write cancelled.</source>
+        <translation>已取消快捷启动写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2960" />
+        <location filename="../src/module/ntagtab.cpp" line="3125" />
+        <location filename="../src/module/ntagtab.cpp" line="3934" />
+        <source>Writing page %1 (%2 of %3)...</source>
+        <translation>正在写入第 %1 页（%2/%3）…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2372" />
+        <source>Dump failed; falling back to per-page reads with --force...</source>
+        <translation>dump 失败；改用带 --force 的逐页读取…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2378" />
+        <source>Reading page %1 of %2...</source>
+        <translation>正在读取第 %1 / %2 页…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2397" />
+        <source>Read %1 of %2 pages (per-page).</source>
+        <translation>已读取 %1 / %2 页（逐页）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2426" />
+        <location filename="../src/module/ntagtab.cpp" line="2475" />
+        <source>Page %1 has uncommitted edits. Re-read it and discard those edits?</source>
+        <translation>第 %1 页有未提交的修改。是否重新读取并放弃这些修改？</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2504" />
+        <source>page data must be 8 hex digits</source>
+        <translation>页数据必须是 8 个十六进制字符</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2510" />
+        <source>page %1 is not writable under the detected layout</source>
+        <translation>第 %1 页在当前布局下不可写</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2518" />
+        <location filename="../src/module/ntagtab.cpp" line="2950" />
+        <location filename="../src/module/ntagtab.cpp" line="2983" />
+        <location filename="../src/module/ntagtab.cpp" line="3024" />
+        <source>key format is invalid</source>
+        <translation>密钥格式无效</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2543" />
+        <source>client write failed for page %1</source>
+        <translation>第 %1 页 Client 写入失败</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2553" />
+        <source>page %1 was written but could not be read back</source>
+        <translation>第 %1 页已写入但无法复读</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2566" />
+        <source>wrote %1, read %2</source>
+        <translation>写入 %1，读回 %2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2568" />
+        <source>verification differs</source>
+        <translation>校验不一致</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2604" />
+        <source>Read page %1 before writing it.</source>
+        <translation>写入前请先读取第 %1 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2641" />
+        <source>Write selected pages</source>
+        <translation>写入选中页</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2649" />
+        <source>There are no uncommitted edits to write.</source>
+        <translation>没有未提交的修改可写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2652" />
+        <source>Write dirty pages</source>
+        <translation>写入修改页</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2668" />
+        <source>Page %1 has not been read; write cancelled.</source>
+        <translation>第 %1 页尚未读取，已取消写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2673" />
+        <source>Page %1 is read-only; write cancelled.</source>
+        <translation>第 %1 页为只读，已取消写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2681" />
+        <source>The selected pages have no uncommitted changes.</source>
+        <translation>选中的页面没有未提交的修改。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2690" />
+        <source>Write %1 page(s)?
+%2
+
+Only these user pages are written; UID, CC, lock, OTP, configuration and PWD/PACK are never modified. The result is verified by reading each page back.</source>
+        <translation>写入 %1 页？
+%2
+
+只会写入这些用户页；UID、CC、锁定、OTP、配置和 PWD/PACK 永远不会被修改。结果会通过逐页复读验证。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2699" />
+        <source>Write cancelled.</source>
+        <translation>已取消写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2732" />
+        <source>No written or edited pages to verify.</source>
+        <translation>没有可校验的已写入或已修改页面。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2738" />
+        <source>Verify written pages</source>
+        <translation>校验已写入页</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2752" />
+        <source>Read page %1 before verifying it.</source>
+        <translation>校验前请先读取第 %1 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3414" />
+        <source>Only the selected page is compared with its edited value.</source>
+        <translation>只把选中页与其编辑值比较。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2795" />
+        <source>Erase reads the tag again and replaces the current view.</source>
+        <translation>清空操作会重新读取标签并替换当前视图。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3828" />
+        <source>Quick Launch reads the tag again before writing.</source>
+        <translation>快捷启动写入前会重新读取标签。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3977" />
+        <source>Incomplete: the written pages could not be read back, so the result is unverified.</source>
+        <translation>不完整：无法重新读取已写入的页面，结果未经验证。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3980" />
+        <source>Write verified: the tag parses back as the expected URI.</source>
+        <translation>写入已验证：标签读回并解析为预期 URI。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3982" />
+        <source>Verification FAILED: the NDEF data read back differs from the data written.</source>
+        <translation>校验失败：读回的 NDEF 数据与写入数据不一致。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3986" />
+        <source>Expected URI: %1</source>
+        <translation>预期 URI：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3988" />
+        <source>Read back URI: %1</source>
+        <translation>读回 URI：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3990" />
+        <source>Read back: %1</source>
+        <translation>读回：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3991" />
+        <source>no NDEF record</source>
+        <translation>没有 NDEF 记录</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3992" />
+        <source>Pages written: %1   Pages already correct: %2</source>
+        <translation>已写入页：%1   原本已正确的页：%2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3995" />
+        <source>Write failed on page(s): %1</source>
+        <translation>写入失败页：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="3996" />
+        <source>Capability Container and system pages were not modified.</source>
+        <translation>Capability Container 和系统页未被修改。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="4006" />
+        <source>Quick Launch written and verified: %1</source>
+        <translation>快捷启动已写入并验证：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="779" />
+        <source>Read</source>
+        <translation>已读取</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="766" />
+        <source>Read failed</source>
+        <translation>读取失败</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="768" />
+        <source>Unavailable</source>
+        <translation>不可用</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="764" />
+        <location filename="../src/module/ntagtab.cpp" line="770" />
+        <source>Not read</source>
+        <translation>未读取</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="140" />
+        <source>ATQA:</source>
+        <translation>ATQA：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="145" />
+        <source>SAK:</source>
+        <translation>SAK：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="150" />
+        <source>Pages read:</source>
+        <translation>已读取页：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="154" />
+        <source>Writable pages:</source>
+        <translation>可写页：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="158" />
+        <location filename="../src/module/ntagtab.cpp" line="224" />
+        <source>Lock state:</source>
+        <translation>锁定状态：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="170" />
+        <source>B0</source>
+        <translation>B0</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="170" />
+        <source>B1</source>
+        <translation>B1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="170" />
+        <source>B2</source>
+        <translation>B2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="171" />
+        <source>B3</source>
+        <translation>B3</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="171" />
+        <source>Page type</source>
+        <translation>页面类型</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="172" />
+        <source>State</source>
+        <translation>状态</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="198" />
+        <source>Selected page</source>
+        <translation>选中页</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="219" />
+        <source>Page:</source>
+        <translation>页：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="221" />
+        <source>Original:</source>
+        <translation>原始：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="222" />
+        <source>Edited:</source>
+        <translation>编辑后：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="223" />
+        <source>Write access:</source>
+        <translation>写权限：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="225" />
+        <source>Last write:</source>
+        <translation>最近写入：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="226" />
+        <source>Last read:</source>
+        <translation>最近读取：</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="232" />
+        <source>Show PWD/PACK data</source>
+        <translation>显示 PWD/PACK 数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="245" />
+        <source>Refresh</source>
+        <translation>刷新</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="260" />
+        <source>Undo</source>
+        <translation>撤销</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="262" />
+        <source>Redo</source>
+        <translation>重做</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="264" />
+        <source>Discard Edits</source>
+        <translation>放弃修改</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="266" />
+        <source>Export...</source>
+        <translation>导出…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="268" />
+        <source>Import...</source>
+        <translation>导入…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="270" />
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="291" />
+        <source>Write Dirty</source>
+        <translation>写入修改页</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="295" />
+        <source>Verify Written</source>
+        <translation>校验已写入</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="314" />
+        <source>States: Read / Modified / Written / Verified / Read failed / Not read. Double-click a byte to edit; Ctrl+C/V copies and pastes hex; Ctrl+Z/Y undoes. Only writable user pages can be changed.</source>
+        <translation>状态：已读取 / 已修改 / 已写入 / 已验证 / 读取失败 / 未读取。双击字节编辑；Ctrl+C/V 复制粘贴十六进制；Ctrl+Z/Y 撤销。只有可写用户页可以修改。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="329" />
+        <source>Quick Launch (NDEF URI) - Experimental</source>
+        <translation>快捷启动（NDEF URI）— 实验性</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="574" />
+        <location filename="../src/module/ntagtab.cpp" line="1542" />
+        <source>%1 (4 bytes/page)</source>
+        <translation>%1 页（每页 4 字节）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="772" />
+        <source>Modified</source>
+        <translation>已修改</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="774" />
+        <source>Verified</source>
+        <translation>已验证</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="776" />
+        <source>Write failed</source>
+        <translation>写入失败</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="778" />
+        <source>Written</source>
+        <translation>已写入</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="791" />
+        <source>Manufacturer / UID0-2 / BCC0</source>
+        <translation>厂商 / UID0-2 / BCC0</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="792" />
+        <source>UID3-6</source>
+        <translation>UID3-6</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="793" />
+        <source>BCC1 / Internal / Lock</source>
+        <translation>BCC1 / 内部 / 锁定位</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="794" />
+        <source>Capability Container</source>
+        <translation>能力容器（CC）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="795" />
+        <source>Dynamic lock</source>
+        <translation>动态锁定位</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="796" />
+        <source>Configuration 0</source>
+        <translation>配置页 0</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="797" />
+        <source>Configuration 1</source>
+        <translation>配置页 1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="798" />
+        <source>PWD</source>
+        <translation>PWD</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="799" />
+        <source>PACK</source>
+        <translation>PACK</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="800" />
+        <source>User data</source>
+        <translation>用户数据</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="801" />
+        <source>Vendor / reserved</source>
+        <translation>厂商 / 保留</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="802" />
+        <source>Out of range</source>
+        <translation>超出范围</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="826" />
+        <source>page data is empty</source>
+        <translation>页数据为空</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="861" />
+        <source>%1 / %2</source>
+        <translation>%1 / %2</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="879" />
+        <source>static %1</source>
+        <translation>静态 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="883" />
+        <source>static unknown</source>
+        <translation>静态未知</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="889" />
+        <source>dynamic %1</source>
+        <translation>动态 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="892" />
+        <source>dynamic unknown</source>
+        <translation>动态未知</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="959" />
+        <location filename="../src/module/ntagtab.cpp" line="2425" />
+        <location filename="../src/module/ntagtab.cpp" line="2474" />
+        <source>Uncommitted edits</source>
+        <translation>未提交的修改</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="960" />
+        <source>%1
+%2 page(s) have uncommitted edits. Discard them?</source>
+        <translation>%1
+%2 页有未提交的修改。是否放弃？</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="984" />
+        <source>Undone.</source>
+        <translation>已撤销。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="996" />
+        <source>Redone.</source>
+        <translation>已重做。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1003" />
+        <source>Discard all uncommitted edits?</source>
+        <translation>放弃所有未提交的修改？</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1005" />
+        <source>Uncommitted edits discarded.</source>
+        <translation>已放弃未提交的修改。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1061" />
+        <source>lock bytes (read-only)</source>
+        <translation>锁定字节（只读）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1061" />
+        <source>not a lock page</source>
+        <translation>非锁定页</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1063" />
+        <source>written</source>
+        <translation>已写入</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1065" />
+        <source>failed: %1</source>
+        <translation>失败：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1078" />
+        <source>Manufacturer / UID page: never editable, never written.</source>
+        <translation>制造商 / UID 页：永远不可编辑、不会写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1081" />
+        <source>UID page: never editable, never written.</source>
+        <translation>UID 页：永远不可编辑、不会写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1084" />
+        <source>Lock page: protected; erase/write never touches it.</source>
+        <translation>锁定页：受保护；清空/写入不会触碰。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1087" />
+        <source>Capability Container / configuration: read-only here.</source>
+        <translation>Capability Container / 配置：此处只读。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1090" />
+        <source>PWD/PACK: masked by default and never written.</source>
+        <translation>PWD/PACK：默认遮蔽，永不写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1093" />
+        <source>Writable user page. Edits stay local until Write Selected/Dirty.</source>
+        <translation>可写用户页。修改在点击“写入选中/修改页”前只保留在本地。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1096" />
+        <source>Not applicable or unknown for the detected layout.</source>
+        <translation>对当前布局不适用或未知。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1125" />
+        <source>A byte must be exactly two hex digits.</source>
+        <translation>一个字节必须正好是两位十六进制。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1131" />
+        <source>Page %1 is not editable.</source>
+        <translation>第 %1 页不可编辑。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1150" />
+        <source>Page %1 edited (not written).</source>
+        <translation>第 %1 页已修改（尚未写入）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1171" />
+        <source>Select hex byte cells to copy.</source>
+        <translation>请选择十六进制字节单元格进行复制。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1175" />
+        <source>Copied %1 byte(s).</source>
+        <translation>已复制 %1 字节。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1186" />
+        <source>Clipboard is not hex data: %1</source>
+        <translation>剪贴板不是十六进制数据：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1201" />
+        <source>Select a starting page first.</source>
+        <translation>请先选择起始页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1215" />
+        <source>Paste refused: %1</source>
+        <translation>拒绝粘贴：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1222" />
+        <source>Pasted %1 byte(s). Not written yet.</source>
+        <translation>已粘贴 %1 字节，尚未写入。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1293" />
+        <source>Import failed: not a dump file and not a multiple of 4 bytes.</source>
+        <translation>导入失败：不是 dump 文件，也不是 4 字节的倍数。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1311" />
+        <source>Import failed: no writable, already-read pages matched.</source>
+        <translation>导入失败：没有匹配的可写且已读取页面。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1328" />
+        <source>Imported %1 page(s); skipped %2 read-only/out-of-range page(s). Nothing was written to the tag.</source>
+        <translation>已导入 %1 页；跳过 %2 个只读/越界页。没有向标签写入任何内容。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1337" />
+        <source>Detect and read the tag before importing a memory image.</source>
+        <translation>导入内存镜像前请先检测并读取标签。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1343" />
+        <location filename="../src/module/ntagtab.cpp" line="1351" />
+        <source>Import memory image</source>
+        <translation>导入内存镜像</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1344" />
+        <source>Importing replaces the edited values of matching pages. Continue with the current edits?</source>
+        <translation>导入会替换匹配页的编辑值。是否在保留当前修改的情况下继续？</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1352" />
+        <source>Dump files (*.bin *.dump *.json);;All files (*)</source>
+        <translation>转储文件 (*.bin *.dump *.json);;所有文件 (*)</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1358" />
+        <source>Cannot open %1</source>
+        <translation>无法打开 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1368" />
+        <source>Read all pages before exporting an image.</source>
+        <translation>导出镜像前请先读取全部页面。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1372" />
+        <source>Export NTAG memory image</source>
+        <translation>导出 NTAG 内存镜像</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1374" />
+        <source>PM3 dump (*.bin)</source>
+        <translation>PM3 转储 (*.bin)</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1383" />
+        <source>Cannot build the dump file.</source>
+        <translation>无法生成 dump 文件。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1389" />
+        <source>Cannot write %1</source>
+        <translation>无法写入 %1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1393" />
+        <source>Exported %1 bytes to %2 (edited values, not read back).</source>
+        <translation>已导出 %1 字节到 %2（编辑值，尚未复读验证）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1401" />
+        <source>Another NTAG read/write operation is running.</source>
+        <translation>另一个 NTAG 读写操作正在运行。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1407" />
+        <location filename="../src/module/ntagtab.cpp" line="1602" />
+        <location filename="../src/module/ntagtab.cpp" line="2519" />
         <source>Key must be 8 or 32 hex digits.</source>
         <translation>密钥必须为 8 或 32 位十六进制。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="341" />
+        <location filename="../src/module/ntagtab.cpp" line="1439" />
         <source>No response from `hf mfu info`. No NTAG/Ultralight tag was detected.</source>
         <translation>`hf mfu info` 无响应，未检测到 NTAG/Ultralight 标签。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="350" />
+        <location filename="../src/module/ntagtab.cpp" line="1454" />
         <source>Tag information did not contain UID/TYPE. See the RawCommand output for details.</source>
         <translation>标签信息中没有 UID/类型。详情见 RawCommand 输出。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="357" />
+        <location filename="../src/module/ntagtab.cpp" line="1494" />
+        <source>The tag UID changed between identification steps; nothing was read or written.</source>
+        <translation>标签 UID 在识别步骤之间发生变化；未读取或写入任何内容。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1511" />
+        <source>(not supported)</source>
+        <translation>（不支持）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1556" />
+        <source>%1 pages (0..%2), user %3..%4, %5 B</source>
+        <translation>%1 页（0..%2），用户区 %3..%4，%5 字节</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1569" />
         <source>Card type is unknown. Page count and write access are not assumed; use Read Page at your own risk.</source>
         <translation>卡片类型未知。程序不会假定页数与写权限；使用“读取页”风险自负。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="361" />
+        <location filename="../src/module/ntagtab.cpp" line="1573" />
         <source>Detected %1 pages. Writable pages: 4..%2. Config/OTP pages are read-only.</source>
         <translation>检测到 %1 页。可写页：4..%2。配置/OTP 页为只读。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="366" />
+        <location filename="../src/module/ntagtab.cpp" line="1578" />
         <source>Recognized type but layout is not enabled for writing. Read-only mode.</source>
         <translation>已识别类型，但该布局未启用写入，当前为只读模式。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="392" />
+        <location filename="../src/module/ntagtab.cpp" line="1615" />
         <source>Failed to parse page %1 data. See the RawCommand output.</source>
         <translation>无法解析第 %1 页数据。详情见 RawCommand 输出。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="407" />
+        <location filename="../src/module/ntagtab.cpp" line="1643" />
+        <source>Reading pages %1..%2 of %3...</source>
+        <translation>正在读取第 %1..%2 页（共 %3 页）…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1662" />
+        <location filename="../src/module/ntagtab.cpp" line="1677" />
+        <location filename="../src/module/ntagtab.cpp" line="1699" />
+        <location filename="../src/module/ntagtab.cpp" line="2195" />
+        <location filename="../src/module/ntagtab.cpp" line="2217" />
+        <location filename="../src/module/ntagtab.cpp" line="2247" />
+        <location filename="../src/module/ntagtab.cpp" line="2261" />
+        <location filename="../src/module/ntagtab.cpp" line="2388" />
+        <location filename="../src/module/ntagtab.cpp" line="3225" />
+        <source>read failed</source>
+        <translation>读取失败</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1705" />
+        <source>Dump read %1 of %2 pages.</source>
+        <translation>已读取 %1 / %2 页。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1722" />
+        <source>Capability Container: %1</source>
+        <translation>能力容器（CC）：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1724" />
+        <source>  NDEF capacity: %1 bytes</source>
+        <translation>  NDEF 容量：%1 字节</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1725" />
+        <source>  Access: %1</source>
+        <translation>  访问权限：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1725" />
+        <source>read/write</source>
+        <translation>可读写</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="680" />
+        <location filename="../src/module/ntagtab.cpp" line="1059" />
+        <location filename="../src/module/ntagtab.cpp" line="1725" />
+        <source>read-only</source>
+        <translation>只读</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1726" />
+        <source>  Multiple block read: %1</source>
+        <translation>  多块读：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1726" />
+        <source>supported</source>
+        <translation>支持</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1726" />
+        <location filename="../src/module/ntagtab.cpp" line="3655" />
+        <source>not supported</source>
+        <translation>不支持</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1730" />
+        <source>No valid Capability Container was read.</source>
+        <translation>未读取到有效的 CC。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1751" />
+        <source>NDEF: no user data was read.</source>
+        <translation>NDEF：未读取到用户数据。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1756" />
+        <source>NDEF: some user pages are missing; parsing may be incomplete.</source>
+        <translation>NDEF：部分用户页缺失，解析可能不完整。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1761" />
+        <source>NDEF message: %1 bytes, %2 record(s)</source>
+        <translation>NDEF 消息：%1 字节，%2 条记录</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1781" />
+        <source>NDEF parse failed: %1</source>
+        <translation>NDEF 解析失败：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1782" />
+        <source>Raw user data: %1</source>
+        <translation>原始用户数据：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1801" />
+        <source>Writable</source>
+        <translation>可写</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1802" />
+        <source>ReadOnly</source>
+        <translation>只读</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1803" />
+        <source>Manufacturer</source>
+        <translation>制造商</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1804" />
+        <source>UID</source>
+        <translation>UID</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1805" />
+        <source>Lock</source>
+        <translation>锁定</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1806" />
+        <source>Config</source>
+        <translation>配置</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1807" />
+        <source>Security</source>
+        <translation>安全区</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1808" />
+        <source>NotApplicable</source>
+        <translation>不适用</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="785" />
+        <location filename="../src/module/ntagtab.cpp" line="1809" />
+        <source>Unknown</source>
+        <translation>未知</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1817" />
+        <source>match</source>
+        <translation>一致</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1818" />
+        <source>MISMATCH</source>
+        <translation>不一致</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1819" />
+        <source>preserved</source>
+        <translation>已保留</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1820" />
+        <source>not checkable</source>
+        <translation>不可校验</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1821" />
+        <source>not applicable</source>
+        <translation>不适用</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1914" />
+        <source>The tag could not be read back, so the write result is unknown.</source>
+        <translation>无法重新读取标签，写入结果未知。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1916" />
+        <source>The tag could not be read back. The write result cannot be verified.</source>
+        <translation>无法重新读取标签，写入结果无法验证。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1940" />
+        <location filename="../src/module/ntagtab.cpp" line="3510" />
+        <source>Only pages targeted by the write are compared. Manufacturer, UID, lock, configuration and security pages cannot cause a failure.</source>
+        <translation>只比较写入涉及的目标页。制造商、UID、锁定、配置和安全页不会导致校验失败。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1952" />
+        <source>Passed: every writable target page matches.</source>
+        <translation>通过：所有目标可写页均一致。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1955" />
+        <source>Passed with Exceptions: every writable target page matches, but some pages were read-only or could not be checked.</source>
+        <translation>带例外通过：所有目标可写页均一致，但部分页面为只读或不可校验。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1959" />
+        <source>Failed: at least one writable target page differs.</source>
+        <translation>失败：至少一个目标可写页不一致。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1962" />
+        <source>Incomplete: not enough pages were read to decide.</source>
+        <translation>不完整：读取的页面不足以得出结论。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1967" />
+        <source>Writable targets: %1, passed: %2, failed: %3, not checkable: %4.</source>
+        <translation>目标可写页：%1，通过：%2，失败：%3，不可校验：%4。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1974" />
+        <source>Page	Class	Expected	Actual	Result</source>
+        <translation>页	类型	预期数据	实际数据	结果</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="1984" />
+        <source>(not readable)</source>
+        <translation>（不可读取）</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2003" />
+        <source>Verification: %1 (passed %2/%3 writable pages).</source>
+        <translation>校验：%1（通过 %2/%3 个可写页）。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2045" />
+        <location filename="../src/module/ntagtab.cpp" line="2344" />
         <source>Detect a card first; page count is unknown.</source>
         <translation>请先检测卡片；页数未知。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="422" />
-        <source>Read %1 of %2 pages.</source>
-        <translation>已读取 %1 / %2 页。</translation>
+        <location filename="../src/module/ntagtab.cpp" line="2347" />
+        <source>A full read replaces the current memory view.</source>
+        <translation>全量读取会替换当前内存视图。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="433" />
+        <location filename="../src/module/ntagtab.cpp" line="2362" />
+        <source>Reading %1 pages with `hf mfu dump`...</source>
+        <translation>正在用 `hf mfu dump` 读取 %1 页…</translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="2414" />
         <source>Select one or more page rows first.</source>
         <translation>请先选择一个或多个页。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="447" />
+        <location filename="../src/module/ntagtab.cpp" line="2458" />
         <source>Read %1 of %2 selected pages.</source>
         <translation>已读取选中的 %1 / %2 页。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="457" />
+        <location filename="../src/module/ntagtab.cpp" line="2495" />
         <source>Page %1 read.</source>
         <translation>第 %1 页已读取。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="465" />
+        <location filename="../src/module/ntagtab.cpp" line="2505" />
+        <location filename="../src/module/ntagtab.cpp" line="2598" />
         <source>Page data must be 8 hex digits.</source>
         <translation>页数据必须为 8 位十六进制。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="470" />
+        <location filename="../src/module/ntagtab.cpp" line="2511" />
+        <location filename="../src/module/ntagtab.cpp" line="2609" />
         <source>Page %1 is not writable under the detected layout.</source>
         <translation>在当前布局下第 %1 页不可写。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="484" />
+        <location filename="../src/module/ntagtab.cpp" line="2526" />
+        <location filename="../src/module/ntagtab.cpp" line="2614" />
         <source>Write NTAG/Ultralight page</source>
         <translation>写入 NTAG/Ultralight 页</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="485" />
-        <source>Write %1 to page %2?
-This is an experimental operation.</source>
-        <translation>将 %1 写入第 %2 页？
-这是实验性操作。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="499" />
+        <location filename="../src/module/ntagtab.cpp" line="2546" />
         <source>Write to page %1 failed. See the RawCommand output.</source>
         <translation>写入第 %1 页失败。详情见 RawCommand 输出。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="509" />
+        <location filename="../src/module/ntagtab.cpp" line="2570" />
         <source>Page %1 write returned success but verification differs (wrote %2, read %3).</source>
         <translation>第 %1 页写入返回成功，但校验不一致（写入 %2，读回 %3）。</translation>
     </message>
     <message>
-        <location filename="../src/module/ntagtab.cpp" line="520" />
-        <source>Page %1 written and verified.</source>
-        <translation>第 %1 页已写入并通过校验。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="534" />
+        <location filename="../src/module/ntagtab.cpp" line="2638" />
         <source>Select one or more writable page rows first.</source>
         <translation>请先选择一个或多个可写页。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="539" />
-        <source>Write selected NTAG/Ultralight pages</source>
-        <translation>写入选中的 NTAG/Ultralight 页</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="540" />
-        <source>This will write %1 page(s).
-This is an experimental operation. Continue?</source>
-        <translation>将写入 %1 页。
-这是实验性操作。是否继续？</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="552" />
-        <source>Wrote and verified %1 of %2 pages.</source>
-        <translation>已写入并通过校验 %1 / %2 页。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="565" />
-        <source>Page %1 read; no previous value was stored to compare.</source>
-        <translation>已读取第 %1 页；没有可比较的旧值。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="569" />
-        <source>Page %1 verification OK.</source>
-        <translation>第 %1 页校验通过。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/ntagtab.cpp" line="570" />
-        <source>Page %1 verification mismatch: expected %2, read %3.</source>
-        <translation>第 %1 页校验不一致：期望 %2，读回 %3。</translation>
     </message>
 </context>
 <context>
     <name>T55xx</name>
-    <message>
-        <location filename="../src/module/t55xx.cpp" line="87" />
-        <source>Not implemented in this version. The control is kept for UI compatibility and is marked Experimental.</source>
-        <translation>本版本未实现。该控件仅为界面兼容保留，并标记为实验性。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/t55xx.cpp" line="116" />
-        <source>Experimental. The current firmware has no LF support, so this is not hardware-verified.</source>
-        <translation>实验性功能。当前固件不支持 LF，因此未做硬件验证。</translation>
-    </message>
-    <message>
-        <location filename="../src/module/t55xx.cpp" line="117" />
-        <source>Experimental. Commands are verified against Iceman v4.23346 help, but the attached firmware lacks LF.</source>
-        <translation>实验性功能。命令已对照 Iceman v4.23346 帮助验证，但当前固件缺少 LF。</translation>
-    </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="283" />
         <location filename="../src/module/t55xx.cpp" line="327" />
@@ -3102,7 +5490,7 @@ This is an experimental operation. Continue?</source>
         <location filename="../src/module/t55xx.cpp" line="441" />
         <location filename="../src/module/t55xx.cpp" line="508" />
         <source>T55xx</source>
-        <translation type="unfinished" />
+        <translation>T55xx</translation>
     </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="355" />
@@ -3152,7 +5540,7 @@ Continue?</source>
 
 是否继续？</translation>
     </message>
-</context>
+<message><source>Not implemented in this version. The control is kept for UI compatibility and is marked Experimental.</source><translation>本版本未实现。该控件仅为界面兼容保留，并标记为实验性。</translation></message></context>
 <context>
     <name>T55xxTab</name>
     <message>

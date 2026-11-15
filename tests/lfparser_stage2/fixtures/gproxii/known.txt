@@ -1,0 +1,1 @@
+[+] G-Prox-II - Len: 26 FC: 123 Card: 1234 xor: 141, Raw: fac2a38c2b081af008eb0ac2

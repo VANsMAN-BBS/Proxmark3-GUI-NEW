@@ -1,0 +1,7 @@
+[+] Indala (len 64)  Raw: a0000000a0002021
+[+] Fmt 26 FC: 123 Card: 1337 Parity: 11
+[+]   Printed....... __0000__  ( 0x0 )
+[+]   Internal ID... 123456
+[+]   Heden-2L...... 888
+[+]   Keyscan 40010. FC: 12 CN: 1337
+[+] Valid Indala ID found!

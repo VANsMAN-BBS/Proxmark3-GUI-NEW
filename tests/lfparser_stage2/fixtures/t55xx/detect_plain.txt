@@ -1,0 +1,7 @@
+[+] Chip type..... T55x7
+[+] Password set...... No
+[+] Block0........ 00148040
+[+] Modulation........ ASK
+[+] Bit rate......... RF/64
+[+] Offset............ 0
+[+] Inverted.......... No

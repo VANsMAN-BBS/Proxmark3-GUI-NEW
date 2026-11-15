@@ -1,0 +1,3 @@
+[+] [H10301  ] HID H10301 26-bit                FC: 65  CN: 29334  parity ( ok )
+[+] [H10306  ] HID H10306 34-bit                FC: 200  CN: 60000  parity ( ok )
+[+] found 2 matching 34-bit formats

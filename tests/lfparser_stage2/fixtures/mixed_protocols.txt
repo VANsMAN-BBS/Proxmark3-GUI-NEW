@@ -1,0 +1,6 @@
+[=] Checking for known tags...
+[+] EM 410x ID 0F00112233
+[+] EM410x ( RF/64 )
+[+] [H10301  ] HID H10301 26-bit                FC: 65  CN: 29334  parity ( ok )
+[+] raw: 200078be5e1e
+[+] found 1 matching 26-bit format

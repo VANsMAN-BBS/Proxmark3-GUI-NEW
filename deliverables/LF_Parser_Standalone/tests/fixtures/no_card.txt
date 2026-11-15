@@ -1,0 +1,3 @@
+[=] Note: False Positives ARE possible
+[=] Checking for known tags...
+[-] No known 125/134 kHz tags found!

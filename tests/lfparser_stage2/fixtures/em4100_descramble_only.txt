@@ -1,0 +1,5 @@
+[+] EM410x ( RF/64 )
+[=] -------- Possible de-scramble patterns ---------
+[=] Unique TAG ID      : 1122334455
+[=]     DEZ 10         : 73588229205
+[+] Pattern CDVI       : FC: 15 CN: 305

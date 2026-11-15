@@ -1,0 +1,3 @@
+[+] HID Prox ID found!
+[+] FC: 65  CN: 29334
+[+] raw: 200078be5e1e

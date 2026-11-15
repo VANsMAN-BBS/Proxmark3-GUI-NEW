@@ -1,0 +1,13 @@
+[=] Note: False Positives ARE possible
+[=] Checking for known tags...
+[+] EM 410x ID 0F00112233
+[+] EM410x ( RF/64 )
+[=] -------- Possible de-scramble patterns ---------
+[=] Unique TAG ID      : 0F00112233
+[=] HoneyWell IdentKey
+[=]     DEZ 8          : 42768033
+[=]     DEZ 10         : 4276803383
+[=]     DEZ 14/IK2     : 00042768033833
+[=]     DEZ 15/IK3     : 00042768033833
+[+] Pattern CDVI       : FC: 15 CN: 305
+[+] Valid EM410x ID found!

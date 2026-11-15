@@ -33,6 +33,7 @@
 #include "module/ntagtab.h"
 #include "module/emrtd.h"
 #include "module/amiibopage.h"
+#include "module/lfparsertab.h"
 #include "common/util.h"
 #include "ui/mf_trailerdecoderdialog.h"
 
@@ -262,6 +263,7 @@ private:
     NtagTab* ntag;
     EMRTDPage* emrtdPage;
     AmiiboPage* amiiboPage;
+    LfParserTab* lfParserTab;
     bool emrtdReconnect;
     Mifare* mifare;
     LF* lf;

@@ -10,32 +10,31 @@ class QListWidget;
 class QPlainTextEdit;
 class QLineEdit;
 class QPushButton;
+class QComboBox;
 class QNetworkAccessManager;
 class QNetworkReply;
-class QPixmap;
 class Util;
 class ClientSession;
 
-/** A loadable Amiibo / NTAG215 image. */
+/** One Amiibo file reference plus display metadata. */
 struct AmiiboEntry
 {
     QString name;
-    QString source;      // "sample", "file", "online", "tag"
-    QString path;
+    QString source;      // "file", "online"
+    QString path;        // original local file or GUI-created raw copy
     QString series;
     QString imageUrl;
     QString binUrl;
-    QByteArray data;
+    QByteArray raw;      // exact bytes, for preview/hash only
+    QString hash;
 };
 
 /**
- * Amiibo sub-page of the NTAG group.
+ * Amiibo library and raw-BIN simulation page.
  *
- * Amiibo tags are NFC Forum Type 2 / NTAG215, so they belong with the NTAG
- * functionality (they were grouped under JTAG in v0.4.0 by mistake).
- *
- * Writing requires an explicit confirmation and is always followed by a
- * read-back verification.  No irreversible commands (lock/OTP/PWD) are issued.
+ * The library stores file references and display metadata only.  The
+ * simulation path still re-reads the selected file and passes the exact bytes
+ * to `hf mfu eload`; no tag read/write/verify operations exist here.
  */
 class AmiiboPage : public QWidget
 {
@@ -54,15 +53,10 @@ signals:
     void stopRequested();
 
 private slots:
-    void addSyntheticSample();
     void importFile();
-    void saveAsFile();
+    void importFolder();
     void removeEntry();
     void onEntrySelected();
-    void detectTag();
-    void readTag();
-    void writeTag();
-    void verifyTag();
     void startEmulation();
     void stopEmulation();
     void searchCatalog();
@@ -74,55 +68,62 @@ private:
     void buildUi();
     void refreshList();
     void showEntry(int index);
-    void setBusy(bool busy, const QString &text = QString());
-    void setStatus(const QString &text);
-    QString tempPath(const QString &name) const;
-    bool readBackInto(QByteArray &out, const QString &why);
+    void setStatus(const QString &text, bool error = false);
+    void setBusy(bool busy);
+    void updateButtons();
     void addEntry(const AmiiboEntry &entry);
-    static QString uidOf(const QByteArray &data);
+    int importPaths(const QStringList &paths, bool showSummary);
+    void selectEntry(int index);
+    void loadImageFor(const AmiiboEntry &entry);
+    QString standardLoadProblem(const QString &output) const;
+    bool loadStandard(const QString &clientPath, QString *log, QString *error);
+    bool loadDirect(const QByteArray &bytes, QString *log, QString *error);
+    static bool plausibleRaw540(const QByteArray &bytes, QString *reason);
+    QString clientPathFor(const QByteArray &bytes, const QString &hash,
+                          QString *temporaryFile);
+    QString tempPath(const QString &name) const;
     static QString formatOf(const QByteArray &data);
-    static bool isNtag215(const QByteArray &data);
+    static QString localSidecarImage(const QString &binPath);
 
     Util *util;
     ClientSession *session;
+    QNetworkAccessManager *net;
+
     QListWidget *library;
     QLabel *nameLabel;
     QLabel *sourceLabel;
     QLabel *sizeLabel;
+    QLabel *hashLabel;
     QLabel *formatLabel;
     QLabel *imageLabel;
-    QPlainTextEdit *hexView;
-    QPushButton *sampleButton;
+    QLabel *stateLabel;
+    QPlainTextEdit *outputView;
+    QComboBox *simModeCombo;
     QPushButton *importButton;
-    QPushButton *saveButton;
+    QPushButton *importFolderButton;
     QPushButton *removeButton;
-    QPushButton *detectButton;
-    QPushButton *readButton;
-    QPushButton *writeButton;
-    QPushButton *verifyButton;
     QPushButton *emulateButton;
     QPushButton *stopButton;
+
     QLineEdit *catalogUrlEdit;
     QLineEdit *catalogSearchEdit;
     QPushButton *catalogSearchButton;
     QPushButton *catalogDownloadButton;
     QListWidget *catalogList;
     QLabel *catalogInfo;
-    QLabel *statusLabel;
 
-    QNetworkAccessManager *net;
     QList<AmiiboEntry> entries;
     QList<AmiiboEntry> catalogEntries;
-    QByteArray selectedCatalogBin;
     QString selectedCatalogName;
 
-    QString port;
-    QString clientPath;
+    QString filePath;
+    QByteArray rawBytes;
+    QString rawHash;
     QString workingDir;
+    bool loaded;
     bool connected;
     bool busy;
     bool emulating;
 };
 
 #endif // AMIIBOPAGE_H
-

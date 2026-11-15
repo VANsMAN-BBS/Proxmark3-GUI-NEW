@@ -1,0 +1,33 @@
+Example output for fixtures/idteck/standard.txt
+
+$ lf_parse_example tests/fixtures/idteck/standard.txt
+
+protocol   : IDTECK
+status     : identified
+confidence : high
+format     : IDTECK
+card number: 4963871
+raw        : 4944544B351FBE4B
+hex id     : 4944544B351FBE4B
+decimal id : 4963871
+extra      :
+  cardIdHex = 4BBE1F
+  checksum = 35
+  checksumState = fail
+warning    : IDTECK checksum failed on the client side.
+
+
+Example output for fixtures/t55xx/detect_plain.txt
+
+$ lf_parse_example tests/fixtures/t55xx/detect_plain.txt
+
+protocol   : Unknown
+status     : unidentified
+confidence : none
+format     :
+warning    : Input does not look like Proxmark3 LF output.
+t55xx      : T55x7
+block0     : 00148040
+
+The card registry deliberately does not recognise T55xx detect text; the
+separate read-only LfT55xx API reports the chip and block0.

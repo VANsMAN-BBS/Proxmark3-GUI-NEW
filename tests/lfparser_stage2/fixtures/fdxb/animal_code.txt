@@ -1,0 +1,7 @@
+[+] Animal code......... 999 123456789012
+[+] National ID code.... 123456789012 ( 0x1CBE991A14 )
+[+] Country code........ 999 - Test range
+[+] Animal bit.......... True
+[+] Data block flag..... False
+[+] CRC-16.............. 0x1A2B ( ok )
+[+] Raw................. 28 58 99 7D 3B 9F 00 00 C0 CC 00 00 00

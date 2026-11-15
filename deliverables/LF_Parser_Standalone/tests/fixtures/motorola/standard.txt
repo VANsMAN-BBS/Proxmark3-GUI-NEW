@@ -1,0 +1,1 @@
+[+] Motorola - fmt: 26 FC: 12 Card: 3456, Raw: A0000000A0002021

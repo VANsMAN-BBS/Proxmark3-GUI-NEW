@@ -1,0 +1,1 @@
+[+] IDTECK Tag Found: Card ID 4963871 ( 0x4BBE1F ) Raw: 4944544B351FBE4B  chksum 0x35 ( fail )

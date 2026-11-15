@@ -1,0 +1,4 @@
+[+] HID Prox ID found!
+[+] [H10301  ] HID H10301 26-bit                FC: 65  CN: 29334  parity ( ok )
+[+] raw: 200078be5e1e
+[+] found 1 matching 26-bit format

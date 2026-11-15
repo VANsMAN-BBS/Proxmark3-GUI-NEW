@@ -1,0 +1,4 @@
+[+] GALLAGHER - Region: 1 Facility: 22 Card No.: 3333 Issue Level: 1
+[+]    Displayed: B22
+[+]    Raw: 7FEAA35854B86B0D1A8CB120
+[+]    CRC: 20 - 20 (ok)

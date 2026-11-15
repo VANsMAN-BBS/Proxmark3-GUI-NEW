@@ -43,8 +43,27 @@ MainWindow::MainWindow(QWidget *parent):
     Util::setUI(ui);
     mifare = new Mifare(ui, util, this);
     lf = new LF(ui, util, this);
+
+    // The existing LF page keeps every widget and command unchanged; it simply
+    // becomes the first sub-tab of a container that also hosts the text parser.
+    // The outer tab index and label are preserved so rawTabIndex stays valid.
+    lfParserTab = new LfParserTab(this);
+    const int lfTabIndex = ui->funcTab->indexOf(ui->lfTab);
+    if(lfTabIndex >= 0)
+    {
+        const QString lfTitle = ui->funcTab->tabText(lfTabIndex);
+        QTabWidget *lfTabs = new QTabWidget(this);
+        ui->funcTab->removeTab(lfTabIndex);
+        lfTabs->addTab(ui->lfTab, tr("Low frequency functions"));
+        lfTabs->addTab(lfParserTab, tr("LF multi-protocol parsing"));
+        ui->funcTab->insertTab(lfTabIndex, lfTabs, lfTitle);
+        connect(lfParserTab, &LfParserTab::clientTextRequested, this, [this]()
+        {
+            lfParserTab->setClientText(ui->Raw_outputEdit->toPlainText());
+        });
+    }
     t55xx = new T55xx(ui, util, this);
-    ntag = new NtagTab(util, this);
+    ntag = new NtagTab(util, pm3, this);
     // Amiibo is an NTAG215 / Type 2 feature, so it lives with the NTAG page.
     // This build has no JTAG implementation, so no JTAG tab is shown.
     QTabWidget *ntagTabs = new QTabWidget(this);

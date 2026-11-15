@@ -1,0 +1,3 @@
+add_executable(lf_parse_example parse_text_example.cpp)
+
+target_link_libraries(lf_parse_example PRIVATE lfparser)

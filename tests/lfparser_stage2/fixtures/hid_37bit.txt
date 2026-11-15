@@ -1,0 +1,3 @@
+[+] [H10304  ] HID H10304 37-bit                FC: 118  CN: 123456  parity ( ok )
+[+] raw: 01400076000c86
+[+] found 1 matching 37-bit format

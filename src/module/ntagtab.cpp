@@ -1,10 +1,22 @@
-#include "ntagtab.h"
+﻿#include "ntagtab.h"
 
 #include "common/util.h"
+#include "core/clientsession.h"
+#include "core/logger.h"
+#include "ntag/ndefbuilder.h"
 
 #include <QCheckBox>
+#include <QClipboard>
+#include <QColor>
+#include <QComboBox>
 #include <QCoreApplication>
+#include <QEvent>
+#include <QKeyEvent>
+#include <QSplitter>
+#include <QDir>
 #include <QEventLoop>
+#include <QFile>
+#include <QFileInfo>
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -13,25 +25,61 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QPlainTextEdit>
+#include <QPalette>
 #include <QPushButton>
 #include <QRegularExpression>
 #include <QSet>
+#include <QSettings>
+#include <QSignalBlocker>
 #include <QSpinBox>
+#include <QStringList>
+#include <QTabWidget>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QThread>
+#include <QVariant>
 #include <QVBoxLayout>
+
+#include <algorithm>
 
 namespace {
 const char *kPageDataPattern = "(\\d+)/0x[0-9A-Fa-f]+\\s*\\|\\s*((?:[0-9A-Fa-f]{2}\\s*){4})";
+
+bool isDarkTheme()
+{
+    static const bool dark = []() {
+        QSettings settings(QStringLiteral("GUIsettings.ini"), QSettings::IniFormat);
+        const QString theme = settings.value(QStringLiteral("UI/Theme_Name")).toString();
+        if(theme == QLatin1String("qdss_dark"))
+            return true;
+        if(theme == QLatin1String("qdss_light"))
+            return false;
+        return QApplication::palette().color(QPalette::Window).lightness() < 128;
+    }();
+    return dark;
+}
 }
 
-NtagTab::NtagTab(Util *util, QWidget *parent)
-    : QWidget(parent), util(util)
+NtagTab::NtagTab(Util *util, ClientSession *session, QWidget *parent)
+    : QWidget(parent), util(util), session(session)
 {
     buildUi();
+    if(session)
+    {
+        connect(session, &ClientSession::commandFinished,
+                this, &NtagTab::onReadCommandFinished);
+        connect(session, &ClientSession::commandFinished,
+                this, &NtagTab::onWriteCommandFinished);
+    }
 }
 
-NtagTab::~NtagTab() = default;
+NtagTab::~NtagTab()
+{
+    m_readJob.finish();
+    m_writeJob.finish();
+    m_dumpWorkspace.clearDump();
+}
 
 void NtagTab::buildUi()
 {
@@ -41,83 +89,343 @@ void NtagTab::buildUi()
     QGridLayout *cardLayout = new QGridLayout(cardGroup);
 
     QPushButton *detectButton = new QPushButton(tr("Detect / Read Info"), cardGroup);
+    detectButton->setObjectName(QStringLiteral("NTAG_detectButton"));
     connect(detectButton, &QPushButton::clicked, this, &NtagTab::detectCard);
     cardLayout->addWidget(detectButton, 0, 0, 1, 2);
 
     cardLayout->addWidget(new QLabel(tr("UID:"), cardGroup), 1, 0);
     uidLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    uidLabel->setObjectName(QStringLiteral("NTAG_uidLabel"));
     uidLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
     cardLayout->addWidget(uidLabel, 1, 1);
 
     cardLayout->addWidget(new QLabel(tr("Type:"), cardGroup), 2, 0);
     typeLabel = new QLabel(tr("Not detected"), cardGroup);
+    typeLabel->setObjectName(QStringLiteral("NTAG_typeLabel"));
     typeLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
     cardLayout->addWidget(typeLabel, 2, 1);
 
     cardLayout->addWidget(new QLabel(tr("Pages:"), cardGroup), 3, 0);
     pagesLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    pagesLabel->setObjectName(QStringLiteral("NTAG_pagesLabel"));
     cardLayout->addWidget(pagesLabel, 3, 1);
 
-    cardLayout->addWidget(new QLabel(tr("Key (optional):"), cardGroup), 4, 0);
+    cardLayout->addWidget(new QLabel(tr("Model:"), cardGroup), 4, 0);
+    modelLabel = new QLabel(tr("Not detected"), cardGroup);
+    modelLabel->setObjectName(QStringLiteral("NTAG_modelLabel"));
+    modelLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    cardLayout->addWidget(modelLabel, 4, 1);
+
+    cardLayout->addWidget(new QLabel(tr("GET_VERSION:"), cardGroup), 5, 0);
+    versionLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    versionLabel->setObjectName(QStringLiteral("NTAG_versionLabel"));
+    versionLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    cardLayout->addWidget(versionLabel, 5, 1);
+
+    cardLayout->addWidget(new QLabel(tr("Capability Container:"), cardGroup), 6, 0);
+    ccLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    ccLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    cardLayout->addWidget(ccLabel, 6, 1);
+
+    cardLayout->addWidget(new QLabel(tr("Capacity:"), cardGroup), 7, 0);
+    capacityLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    capacityLabel->setObjectName(QStringLiteral("NTAG_capacityLabel"));
+    cardLayout->addWidget(capacityLabel, 7, 1);
+
+    cardLayout->addWidget(new QLabel(tr("Key (optional):"), cardGroup), 14, 0);
     keyEdit = new QLineEdit(cardGroup);
     keyEdit->setPlaceholderText(tr("UL-C/AES 16 bytes or NTAG/EV1 4 bytes, hex"));
-    cardLayout->addWidget(keyEdit, 4, 1);
+    cardLayout->addWidget(keyEdit, 14, 1);
+
+    cardLayout->addWidget(new QLabel(tr("ATQA:"), cardGroup), 9, 0);
+    atqaLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    atqaLabel->setObjectName(QStringLiteral("NTAG_atqaLabel"));
+    atqaLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    cardLayout->addWidget(atqaLabel, 9, 1);
+    cardLayout->addWidget(new QLabel(tr("SAK:"), cardGroup), 10, 0);
+    sakLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    sakLabel->setObjectName(QStringLiteral("NTAG_sakLabel"));
+    sakLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    cardLayout->addWidget(sakLabel, 10, 1);
+    cardLayout->addWidget(new QLabel(tr("Pages read:"), cardGroup), 11, 0);
+    readCountLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    readCountLabel->setObjectName(QStringLiteral("NTAG_readCountLabel"));
+    cardLayout->addWidget(readCountLabel, 11, 1);
+    cardLayout->addWidget(new QLabel(tr("Writable pages:"), cardGroup), 12, 0);
+    writableCountLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    writableCountLabel->setObjectName(QStringLiteral("NTAG_writableCountLabel"));
+    cardLayout->addWidget(writableCountLabel, 12, 1);
+    cardLayout->addWidget(new QLabel(tr("Lock state:"), cardGroup), 13, 0);
+    lockStateLabel = new QLabel(QStringLiteral("-"), cardGroup);
+    lockStateLabel->setObjectName(QStringLiteral("NTAG_lockStateLabel"));
+    lockStateLabel->setWordWrap(true);
+    cardLayout->addWidget(lockStateLabel, 13, 1);
     mainLayout->addWidget(cardGroup);
 
     QGroupBox *pagesGroup = new QGroupBox(tr("Pages"), this);
     QVBoxLayout *pagesLayout = new QVBoxLayout(pagesGroup);
 
-    table = new QTableWidget(0, 4, pagesGroup);
-    table->setHorizontalHeaderLabels({tr("Page"), tr("Data (hex)"), tr("ASCII"), tr("Access")});
+    table = new QTableWidget(0, 9, pagesGroup);
+    table->setObjectName(QStringLiteral("NTAG_table"));
+    table->setHorizontalHeaderLabels({tr("Page"), tr("B0"), tr("B1"), tr("B2"),
+                                      tr("B3"), tr("ASCII"), tr("Page type"),
+                                      tr("Access"), tr("State")});
     table->verticalHeader()->setVisible(false);
-    table->horizontalHeader()->setSectionResizeMode(1, QHeaderView::Stretch);
+    // Fixed/interactive widths: ResizeToContents recalculates every item in
+    // the table after each cell update and made 32-page updates take seconds.
+    table->horizontalHeader()->setStretchLastSection(false);
+    table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Interactive);
     table->setColumnWidth(0, 55);
-    table->setColumnWidth(2, 120);
-    table->setColumnWidth(3, 150);
-    table->setSelectionBehavior(QAbstractItemView::SelectRows);
+    for(int column = 1; column <= 4; column++)
+    {
+        table->horizontalHeader()->setSectionResizeMode(column, QHeaderView::Interactive);
+        table->setColumnWidth(column, 44);
+    }
+    table->horizontalHeader()->setSectionResizeMode(5, QHeaderView::Stretch);
+    table->horizontalHeader()->setSectionResizeMode(6, QHeaderView::Interactive);
+    table->setColumnWidth(6, 120);
+    table->horizontalHeader()->setSectionResizeMode(7, QHeaderView::Interactive);
+    table->setColumnWidth(7, 150);
+    table->horizontalHeader()->setSectionResizeMode(8, QHeaderView::Interactive);
+    table->setColumnWidth(8, 100);
+    table->setSelectionBehavior(QAbstractItemView::SelectItems);
     table->setSelectionMode(QAbstractItemView::ExtendedSelection);
     table->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::EditKeyPressed);
-    pagesLayout->addWidget(table);
+    table->installEventFilter(this);
+
+    QSplitter *editorSplit = new QSplitter(Qt::Horizontal, pagesGroup);
+    editorSplit->addWidget(table);
+    QGroupBox *detailGroup = new QGroupBox(tr("Selected page"), editorSplit);
+    QVBoxLayout *detailLayout = new QVBoxLayout(detailGroup);
+    QFormLayout *detailForm = new QFormLayout();
+    detailPageLabel = new QLabel(QStringLiteral("-"), detailGroup);
+    detailPageLabel->setObjectName(QStringLiteral("NTAG_detailPageLabel"));
+    detailTypeLabel = new QLabel(QStringLiteral("-"), detailGroup);
+    detailTypeLabel->setObjectName(QStringLiteral("NTAG_detailTypeLabel"));
+    detailOriginalLabel = new QLabel(QStringLiteral("-"), detailGroup);
+    detailOriginalLabel->setObjectName(QStringLiteral("NTAG_detailOriginalLabel"));
+    detailOriginalLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    detailEditedLabel = new QLabel(QStringLiteral("-"), detailGroup);
+    detailEditedLabel->setObjectName(QStringLiteral("NTAG_detailEditedLabel"));
+    detailEditedLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    detailWritableLabel = new QLabel(QStringLiteral("-"), detailGroup);
+    detailWritableLabel->setObjectName(QStringLiteral("NTAG_detailWritableLabel"));
+    detailLockLabel = new QLabel(QStringLiteral("-"), detailGroup);
+    detailLockLabel->setObjectName(QStringLiteral("NTAG_detailLockLabel"));
+    detailLastWriteLabel = new QLabel(QStringLiteral("-"), detailGroup);
+    detailLastWriteLabel->setObjectName(QStringLiteral("NTAG_detailLastWriteLabel"));
+    detailLastReadLabel = new QLabel(QStringLiteral("-"), detailGroup);
+    detailLastReadLabel->setObjectName(QStringLiteral("NTAG_detailLastReadLabel"));
+    detailForm->addRow(tr("Page:"), detailPageLabel);
+    detailForm->addRow(tr("Type:"), detailTypeLabel);
+    detailForm->addRow(tr("Original:"), detailOriginalLabel);
+    detailForm->addRow(tr("Edited:"), detailEditedLabel);
+    detailForm->addRow(tr("Write access:"), detailWritableLabel);
+    detailForm->addRow(tr("Lock state:"), detailLockLabel);
+    detailForm->addRow(tr("Last write:"), detailLastWriteLabel);
+    detailForm->addRow(tr("Last read:"), detailLastReadLabel);
+    detailLayout->addLayout(detailForm);
+    detailNoteLabel = new QLabel(detailGroup);
+    detailNoteLabel->setWordWrap(true);
+    detailNoteLabel->setStyleSheet(QStringLiteral("color: palette(mid);"));
+    detailLayout->addWidget(detailNoteLabel);
+    showSecurityCheck = new QCheckBox(tr("Show PWD/PACK data"), detailGroup);
+    showSecurityCheck->setObjectName(QStringLiteral("NTAG_showSecurityCheck"));
+    connect(showSecurityCheck, &QCheckBox::toggled, this, &NtagTab::showSecurityToggled);
+    detailLayout->addWidget(showSecurityCheck);
+    detailLayout->addStretch();
+    editorSplit->addWidget(detailGroup);
+    editorSplit->setStretchFactor(0, 1);
+    editorSplit->setStretchFactor(1, 0);
+    pagesLayout->addWidget(editorSplit, 1);
 
     QHBoxLayout *readLayout = new QHBoxLayout;
     QPushButton *readAllButton = new QPushButton(tr("Read All"), pagesGroup);
+    readAllButton->setObjectName(QStringLiteral("NTAG_readAllButton"));
+    QPushButton *refreshButton = new QPushButton(tr("Refresh"), pagesGroup);
+    refreshButton->setObjectName(QStringLiteral("NTAG_refreshButton"));
     QPushButton *readSelectedButton = new QPushButton(tr("Read Selected"), pagesGroup);
+    readSelectedButton->setObjectName(QStringLiteral("NTAG_readSelectedButton"));
     QPushButton *readPageButton = new QPushButton(tr("Read Page"), pagesGroup);
+    readPageButton->setObjectName(QStringLiteral("NTAG_readPageButton"));
     pageSpin = new QSpinBox(pagesGroup);
+    pageSpin->setObjectName(QStringLiteral("NTAG_pageSpin"));
     pageSpin->setRange(0, 255);
     pageSpin->setPrefix(tr("Page "));
     readLayout->addWidget(readAllButton);
+    readLayout->addWidget(refreshButton);
     readLayout->addWidget(readSelectedButton);
     readLayout->addWidget(pageSpin);
     readLayout->addWidget(readPageButton);
+    undoButton = new QPushButton(tr("Undo"), pagesGroup);
+    undoButton->setObjectName(QStringLiteral("NTAG_undoButton"));
+    redoButton = new QPushButton(tr("Redo"), pagesGroup);
+    redoButton->setObjectName(QStringLiteral("NTAG_redoButton"));
+    discardButton = new QPushButton(tr("Discard Edits"), pagesGroup);
+    discardButton->setObjectName(QStringLiteral("NTAG_discardButton"));
+    exportButton = new QPushButton(tr("Export..."), pagesGroup);
+    exportButton->setObjectName(QStringLiteral("NTAG_exportButton"));
+    importButton = new QPushButton(tr("Import..."), pagesGroup);
+    importButton->setObjectName(QStringLiteral("NTAG_importButton"));
+    cancelReadButton = new QPushButton(tr("Cancel"), pagesGroup);
+    cancelReadButton->setObjectName(QStringLiteral("NTAG_cancelReadButton"));
+    cancelReadButton->setEnabled(false);
+    connect(cancelReadButton, &QPushButton::clicked, this, &NtagTab::cancelActiveJob);
+    readLayout->addWidget(undoButton);
+    readLayout->addWidget(redoButton);
+    readLayout->addWidget(discardButton);
+    readLayout->addWidget(exportButton);
+    readLayout->addWidget(importButton);
+    readLayout->addWidget(cancelReadButton);
     readLayout->addStretch();
     pagesLayout->addLayout(readLayout);
 
     QHBoxLayout *writeLayout = new QHBoxLayout;
     dataEdit = new QLineEdit(pagesGroup);
+    dataEdit->setObjectName(QStringLiteral("NTAG_dataEdit"));
     dataEdit->setPlaceholderText(tr("Page data: 8 hex digits"));
     QPushButton *writePageButton = new QPushButton(tr("Write Page"), pagesGroup);
+    writePageButton->setObjectName(QStringLiteral("NTAG_writePageButton"));
     QPushButton *writeSelectedButton = new QPushButton(tr("Write Selected"), pagesGroup);
+    writeSelectedButton->setObjectName(QStringLiteral("NTAG_writeSelectedButton"));
+    writeDirtyButton = new QPushButton(tr("Write Dirty"), pagesGroup);
+    writeDirtyButton->setObjectName(QStringLiteral("NTAG_writeDirtyButton"));
     QPushButton *verifyButton = new QPushButton(tr("Verify Page"), pagesGroup);
+    verifyButton->setObjectName(QStringLiteral("NTAG_verifyButton"));
+    verifyWrittenButton = new QPushButton(tr("Verify Written"), pagesGroup);
+    verifyWrittenButton->setObjectName(QStringLiteral("NTAG_verifyWrittenButton"));
     writeLayout->addWidget(new QLabel(tr("Data:"), pagesGroup));
     writeLayout->addWidget(dataEdit, 1);
     writeLayout->addWidget(writePageButton);
     writeLayout->addWidget(writeSelectedButton);
+    writeLayout->addWidget(writeDirtyButton);
     writeLayout->addWidget(verifyButton);
+    writeLayout->addWidget(verifyWrittenButton);
+    eraseButton = new QPushButton(tr("Erase Tag..."), pagesGroup);
+    eraseButton->setObjectName(QStringLiteral("NTAG_eraseButton"));
+    eraseButton->setToolTip(tr("Clear writable user data pages only; UID, CC, "
+                               "lock, OTP, configuration and password pages are "
+                               "never modified."));
+    connect(eraseButton, &QPushButton::clicked, this, &NtagTab::eraseTag);
+    writeLayout->addWidget(eraseButton);
     pagesLayout->addLayout(writeLayout);
 
-    statusLabel = new QLabel(tr("Experimental: no NTAG/Ultralight hardware verification yet."), pagesGroup);
+    statusLabel = new QLabel(
+        tr("States: Read / Modified / Written / Verified / Read failed / Not read. "
+           "Double-click a byte to edit; Ctrl+C/V copies and pastes hex; Ctrl+Z/Y "
+           "undoes. Only writable user pages can be changed."), pagesGroup);
+    statusLabel->setObjectName(QStringLiteral("NTAG_statusLabel"));
     statusLabel->setWordWrap(true);
     pagesLayout->addWidget(statusLabel);
 
-    mainLayout->addWidget(pagesGroup);
+    QGroupBox *ndefGroup = new QGroupBox(tr("NDEF"), this);
+    QVBoxLayout *ndefLayout = new QVBoxLayout(ndefGroup);
+    ndefView = new QPlainTextEdit(ndefGroup);
+    ndefView->setObjectName(QStringLiteral("NTAG_ndefView"));
+    ndefView->setReadOnly(true);
+    ndefView->setPlaceholderText(tr("Read the tag to parse CC / TLV / NDEF records."));
+    ndefLayout->addWidget(ndefView);
+
+    QGroupBox *quickGroup = new QGroupBox(tr("Quick Launch (NDEF URI) - Experimental"), this);
+    QVBoxLayout *quickLayout = new QVBoxLayout(quickGroup);
+    QLabel *quickExperimental = new QLabel(
+        tr("Experimental: phone compatibility has not been fully verified. "
+           "No new NDEF types planned; critical fixes only."),
+        quickGroup);
+    quickExperimental->setWordWrap(true);
+    quickExperimental->setStyleSheet(QStringLiteral("color:rgb(200,20,20);"));
+    quickLayout->addWidget(quickExperimental);
+    QFormLayout *quickForm = new QFormLayout();
+    quickType = new QComboBox(quickGroup);
+    quickType->setObjectName(QStringLiteral("NTAG_quickType"));
+    quickType->addItem(tr("Web link (https://...)"), int(Ndef::LaunchType::Url));
+    quickType->addItem(tr("Phone number (tel:)"), int(Ndef::LaunchType::Phone));
+    quickType->addItem(tr("SMS (sms:)"), int(Ndef::LaunchType::Sms));
+    quickType->addItem(tr("E-mail (mailto:)"), int(Ndef::LaunchType::Email));
+    quickType->addItem(tr("Custom URI"), int(Ndef::LaunchType::CustomUri));
+    quickType->addItem(tr("Wi-Fi (not supported)"), int(Ndef::LaunchType::Wifi));
+    quickForm->addRow(tr("Launch type:"), quickType);
+
+    quickPrimaryLabel = new QLabel(tr("URL:"), quickGroup);
+    quickPrimary = new QLineEdit(quickGroup);
+    quickPrimary->setObjectName(QStringLiteral("NTAG_quickPrimary"));
+    quickForm->addRow(quickPrimaryLabel, quickPrimary);
+
+    quickSubjectLabel = new QLabel(tr("Subject:"), quickGroup);
+    quickSubject = new QLineEdit(quickGroup);
+    quickForm->addRow(quickSubjectLabel, quickSubject);
+
+    quickBodyLabel = new QLabel(tr("Body:"), quickGroup);
+    quickBody = new QLineEdit(quickGroup);
+    quickForm->addRow(quickBodyLabel, quickBody);
+    quickLayout->addLayout(quickForm);
+
+    quickInfoLabel = new QLabel(quickGroup);
+    quickInfoLabel->setWordWrap(true);
+    quickInfoLabel->setStyleSheet(QStringLiteral("color: palette(mid);"));
+    quickLayout->addWidget(quickInfoLabel);
+
+    quickCapacityLabel = new QLabel(tr("Detect a tag to see the NDEF capacity."), quickGroup);
+    quickCapacityLabel->setObjectName(QStringLiteral("NTAG_quickCapacityLabel"));
+    quickCapacityLabel->setWordWrap(true);
+    quickLayout->addWidget(quickCapacityLabel);
+
+    quickPreview = new QPlainTextEdit(quickGroup);
+    quickPreview->setObjectName(QStringLiteral("NTAG_quickPreview"));
+    quickPreview->setReadOnly(true);
+    quickPreview->setMinimumHeight(120);
+    quickPreview->setPlaceholderText(tr("The generated NDEF message and TLV appear here."));
+    quickLayout->addWidget(quickPreview);
+
+    QHBoxLayout *quickButtons = new QHBoxLayout();
+    quickWriteButton = new QPushButton(tr("Preview and Write..."), quickGroup);
+    quickWriteButton->setObjectName(QStringLiteral("NTAG_quickWriteButton"));
+    quickWriteButton->setEnabled(false);
+    connect(quickWriteButton, &QPushButton::clicked, this, &NtagTab::writeQuickLaunch);
+    quickButtons->addWidget(quickWriteButton);
+    quickButtons->addStretch();
+    quickLayout->addLayout(quickButtons);
+
+    quickStatusLabel = new QLabel(quickGroup);
+    quickStatusLabel->setWordWrap(true);
+    quickLayout->addWidget(quickStatusLabel);
+
+    viewTabs = new QTabWidget(this);
+    viewTabs->addTab(pagesGroup, tr("Memory"));
+    viewTabs->addTab(ndefGroup, tr("NDEF"));
+    viewTabs->addTab(quickGroup, tr("Quick Launch"));
+    mainLayout->addWidget(viewTabs);
+
+    m_busyButtons = {readAllButton, refreshButton, readSelectedButton, readPageButton,
+                     undoButton, redoButton, discardButton, exportButton, importButton,
+                     writePageButton, writeSelectedButton, writeDirtyButton,
+                     verifyButton, verifyWrittenButton, eraseButton};
+    m_busyButtons << detectButton;
+    m_busyButtons << quickWriteButton;
 
     connect(readAllButton, &QPushButton::clicked, this, &NtagTab::readAllPages);
+    connect(refreshButton, &QPushButton::clicked, this, &NtagTab::readAllPages);
     connect(readSelectedButton, &QPushButton::clicked, this, &NtagTab::readSelectedPages);
     connect(readPageButton, &QPushButton::clicked, this, &NtagTab::readOnePage);
     connect(writePageButton, &QPushButton::clicked, this, &NtagTab::writeOnePage);
     connect(writeSelectedButton, &QPushButton::clicked, this, &NtagTab::writeSelectedPages);
+    connect(writeDirtyButton, &QPushButton::clicked, this, &NtagTab::writeDirtyPages);
     connect(verifyButton, &QPushButton::clicked, this, &NtagTab::verifyOnePage);
+    connect(verifyWrittenButton, &QPushButton::clicked, this, &NtagTab::verifyWritten);
+    connect(undoButton, &QPushButton::clicked, this, &NtagTab::undoEdit);
+    connect(redoButton, &QPushButton::clicked, this, &NtagTab::redoEdit);
+    connect(discardButton, &QPushButton::clicked, this, &NtagTab::discardEdits);
+    connect(exportButton, &QPushButton::clicked, this, &NtagTab::exportMemory);
+    connect(importButton, &QPushButton::clicked, this, &NtagTab::importMemory);
+    connect(table, &QTableWidget::itemChanged, this, &NtagTab::onTableItemChanged);
+    connect(table, &QTableWidget::itemSelectionChanged,
+            this, &NtagTab::updateDetailForSelection);
+    connect(quickType, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            this, &NtagTab::quickTypeChanged);
+    connect(quickPrimary, &QLineEdit::textChanged, this, &NtagTab::updateQuickPreview);
+    connect(quickSubject, &QLineEdit::textChanged, this, &NtagTab::updateQuickPreview);
+    connect(quickBody, &QLineEdit::textChanged, this, &NtagTab::updateQuickPreview);
+    quickTypeChanged();
 }
 
 void NtagTab::setStatus(const QString &text, bool error)
@@ -255,46 +563,245 @@ bool NtagTab::parseInfo(const QString &output)
 
     uidLabel->setText(uid.isEmpty() ? tr("(not reported)") : uid);
     typeLabel->setText(m_type.isEmpty() ? tr("(not reported)") : m_type);
-    pagesLabel->setText(m_pages > 0 ? QString::number(m_pages) : tr("unknown"));
+    pagesLabel->setText(m_pages > 0
+                        ? tr("%1 (4 bytes/page)").arg(m_pages)
+                        : tr("unknown"));
     return true;
 }
 
 void NtagTab::populateTable()
 {
+    if(m_mem.pageCount() != m_pages)
+        m_mem.configure(m_cap);
+
+    m_updatingTable = true;
     table->setRowCount(m_pages);
     for(int page = 0; page < m_pages; page++)
     {
-        QString access = tr("writable");
-        if(page < 4)
-            access = tr("read-only (system)");
-        else if(m_configStart >= 0 && page >= m_configStart)
-            access = tr("read-only (config/OTP)");
-        else if(!m_knownLayout)
-            access = tr("read-only (unknown layout)");
-
         QTableWidgetItem *pageItem = new QTableWidgetItem(QString::number(page));
         pageItem->setFlags(pageItem->flags() & ~Qt::ItemIsEditable);
-        QTableWidgetItem *dataItem = new QTableWidgetItem(QString());
         QTableWidgetItem *asciiItem = new QTableWidgetItem(QString());
         asciiItem->setFlags(asciiItem->flags() & ~Qt::ItemIsEditable);
-        QTableWidgetItem *accessItem = new QTableWidgetItem(access);
+        QTableWidgetItem *typeItem = new QTableWidgetItem(QString());
+        typeItem->setFlags(typeItem->flags() & ~Qt::ItemIsEditable);
+        QTableWidgetItem *accessItem = new QTableWidgetItem(QString());
         accessItem->setFlags(accessItem->flags() & ~Qt::ItemIsEditable);
+        QTableWidgetItem *stateItem = new QTableWidgetItem(QString());
+        stateItem->setFlags(stateItem->flags() & ~Qt::ItemIsEditable);
 
         table->setItem(page, 0, pageItem);
-        table->setItem(page, 1, dataItem);
-        table->setItem(page, 2, asciiItem);
-        table->setItem(page, 3, accessItem);
+        for(int byte = 0; byte < 4; byte++)
+        {
+            QTableWidgetItem *item = new QTableWidgetItem(QString());
+            item->setTextAlignment(Qt::AlignCenter);
+            table->setItem(page, 1 + byte, item);
+        }
+        table->setItem(page, 5, asciiItem);
+        table->setItem(page, 6, typeItem);
+        table->setItem(page, 7, accessItem);
+        table->setItem(page, 8, stateItem);
+        updateRow(page);
     }
+    m_updatingTable = false;
+
     if(m_pages > 0)
         pageSpin->setMaximum(m_pages - 1);
     else
         pageSpin->setMaximum(255);
+    updateCounts();
+    updateLockState();
+    updateDirtyButtons();
+    updateDetail();
+}
+
+void NtagTab::repopulateRow(int page)
+{
+    m_updatingTable = true;
+    updateRow(page);
+    m_updatingTable = false;
+    updateCounts();
+    updateDirtyButtons();
+    updateDetail();
+}
+
+void NtagTab::updateRow(int page)
+{
+    if(page < 0 || page >= table->rowCount())
+        return;
+    const Ntag::MemoryPage *entry = m_mem.page(page);
+    if(!entry)
+        return;
+
+    const bool previousUpdating = m_updatingTable;
+    m_updatingTable = true;
+    // Programmatic item updates must not re-enter itemChanged().
+    const QSignalBlocker blocker(table);
+    const bool mask = entry->pageClass == Ntag::PageClass::Security &&
+            !showSecurityCheck->isChecked();
+    const bool readable = entry->readable();
+    const QByteArray data = readable ? entry->edited : QByteArray();
+
+    for(int byte = 0; byte < 4; byte++)
+    {
+        QTableWidgetItem *item = table->item(page, 1 + byte);
+        if(!item)
+            continue;
+        item->setText(!readable ? QStringLiteral("--")
+                                : mask ? QStringLiteral("**")
+                                       : QStringLiteral("%1").arg(
+                                             static_cast<quint8>(data.at(byte)),
+                                             2, 16, QLatin1Char('0')).toUpper());
+        if(readable && entry->writable && !mask)
+            item->setFlags(item->flags() | Qt::ItemIsEditable);
+        else
+            item->setFlags(item->flags() & ~Qt::ItemIsEditable);
+    }
+
+    QTableWidgetItem *asciiItem = table->item(page, 5);
+    if(asciiItem)
+        asciiItem->setText(readable && !mask
+                           ? asciiFor(QString::fromLatin1(data.toHex()))
+                           : QString());
+    QTableWidgetItem *typeItem = table->item(page, 6);
+    if(typeItem)
+    {
+        typeItem->setText(pageClassText(entry->pageClass));
+        typeItem->setToolTip(regionText(page));
+    }
+    QTableWidgetItem *accessItem = table->item(page, 7);
+    if(accessItem)
+        accessItem->setText(entry->writable ? tr("writable") : tr("read-only"));
+    updateRowState(page);
+
+    QColor background;
+    QColor foreground;
+    bool useForeground = false;
+    const bool dark = isDarkTheme();
+    if(dark)
+    {
+        // Dark theme: one base background, status through text colour and the
+        // State column.  Near-white per-state fills are unreadable here.
+        if(entry->state == Ntag::PageState::Failed ||
+           entry->writeState == Ntag::WriteState::Failed)
+        {
+            foreground = QColor(255, 130, 130);
+            useForeground = true;
+        }
+        else if(entry->dirty())
+        {
+            foreground = QColor(235, 205, 90);
+            useForeground = true;
+        }
+        else if(entry->verified)
+        {
+            foreground = QColor(130, 220, 130);
+            useForeground = true;
+        }
+        else if(!entry->readable())
+        {
+            foreground = QColor(150, 150, 150);
+            useForeground = true;
+        }
+        else if(!entry->writable)
+        {
+            foreground = QColor(170, 170, 170);
+            useForeground = true;
+        }
+    }
+    else
+    {
+        if(entry->state == Ntag::PageState::Failed)
+            background = QColor(255, 225, 225);
+        else if(entry->dirty())
+            background = QColor(255, 245, 205);
+        else if(entry->verified)
+            background = QColor(220, 245, 220);
+        else if(entry->writeState == Ntag::WriteState::Failed)
+            background = QColor(255, 225, 225);
+        else if(!entry->writable)
+            background = QColor(240, 240, 240);
+    }
+    for(int column = 0; column < table->columnCount(); column++)
+    {
+        QTableWidgetItem *item = table->item(page, column);
+        if(!item)
+            continue;
+        if(dark)
+            item->setData(Qt::BackgroundRole, QVariant());
+        else
+            item->setBackground(background);
+        if(useForeground)
+            item->setForeground(foreground);
+        else
+            item->setData(Qt::ForegroundRole, QVariant());
+    }
+    m_updatingTable = previousUpdating;
+}
+
+void NtagTab::updateRowState(int page)
+{
+    if(page < 0 || page >= table->rowCount())
+        return;
+    if(QTableWidgetItem *item = table->item(page, 8))
+    {
+        item->setText(stateText(page));
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        item->setToolTip(entry ? entry->error : QString());
+    }
+}
+
+QString NtagTab::stateText(int page) const
+{
+    const Ntag::MemoryPage *entry = m_mem.page(page);
+    if(!entry)
+        return tr("Not read");
+    if(entry->state == Ntag::PageState::Failed)
+        return tr("Read failed");
+    if(entry->state == Ntag::PageState::Unavailable)
+        return tr("Unavailable");
+    if(!entry->readable())
+        return tr("Not read");
+    if(entry->dirty())
+        return tr("Modified");
+    if(entry->verified)
+        return tr("Verified");
+    if(entry->writeState == Ntag::WriteState::Failed)
+        return tr("Write failed");
+    if(entry->writeState == Ntag::WriteState::Written)
+        return tr("Written");
+    return tr("Read");
+}
+
+QString NtagTab::pageClassNameFor(int page) const
+{
+    const Ntag::MemoryPage *entry = m_mem.page(page);
+    return entry ? pageClassText(entry->pageClass) : tr("Unknown");
+}
+
+QString NtagTab::regionText(int page) const
+{
+    const QString region = Ntag::regionName(m_cap, page);
+    if(region == QLatin1String("Manufacturer / UID0-2 / BCC0")) return tr("Manufacturer / UID0-2 / BCC0");
+    if(region == QLatin1String("UID3-6")) return tr("UID3-6");
+    if(region == QLatin1String("BCC1 / Internal / Lock")) return tr("BCC1 / Internal / Lock");
+    if(region == QLatin1String("Capability Container")) return tr("Capability Container");
+    if(region == QLatin1String("Dynamic lock")) return tr("Dynamic lock");
+    if(region == QLatin1String("Configuration 0")) return tr("Configuration 0");
+    if(region == QLatin1String("Configuration 1")) return tr("Configuration 1");
+    if(region == QLatin1String("PWD")) return tr("PWD");
+    if(region == QLatin1String("PACK")) return tr("PACK");
+    if(region == QLatin1String("User data")) return tr("User data");
+    if(region == QLatin1String("Vendor / reserved")) return tr("Vendor / reserved");
+    if(region == QLatin1String("Out of range")) return tr("Out of range");
+    return region;
 }
 
 bool NtagTab::isWritable(int page) const
 {
     if(!m_knownLayout || m_pages <= 0)
         return false;
+    if(m_cap.model != Ntag::Model::Unknown && m_cap.pages > 0)
+        return Ntag::classifyPage(m_cap, page) == Ntag::PageClass::Writable;
     if(page < 4)
         return false;
     if(m_configStart >= 0 && page >= m_configStart)
@@ -306,19 +813,587 @@ void NtagTab::setRowData(int page, const QString &data)
 {
     if(page < 0 || page >= table->rowCount())
         return;
-    table->item(page, 1)->setText(data);
-    table->item(page, 2)->setText(asciiFor(data));
+    const QString value = normalizePageData(data);
+    if(value.isEmpty())
+    {
+        m_mem.markReadFailed(page, tr("page data is empty"));
+        updateRow(page);
+        return;
+    }
+    QString error;
+    if(!m_mem.setPageData(page, QByteArray::fromHex(value.toLatin1()), &error))
+    {
+        setStatus(error, true);
+        return;
+    }
+    updateRow(page);
 }
 
 QString NtagTab::rowData(int page) const
 {
-    if(page < 0 || page >= table->rowCount())
+    const Ntag::MemoryPage *entry = m_mem.page(page);
+    if(!entry || !entry->readable())
         return QString();
-    return normalizePageData(table->item(page, 1)->text());
+    return QString::fromLatin1(entry->edited.toHex()).toUpper();
+}
+
+
+void NtagTab::updateCounts()
+{
+    int read = 0;
+    int writable = 0;
+    for(int page = 0; page < m_mem.pageCount(); page++)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        if(entry->readable())
+            read++;
+        if(entry->writable)
+            writable++;
+    }
+    readCountLabel->setText(m_pages > 0
+                            ? tr("%1 / %2").arg(read).arg(m_pages)
+                            : QStringLiteral("-"));
+    writableCountLabel->setText(m_pages > 0 ? QString::number(writable)
+                                            : QStringLiteral("-"));
+}
+
+void NtagTab::updateLockState()
+{
+    if(m_pages <= 0 || !m_knownLayout)
+    {
+        lockStateLabel->setText(QStringLiteral("-"));
+        return;
+    }
+    QStringList parts;
+    const Ntag::MemoryPage *lockPage = m_mem.page(2);
+    if(lockPage && lockPage->original.size() == 4)
+    {
+        const QByteArray lock = lockPage->original.mid(2, 2);
+        parts << tr("static %1").arg(QString::fromLatin1(lock.toHex(' ')).toUpper());
+    }
+    else
+    {
+        parts << tr("static unknown");
+    }
+    if(m_cap.lockPage >= 0)
+    {
+        const Ntag::MemoryPage *dynamic = m_mem.page(m_cap.lockPage);
+        if(dynamic && dynamic->original.size() == 4)
+            parts << tr("dynamic %1").arg(
+                         QString::fromLatin1(dynamic->original.left(3).toHex(' ')).toUpper());
+        else
+            parts << tr("dynamic unknown");
+    }
+    lockStateLabel->setText(parts.join(QStringLiteral("; ")));
+}
+
+void NtagTab::updateDirtyButtons()
+{
+    const QList<int> dirty = m_mem.dirtyPages();
+    if(undoButton)
+        undoButton->setEnabled(!m_undoStack.isEmpty());
+    if(redoButton)
+        redoButton->setEnabled(!m_redoStack.isEmpty());
+    if(discardButton)
+        discardButton->setEnabled(!dirty.isEmpty());
+    if(writeDirtyButton)
+        writeDirtyButton->setEnabled(!dirty.isEmpty() && m_knownLayout);
+    if(verifyWrittenButton)
+        verifyWrittenButton->setEnabled(!m_lastWriteTargets.isEmpty() || !dirty.isEmpty());
+}
+
+QMap<int, QByteArray> NtagTab::editedSnapshot(const QList<int> &pages) const
+{
+    QMap<int, QByteArray> snapshot;
+    for(int page : pages)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        if(entry && entry->readable())
+            snapshot.insert(page, entry->edited);
+    }
+    return snapshot;
+}
+
+void NtagTab::snapshotEdit(const QList<int> &pages, const QMap<int, QByteArray> &before)
+{
+    MemoryEdit edit;
+    edit.before = before;
+    edit.after = editedSnapshot(pages);
+    m_undoStack.append(edit);
+    while(m_undoStack.size() > 50)
+        m_undoStack.removeFirst();
+    m_redoStack.clear();
+    updateDirtyButtons();
+}
+
+void NtagTab::applyEditedSnapshot(const QMap<int, QByteArray> &snapshot)
+{
+    for(auto it = snapshot.constBegin(); it != snapshot.constEnd(); ++it)
+    {
+        Ntag::MemoryPage *entry = m_mem.page(it.key());
+        if(!entry || it.value().size() != 4)
+            continue;
+        entry->edited = it.value();
+        entry->writeState = Ntag::WriteState::None;
+        entry->verified = false;
+        entry->error.clear();
+        updateRow(it.key());
+    }
+    updateCounts();
+    updateDirtyButtons();
+    updateDetail();
+}
+
+bool NtagTab::confirmDiscardEdits(const QString &reason)
+{
+    if(m_mem.dirtyPages().isEmpty())
+        return true;
+    const QMessageBox::StandardButton choice = QMessageBox::question(
+                this, tr("Uncommitted edits"),
+                tr("%1\n%2 page(s) have uncommitted edits. Discard them?")
+                .arg(reason).arg(m_mem.dirtyPages().size()),
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+    if(choice != QMessageBox::Yes)
+        return false;
+    m_mem.revertAll();
+    m_undoStack.clear();
+    m_redoStack.clear();
+    for(int page = 0; page < m_pages; page++)
+        updateRow(page);
+    updateDirtyButtons();
+    updateDetail();
+    return true;
+}
+
+void NtagTab::undoEdit()
+{
+    if(deviceBusy())
+        return;
+    if(m_undoStack.isEmpty())
+        return;
+    const MemoryEdit edit = m_undoStack.takeLast();
+    applyEditedSnapshot(edit.before);
+    m_redoStack.append(edit);
+    setStatus(tr("Undone."));
+}
+
+void NtagTab::redoEdit()
+{
+    if(deviceBusy())
+        return;
+    if(m_redoStack.isEmpty())
+        return;
+    const MemoryEdit edit = m_redoStack.takeLast();
+    applyEditedSnapshot(edit.after);
+    m_undoStack.append(edit);
+    setStatus(tr("Redone."));
+}
+
+void NtagTab::discardEdits()
+{
+    if(deviceBusy())
+        return;
+    if(!confirmDiscardEdits(tr("Discard all uncommitted edits?")))
+        return;
+    setStatus(tr("Uncommitted edits discarded."));
+}
+
+void NtagTab::showSecurityToggled()
+{
+    for(int page = 0; page < m_pages; page++)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        if(entry && entry->pageClass == Ntag::PageClass::Security)
+            updateRow(page);
+    }
+    updateDetail();
+}
+
+void NtagTab::updateDetailForSelection()
+{
+    updateDetail();
+}
+
+void NtagTab::updateDetail()
+{
+    if(!detailPageLabel)
+        return;
+    const int page = table->currentRow();
+    const Ntag::MemoryPage *entry = m_mem.page(page);
+    if(!entry)
+    {
+        detailPageLabel->setText(QStringLiteral("-"));
+        detailTypeLabel->setText(QStringLiteral("-"));
+        detailOriginalLabel->setText(QStringLiteral("-"));
+        detailEditedLabel->setText(QStringLiteral("-"));
+        detailWritableLabel->setText(QStringLiteral("-"));
+        detailLockLabel->setText(QStringLiteral("-"));
+        detailLastWriteLabel->setText(QStringLiteral("-"));
+        detailLastReadLabel->setText(QStringLiteral("-"));
+        detailNoteLabel->clear();
+        return;
+    }
+
+    const bool mask = entry->pageClass == Ntag::PageClass::Security &&
+            !showSecurityCheck->isChecked();
+    auto hexText = [mask](const QByteArray &data) {
+        if(data.size() != 4)
+            return QStringLiteral("-");
+        if(mask)
+            return QStringLiteral("** ** ** **");
+        return QString::fromLatin1(data.toHex(' ')).toUpper();
+    };
+
+    detailPageLabel->setText(QString::number(page));
+    detailTypeLabel->setText(pageClassText(entry->pageClass) +
+                             QStringLiteral(" / ") + regionText(page));
+    detailOriginalLabel->setText(hexText(entry->original));
+    detailEditedLabel->setText(hexText(entry->edited));
+    detailWritableLabel->setText(entry->writable ? tr("writable") : tr("read-only"));
+    detailLockLabel->setText(entry->pageClass == Ntag::PageClass::Lock
+                             ? tr("lock bytes (read-only)") : tr("not a lock page"));
+    detailLastWriteLabel->setText(entry->writeState == Ntag::WriteState::Written
+                                  ? tr("written")
+                                  : entry->writeState == Ntag::WriteState::Failed
+                                    ? tr("failed: %1").arg(entry->error)
+                                    : QStringLiteral("-"));
+    detailLastReadLabel->setText(entry->readable()
+                                 ? tr("read")
+                                 : stateText(page) +
+                                   (entry->error.isEmpty()
+                                    ? QString()
+                                    : QStringLiteral(": ") + entry->error));
+
+    QString note;
+    switch(entry->pageClass)
+    {
+    case Ntag::PageClass::Manufacturer:
+        note = tr("Manufacturer / UID page: never editable, never written.");
+        break;
+    case Ntag::PageClass::UID:
+        note = tr("UID page: never editable, never written.");
+        break;
+    case Ntag::PageClass::Lock:
+        note = tr("Lock page: protected; erase/write never touches it.");
+        break;
+    case Ntag::PageClass::Config:
+        note = tr("Capability Container / configuration: read-only here.");
+        break;
+    case Ntag::PageClass::Security:
+        note = tr("PWD/PACK: masked by default and never written.");
+        break;
+    case Ntag::PageClass::Writable:
+        note = tr("Writable user page. Edits stay local until Write Selected/Dirty.");
+        break;
+    default:
+        note = tr("Not applicable or unknown for the detected layout.");
+        break;
+    }
+    detailNoteLabel->setText(note);
+}
+
+void NtagTab::onTableItemChanged(QTableWidgetItem *item)
+{
+    // updateRow() changes item text/flags, which emits itemChanged again.
+    // This guard must be checked before any other branch, otherwise a read job
+    // (readBusy) turns that signal into updateRow() -> itemChanged -> ... and
+    // overflows the GUI stack.
+    if(m_updatingTable || !item)
+        return;
+    if(deviceBusy())
+        return;
+    const int page = item->row();
+    const int column = item->column();
+    if(column < 1 || column > 4)
+        return;
+    Ntag::MemoryPage *entry = m_mem.page(page);
+    if(!entry)
+        return;
+
+    const QString text = item->text().trimmed().toUpper();
+    bool ok = text.size() == 2;
+    const int value = text.toInt(&ok, 16);
+    if(!ok)
+    {
+        setStatus(tr("A byte must be exactly two hex digits."), true);
+        updateRow(page);
+        return;
+    }
+    if(!entry->readable() || !entry->writable)
+    {
+        setStatus(tr("Page %1 is not editable.").arg(page), true);
+        updateRow(page);
+        return;
+    }
+    if(static_cast<quint8>(entry->edited.at(column - 1)) == static_cast<quint8>(value))
+        return;
+
+    const QMap<int, QByteArray> before = editedSnapshot(QList<int>({page}));
+    QString error;
+    if(!m_mem.editByte(page, column - 1, static_cast<quint8>(value), &error))
+    {
+        setStatus(error, true);
+        updateRow(page);
+        return;
+    }
+    snapshotEdit(QList<int>({page}), before);
+    table->setCurrentCell(page, column);
+    updateRow(page);
+    updateDetail();
+    setStatus(tr("Page %1 edited (not written).").arg(page));
+}
+
+void NtagTab::copySelection()
+{
+    QList<QTableWidgetItem *> items = table->selectedItems();
+    std::sort(items.begin(), items.end(), [](QTableWidgetItem *a, QTableWidgetItem *b) {
+        return a->row() == b->row() ? a->column() < b->column() : a->row() < b->row();
+    });
+    QStringList bytes;
+    for(QTableWidgetItem *item : items)
+    {
+        if(item->column() < 1 || item->column() > 4)
+            continue;
+        const QString text = item->text();
+        if(text == QLatin1String("--") || text == QLatin1String("**"))
+            continue;
+        bytes << text;
+    }
+    if(bytes.isEmpty())
+    {
+        setStatus(tr("Select hex byte cells to copy."), true);
+        return;
+    }
+    QApplication::clipboard()->setText(bytes.join(QLatin1Char(' ')));
+    setStatus(tr("Copied %1 byte(s).").arg(bytes.size()));
+}
+
+void NtagTab::pasteHex()
+{
+    if(deviceBusy())
+        return;
+    QByteArray bytes;
+    QString error;
+    if(!Ntag::parseHexBytes(QApplication::clipboard()->text(), &bytes, &error))
+    {
+        setStatus(tr("Clipboard is not hex data: %1").arg(error), true);
+        return;
+    }
+
+    int page = table->currentRow();
+    int offset = 0;
+    QTableWidgetItem *current = table->currentItem();
+    if(current)
+    {
+        page = current->row();
+        if(current->column() >= 1 && current->column() <= 4)
+            offset = current->column() - 1;
+    }
+    if(page < 0)
+    {
+        setStatus(tr("Select a starting page first."), true);
+        return;
+    }
+
+    QList<int> pages;
+    for(int i = 0; i < bytes.size(); i++)
+    {
+        const int target = page + (offset + i) / 4;
+        if(!pages.contains(target))
+            pages.append(target);
+    }
+    const QMap<int, QByteArray> before = editedSnapshot(pages);
+    if(!m_mem.setBytes(page, offset, bytes, &error))
+    {
+        setStatus(tr("Paste refused: %1").arg(error), true);
+        return;
+    }
+    snapshotEdit(pages, before);
+    for(int target : pages)
+        updateRow(target);
+    updateDetail();
+    setStatus(tr("Pasted %1 byte(s). Not written yet.").arg(bytes.size()));
+}
+
+void NtagTab::changeEvent(QEvent *event)
+{
+    QWidget::changeEvent(event);
+    if(event->type() == QEvent::PaletteChange ||
+       event->type() == QEvent::StyleChange)
+    {
+        for(int page = 0; page < m_pages; page++)
+            updateRow(page);
+    }
+}
+
+bool NtagTab::eventFilter(QObject *watched, QEvent *event)
+{
+    if(watched == table && event->type() == QEvent::KeyPress)
+    {
+        QKeyEvent *key = static_cast<QKeyEvent *>(event);
+        if(key->matches(QKeySequence::Copy))
+        {
+            copySelection();
+            return true;
+        }
+        if(key->matches(QKeySequence::Paste))
+        {
+            pasteHex();
+            return true;
+        }
+        if(key->matches(QKeySequence::Undo))
+        {
+            undoEdit();
+            return true;
+        }
+        if(key->matches(QKeySequence::Redo))
+        {
+            redoEdit();
+            return true;
+        }
+    }
+    return QWidget::eventFilter(watched, event);
+}
+
+QByteArray NtagTab::dumpVersion() const
+{
+    if(m_version.raw.size() >= 7)
+        return m_version.raw;
+    switch(m_cap.model)
+    {
+    case Ntag::Model::NTAG213: return QByteArray::fromHex("0004040201000F03");
+    case Ntag::Model::NTAG215: return QByteArray::fromHex("0004040201001103");
+    case Ntag::Model::NTAG216: return QByteArray::fromHex("0004040201001303");
+    default: return QByteArray(8, '\0');
+    }
+}
+
+bool NtagTab::loadDumpIntoMemory(const QByteArray &file)
+{
+    QList<QByteArray> pages;
+    const Ntag::Dump dump = Ntag::parseDump(file);
+    if(dump.valid && !dump.pages.isEmpty())
+    {
+        pages = dump.pages;
+    }
+    else if(file.size() % 4 == 0 && !file.isEmpty())
+    {
+        for(int offset = 0; offset < file.size(); offset += 4)
+            pages.append(file.mid(offset, 4));
+    }
+    else
+    {
+        setStatus(tr("Import failed: not a dump file and not a multiple of 4 bytes."), true);
+        return false;
+    }
+
+    QList<int> targets;
+    int skipped = 0;
+    for(int page = 0; page < pages.size() && page < m_pages; page++)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        if(!entry || !entry->readable() || !entry->writable)
+        {
+            skipped++;
+            continue;
+        }
+        targets.append(page);
+    }
+    if(targets.isEmpty())
+    {
+        setStatus(tr("Import failed: no writable, already-read pages matched."), true);
+        return false;
+    }
+
+    const QMap<int, QByteArray> before = editedSnapshot(targets);
+    for(int page : targets)
+    {
+        Ntag::MemoryPage *entry = m_mem.page(page);
+        entry->edited = pages.at(page);
+        entry->writeState = Ntag::WriteState::None;
+        entry->verified = false;
+        entry->error.clear();
+    }
+    snapshotEdit(targets, before);
+    for(int page : targets)
+        updateRow(page);
+    updateDetail();
+    setStatus(tr("Imported %1 page(s); skipped %2 read-only/out-of-range page(s). "
+                 "Nothing was written to the tag.").arg(targets.size()).arg(skipped));
+    return true;
+}
+
+void NtagTab::importMemory()
+{
+    if(m_pages <= 0 || m_mem.readablePages().isEmpty())
+    {
+        setStatus(tr("Detect and read the tag before importing a memory image."), true);
+        return;
+    }
+    if(!m_mem.dirtyPages().isEmpty())
+    {
+        const QMessageBox::StandardButton choice = QMessageBox::question(
+                    this, tr("Import memory image"),
+                    tr("Importing replaces the edited values of matching pages. "
+                       "Continue with the current edits?"),
+                    QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+        if(choice != QMessageBox::Yes)
+            return;
+    }
+    const QString path = QFileDialog::getOpenFileName(
+                this, tr("Import memory image"), QDir::homePath(),
+                tr("Dump files (*.bin *.dump *.json);;All files (*)"));
+    if(path.isEmpty())
+        return;
+    QFile file(path);
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        setStatus(tr("Cannot open %1").arg(path), true);
+        return;
+    }
+    loadDumpIntoMemory(file.readAll());
+}
+
+void NtagTab::exportMemory()
+{
+    if(m_pages <= 0 || m_mem.readablePages().size() != m_pages)
+    {
+        setStatus(tr("Read all pages before exporting an image."), true);
+        return;
+    }
+    const QString path = QFileDialog::getSaveFileName(
+                this, tr("Export NTAG memory image"),
+                QDir::homePath() + QStringLiteral("/ntag-memory.bin"),
+                tr("PM3 dump (*.bin)"));
+    if(path.isEmpty())
+        return;
+    QList<QByteArray> pages;
+    for(int page = 0; page < m_pages; page++)
+        pages.append(m_mem.page(page)->edited);
+    const QByteArray dump = Ntag::buildDump(dumpVersion(), pages);
+    if(dump.isEmpty())
+    {
+        setStatus(tr("Cannot build the dump file."), true);
+        return;
+    }
+    QFile file(path);
+    if(!file.open(QIODevice::WriteOnly) || file.write(dump) != dump.size())
+    {
+        setStatus(tr("Cannot write %1").arg(path), true);
+        return;
+    }
+    file.close();
+    setStatus(tr("Exported %1 bytes to %2 (edited values, not read back).")
+              .arg(dump.size()).arg(path));
 }
 
 void NtagTab::detectCard()
 {
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG read/write operation is running."), true);
+        return;
+    }
     QString key;
     if(!checkKey(&key))
     {
@@ -334,10 +1409,26 @@ void NtagTab::detectCard()
     {
         m_pages = 0;
         m_knownLayout = false;
+        m_cap = Ntag::Capability();
+        m_version = Ntag::Version();
+        m_cc = Ntag::CC();
+        m_mem.clear();
+        m_undoStack.clear();
+        m_redoStack.clear();
+        m_lastWriteTargets.clear();
         table->setRowCount(0);
         uidLabel->setText(QStringLiteral("-"));
         typeLabel->setText(tr("Not detected"));
         pagesLabel->setText(QStringLiteral("-"));
+        modelLabel->setText(tr("Not detected"));
+        versionLabel->setText(QStringLiteral("-"));
+        ccLabel->setText(QStringLiteral("-"));
+        capacityLabel->setText(QStringLiteral("-"));
+        atqaLabel->setText(QStringLiteral("-"));
+        sakLabel->setText(QStringLiteral("-"));
+        readCountLabel->setText(QStringLiteral("-"));
+        writableCountLabel->setText(QStringLiteral("-"));
+        lockStateLabel->setText(QStringLiteral("-"));
         setStatus(tr("No response from `hf mfu info`. No NTAG/Ultralight tag was detected."), true);
         return;
     }
@@ -346,9 +1437,123 @@ void NtagTab::detectCard()
     {
         m_pages = 0;
         m_knownLayout = false;
+        m_mem.clear();
+        m_undoStack.clear();
+        m_redoStack.clear();
+        m_lastWriteTargets.clear();
         table->setRowCount(0);
+        atqaLabel->setText(QStringLiteral("-"));
+        sakLabel->setText(QStringLiteral("-"));
         setStatus(tr("Tag information did not contain UID/TYPE. See the RawCommand output for details."), true);
         return;
+    }
+
+    const QRegularExpressionMatch atqaMatch = QRegularExpression(
+                QStringLiteral("ATQA:\\s*((?:[0-9A-Fa-f]{2}\\s*)+)")).match(output);
+    atqaLabel->setText(atqaMatch.hasMatch()
+                       ? atqaMatch.captured(1).trimmed().toUpper()
+                       : tr("(not reported)"));
+    const QRegularExpressionMatch sakMatch = QRegularExpression(
+                QStringLiteral("SAK:\\s*([0-9A-Fa-f]{2})")).match(output);
+    sakLabel->setText(sakMatch.hasMatch() ? sakMatch.captured(1).toUpper()
+                                          : tr("(not reported)"));
+
+    // `hf mfu info` does not print ATQA/SAK on this client.  A second reader
+    // command also confirms that the same tag is still on the antenna.
+    const QString isoOutput = util->execCMDWithOutput(
+                QStringLiteral("hf 14a info"), 10000, true);
+    const QRegularExpressionMatch isoAtqa = QRegularExpression(
+                QStringLiteral("ATQA:\\s*((?:[0-9A-Fa-f]{2}\\s*)+)")).match(isoOutput);
+    const QRegularExpressionMatch isoSak = QRegularExpression(
+                QStringLiteral("SAK:\\s*([0-9A-Fa-f]{2})")).match(isoOutput);
+    if(isoAtqa.hasMatch())
+        atqaLabel->setText(isoAtqa.captured(1).trimmed().toUpper());
+    if(isoSak.hasMatch())
+        sakLabel->setText(isoSak.captured(1).toUpper());
+    const QRegularExpressionMatch isoUid = QRegularExpression(
+                QStringLiteral("UID:\\s*([0-9A-Fa-f ]+)")).match(isoOutput);
+    if(isoUid.hasMatch())
+    {
+        const QString uid = isoUid.captured(1).remove(
+                    QRegularExpression(QStringLiteral("[^0-9A-Fa-f]"))).toUpper();
+        const QString firstUid = uidLabel->text().remove(
+                    QRegularExpression(QStringLiteral("[^0-9A-Fa-f]")));
+        if(!uid.isEmpty() && !firstUid.isEmpty() && uid != firstUid)
+        {
+            m_pages = 0;
+            m_knownLayout = false;
+            m_mem.clear();
+            table->setRowCount(0);
+            setStatus(tr("The tag UID changed between identification steps; "
+                         "nothing was read or written."), true);
+            return;
+        }
+    }
+
+    // GET_VERSION (0x60) refines the model even when the client reports
+    // "NTAG UNKNOWN" for compatible/clone chips.
+    QByteArray versionRaw;
+    const QString versionOut = util->execCMDWithOutput(
+                QStringLiteral("hf 14a apdu -k -d 6000000000"), 8000, true);
+    const QRegularExpressionMatch versionMatch = QRegularExpression(
+                QStringLiteral("<<<\\s*([0-9A-Fa-f]+)")).match(versionOut);
+    if(versionMatch.hasMatch())
+        versionRaw = QByteArray::fromHex(versionMatch.captured(1).toLatin1());
+    m_version = Ntag::parseVersion(versionRaw);
+    versionLabel->setText(versionRaw.isEmpty()
+                          ? tr("(not supported)")
+                          : QString::fromLatin1(versionRaw.toHex(' ')).toUpper());
+
+    QByteArray ccRaw;
+    QRegularExpressionMatch ccMatch = QRegularExpression(
+                QStringLiteral("Capability Container:\\s*([0-9A-Fa-f]{8})")).match(output);
+    if(!ccMatch.hasMatch())
+        ccMatch = QRegularExpression(
+                QStringLiteral("OTP:\\s*((?:[0-9A-Fa-f]{2}\\s*){4})")).match(output);
+    if(ccMatch.hasMatch())
+    {
+        QString hex = ccMatch.captured(1);
+        hex.remove(QRegularExpression(QStringLiteral("[^0-9A-Fa-f]")));
+        if(hex.size() >= 8)
+            ccRaw = QByteArray::fromHex(hex.left(8).toLatin1());
+    }
+    m_cc = Ntag::parseCC(ccRaw);
+    ccLabel->setText(ccRaw.isEmpty()
+                     ? tr("(not reported)")
+                     : QStringLiteral("%1  -  %2 B")
+                       .arg(QString::fromLatin1(ccRaw.toHex(' ')).toUpper())
+                       .arg(m_cc.ndefCapacity));
+
+    m_cap = Ntag::identify(m_version, m_cc, m_type);
+    if(m_cap.pages > 0)
+    {
+        m_pages = m_cap.pages;
+        m_configStart = m_cap.cfg0;
+        m_knownLayout = true;
+    }
+    pagesLabel->setText(m_pages > 0
+                        ? tr("%1 (4 bytes/page)").arg(m_pages)
+                        : tr("unknown"));
+    m_mem.clear();
+    m_undoStack.clear();
+    m_redoStack.clear();
+    m_lastWriteTargets.clear();
+    modelLabel->setText(QStringLiteral("%1 (%2)")
+                        .arg(Ntag::modelName(m_cap.model),
+                             Ntag::confidenceName(m_cap.confidence)));
+    modelLabel->setToolTip(m_cap.basis);
+    if(m_pages > 0)
+    {
+        const int userFirst = 4;
+        const int userLast = m_cap.userLast >= 0 ? m_cap.userLast : m_pages - 1;
+        capacityLabel->setText(tr("%1 pages (0..%2), user %3..%4, %5 B")
+                               .arg(m_pages).arg(m_pages - 1)
+                               .arg(userFirst).arg(userLast)
+                               .arg((userLast - userFirst + 1) * 4));
+    }
+    else
+    {
+        capacityLabel->setText(tr("unknown"));
     }
 
     populateTable();
@@ -367,6 +1572,16 @@ void NtagTab::detectCard()
     }
 }
 
+QString NtagTab::pageForceSuffix(int page)
+{
+    // The client autodetects a maximum block from the tag type.  Clones and
+    // tags without GET_VERSION are often misdetected as a 41-page tag even
+    // when the CC/GET_VERSION layout says NTAG215/216.  `--force` skips only
+    // that client-side address check; the command still targets the requested
+    // physical page, and the GUI has already checked the layout.
+    return page > 41 ? QStringLiteral(" --force") : QString();
+}
+
 bool NtagTab::readPageData(int page, QString *data)
 {
     if(page < 0)
@@ -382,6 +1597,7 @@ bool NtagTab::readPageData(int page, QString *data)
     }
 
     QString cmd = QStringLiteral("hf mfu rdbl -b %1").arg(page);
+    cmd += pageForceSuffix(page);
     if(!key.isEmpty())
         cmd += QStringLiteral(" -k ") + key;
     const QString output = util->execCMDWithOutput(cmd, 8000, true);
@@ -400,30 +1616,788 @@ bool NtagTab::readPageData(int page, QString *data)
     return true;
 }
 
-void NtagTab::readAllPages()
+QString NtagTab::dumpPath() const
 {
+    // Work files live in a per-instance temporary directory.  The client
+    // writes a .json sidecar next to every dump, so a fixed path inside the
+    // application directory accumulated one JSON per read/write forever.
+    return m_dumpWorkspace.path();
+}
+
+bool NtagTab::readAllFromDump()
+{
+    const int chunk = 32;
+    int readPages = 0;
+    bool anySuccess = false;
+
+    for(int start = 0; start < m_pages; start += chunk)
+    {
+        const int count = qMin(chunk, m_pages - start);
+        setStatus(tr("Reading pages %1..%2 of %3...")
+                  .arg(start).arg(start + count - 1).arg(m_pages - 1));
+        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+
+        const QString path = dumpPath();
+        m_dumpWorkspace.clearDump();
+        QString cmd = QStringLiteral("hf mfu dump -p %1 -q %2 -f \"%3\"")
+                .arg(start).arg(count).arg(path);
+        QString key;
+        if(checkKey(&key) && !key.isEmpty())
+            cmd += QStringLiteral(" -k ") + key;
+        util->execCMDWithOutput(cmd, 60000, true);
+
+        QFile file(path);
+        if(!file.exists() || !file.open(QIODevice::ReadOnly))
+        {
+            m_dumpWorkspace.clearDump();
+            for(int page = start; page < start + count; page++)
+            {
+                m_mem.markReadFailed(page, tr("read failed"));
+                updateRow(page);
+            }
+            continue;
+        }
+        const QByteArray bytes = file.readAll();
+        file.close();
+        m_dumpWorkspace.clearDump();
+
+        const Ntag::Dump dump = Ntag::parseDump(bytes);
+        if(!dump.valid)
+        {
+            m_dumpWorkspace.clearDump();
+            for(int page = start; page < start + count; page++)
+            {
+                m_mem.markReadFailed(page, tr("read failed"));
+                updateRow(page);
+            }
+            continue;
+        }
+        if(!m_version.valid)
+        {
+            m_version = Ntag::parseVersion(dump.versionRaw);
+            if(m_version.valid)
+                versionLabel->setText(QString::fromLatin1(m_version.raw.toHex(' ')).toUpper());
+        }
+        for(int i = 0; i < count; i++)
+        {
+            const int page = start + i;
+            if(i < dump.pages.size())
+            {
+                setRowData(page, QString::fromLatin1(dump.pages.at(i).toHex(' ')).toUpper());
+                readPages++;
+                anySuccess = true;
+            }
+            else
+            {
+                m_mem.markReadFailed(page, tr("read failed"));
+                updateRow(page);
+            }
+        }
+    }
+
+    setStatus(tr("Dump read %1 of %2 pages.").arg(readPages).arg(m_pages),
+              readPages != m_pages);
+    refreshCcFromTable();
+    updateCounts();
+    updateLockState();
+    updateDirtyButtons();
+    updateDetail();
+    return anySuccess;
+}
+
+void NtagTab::fillNdef()
+{
+    if(!ndefView)
+        return;
+    QStringList lines;
+    if(m_cc.valid)
+    {
+        lines << tr("Capability Container: %1").arg(
+                     QString::fromLatin1(m_cc.raw.toHex(' ')).toUpper());
+        lines << tr("  NDEF capacity: %1 bytes").arg(m_cc.ndefCapacity);
+        lines << tr("  Access: %1").arg(m_cc.readWrite ? tr("read/write") : tr("read-only"));
+        lines << tr("  Multiple block read: %1").arg(m_cc.multiBlock ? tr("supported") : tr("not supported"));
+    }
+    else
+    {
+        lines << tr("No valid Capability Container was read.");
+    }
+
+    const int first = 4;
+    int last = (m_cap.userLast >= 0) ? m_cap.userLast : m_pages - 1;
+    if(m_cc.valid && m_cc.ndefCapacity > 0)
+        last = qMin(last, first + (m_cc.ndefCapacity + 3) / 4 - 1);
+
+    QByteArray area;
+    bool complete = true;
+    for(int page = first; page <= last && page < m_pages; page++)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        if(entry && entry->readable())
+            area += entry->original;
+        else
+            complete = false;
+    }
+
+    if(area.isEmpty())
+    {
+        lines << tr("NDEF: no user data was read.");
+        ndefView->setPlainText(lines.join(QLatin1Char('\n')));
+        return;
+    }
+    if(!complete)
+        lines << tr("NDEF: some user pages are missing; parsing may be incomplete.");
+
+    const Ntag::NdefResult result = Ntag::parseNdef(area);
+    if(result.ok)
+    {
+        lines << tr("NDEF message: %1 bytes, %2 record(s)")
+                 .arg(result.message.size()).arg(result.records.size());
+        int index = 1;
+        for(const Ntag::NdefRecord &record : result.records)
+        {
+            lines << QStringLiteral("%1. %2  TNF %3  type '%4'")
+                     .arg(index++).arg(record.typeName, record.tnf, record.type);
+            if(!record.uri.isEmpty())
+                lines << QStringLiteral("   URI: %1").arg(record.uri);
+            else if(!record.text.isEmpty())
+                lines << QStringLiteral("   Text: %1").arg(record.text);
+            if(!record.mime.isEmpty())
+                lines << QStringLiteral("   MIME: %1").arg(record.mime);
+            if(!record.payload.isEmpty())
+                lines << QStringLiteral("   Payload: %1")
+                         .arg(QString::fromLatin1(record.payload.left(64).toHex(' ')).toUpper());
+        }
+    }
+    else
+    {
+        lines << tr("NDEF parse failed: %1").arg(result.error);
+        lines << tr("Raw user data: %1")
+                 .arg(QString::fromLatin1(area.left(64).toHex(' ')).toUpper());
+    }
+    ndefView->setPlainText(lines.join(QLatin1Char('\n')));
+}
+
+int NtagTab::availableNdefCapacity() const
+{
+    if(m_cc.valid && m_cc.ndefCapacity > 0)
+        return m_cc.ndefCapacity;
+    if(m_cap.pages > 0 && m_cap.userLast >= m_cap.userFirst)
+        return qMax(0, (m_cap.userLast - m_cap.userFirst + 1) * 4 - 4);
+    return 0;
+}
+
+QString NtagTab::pageClassText(Ntag::PageClass pageClass) const
+{
+    switch(pageClass)
+    {
+    case Ntag::PageClass::Writable: return tr("Writable");
+    case Ntag::PageClass::ReadOnly: return tr("ReadOnly");
+    case Ntag::PageClass::Manufacturer: return tr("Manufacturer");
+    case Ntag::PageClass::UID: return tr("UID");
+    case Ntag::PageClass::Lock: return tr("Lock");
+    case Ntag::PageClass::Config: return tr("Config");
+    case Ntag::PageClass::Security: return tr("Security");
+    case Ntag::PageClass::NotApplicable: return tr("NotApplicable");
+    default: return tr("Unknown");
+    }
+}
+
+QString NtagTab::verdictText(Ntag::PageVerdict verdict) const
+{
+    switch(verdict)
+    {
+    case Ntag::PageVerdict::Match: return tr("match");
+    case Ntag::PageVerdict::Mismatch: return tr("MISMATCH");
+    case Ntag::PageVerdict::Preserved: return tr("preserved");
+    case Ntag::PageVerdict::Unchecked: return tr("not checkable");
+    default: return tr("not applicable");
+    }
+}
+
+void NtagTab::refreshCcFromTable()
+{
+    if(m_pages <= 3 || table->rowCount() <= 3)
+        return;
+    const QString hex = rowData(3);
+    if(hex.size() != 8)
+    {
+        // Page 3 could not be read: the NDEF area is no longer trustworthy.
+        m_cc = Ntag::CC();
+        ccLabel->setText(tr("(not read)"));
+        return;
+    }
+    const QByteArray raw = QByteArray::fromHex(hex.toLatin1());
+    m_cc = Ntag::parseCC(raw);
+    ccLabel->setText(QStringLiteral("%1  -  %2 B")
+                     .arg(QString::fromLatin1(raw.toHex(' ')).toUpper())
+                     .arg(m_cc.ndefCapacity));
+}
+
+bool NtagTab::readPagesForVerify(QList<QByteArray> *pages, QVector<Ntag::PageState> *states){
+    pages->clear();
+    states->clear();
+    if(m_pages <= 0)
+        return false;
+    for(int i = 0; i < m_pages; i++)
+        pages->append(QByteArray(4, '\0'));
+    states->fill(Ntag::PageState::Unknown, m_pages);
+
+    const QString path = dumpPath();
+    m_dumpWorkspace.clearDump();
+    QString cmd = QStringLiteral("hf mfu dump -p 0 -q %1 -f \"%2\"").arg(m_pages).arg(path);
+    QString key;
+    if(checkKey(&key) && !key.isEmpty())
+        cmd += QStringLiteral(" -k ") + key;
+    util->execCMDWithOutput(cmd, 120000, true);
+
+    QFile file(path);
+    if(file.exists() && file.open(QIODevice::ReadOnly))
+    {
+        const QByteArray bytes = file.readAll();
+        file.close();
+        m_dumpWorkspace.clearDump();
+        const Ntag::Dump dump = Ntag::parseDump(bytes);
+        if(dump.valid && !dump.pages.isEmpty())
+        {
+            for(int i = 0; i < m_pages && i < dump.pages.size(); i++)
+            {
+                (*pages)[i] = dump.pages.at(i);
+                (*states)[i] = Ntag::PageState::Read;
+            }
+            return true;
+        }
+    }
+    else
+    {
+        m_dumpWorkspace.clearDump();
+    }
+
+    // Fallback: per-page reads.  The client caps rdbl at page 41, so pages
+    // beyond that stay Unknown and the report says Incomplete instead of
+    // pretending they passed.
+    int read = 0;
+    const int limit = qMin(m_pages, 42);
+    for(int page = 0; page < limit; page++)
+    {
+        QString data;
+        if(readPageData(page, &data))
+        {
+            (*pages)[page] = QByteArray::fromHex(data.toLatin1());
+            (*states)[page] = Ntag::PageState::Read;
+            read++;
+        }
+        else
+        {
+            (*states)[page] = Ntag::PageState::Failed;
+        }
+    }
+    return read > 0;
+}
+
+void NtagTab::verifyWrittenPages(const QMap<int, QByteArray> &expected,
+                                 const QString &title)
+{
+    if(expected.isEmpty())
+        return;
+    QList<QByteArray> pages;
+    QVector<Ntag::PageState> states;
+    if(!readPagesForVerify(&pages, &states))
+    {
+        setStatus(tr("The tag could not be read back, so the write result is unknown."), true);
+        QMessageBox::warning(this, title,
+                             tr("The tag could not be read back. The write result "
+                                "cannot be verified."));
+        return;
+    }
+
+    const Ntag::VerifyReport report = Ntag::verifyWrite(m_cap, expected, pages, states);
+    for(const Ntag::PageCheck &check : report.checks)
+    {
+        if(check.actual.size() != 4)
+            continue;
+        Ntag::MemoryPage *entry = m_mem.page(check.page);
+        if(!entry)
+            continue;
+        // The read-back is the new truth for the original snapshot; keep the
+        // edited target so the dirty indicator still reflects a mismatch.
+        entry->original = check.actual;
+        entry->verified = check.verdict == Ntag::PageVerdict::Match;
+        if(entry->verified)
+            entry->writeState = Ntag::WriteState::Written;
+        updateRow(check.page);
+    }
+    updateCounts();
+    updateDirtyButtons();
+    showVerifyReport(report, title,
+                     tr("Only pages targeted by the write are compared. "
+                        "Manufacturer, UID, lock, configuration and security pages "
+                        "cannot cause a failure."));
+}
+
+void NtagTab::showVerifyReport(const Ntag::VerifyReport &report, const QString &title,
+                               const QString &context)
+{
+    QString status;
+    switch(report.status)
+    {
+    case Ntag::VerifyStatus::Passed:
+        status = tr("Passed: every writable target page matches.");
+        break;
+    case Ntag::VerifyStatus::PassedWithExceptions:
+        status = tr("Passed with Exceptions: every writable target page matches, "
+                    "but some pages were read-only or could not be checked.");
+        break;
+    case Ntag::VerifyStatus::Failed:
+        status = tr("Failed: at least one writable target page differs.");
+        break;
+    default:
+        status = tr("Incomplete: not enough pages were read to decide.");
+        break;
+    }
+
+    QString summary = status + QLatin1Char('\n') +
+            tr("Writable targets: %1, passed: %2, failed: %3, not checkable: %4.")
+            .arg(report.writableTargets).arg(report.writablePassed)
+            .arg(report.writableFailed).arg(report.unchecked);
+    if(!context.isEmpty())
+        summary += QLatin1Char('\n') + context;
+
+    QStringList rows;
+    rows << tr("Page\tClass\tExpected\tActual\tResult");
+    for(const Ntag::PageCheck &check : report.checks)
+    {
+        rows << QStringLiteral("%1\t%2\t%3\t%4\t%5")
+                .arg(check.page)
+                .arg(pageClassText(check.pageClass))
+                .arg(check.expected.isEmpty()
+                     ? QStringLiteral("--")
+                     : QString::fromLatin1(check.expected.toHex(' ')).toUpper())
+                .arg(check.actual.isEmpty()
+                     ? tr("(not readable)")
+                     : QString::fromLatin1(check.actual.toHex(' ')).toUpper())
+                .arg(verdictText(check.verdict) +
+                     (check.note.isEmpty() ? QString() : QStringLiteral(" (") + check.note + QLatin1Char(')')));
+    }
+
+    QMessageBox box(this);
+    box.setWindowTitle(title);
+    box.setText(summary);
+    box.setDetailedText(rows.join(QLatin1Char('\n')));
+    if(report.status == Ntag::VerifyStatus::Passed ||
+       report.status == Ntag::VerifyStatus::PassedWithExceptions)
+        box.setIcon(QMessageBox::Information);
+    else
+        box.setIcon(QMessageBox::Warning);
+    box.exec();
+
+    const bool ok = report.status == Ntag::VerifyStatus::Passed ||
+            report.status == Ntag::VerifyStatus::PassedWithExceptions;
+    setStatus(tr("Verification: %1 (passed %2/%3 writable pages).")
+              .arg(Ntag::verifyStatusName(report.status))
+              .arg(report.writablePassed).arg(report.writableTargets), !ok);
+}
+
+void NtagTab::setReadBusy(bool busy)
+{
+    for(QPushButton *button : m_busyButtons)
+        if(button)
+            button->setEnabled(!busy);
+    if(cancelReadButton)
+        cancelReadButton->setEnabled(busy);
+    table->setEditTriggers(busy ? QAbstractItemView::NoEditTriggers
+                                : (QAbstractItemView::DoubleClicked |
+                                   QAbstractItemView::EditKeyPressed));
+    if(!busy)
+        updateDirtyButtons();
+}
+
+bool NtagTab::parseReadPageOutput(const QString &output, QString *data)
+{
+    const QRegularExpressionMatch match = QRegularExpression(
+                QString::fromLatin1(kPageDataPattern)).match(output);
+    if(!match.hasMatch())
+        return false;
+    const QString value = normalizePageData(match.captured(2));
+    if(value.isEmpty())
+        return false;
+    if(data)
+        *data = value;
+    return true;
+}
+
+void NtagTab::startReadJob(Ntag::ReadJobMode mode, const QList<int> &pages)
+{
+    if(m_readJob.busy)
+    {
+        setStatus(tr("A read is already running."));
+        return;
+    }
     if(m_pages <= 0)
     {
         setStatus(tr("Detect a card first; page count is unknown."), true);
         return;
     }
+    if(!session)
+    {
+        setStatus(tr("No client session available for asynchronous reads."), true);
+        return;
+    }
+    if(mode == Ntag::ReadJobMode::DumpChunks && !m_dumpWorkspace.isValid())
+    {
+        setStatus(tr("No writable temporary directory is available for the dump."), true);
+        return;
+    }
+    const int total = mode == Ntag::ReadJobMode::DumpChunks ? m_pages : pages.size();
+    if(!m_readJob.start(mode, total))
+    {
+        setStatus(tr("A read is already running."));
+        return;
+    }
+    readPages = pages;
+    readPageIndex = 0;
+    readChunkStart = 0;
+    readPath = dumpPath();
+    m_dumpWorkspace.clearDump();
+    m_readJobId++;
+    Logger::info(QStringLiteral("NtagRead"),
+                 QStringLiteral("job #%1 start mode=%2 total=%3 uid=%4")
+                 .arg(m_readJobId)
+                 .arg(mode == Ntag::ReadJobMode::DumpChunks
+                      ? QStringLiteral("dump") : QStringLiteral("pages"))
+                 .arg(total).arg(uidLabel->text()));
+    setReadBusy(true);
+    setStatus(mode == Ntag::ReadJobMode::DumpChunks
+              ? tr("Reading %1 pages...").arg(total)
+              : tr("Reading %1 selected page(s)...").arg(total));
+    issueNextReadCommand();
+}
+
+void NtagTab::issueNextReadCommand()
+{
+    if(!m_readJob.busy)
+        return;
+    if(m_readJob.cancelled)
+    {
+        finishReadJob(true);
+        return;
+    }
+
+    QString key;
+    if(!checkKey(&key))
+    {
+        finishReadJob(true);
+        return;
+    }
+
+    if(m_readJob.mode == Ntag::ReadJobMode::DumpChunks)
+    {
+        if(readChunkStart >= m_pages)
+        {
+            finishReadJob(false);
+            return;
+        }
+        const int count = qMin(32, m_pages - readChunkStart);
+        m_dumpWorkspace.clearDump();
+        QString cmd = QStringLiteral("hf mfu dump -p %1 -q %2 -f \"%3\"")
+                .arg(readChunkStart).arg(count).arg(readPath);
+        if(!key.isEmpty())
+            cmd += QStringLiteral(" -k ") + key;
+        readCommandId = session->executeCommand(cmd, 60000, true);
+        Logger::info(QStringLiteral("NtagRead"),
+                     QStringLiteral("job #%1 command #%2 dump pages %3..%4")
+                     .arg(m_readJobId).arg(readCommandId)
+                     .arg(readChunkStart).arg(readChunkStart + count - 1));
+        setStatus(tr("Reading pages %1..%2 of %3 (async)...")
+                  .arg(readChunkStart).arg(readChunkStart + count - 1).arg(m_pages - 1));
+    }
+    else if(m_readJob.mode == Ntag::ReadJobMode::Pages)
+    {
+        if(readPageIndex >= readPages.size())
+        {
+            finishReadJob(false);
+            return;
+        }
+        const int page = readPages.at(readPageIndex);
+        QString cmd = QStringLiteral("hf mfu rdbl -b %1").arg(page);
+        cmd += pageForceSuffix(page);
+        if(!key.isEmpty())
+            cmd += QStringLiteral(" -k ") + key;
+        readCommandId = session->executeCommand(cmd, 8000, true);
+        Logger::info(QStringLiteral("NtagRead"),
+                     QStringLiteral("job #%1 command #%2 page %3")
+                     .arg(m_readJobId).arg(readCommandId).arg(page));
+        setStatus(tr("Reading page %1 (%2 of %3)...")
+                  .arg(page).arg(readPageIndex + 1).arg(readPages.size()));
+    }
+    else
+    {
+        finishReadJob(false);
+        return;
+    }
+
+    if(readCommandId == 0)
+        finishReadJob(false);
+}
+
+void NtagTab::onReadCommandFinished(quint64 id, const QString &output, bool success,
+                                    bool timedOut, const QString &error)
+{
+    if(!m_readJob.busy || id != readCommandId)
+        return;
+
+    if(m_readJob.mode == Ntag::ReadJobMode::DumpChunks)
+    {
+        const int start = readChunkStart;
+        const int count = qMin(32, m_pages - start);
+        int failed = 0;
+        bool chunkValid = false;
+        if(timedOut || !success)
+        {
+            failed = count;
+        }
+        else
+        {
+            QFile file(readPath);
+            if(file.exists() && file.open(QIODevice::ReadOnly))
+            {
+                const QByteArray bytes = file.readAll();
+                file.close();
+                const Ntag::Dump dump = Ntag::parseDump(bytes);
+                if(dump.valid && !dump.pages.isEmpty())
+                {
+                    chunkValid = true;
+                    if(!m_version.valid)
+                    {
+                        m_version = Ntag::parseVersion(dump.versionRaw);
+                        if(m_version.valid)
+                            versionLabel->setText(QString::fromLatin1(
+                                                      m_version.raw.toHex(' ')).toUpper());
+                    }
+                    for(int i = 0; i < count; i++)
+                    {
+                        const int page = start + i;
+                        if(i < dump.pages.size())
+                        {
+                            setRowData(page, QString::fromLatin1(
+                                           dump.pages.at(i).toHex(' ')).toUpper());
+                            m_readJob.success();
+                        }
+                        else
+                        {
+                            m_mem.markReadFailed(page, tr("read failed"));
+                            updateRow(page);
+                            failed++;
+                        }
+                    }
+                }
+                else
+                {
+                    failed = count;
+                }
+            }
+            else
+            {
+                failed = count;
+            }
+            m_dumpWorkspace.clearDump();
+        }
+        if(!chunkValid)
+        {
+            m_readJob.failure(count);
+            for(int page = start; page < start + count; page++)
+            {
+                m_mem.markReadFailed(page, error.isEmpty() ? tr("read failed") : error);
+                updateRow(page);
+            }
+        }
+        else if(failed > 0)
+        {
+            m_readJob.failure(failed);
+        }
+        readChunkStart += count;
+        if(timedOut)
+        {
+            // The client is restarting after a timeout; never queue the next
+            // chunk against an unknown client state.
+            finishReadJob(false);
+            return;
+        }
+        if(m_readJob.cancelled)
+            finishReadJob(true);
+        else
+            issueNextReadCommand();
+        return;
+    }
+
+    if(m_readJob.mode == Ntag::ReadJobMode::Pages)
+    {
+        const int page = readPages.at(readPageIndex);
+        QString data;
+        if(timedOut || !success || !parseReadPageOutput(output, &data))
+        {
+            m_readJob.failure();
+            m_mem.markReadFailed(page, error.isEmpty() ? tr("read failed") : error);
+            updateRow(page);
+        }
+        else
+        {
+            QString value = normalizePageData(data);
+            if(!value.isEmpty())
+            {
+                setRowData(page, value);
+                m_readJob.success();
+            }
+            else
+            {
+                m_readJob.failure();
+                m_mem.markReadFailed(page, tr("read failed"));
+                updateRow(page);
+            }
+        }
+        readPageIndex++;
+        if(timedOut)
+        {
+            finishReadJob(false);
+            return;
+        }
+        if(m_readJob.cancelled)
+            finishReadJob(true);
+        else
+            issueNextReadCommand();
+        return;
+    }
+
+    finishReadJob(false);
+}
+
+void NtagTab::finishReadJob(bool cancelled)
+{
+    if(!m_readJob.busy)
+        return;
+    const int done = m_readJob.done;
+    const int total = m_readJob.total;
+    const int failures = m_readJob.failures;
+    Logger::info(QStringLiteral("NtagRead"),
+                 QStringLiteral("job #%1 finish cancelled=%2 done=%3 total=%4 failures=%5")
+                 .arg(m_readJobId).arg(cancelled).arg(done).arg(total).arg(failures));
+    m_readJob.finish();
+    readCommandId = 0;
+    readPages.clear();
+    m_dumpWorkspace.clearDump();
+    setReadBusy(false);
+    refreshCcFromTable();
+    fillNdef();
+    updateCounts();
+    updateLockState();
+    updateDirtyButtons();
+    updateDetail();
+    updateQuickPreview();
+
+    if(cancelled)
+        setStatus(tr("Read cancelled: %1 of %2 pages read, %3 failed.")
+                  .arg(done).arg(total).arg(failures), failures > 0);
+    else if(failures > 0)
+        setStatus(tr("Read finished: %1 of %2 pages read, %3 failed.")
+                  .arg(done).arg(total).arg(failures), true);
+    else
+        setStatus(tr("Read finished: %1 of %2 pages.").arg(done).arg(total));
+}
+
+void NtagTab::cancelActiveJob()
+{
+    if(m_readJob.busy)
+    {
+        m_readJob.requestCancel();
+        cancelReadButton->setEnabled(false);
+        setStatus(tr("Cancelling after the current command..."));
+        return;
+    }
+    if(m_writeJob.busy)
+    {
+        m_writeJob.requestCancel();
+        cancelReadButton->setEnabled(false);
+        // A page write that is already in flight is always followed by its
+        // read-back before the job stops.
+        setStatus(m_writeJob.phase == Ntag::WriteJobPhase::ReadBack
+                  ? tr("Finishing the current page verification, then stopping...")
+                  : tr("Cancelling after the current command..."));
+    }
+}
+
+void NtagTab::readAllPages()
+{
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+    if(m_pages <= 0)
+    {
+        setStatus(tr("Detect a card first; page count is unknown."), true);
+        return;
+    }
+    if(!confirmDiscardEdits(tr("A full read replaces the current memory view.")))
+        return;
+
+    m_undoStack.clear();
+    m_redoStack.clear();
+    m_lastWriteTargets.clear();
+
+    if(session)
+    {
+        startReadJob(Ntag::ReadJobMode::DumpChunks, QList<int>());
+        return;
+    }
+
+    if(m_cap.pages > 0)
+    {
+        setStatus(tr("Reading %1 pages with `hf mfu dump`...").arg(m_pages));
+        if(readAllFromDump())
+        {
+            fillNdef();
+            updateCounts();
+            updateLockState();
+            updateDirtyButtons();
+            updateDetail();
+            return;
+        }
+        setStatus(tr("Dump failed; falling back to per-page reads with --force..."), true);
+    }
 
     int success = 0;
     for(int page = 0; page < m_pages; page++)
     {
+        setStatus(tr("Reading page %1 of %2...").arg(page).arg(m_pages - 1));
+        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
         QString data;
         if(readPageData(page, &data))
         {
             setRowData(page, data);
             success++;
         }
-        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        else
+        {
+            m_mem.markReadFailed(page, tr("read failed"));
+            updateRow(page);
+        }
     }
-    setStatus(tr("Read %1 of %2 pages.").arg(success).arg(m_pages), success != m_pages);
+    fillNdef();
+    updateCounts();
+    updateLockState();
+    updateDirtyButtons();
+    updateDetail();
+    setStatus(tr("Read %1 of %2 pages (per-page).")
+              .arg(success).arg(m_pages), success != m_pages);
 }
 
 void NtagTab::readSelectedPages()
 {
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
     const QList<QTableWidgetItem *> selected = table->selectedItems();
     QSet<int> pages;
     for(QTableWidgetItem *item : selected)
@@ -434,8 +2408,35 @@ void NtagTab::readSelectedPages()
         return;
     }
 
-    int success = 0;
+    QList<int> toRead;
     for(int page : pages)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        if(entry && entry->dirty())
+        {
+            const QMessageBox::StandardButton choice = QMessageBox::question(
+                        this, tr("Uncommitted edits"),
+                        tr("Page %1 has uncommitted edits. Re-read it and discard "
+                           "those edits?").arg(page),
+                        QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+            if(choice != QMessageBox::Yes)
+                continue;
+            m_mem.revertPage(page);
+            updateRow(page);
+        }
+        toRead.append(page);
+    }
+    if(toRead.isEmpty())
+        return;
+
+    if(session)
+    {
+        startReadJob(Ntag::ReadJobMode::Pages, toRead);
+        return;
+    }
+
+    int success = 0;
+    for(int page : toRead)
     {
         QString data;
         if(readPageData(page, &data))
@@ -444,29 +2445,62 @@ void NtagTab::readSelectedPages()
             success++;
         }
     }
-    setStatus(tr("Read %1 of %2 selected pages.").arg(success).arg(pages.size()), success != pages.size());
+    updateCounts();
+    updateDirtyButtons();
+    updateDetail();
+    setStatus(tr("Read %1 of %2 selected pages.").arg(success).arg(toRead.size()),
+              success != toRead.size());
 }
 
 void NtagTab::readOnePage()
 {
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
     const int page = pageSpin->value();
+    const Ntag::MemoryPage *entry = m_mem.page(page);
+    if(entry && entry->dirty())
+    {
+        const QMessageBox::StandardButton choice = QMessageBox::question(
+                    this, tr("Uncommitted edits"),
+                    tr("Page %1 has uncommitted edits. Re-read it and discard those "
+                       "edits?").arg(page),
+                    QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+        if(choice != QMessageBox::Yes)
+            return;
+        m_mem.revertPage(page);
+        updateRow(page);
+    }
+    if(session)
+    {
+        startReadJob(Ntag::ReadJobMode::Pages, QList<int>({page}));
+        return;
+    }
     QString data;
     if(!readPageData(page, &data))
         return;
     setRowData(page, data);
+    updateCounts();
+    updateDirtyButtons();
+    updateDetail();
     setStatus(tr("Page %1 read.").arg(page));
 }
 
 bool NtagTab::writePageData(int page, const QString &data, bool confirm)
 {
+    m_lastWriteError.clear();
     const QString value = normalizePageData(data);
     if(value.isEmpty())
     {
+        m_lastWriteError = tr("page data must be 8 hex digits");
         setStatus(tr("Page data must be 8 hex digits."), true);
         return false;
     }
     if(!isWritable(page))
     {
+        m_lastWriteError = tr("page %1 is not writable under the detected layout").arg(page);
         setStatus(tr("Page %1 is not writable under the detected layout.").arg(page), true);
         return false;
     }
@@ -474,6 +2508,7 @@ bool NtagTab::writePageData(int page, const QString &data, bool confirm)
     QString key;
     if(!checkKey(&key))
     {
+        m_lastWriteError = tr("key format is invalid");
         setStatus(tr("Key must be 8 or 32 hex digits."), true);
         return false;
     }
@@ -482,91 +2517,1494 @@ bool NtagTab::writePageData(int page, const QString &data, bool confirm)
     {
         const QMessageBox::StandardButton choice = QMessageBox::warning(
             this, tr("Write NTAG/Ultralight page"),
-            tr("Write %1 to page %2?\nThis is an experimental operation.").arg(value).arg(page),
+            tr("Write %1 to page %2?").arg(value).arg(page),
             QMessageBox::Yes | QMessageBox::No);
         if(choice != QMessageBox::Yes)
             return false;
     }
 
     QString cmd = QStringLiteral("hf mfu wrbl -b %1 -d %2").arg(page).arg(value);
+    cmd += pageForceSuffix(page);
     if(!key.isEmpty())
         cmd += QStringLiteral(" -k ") + key;
     const QString output = util->execCMDWithOutput(cmd, 10000, true);
     if(output.isEmpty() || output.contains(QStringLiteral("fail"), Qt::CaseInsensitive) ||
        output.contains(QStringLiteral("error"), Qt::CaseInsensitive) ||
-       output.contains(QStringLiteral("not available"), Qt::CaseInsensitive))
+       output.contains(QStringLiteral("not available"), Qt::CaseInsensitive) ||
+       output.contains(QStringLiteral("timeout"), Qt::CaseInsensitive))
     {
+        m_lastWriteError = tr("client write failed for page %1").arg(page);
+        m_mem.markWritten(page, false, m_lastWriteError);
+        updateRow(page);
         setStatus(tr("Write to page %1 failed. See the RawCommand output.").arg(page), true);
         return false;
     }
 
     QString verify;
     if(!readPageData(page, &verify))
+    {
+        m_lastWriteError = tr("page %1 was written but could not be read back").arg(page);
+        m_mem.markWritten(page, false, m_lastWriteError);
+        updateRow(page);
         return false;
-    setRowData(page, verify);
+    }
+    Ntag::MemoryPage *entry = m_mem.page(page);
     if(verify != value)
     {
+        if(entry)
+        {
+            entry->original = QByteArray::fromHex(verify.toLatin1());
+            entry->writeState = Ntag::WriteState::Failed;
+            entry->verified = false;
+            entry->error = tr("wrote %1, read %2").arg(value, verify);
+        }
+        m_lastWriteError = entry ? entry->error : tr("verification differs");
+        updateRow(page);
         setStatus(tr("Page %1 write returned success but verification differs (wrote %2, read %3).")
                   .arg(page).arg(value, verify), true);
         return false;
     }
+    if(entry)
+    {
+        entry->original = QByteArray::fromHex(verify.toLatin1());
+        entry->edited = entry->original;
+        entry->writeState = Ntag::WriteState::Written;
+        entry->verified = true;
+        entry->error.clear();
+    }
+    updateRow(page);
+    updateDetail();
     return true;
 }
 
 void NtagTab::writeOnePage()
 {
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
     const int page = pageSpin->value();
-    if(writePageData(page, dataEdit->text(), true))
-        setStatus(tr("Page %1 written and verified.").arg(page));
+    const QString value = normalizePageData(dataEdit->text());
+    if(value.isEmpty())
+    {
+        setStatus(tr("Page data must be 8 hex digits."), true);
+        return;
+    }
+    const Ntag::MemoryPage *entry = m_mem.page(page);
+    if(!entry || !entry->readable())
+    {
+        setStatus(tr("Read page %1 before writing it.").arg(page), true);
+        return;
+    }
+    if(!isWritable(page))
+    {
+        setStatus(tr("Page %1 is not writable under the detected layout.").arg(page), true);
+        return;
+    }
+
+    const QMessageBox::StandardButton choice = QMessageBox::warning(
+        this, tr("Write NTAG/Ultralight page"),
+        tr("Write %1 to page %2?").arg(value).arg(page),
+        QMessageBox::Yes | QMessageBox::No);
+    if(choice != QMessageBox::Yes)
+        return;
+
+    QMap<int, QByteArray> expected;
+    expected.insert(page, QByteArray::fromHex(value.toLatin1()));
+    m_lastWriteTargets.clear();
+    m_lastWriteError.clear();
+    startWriteJob(Ntag::WriteJobMode::WritePages, QList<int>({page}), expected,
+                  tr("Write verification"), false);
 }
 
 void NtagTab::writeSelectedPages()
 {
+    QList<int> pages;
     const QList<QTableWidgetItem *> selected = table->selectedItems();
-    QSet<int> pages;
     for(QTableWidgetItem *item : selected)
-    {
-        if(isWritable(item->row()))
-            pages.insert(item->row());
-    }
+        if(!pages.contains(item->row()))
+            pages.append(item->row());
+    std::sort(pages.begin(), pages.end());
     if(pages.isEmpty())
     {
         setStatus(tr("Select one or more writable page rows first."), true);
         return;
     }
+    writePages(pages, tr("Write selected pages"));
+}
 
-    const QMessageBox::StandardButton choice = QMessageBox::warning(
-        this, tr("Write selected NTAG/Ultralight pages"),
-        tr("This will write %1 page(s).\nThis is an experimental operation. Continue?").arg(pages.size()),
-        QMessageBox::Yes | QMessageBox::No);
-    if(choice != QMessageBox::Yes)
-        return;
-
-    int success = 0;
-    for(int page : pages)
+void NtagTab::writeDirtyPages()
+{
+    const QList<int> dirty = m_mem.dirtyPages();
+    if(dirty.isEmpty())
     {
-        if(writePageData(page, rowData(page), false))
-            success++;
-        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        setStatus(tr("There are no uncommitted edits to write."));
+        return;
     }
-    setStatus(tr("Wrote and verified %1 of %2 pages.").arg(success).arg(pages.size()), success != pages.size());
+    writePages(dirty, tr("Write dirty pages"));
+}
+
+bool NtagTab::writePages(const QList<int> &requested, const QString &title)
+{
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return false;
+    }
+    QList<int> targets;
+    for(int page : requested)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        if(!entry || !entry->readable())
+        {
+            setStatus(tr("Page %1 has not been read; write cancelled.").arg(page), true);
+            return false;
+        }
+        if(!entry->writable)
+        {
+            setStatus(tr("Page %1 is read-only; write cancelled.").arg(page), true);
+            return false;
+        }
+        if(entry->dirty())
+            targets.append(page);
+    }
+    if(targets.isEmpty())
+    {
+        setStatus(tr("The selected pages have no uncommitted changes."));
+        return false;
+    }
+
+    QStringList pageText;
+    for(int page : targets)
+        pageText << QString::number(page);
+    const QMessageBox::StandardButton choice = QMessageBox::warning(
+                this, title,
+                tr("Write %1 page(s)?\n%2\n\nOnly these user pages are written; "
+                   "UID, CC, lock, OTP, configuration and PWD/PACK are never "
+                   "modified. The result is verified by reading each page back.")
+                .arg(targets.size())
+                .arg(pageText.size() <= 24 ? pageText.join(QStringLiteral(", "))
+                                           : pageText.first() + QStringLiteral("..") + pageText.last()),
+                QMessageBox::Yes | QMessageBox::No, QMessageBox::No);
+    if(choice != QMessageBox::Yes)
+    {
+        setStatus(tr("Write cancelled."));
+        return false;
+    }
+
+    QMap<int, QByteArray> planned;
+    for(int page : targets)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        planned.insert(page, entry->edited);
+    }
+    m_lastWriteTargets.clear();
+    m_lastWriteError.clear();
+    m_writeFailedPages.clear();
+    startWriteJob(Ntag::WriteJobMode::WritePages, targets, planned,
+                  tr("Write verification"), true);
+    return true;
+}
+
+void NtagTab::verifyWritten()
+{
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+    QMap<int, QByteArray> expected = m_lastWriteTargets;
+    if(expected.isEmpty())
+    {
+        const QList<int> dirty = m_mem.dirtyPages();
+        expected = editedSnapshot(dirty);
+    }
+    if(expected.isEmpty())
+    {
+        setStatus(tr("No written or edited pages to verify."));
+        return;
+    }
+    QList<int> targets = expected.keys();
+    std::sort(targets.begin(), targets.end());
+    startWriteJob(Ntag::WriteJobMode::Verify, targets, expected,
+                  tr("Verify written pages"), false);
 }
 
 void NtagTab::verifyOnePage()
 {
-    const int page = pageSpin->value();
-    QString data;
-    if(!readPageData(page, &data))
-        return;
-    const QString expected = rowData(page);
-    setRowData(page, data);
-    if(expected.isEmpty())
+    if(deviceBusy())
     {
-        setStatus(tr("Page %1 read; no previous value was stored to compare.").arg(page));
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
         return;
     }
-    setStatus(expected == data
-              ? tr("Page %1 verification OK.").arg(page)
-              : tr("Page %1 verification mismatch: expected %2, read %3.").arg(page).arg(expected, data),
-              expected != data);
+    const int page = pageSpin->value();
+    const Ntag::MemoryPage *entry = m_mem.page(page);
+    if(!entry || !entry->readable())
+    {
+        setStatus(tr("Read page %1 before verifying it.").arg(page), true);
+        return;
+    }
+    QMap<int, QByteArray> expected;
+    expected.insert(page, entry->edited);
+    startWriteJob(Ntag::WriteJobMode::Verify, QList<int>({page}), expected,
+                  tr("Page verification"), false, true);
+}
+
+void NtagTab::eraseTag()
+{
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+    if(!m_knownLayout || m_cap.model == Ntag::Model::Unknown || m_pages <= 0)
+    {
+        setStatus(tr("Refusing to erase: the model or memory layout is not known."), true);
+        QMessageBox::warning(this, tr("Erase NTAG"),
+                             tr("The tag model or its memory layout is not known, so no "
+                                "page range can be assumed. Detect the tag again or use "
+                                "manual page operations."));
+        return;
+    }
+    if(m_cc.valid && !m_cc.readWrite)
+    {
+        setStatus(tr("Refusing to erase: the Capability Container reports read-only access."), true);
+        QMessageBox::warning(this, tr("Erase NTAG"),
+                             tr("The Capability Container marks the tag read-only. "
+                                "Nothing was written."));
+        return;
+    }
+    if(!session)
+    {
+        setStatus(tr("No client session is available for an asynchronous erase."), true);
+        return;
+    }
+    if(!m_dumpWorkspace.isValid())
+    {
+        setStatus(tr("No writable temporary directory is available for the erase snapshot."), true);
+        return;
+    }
+    if(!confirmDiscardEdits(tr("Erase reads the tag again and replaces the current view.")))
+        return;
+
+    m_undoStack.clear();
+    m_redoStack.clear();
+    m_lastWriteTargets.clear();
+    m_lastWriteError.clear();
+    m_writeFailedPages.clear();
+
+    if(!m_writeJob.start(Ntag::WriteJobMode::Erase, 1))
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+    writeEraseFlow = true;
+    writeVerifyPageOnly = false;
+    writeAllowRetry = false;
+    writeTitle = tr("Erase NTAG");
+    writeTargets.clear();
+    writePlanned.clear();
+    writeExpected.clear();
+    writeIndex = 0;
+    m_writeJob.phase = Ntag::WriteJobPhase::Snapshot;
+    m_writeJobId++;
+
+    setReadBusy(true);
+    setStatus(tr("Reading every page before building the erase plan..."));
+
+    m_dumpWorkspace.clearDump();
+    QString cmd = QStringLiteral("hf mfu dump -p 0 -q %1 -f \"%2\"")
+            .arg(m_pages).arg(dumpPath());
+    QString key;
+    if(checkKey(&key) && !key.isEmpty())
+        cmd += QStringLiteral(" -k ") + key;
+    writeCommandId = session->executeCommand(cmd, 120000, true);
+    Logger::info(QStringLiteral("NtagWrite"),
+                 QStringLiteral("job #%1 erase snapshot command #%2 pages 0..%3")
+                 .arg(m_writeJobId).arg(writeCommandId).arg(m_pages - 1));
+    if(writeCommandId == 0)
+        finishWriteJob(false, tr("Could not start the erase snapshot command."), true);
+}
+
+void NtagTab::startWriteJob(Ntag::WriteJobMode mode, const QList<int> &targets,
+                            const QMap<int, QByteArray> &expected,
+                            const QString &title, bool allowRetry,
+                            bool verifyPageOnly)
+{
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+    if(!session)
+    {
+        setStatus(tr("No client session is available for asynchronous writes."), true);
+        return;
+    }
+    if(!m_dumpWorkspace.isValid())
+    {
+        setStatus(tr("No writable temporary directory is available for verification."), true);
+        return;
+    }
+    if(targets.isEmpty())
+        return;
+    if(!m_writeJob.start(mode, targets.size()))
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+
+    writeTargets = targets;
+    writeExpected.clear();
+    writePlanned.clear();
+    writeIndex = 0;
+    writeAllowRetry = allowRetry;
+    writeVerifyPageOnly = verifyPageOnly;
+    writeEraseFlow = false;
+    writeTitle = title;
+    writePageHex.clear();
+    m_lastWriteError.clear();
+    m_lastWriteTargets.clear();
+    m_writeFailedPages.clear();
+    m_writeJobId++;
+
+    Logger::info(QStringLiteral("NtagWrite"),
+                 QStringLiteral("job #%1 start mode=%2 pages=%3 retry=%4")
+                 .arg(m_writeJobId)
+                 .arg(mode == Ntag::WriteJobMode::Verify ? QStringLiteral("verify")
+                      : mode == Ntag::WriteJobMode::Erase ? QStringLiteral("erase")
+                                                          : QStringLiteral("write"))
+                 .arg(targets.size()).arg(allowRetry));
+
+    setReadBusy(true);
+
+    if(mode == Ntag::WriteJobMode::Verify)
+    {
+        writeExpected = expected;
+        if(verifyPageOnly)
+        {
+            const int page = targets.first();
+            m_writeJob.beginPage(page);
+            m_writeJob.phase = Ntag::WriteJobPhase::ReadBack;
+            submitWriteReadBack(page);
+        }
+        else
+        {
+            m_writeJob.phase = Ntag::WriteJobPhase::Verifying;
+            submitWriteVerifyDump();
+        }
+        return;
+    }
+
+    writePlanned = expected;
+    m_writeJob.phase = Ntag::WriteJobPhase::Writing;
+    setStatus(tr("Writing %1 page(s)...").arg(targets.size()));
+    issueNextWriteCommand();
+}
+
+void NtagTab::issueNextWriteCommand()
+{
+    if(!m_writeJob.busy)
+        return;
+    if(m_writeJob.cancelled)
+    {
+        const bool partial = m_writeJob.written > 0;
+        finishWriteJob(true,
+                       partial
+                       ? tr("Write cancelled: %1 of %2 page(s) were written and verified.")
+                         .arg(m_writeJob.written).arg(m_writeJob.total)
+                       : tr("Write cancelled before any page was written."));
+        return;
+    }
+    if(writeIndex >= writeTargets.size())
+    {
+        if(writeExpected.isEmpty())
+        {
+            finishWriteJob(false, tr("No page was written, so there is nothing to verify."),
+                           true);
+            return;
+        }
+        submitWriteVerifyDump();
+        return;
+    }
+
+    const int page = writeTargets.at(writeIndex);
+    const QByteArray value = writePlanned.value(page);
+    if(value.size() != 4)
+    {
+        writeAttemptFailed(tr("no target data for page %1").arg(page));
+        return;
+    }
+
+    QString key;
+    if(!checkKey(&key))
+    {
+        writeAttemptFailed(tr("key format is invalid"));
+        return;
+    }
+
+    writePageHex = QString::fromLatin1(value.toHex()).toUpper();
+    m_writeJob.beginPage(page);
+    m_writeJob.phase = Ntag::WriteJobPhase::Writing;
+    setStatus(writeEraseFlow
+              ? tr("Clearing page %1 (%2 of %3)...")
+                .arg(page).arg(m_writeJob.written + 1).arg(writeTargets.size())
+              : tr("Writing page %1 (%2 of %3)...")
+                .arg(page).arg(m_writeJob.written + 1).arg(writeTargets.size()));
+
+    QString cmd = QStringLiteral("hf mfu wrbl -b %1 -d %2").arg(page).arg(writePageHex);
+    cmd += pageForceSuffix(page);
+    if(!key.isEmpty())
+        cmd += QStringLiteral(" -k ") + key;
+
+    writeCommandId = session->executeCommand(cmd, 10000, true);
+    Logger::info(QStringLiteral("NtagWrite"),
+                 QStringLiteral("job #%1 command #%2 %3 page %4 value %5")
+                 .arg(m_writeJobId).arg(writeCommandId)
+                 .arg(writeEraseFlow ? QStringLiteral("clear") : QStringLiteral("write"))
+                 .arg(page).arg(writePageHex));
+    if(writeCommandId == 0)
+        writeAttemptFailed(tr("the client command could not be queued"));
+}
+
+void NtagTab::submitWriteReadBack(int page)
+{
+    QString key;
+    if(!checkKey(&key))
+    {
+        writeAttemptFailed(tr("key format is invalid"));
+        return;
+    }
+    QString cmd = QStringLiteral("hf mfu rdbl -b %1").arg(page);
+    cmd += pageForceSuffix(page);
+    if(!key.isEmpty())
+        cmd += QStringLiteral(" -k ") + key;
+    writeCommandId = session->executeCommand(cmd, 8000, true);
+    Logger::info(QStringLiteral("NtagWrite"),
+                 QStringLiteral("job #%1 command #%2 read-back page %3")
+                 .arg(m_writeJobId).arg(writeCommandId).arg(page));
+    setStatus(tr("Reading page %1 back for verification...").arg(page));
+    if(writeCommandId == 0)
+        writeAttemptFailed(tr("the client read-back command could not be queued"));
+}
+
+void NtagTab::writeAttemptFailed(const QString &reason)
+{
+    const int page = m_writeJob.currentPage;
+    if(writeAllowRetry && !m_writeJob.retryUsed)
+    {
+        m_writeJob.retryUsed = true;
+        setStatus(tr("Retrying page %1 after: %2").arg(page).arg(reason), true);
+        QTimer::singleShot(40, this, [this, page]() {
+            if(!m_writeJob.busy || m_writeJob.currentPage != page)
+                return;
+            if(m_writeJob.phase != Ntag::WriteJobPhase::Writing &&
+               m_writeJob.phase != Ntag::WriteJobPhase::ReadBack)
+                return;
+            if(m_writeJob.cancelled)
+            {
+                // The first attempt may have reached the tag even though it
+                // failed or timed out.  Confirm the current page before
+                // stopping instead of assuming it was not written.
+                m_writeJob.phase = Ntag::WriteJobPhase::ReadBack;
+                submitWriteReadBack(page);
+                return;
+            }
+            QString key;
+            if(!checkKey(&key))
+            {
+                writeAttemptFailed(tr("key format is invalid"));
+                return;
+            }
+            m_writeJob.phase = Ntag::WriteJobPhase::Writing;
+            QString cmd = QStringLiteral("hf mfu wrbl -b %1 -d %2")
+                    .arg(page).arg(writePageHex);
+            cmd += pageForceSuffix(page);
+            if(!key.isEmpty())
+                cmd += QStringLiteral(" -k ") + key;
+            writeCommandId = session->executeCommand(cmd, 10000, true);
+            if(writeCommandId == 0)
+                writeAttemptFailed(tr("the client retry command could not be queued"));
+        });
+        return;
+    }
+
+    m_writeJob.failure();
+    m_lastWriteError = reason;
+    if(m_writeJob.mode == Ntag::WriteJobMode::Verify)
+    {
+        const int page = m_writeJob.currentPage;
+        const bool cancelled = m_writeJob.cancelled;
+        finishWriteJob(cancelled,
+                       tr("Verification failed for page %1: %2").arg(page).arg(reason),
+                       true);
+        if(!cancelled)
+        {
+            QMessageBox::warning(this, writeTitle,
+                                 tr("Page %1 could not be verified: %2")
+                                 .arg(page).arg(reason));
+        }
+        return;
+    }
+    m_writeFailedPages << QString::number(page);
+    Ntag::MemoryPage *entry = m_mem.page(page);
+    if(entry)
+    {
+        entry->writeState = Ntag::WriteState::Failed;
+        entry->verified = false;
+        entry->error = reason;
+    }
+    m_mem.markWritten(page, false, reason);
+    updateRow(page);
+    updateDetail();
+
+    const int written = m_writeJob.written;
+    const int total = m_writeJob.total;
+    const bool cancelled = m_writeJob.cancelled;
+    finishWriteJob(cancelled,
+                   cancelled
+                   ? tr("Write cancelled at page %1: %2 (%3 of %4 page(s) written).")
+                     .arg(page).arg(reason).arg(written).arg(total)
+                   : tr("Write stopped at page %1: %2 (%3 of %4 page(s) written).")
+                     .arg(page).arg(reason).arg(written).arg(total),
+                   true);
+
+    if(!cancelled)
+    {
+        QMessageBox::warning(this, writeTitle,
+                             tr("Write stopped at page %1: %2\n"
+                                "%3 page(s) before it were written and verified. "
+                                "No later page was attempted.")
+                             .arg(page).arg(reason).arg(written));
+    }
+}
+
+void NtagTab::commitWrittenPage(const QString &actual)
+{
+    const int page = m_writeJob.currentPage;
+    Ntag::MemoryPage *entry = m_mem.page(page);
+    if(entry)
+    {
+        entry->original = QByteArray::fromHex(actual.toLatin1());
+        entry->edited = entry->original;
+        entry->writeState = Ntag::WriteState::Written;
+        entry->verified = true;
+        entry->error.clear();
+        writeExpected.insert(page, entry->original);
+        m_lastWriteTargets = writeExpected;
+    }
+    m_mem.markWritten(page, true);
+    m_mem.markVerified(page, true);
+    updateRow(page);
+    updateDetail();
+
+    m_writeJob.success();
+    writeIndex++;
+
+    if(m_writeJob.cancelled)
+    {
+        finishWriteJob(true,
+                       tr("Write cancelled: %1 of %2 page(s) were written and verified.")
+                       .arg(m_writeJob.written).arg(m_writeJob.total));
+        return;
+    }
+
+    if(writeIndex < writeTargets.size())
+        setStatus(writeEraseFlow
+                  ? tr("Clearing page %1 (%2 of %3)...")
+                    .arg(writeTargets.at(writeIndex))
+                    .arg(m_writeJob.written + 1).arg(writeTargets.size())
+                  : tr("Writing page %1 (%2 of %3)...")
+                    .arg(writeTargets.at(writeIndex))
+                    .arg(m_writeJob.written + 1).arg(writeTargets.size()));
+    issueNextWriteCommand();
+}
+
+void NtagTab::submitWriteVerifyDump()
+{
+    if(!m_writeJob.busy)
+        return;
+    if(!session)
+    {
+        finishWriteJob(false, tr("No client session is available for verification."), true);
+        return;
+    }
+    m_writeJob.phase = Ntag::WriteJobPhase::Verifying;
+    setStatus(tr("Reading the tag back to verify..."));
+    m_dumpWorkspace.clearDump();
+
+    QString cmd = QStringLiteral("hf mfu dump -p 0 -q %1 -f \"%2\"")
+            .arg(m_pages).arg(dumpPath());
+    QString key;
+    if(checkKey(&key) && !key.isEmpty())
+        cmd += QStringLiteral(" -k ") + key;
+    writeCommandId = session->executeCommand(cmd, 120000, true);
+    Logger::info(QStringLiteral("NtagWrite"),
+                 QStringLiteral("job #%1 command #%2 verify dump pages 0..%3")
+                 .arg(m_writeJobId).arg(writeCommandId).arg(m_pages - 1));
+    if(writeCommandId == 0)
+        finishWriteJob(false, tr("Could not start the verification read."), true);
+}
+
+void NtagTab::finishWriteJob(bool cancelled, const QString &message, bool error)
+{
+    if(!m_writeJob.busy)
+        return;
+    Logger::info(QStringLiteral("NtagWrite"),
+                 QStringLiteral("job #%1 finish cancelled=%2 mode=%3 written=%4 total=%5 failures=%6")
+                 .arg(m_writeJobId).arg(cancelled)
+                 .arg(static_cast<int>(m_writeJob.mode))
+                 .arg(m_writeJob.written).arg(m_writeJob.total)
+                 .arg(m_writeJob.failures));
+    m_writeJob.finish();
+    writeCommandId = 0;
+    writeTargets.clear();
+    writePlanned.clear();
+    writeExpected.clear();
+    writeVerifyPageOnly = false;
+    writeEraseFlow = false;
+    writePageHex.clear();
+    m_dumpWorkspace.clearDump();
+    setReadBusy(false);
+    refreshCcFromTable();
+    fillNdef();
+    updateCounts();
+    updateLockState();
+    updateDirtyButtons();
+    updateDetail();
+    updateQuickPreview();
+    setStatus(message, error);
+}
+
+void NtagTab::onWriteCommandFinished(quint64 id, const QString &output, bool success,
+                                     bool timedOut, const QString &error)
+{
+    if(!m_writeJob.busy || id != writeCommandId)
+        return;
+
+    if(m_writeJob.phase == Ntag::WriteJobPhase::Snapshot)
+    {
+        const QString path = dumpPath();
+        QByteArray bytes;
+        QFile file(path);
+        if(success && !timedOut && file.exists() && file.open(QIODevice::ReadOnly))
+        {
+            bytes = file.readAll();
+            file.close();
+        }
+        m_dumpWorkspace.clearDump();
+
+        const Ntag::Dump dump = Ntag::parseDump(bytes);
+        if(!success || timedOut || !dump.valid || dump.pages.isEmpty())
+        {
+            finishWriteJob(false,
+                           tr("Refusing to erase: the tag could not be read completely."),
+                           true);
+            QMessageBox::warning(this, tr("Erase NTAG"),
+                                 tr("The tag could not be read completely, so the pages "
+                                    "that must be preserved cannot be confirmed. "
+                                    "Nothing was written."));
+            return;
+        }
+
+        for(int page = 0; page < m_pages; page++)
+        {
+            if(page < dump.pages.size())
+                setRowData(page, QString::fromLatin1(
+                               dump.pages.at(page).toHex(' ')).toUpper());
+            else
+            {
+                m_mem.markReadFailed(page, tr("read failed"));
+                updateRow(page);
+            }
+        }
+        if(!m_version.valid)
+        {
+            m_version = Ntag::parseVersion(dump.versionRaw);
+            if(m_version.valid)
+                versionLabel->setText(QString::fromLatin1(m_version.raw.toHex(' ')).toUpper());
+        }
+        refreshCcFromTable();
+        if(m_cc.valid && !m_cc.readWrite)
+        {
+            finishWriteJob(false,
+                           tr("Refusing to erase: the Capability Container reports read-only access."),
+                           true);
+            QMessageBox::warning(this, tr("Erase NTAG"),
+                                 tr("The Capability Container marks the tag read-only. "
+                                    "Nothing was written."));
+            return;
+        }
+
+        QList<QByteArray> pages;
+        for(int page = 0; page < m_pages; page++)
+        {
+            const Ntag::MemoryPage *entry = m_mem.page(page);
+            pages.append(entry && entry->readable() ? entry->original : QByteArray());
+        }
+
+        m_erasePlan = Ntag::planErase(m_cap, pages);
+        if(!m_erasePlan.valid)
+        {
+            const QString planError = m_erasePlan.error;
+            finishWriteJob(false, tr("Refusing to erase: %1.").arg(planError), true);
+            QMessageBox::warning(this, tr("Erase NTAG"),
+                                 tr("No safe erase plan could be built: %1\n"
+                                    "Nothing was written.").arg(planError));
+            return;
+        }
+        if(m_erasePlan.clearPages.isEmpty())
+        {
+            finishWriteJob(false,
+                           tr("All writable user pages already contain 00 00 00 00."));
+            QMessageBox::information(this, tr("Erase NTAG"),
+                                     tr("All %1 writable user pages (4..%2) are already "
+                                        "blank. Nothing was written.")
+                                     .arg(m_erasePlan.blankPages.size())
+                                     .arg(m_erasePlan.userLast));
+            return;
+        }
+        if(m_writeJob.cancelled)
+        {
+            finishWriteJob(true, tr("Erase cancelled before any page was written."));
+            return;
+        }
+
+        auto rangeText = [](int first, int last) {
+            return first == last ? QString::number(first)
+                                 : QStringLiteral("%1..%2").arg(first).arg(last);
+        };
+        auto pageList = [&rangeText](const QList<int> &pages) {
+            if(pages.size() <= 24)
+            {
+                QStringList values;
+                for(int page : pages)
+                    values << QString::number(page);
+                return values.join(QStringLiteral(", "));
+            }
+            return rangeText(pages.first(), pages.last());
+        };
+        const QString targetText = pageList(m_erasePlan.clearPages);
+        QStringList preserved;
+        preserved << rangeText(0, 3) + tr(" (UID / static lock / CC)");
+        if(m_cap.lockPage >= 0)
+            preserved << tr("dynamic lock page %1").arg(m_cap.lockPage);
+        if(m_cap.cfg0 >= 0 || m_cap.cfg1 >= 0)
+            preserved << tr("configuration pages %1")
+                         .arg(rangeText(m_cap.cfg0, m_cap.cfg1));
+        if(m_cap.pwd >= 0 || m_cap.pack >= 0)
+            preserved << tr("PWD/PACK pages %1").arg(rangeText(m_cap.pwd, m_cap.pack));
+
+        const QString lockWarning = m_erasePlan.lockBitsPresent
+                ? tr("Lock bits are already set. Some user pages may be permanently "
+                     "write-protected; they will be reported as not cleared and will "
+                     "not be bypassed.")
+                : tr("No lock bits are set in the current read.");
+
+        QMessageBox box(this);
+        box.setIcon(QMessageBox::Warning);
+        box.setWindowTitle(tr("Erase NTAG"));
+        box.setText(tr("Erase writable user data from this tag?"));
+        box.setInformativeText(
+            tr("Model: %1\nUID: %2\n\nPages to clear: %3 (%4 page(s) currently "
+               "holding data; %5 blank page(s) will be skipped)\nPreserved: %6\n\n%7\n\n"
+               "Only 00 00 00 00 is written to confirmed writable user pages. UID, CC, "
+               "OTP, lock, configuration and PWD/PACK pages are never modified. This "
+               "cannot be undone and the original data cannot be recovered. A locked "
+               "tag cannot be restored to factory state by software.")
+            .arg(Ntag::modelName(m_cap.model))
+            .arg(uidLabel->text())
+            .arg(targetText)
+            .arg(m_erasePlan.clearPages.size()).arg(m_erasePlan.blankPages.size())
+            .arg(preserved.join(QStringLiteral(", ")))
+            .arg(lockWarning));
+        box.setDetailedText(lockWarning);
+        box.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        box.setDefaultButton(QMessageBox::No);
+        if(box.exec() != QMessageBox::Yes)
+        {
+            finishWriteJob(true, tr("Erase cancelled."));
+            return;
+        }
+
+        writeTargets = m_erasePlan.clearPages;
+        writePlanned.clear();
+        for(int page : writeTargets)
+            writePlanned.insert(page, QByteArray(4, '\0'));
+        writeIndex = 0;
+        m_writeJob.total = writeTargets.size();
+        m_writeJob.written = 0;
+        m_writeJob.phase = Ntag::WriteJobPhase::Writing;
+        setStatus(tr("Clearing %1 page(s)...").arg(writeTargets.size()));
+        issueNextWriteCommand();
+        return;
+    }
+
+    if(m_writeJob.phase == Ntag::WriteJobPhase::Writing)
+    {
+        const bool commandOk = success && !timedOut && !output.isEmpty()
+                && !output.contains(QStringLiteral("fail"), Qt::CaseInsensitive)
+                && !output.contains(QStringLiteral("error"), Qt::CaseInsensitive)
+                && !output.contains(QStringLiteral("not available"), Qt::CaseInsensitive)
+                && !output.contains(QStringLiteral("timeout"), Qt::CaseInsensitive);
+        if(!commandOk)
+        {
+            const QString reason = timedOut
+                    ? tr("the client command timed out")
+                    : error.isEmpty()
+                      ? tr("the client reported a write failure")
+                      : error;
+            writeAttemptFailed(reason);
+            return;
+        }
+        m_writeJob.phase = Ntag::WriteJobPhase::ReadBack;
+        submitWriteReadBack(m_writeJob.currentPage);
+        return;
+    }
+
+    if(m_writeJob.phase == Ntag::WriteJobPhase::ReadBack)
+    {
+        QString data;
+        if(timedOut || !success || !parseReadPageOutput(output, &data))
+        {
+            writeAttemptFailed(timedOut
+                               ? tr("the read-back timed out")
+                               : error.isEmpty()
+                                 ? tr("the page could not be read back")
+                                 : error);
+            return;
+        }
+        const QString actual = normalizePageData(data);
+        if(actual.isEmpty())
+        {
+            writeAttemptFailed(tr("the page read-back could not be parsed"));
+            return;
+        }
+
+        if(writeVerifyPageOnly)
+        {
+            const int page = m_writeJob.currentPage;
+            const QMap<int, QByteArray> expected = writeExpected;
+            QList<QByteArray> pages;
+            QVector<Ntag::PageState> states;
+            const int count = qMax(m_pages, page + 1);
+            for(int i = 0; i < count; i++)
+                pages.append(QByteArray(4, '\0'));
+            states.fill(Ntag::PageState::Unknown, count);
+            pages[page] = QByteArray::fromHex(actual.toLatin1());
+            states[page] = Ntag::PageState::Read;
+            Ntag::MemoryPage *entry = m_mem.page(page);
+            if(entry)
+            {
+                entry->original = pages.at(page);
+                entry->verified = pages.at(page) == expected.value(page);
+                updateRow(page);
+            }
+            finishWriteJob(false, tr("Page %1 verification finished.").arg(page));
+            Ntag::VerifyReport report = Ntag::verifyWrite(m_cap, expected, pages, states);
+            showVerifyReport(report, writeTitle,
+                             tr("Only the selected page is compared with its edited value."));
+            return;
+        }
+
+        const QByteArray wanted = writePlanned.value(m_writeJob.currentPage);
+        if(QByteArray::fromHex(actual.toLatin1()) != wanted)
+        {
+            writeAttemptFailed(tr("verification differs (wrote %1, read %2)")
+                               .arg(writePageHex, actual));
+            return;
+        }
+        commitWrittenPage(actual);
+        return;
+    }
+
+    if(m_writeJob.phase == Ntag::WriteJobPhase::Verifying)
+    {
+        const QString path = dumpPath();
+        QByteArray bytes;
+        QFile file(path);
+        if(success && !timedOut && file.exists() && file.open(QIODevice::ReadOnly))
+        {
+            bytes = file.readAll();
+            file.close();
+        }
+        m_dumpWorkspace.clearDump();
+        const Ntag::Dump dump = Ntag::parseDump(bytes);
+        if(!success || timedOut || !dump.valid || dump.pages.isEmpty())
+        {
+            const bool cancelled = m_writeJob.cancelled;
+            finishWriteJob(cancelled,
+                           tr("The tag could not be read back, so the result is unknown."),
+                           true);
+            QMessageBox::warning(this, writeTitle,
+                                 tr("The tag could not be read back. The result "
+                                    "cannot be verified."));
+            return;
+        }
+
+        QList<QByteArray> pages;
+        QVector<Ntag::PageState> states;
+        for(int i = 0; i < m_pages; i++)
+            pages.append(QByteArray(4, '\0'));
+        states.fill(Ntag::PageState::Unknown, m_pages);
+        for(int i = 0; i < m_pages && i < dump.pages.size(); i++)
+        {
+            pages[i] = dump.pages.at(i);
+            states[i] = Ntag::PageState::Read;
+        }
+
+        if(writeEraseFlow)
+        {
+            const bool cancelled = m_writeJob.cancelled;
+            finishWriteJob(cancelled,
+                           cancelled ? tr("Erase verification completed after cancel.")
+                                     : tr("Erase finished."),
+                           false);
+            showEraseReport(pages, states, true);
+            return;
+        }
+
+        const QMap<int, QByteArray> expected = writeExpected;
+        const bool cancelled = m_writeJob.cancelled;
+        finishWriteJob(cancelled,
+                       cancelled
+                       ? tr("Write verification completed after cancel: %1 page(s).")
+                         .arg(expected.size())
+                       : tr("Write finished: %1 page(s) verified.").arg(expected.size()));
+        showWriteReport(expected, pages, states, writeTitle);
+        return;
+    }
+}
+
+void NtagTab::showWriteReport(const QMap<int, QByteArray> &expected,
+                              const QList<QByteArray> &pages,
+                              const QVector<Ntag::PageState> &states,
+                              const QString &title)
+{
+    m_lastWriteTargets = expected;
+    const Ntag::VerifyReport report = Ntag::verifyWrite(m_cap, expected, pages, states);
+    for(const Ntag::PageCheck &check : report.checks)
+    {
+        if(check.actual.size() != 4)
+            continue;
+        Ntag::MemoryPage *entry = m_mem.page(check.page);
+        if(!entry)
+            continue;
+        entry->original = check.actual;
+        entry->verified = check.verdict == Ntag::PageVerdict::Match;
+        if(entry->verified)
+            entry->writeState = Ntag::WriteState::Written;
+        updateRow(check.page);
+    }
+    updateCounts();
+    updateDirtyButtons();
+    showVerifyReport(report, title,
+                     tr("Only pages targeted by the write are compared. "
+                        "Manufacturer, UID, lock, configuration and security pages "
+                        "cannot cause a failure."));
+}
+
+void NtagTab::showEraseReport(const QList<QByteArray> &after,
+                              const QVector<Ntag::PageState> &states, bool readOk)
+{
+    for(int page = 0; page < m_pages; page++)
+    {
+        if(page < states.size() && states.at(page) == Ntag::PageState::Read)
+            setRowData(page, QString::fromLatin1(after.at(page).toHex(' ')).toUpper());
+    }
+    fillNdef();
+    refreshCcFromTable();
+    updateCounts();
+    updateLockState();
+    updateDirtyButtons();
+    updateDetail();
+
+    int cleared = 0;
+    int remaining = 0;
+    int unread = 0;
+    QStringList remainingPages;
+    for(int page : m_erasePlan.clearPages)
+    {
+        if(!readOk || page >= states.size() || states.at(page) != Ntag::PageState::Read)
+        {
+            unread++;
+            continue;
+        }
+        if(after.at(page) == QByteArray(4, '\0'))
+            cleared++;
+        else
+        {
+            remaining++;
+            remainingPages << tr("page %1: %2").arg(page)
+                              .arg(QString::fromLatin1(after.at(page).toHex(' ')).toUpper());
+        }
+    }
+
+    const int total = m_erasePlan.clearPages.size();
+    QString result;
+    if(!readOk)
+        result = tr("Unknown: the tag could not be read back, so the erase result "
+                    "cannot be confirmed.");
+    else if(remaining == 0 && unread == 0)
+        result = tr("Fully erased: all %1 targeted user page(s) now read 00 00 00 00.")
+                .arg(total);
+    else if(remaining == 0)
+        result = tr("Unverified: %1 targeted page(s) were cleared but %2 page(s) "
+                    "could not be read back.").arg(cleared).arg(unread);
+    else if(cleared == 0)
+        result = tr("Erase failed: none of the %1 targeted user page(s) could be "
+                    "cleared.").arg(total);
+    else
+        result = tr("Partially erased: %1 of %2 targeted page(s) were cleared, "
+                    "%3 still hold data and %4 could not be read.")
+                .arg(cleared).arg(total).arg(remaining).arg(unread);
+
+    auto rangeText = [](int first, int last) {
+        return first == last ? QString::number(first)
+                             : QStringLiteral("%1..%2").arg(first).arg(last);
+    };
+    auto pageList = [&rangeText](const QList<int> &pages) {
+        if(pages.size() <= 24)
+        {
+            QStringList values;
+            for(int page : pages)
+                values << QString::number(page);
+            return values.join(QStringLiteral(", "));
+        }
+        return rangeText(pages.first(), pages.last());
+    };
+    const QString targetText = pageList(m_erasePlan.clearPages);
+    QStringList preserved;
+    preserved << rangeText(0, 3) + tr(" (UID / static lock / CC)");
+    if(m_cap.lockPage >= 0)
+        preserved << tr("dynamic lock page %1").arg(m_cap.lockPage);
+    if(m_cap.cfg0 >= 0 || m_cap.cfg1 >= 0)
+        preserved << tr("configuration pages %1").arg(rangeText(m_cap.cfg0, m_cap.cfg1));
+    if(m_cap.pwd >= 0 || m_cap.pack >= 0)
+        preserved << tr("PWD/PACK pages %1").arg(rangeText(m_cap.pwd, m_cap.pack));
+    const QString lockWarning = m_erasePlan.lockBitsPresent
+            ? tr("Lock bits are already set. Some user pages may be permanently "
+                 "write-protected; they will be reported as not cleared and will "
+                 "not be bypassed.")
+            : tr("No lock bits are set in the current read.");
+
+    QStringList details;
+    details << tr("Model: %1   UID: %2")
+               .arg(Ntag::modelName(m_cap.model)).arg(uidLabel->text());
+    details << tr("Target pages: %1 (%2)").arg(targetText).arg(total);
+    details << tr("Cleared: %1   Still holding data: %2   Not readable: %3")
+               .arg(cleared).arg(remaining).arg(unread);
+    if(!m_writeFailedPages.isEmpty())
+        details << tr("Write commands failed on: %1")
+                   .arg(m_writeFailedPages.join(QStringLiteral(", ")));
+    if(!remainingPages.isEmpty())
+        details << tr("Not cleared (locked or write-protected):\n  %1")
+                   .arg(remainingPages.join(QStringLiteral("\n  ")));
+    details << tr("Preserved pages: %1").arg(preserved.join(QStringLiteral(", ")));
+    details << lockWarning;
+    details << tr("The Capability Container was not modified; an NDEF TLV is no "
+                  "longer present because the user pages are blank.");
+
+    QMessageBox report(this);
+    report.setWindowTitle(tr("Erase NTAG"));
+    report.setText(result);
+    report.setDetailedText(details.join(QLatin1Char('\n')));
+    report.setIcon((cleared == total) ? QMessageBox::Information : QMessageBox::Warning);
+    report.exec();
+    setStatus(result, cleared != total);
+}
+
+void NtagTab::quickTypeChanged()
+{
+    const Ndef::LaunchType type = static_cast<Ndef::LaunchType>(
+                quickType->currentData().toInt());
+    bool subject = false;
+    bool body = false;
+    bool primary = true;
+    switch(type)
+    {
+    case Ndef::LaunchType::Phone:
+        quickPrimaryLabel->setText(tr("Phone number:"));
+        quickPrimary->setPlaceholderText(tr("+1 555 0100"));
+        break;
+    case Ndef::LaunchType::Sms:
+        quickPrimaryLabel->setText(tr("Phone number:"));
+        quickPrimary->setPlaceholderText(tr("+1 555 0100"));
+        body = true;
+        break;
+    case Ndef::LaunchType::Email:
+        quickPrimaryLabel->setText(tr("E-mail address:"));
+        quickPrimary->setPlaceholderText(tr("name@example.com"));
+        subject = true;
+        body = true;
+        break;
+    case Ndef::LaunchType::CustomUri:
+        quickPrimaryLabel->setText(tr("URI:"));
+        quickPrimary->setPlaceholderText(tr("https:// or another scheme:"));
+        break;
+    case Ndef::LaunchType::Wifi:
+        quickPrimaryLabel->setText(tr("Wi-Fi:"));
+        quickPrimary->setPlaceholderText(tr("not supported"));
+        primary = false;
+        break;
+    default:
+        quickPrimaryLabel->setText(tr("URL:"));
+        quickPrimary->setPlaceholderText(tr("https://example.com"));
+        break;
+    }
+    quickPrimary->setEnabled(primary);
+    quickSubjectLabel->setVisible(subject);
+    quickSubject->setVisible(subject);
+    quickBodyLabel->setVisible(body);
+    quickBody->setVisible(body);
+
+    switch(type)
+    {
+    case Ndef::LaunchType::Phone:
+        quickInfoLabel->setText(tr("Writes a tel: URI. Most phones open the dialer; "
+                                   "the call is not placed automatically."));
+        break;
+    case Ndef::LaunchType::Sms:
+        quickInfoLabel->setText(tr("Writes an sms: URI with an optional body. Phones "
+                                   "usually open the messaging app without sending."));
+        break;
+    case Ndef::LaunchType::Email:
+        quickInfoLabel->setText(tr("Writes a mailto: URI. The mail app opens; the "
+                                   "message is not sent automatically."));
+        break;
+    case Ndef::LaunchType::Wifi:
+        quickInfoLabel->setText(tr("Wi-Fi NDEF is not implemented in this build: no "
+                                   "verified record format is available, so writing is "
+                                   "disabled instead of emitting a guess."));
+        break;
+    case Ndef::LaunchType::CustomUri:
+        quickInfoLabel->setText(tr("Any URI with a scheme is accepted and kept as "
+                                   "entered. Observed behavior depends on the phone."));
+        break;
+    default:
+        quickInfoLabel->setText(tr("Writes an https/http URI record. Whether a browser "
+                                   "opens automatically depends on the phone and its "
+                                   "settings."));
+        break;
+    }
+    updateQuickPreview();
+}
+
+void NtagTab::updateQuickPreview()
+{
+    if(!quickPreview)
+        return;
+    Ndef::LaunchRequest request;
+    request.type = static_cast<Ndef::LaunchType>(quickType->currentData().toInt());
+    request.primary = quickPrimary->text();
+    request.subject = quickSubject->text();
+    request.body = quickBody->text();
+
+    const Ndef::LaunchPayload payload = Ndef::buildLaunch(request);
+    const int capacity = availableNdefCapacity();
+    const bool fits = payload.ok && capacity > 0 && payload.requiredBytes <= capacity;
+
+    QStringList lines;
+    if(!payload.ok)
+    {
+        lines << tr("Cannot build the NDEF data: %1").arg(payload.error);
+    }
+    else
+    {
+        lines << tr("URI: %1").arg(payload.uri);
+        lines << tr("NDEF message: %1 bytes").arg(payload.message.size());
+        lines << tr("Required space (TLV + terminator): %1 bytes").arg(payload.requiredBytes);
+        lines << tr("Available NDEF space: %1 bytes").arg(capacity > 0
+                                                        ? QString::number(capacity)
+                                                        : tr("unknown"));
+        lines << tr("Capacity used: %1%")
+                 .arg(capacity > 0 ? payload.requiredBytes * 100 / capacity : 0);
+        lines << tr("Fits: %1").arg(fits ? tr("yes") : tr("no"));
+        lines << QString();
+        lines << tr("NDEF message (hex):");
+        const QByteArray message = payload.message;
+        for(int offset = 0; offset < message.size(); offset += 16)
+        {
+            QString hex;
+            for(int i = 0; i < 16 && offset + i < message.size(); i++)
+                hex += QStringLiteral("%1 ")
+                        .arg(static_cast<quint8>(message.at(offset + i)),
+                             2, 16, QLatin1Char('0')).toUpper();
+            lines << hex.trimmed();
+        }
+        lines << QString();
+        lines << tr("TLV + terminator, padded to pages:");
+        for(int offset = 0; offset < payload.userArea.size(); offset += 16)
+        {
+            QString hex;
+            for(int i = 0; i < 16 && offset + i < payload.userArea.size(); i++)
+                hex += QStringLiteral("%1 ")
+                        .arg(static_cast<quint8>(payload.userArea.at(offset + i)),
+                             2, 16, QLatin1Char('0')).toUpper();
+            lines << hex.trimmed();
+        }
+    }
+    quickPreview->setPlainText(lines.join(QLatin1Char('\n')));
+
+    if(m_cap.pages > 0)
+        quickCapacityLabel->setText(tr("Model: %1, user pages 4..%2, NDEF capacity %3 bytes "
+                                       "(Capability Container %4)")
+                                    .arg(Ntag::modelName(m_cap.model))
+                                    .arg(m_cap.userLast)
+                                    .arg(capacity)
+                                    .arg(m_cc.valid ? tr("read") : tr("not read")));
+    else
+        quickCapacityLabel->setText(tr("Detect and read a tag to calculate the capacity."));
+
+    const bool writable = payload.ok && fits && m_knownLayout && m_cc.valid &&
+            m_cc.readWrite && capacity > 0;
+    quickWriteButton->setEnabled(writable);
+    quickStatusLabel->setStyleSheet(writable
+                                    ? QString()
+                                    : QStringLiteral("color:rgb(200,20,20);"));
+    quickStatusLabel->setText(payload.ok
+                              ? (fits ? tr("Ready to write: the data fits the tag.")
+                                      : tr("Over capacity: writing is disabled."))
+                              : tr("Cannot build the payload: writing is disabled."));
+}
+
+void NtagTab::writeQuickLaunch()
+{
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+    Ndef::LaunchRequest request;
+    request.type = static_cast<Ndef::LaunchType>(quickType->currentData().toInt());
+    request.primary = quickPrimary->text();
+    request.subject = quickSubject->text();
+    request.body = quickBody->text();
+
+    const Ndef::LaunchPayload payload = Ndef::buildLaunch(request);
+    if(!payload.ok)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"), payload.error);
+        return;
+    }
+    if(!m_knownLayout || m_cap.model == Ntag::Model::Unknown || m_pages <= 0)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("Detect and read the tag first; the model and memory "
+                                "layout must be known."));
+        return;
+    }
+    if(!m_cc.valid)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("No valid Capability Container was read. Writing is "
+                                "refused because the NDEF area is unknown."));
+        return;
+    }
+    if(!m_cc.readWrite)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("The Capability Container marks the tag read-only."));
+        return;
+    }
+    const int capacity = availableNdefCapacity();
+    if(capacity <= 0 || payload.requiredBytes > capacity)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("The NDEF data needs %1 bytes but only %2 are "
+                                "available.").arg(payload.requiredBytes).arg(capacity));
+        return;
+    }
+
+    // Refresh the full read so stale UI data cannot decide writability.
+    if(!confirmDiscardEdits(tr("Quick Launch reads the tag again before writing.")))
+        return;
+    m_undoStack.clear();
+    m_redoStack.clear();
+    if(!readAllFromDump())
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("The tag could not be read before writing."));
+        return;
+    }
+    refreshCcFromTable();
+    if(!m_cc.valid || !m_cc.readWrite)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("The Capability Container read back from the tag is "
+                                "missing or read-only. Nothing was written."));
+        return;
+    }
+    const int freshCapacity = availableNdefCapacity();
+    if(freshCapacity <= 0 || payload.requiredBytes > freshCapacity)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("The NDEF data needs %1 bytes but only %2 are "
+                                "available.").arg(payload.requiredBytes).arg(freshCapacity));
+        return;
+    }
+
+    const int firstPage = m_cap.userFirst;
+    const int pageCount = payload.userArea.size() / 4;
+    const int lastPage = firstPage + pageCount - 1;
+    if(lastPage > m_cap.userLast)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("The data needs pages %1..%2 but the tag only allows "
+                                "user pages up to %3.")
+                             .arg(firstPage).arg(lastPage).arg(m_cap.userLast));
+        return;
+    }
+
+    const QString staticLock = rowData(2).mid(4, 4);
+    const QString dynamicLock = m_cap.lockPage >= 0
+            ? rowData(m_cap.lockPage).left(6) : QString();
+    if(staticLock.size() != 4 ||
+       (m_cap.lockPage >= 0 && dynamicLock.size() != 6))
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("The static/dynamic lock pages could not be read, so "
+                                "write protection cannot be checked. Nothing was "
+                                "written."));
+        return;
+    }
+    const QByteArray lock0 = QByteArray::fromHex(staticLock.toLatin1());
+    // Static lock bit 0 protects the CC page only.  Any other static lock bit
+    // protects a user page, so a write is refused rather than bypassing it.
+    const bool staticUserLocked = lock0.size() == 2 &&
+            ((static_cast<quint8>(lock0.at(0)) & 0xFE) != 0 ||
+             static_cast<quint8>(lock0.at(1)) != 0);
+    bool dynamicUserLocked = false;
+    if(lastPage >= 16)
+    {
+        for(char byte : QByteArray::fromHex(dynamicLock.toLatin1()))
+            if(byte != '\0')
+                dynamicUserLocked = true;
+    }
+    if(staticUserLocked || dynamicUserLocked)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("Lock bits protect the target user pages (static %1, "
+                                "dynamic %2). The write was refused instead of "
+                                "bypassing the lock. No page was modified.")
+                             .arg(staticLock, dynamicLock));
+        return;
+    }
+
+    QMessageBox confirm(this);
+    confirm.setIcon(QMessageBox::Warning);
+    confirm.setWindowTitle(tr("Quick Launch"));
+    confirm.setText(tr("Write this NDEF URI to the tag?"));
+    confirm.setInformativeText(
+        tr("Model: %1\nUID: %2\nURI: %3\nPages: %4..%5 (%6 bytes)\n\n"
+           "Only user data pages are written. The Capability Container, UID, lock, "
+           "OTP, configuration and PWD/PACK pages are not modified. Phones may open "
+           "the dialer/messaging/mail app instead of acting automatically, and "
+           "browser behavior depends on the phone.")
+        .arg(Ntag::modelName(m_cap.model))
+        .arg(uidLabel->text())
+        .arg(payload.uri)
+        .arg(firstPage).arg(lastPage).arg(payload.requiredBytes));
+    confirm.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    confirm.setDefaultButton(QMessageBox::No);
+    if(confirm.exec() != QMessageBox::Yes)
+    {
+        setStatus(tr("Quick Launch write cancelled."));
+        return;
+    }
+
+    QMap<int, QByteArray> expected;
+    QStringList failed;
+    int written = 0;
+    for(int page = firstPage; page <= lastPage; page++)
+    {
+        const QByteArray value = payload.userArea.mid((page - firstPage) * 4, 4);
+        QString current;
+        if(readPageData(page, &current) &&
+           QByteArray::fromHex(current.toLatin1()) == value)
+            continue; // already holds the required bytes
+        setStatus(tr("Writing page %1 (%2 of %3)...")
+                  .arg(page).arg(page - firstPage + 1).arg(pageCount));
+        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
+        const QString hex = QString::fromLatin1(value.toHex()).toUpper();
+        if(!writePageData(page, hex, false))
+        {
+            failed << QString::number(page);
+            break;
+        }
+        expected.insert(page, value);
+        written++;
+    }
+
+    // Read the written range back and parse the NDEF message independently.
+    QList<QByteArray> after;
+    QVector<Ntag::PageState> states;
+    const bool readOk = readPagesForVerify(&after, &states);
+    QByteArray area;
+    bool complete = readOk;
+    if(readOk)
+    {
+        for(int page = firstPage; page <= lastPage; page++)
+        {
+            if(states.at(page) == Ntag::PageState::Read)
+            {
+                area += after.at(page);
+                setRowData(page, QString::fromLatin1(after.at(page).toHex(' ')).toUpper());
+            }
+            else
+            {
+                complete = false;
+            }
+        }
+    }
+
+    const Ntag::NdefResult parsed = complete ? Ntag::parseNdef(area) : Ntag::NdefResult();
+    const bool uriMatch = complete && parsed.ok && !parsed.records.isEmpty() &&
+            parsed.records.first().uri == payload.uri;
+    const bool rawMatch = complete &&
+            area.left(payload.tlv.size()) == payload.tlv;
+
+    QString result;
+    if(!complete)
+        result = tr("Incomplete: the written pages could not be read back, so the "
+                    "result is unverified.");
+    else if(uriMatch && rawMatch)
+        result = tr("Write verified: the tag parses back as the expected URI.");
+    else
+        result = tr("Verification FAILED: the NDEF data read back differs from the "
+                    "data written.");
+
+    QStringList details;
+    details << tr("Expected URI: %1").arg(payload.uri);
+    if(complete && parsed.ok && !parsed.records.isEmpty())
+        details << tr("Read back URI: %1").arg(parsed.records.first().uri);
+    else if(complete)
+        details << tr("Read back: %1").arg(parsed.error.isEmpty()
+                                           ? tr("no NDEF record") : parsed.error);
+    details << tr("Pages written: %1   Pages already correct: %2")
+               .arg(written).arg(pageCount - written - failed.size());
+    if(!failed.isEmpty())
+        details << tr("Write failed on page(s): %1").arg(failed.join(QStringLiteral(", ")));
+    details << tr("Capability Container and system pages were not modified.");
+
+    QMessageBox report(this);
+    report.setWindowTitle(tr("Quick Launch"));
+    report.setText(result);
+    report.setDetailedText(details.join(QLatin1Char('\n')));
+    report.setIcon(uriMatch && rawMatch ? QMessageBox::Information : QMessageBox::Warning);
+    report.exec();
+    if(uriMatch && rawMatch)
+    {
+        setStatus(tr("Quick Launch written and verified: %1").arg(payload.uri));
+        fillNdef();
+        refreshCcFromTable();
+        updateCounts();
+        updateDirtyButtons();
+        updateDetail();
+    }
+    else
+    {
+        setStatus(result, true);
+    }
 }

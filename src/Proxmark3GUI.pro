@@ -4,6 +4,9 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 
+# LF multi-protocol text parser (Stage 2). Public headers use the <lf/...> prefix.
+INCLUDEPATH += $$PWD/lf/parser/include
+
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -27,6 +30,37 @@ SOURCES += \
     module/ntagtab.cpp \
     module/emrtd.cpp \
     module/amiibopage.cpp \
+    module/amiibo/amiibodata.cpp \
+    module/lfparsertab.cpp \
+    module/ntag/ntagmodel.cpp \
+    module/ntag/ndefbuilder.cpp \
+    module/ntag/ntagmemory.cpp \
+    lf/parser/src/lf/lfparsetypes.cpp \
+    lf/parser/src/lf/lftextnormalizer.cpp \
+    lf/parser/src/lf/lfparserregistry.cpp \
+    lf/parser/src/lf/t55xxparser.cpp \
+    lf/parser/src/lf/parsers/em4100parser.cpp \
+    lf/parser/src/lf/parsers/hidproxparser.cpp \
+    lf/parser/src/lf/parsers/awidparser.cpp \
+    lf/parser/src/lf/parsers/indalaparser.cpp \
+    lf/parser/src/lf/parsers/ioproxparser.cpp \
+    lf/parser/src/lf/parsers/fdxbparser.cpp \
+    lf/parser/src/lf/parsers/paradoxparser.cpp \
+    lf/parser/src/lf/parsers/keriparser.cpp \
+    lf/parser/src/lf/parsers/vikingparser.cpp \
+    lf/parser/src/lf/parsers/pyramidparser.cpp \
+    lf/parser/src/lf/parsers/nexwatchparser.cpp \
+    lf/parser/src/lf/parsers/prescoparser.cpp \
+    lf/parser/src/lf/parsers/nedapparser.cpp \
+    lf/parser/src/lf/parsers/gproxiiparser.cpp \
+    lf/parser/src/lf/parsers/gallagherparser.cpp \
+    lf/parser/src/lf/parsers/pacparser.cpp \
+    lf/parser/src/lf/parsers/noralsyparser.cpp \
+    lf/parser/src/lf/parsers/jablotronparser.cpp \
+    lf/parser/src/lf/parsers/securakeyparser.cpp \
+    lf/parser/src/lf/parsers/visa2000parser.cpp \
+    lf/parser/src/lf/parsers/motorolaparser.cpp \
+    lf/parser/src/lf/parsers/idteckparser.cpp \
     ui/mf_trailerdecoderdialog.cpp \
     ui/mf_sim_simdialog.cpp \
     ui/mf_uid_parameterdialog.cpp \
@@ -47,6 +81,38 @@ HEADERS += \
     module/ntagtab.h \
     module/emrtd.h \
     module/amiibopage.h \
+    module/amiibo/amiibodata.h \
+    module/lfparsertab.h \
+    module/ntag/ntagmodel.h \
+    module/ntag/ndefbuilder.h \
+    module/ntag/ntagmemory.h \
+    lf/parser/include/lf/lfparsetypes.h \
+    lf/parser/include/lf/lftextnormalizer.h \
+    lf/parser/include/lf/lfparser.h \
+    lf/parser/include/lf/lfparserregistry.h \
+    lf/parser/include/lf/t55xxparser.h \
+    lf/parser/include/lf/parsers/em4100parser.h \
+    lf/parser/include/lf/parsers/hidproxparser.h \
+    lf/parser/include/lf/parsers/awidparser.h \
+    lf/parser/include/lf/parsers/indalaparser.h \
+    lf/parser/include/lf/parsers/ioproxparser.h \
+    lf/parser/include/lf/parsers/fdxbparser.h \
+    lf/parser/include/lf/parsers/paradoxparser.h \
+    lf/parser/include/lf/parsers/keriparser.h \
+    lf/parser/include/lf/parsers/vikingparser.h \
+    lf/parser/include/lf/parsers/pyramidparser.h \
+    lf/parser/include/lf/parsers/nexwatchparser.h \
+    lf/parser/include/lf/parsers/prescoparser.h \
+    lf/parser/include/lf/parsers/nedapparser.h \
+    lf/parser/include/lf/parsers/gproxiiparser.h \
+    lf/parser/include/lf/parsers/gallagherparser.h \
+    lf/parser/include/lf/parsers/pacparser.h \
+    lf/parser/include/lf/parsers/noralsyparser.h \
+    lf/parser/include/lf/parsers/jablotronparser.h \
+    lf/parser/include/lf/parsers/securakeyparser.h \
+    lf/parser/include/lf/parsers/visa2000parser.h \
+    lf/parser/include/lf/parsers/motorolaparser.h \
+    lf/parser/include/lf/parsers/idteckparser.h \
     ui/mf_trailerdecoderdialog.h \
     ui/mf_sim_simdialog.h \
     ui/mf_uid_parameterdialog.h \
