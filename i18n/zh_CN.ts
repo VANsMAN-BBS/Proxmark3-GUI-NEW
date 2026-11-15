@@ -2382,6 +2382,11 @@ It could make the whole sector blocked irreversibly!</source>
         <translation>刷新端口</translation>
     </message>
     <message>
+        <location filename="../src/ui/mainwindow.ui" line="156" />
+        <source>MIFARE</source>
+        <translation>MIFARE</translation>
+    </message>
+    <message>
         <location filename="../src/ui/mainwindow.ui" line="252" />
         <source>Select All</source>
         <translation>全选</translation>
@@ -2531,6 +2536,12 @@ or the communication between a tag and a reader.</source>
         <translation>直接读取低频信号。
 该功能用于获取读卡器的数据
 或者卡片与读卡器的交互过程。</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="1883" />
+        <location filename="../src/ui/mainwindow.cpp" line="61" />
+        <source>T55XX</source>
+        <translation>T55XX</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="1895" />
@@ -2689,6 +2700,11 @@ or the communication between a tag and a reader.</source>
         <translation>下行协议：</translation>
     </message>
     <message>
+        <location filename="../src/ui/mainwindow.ui" line="2422" />
+        <source>T55xx Read Config (Experimental)</source>
+        <translation>T55xx 读取配置（实验性）</translation>
+    </message>
+    <message>
         <location filename="../src/ui/mainwindow.ui" line="2437" />
         <source>Bit Rate:</source>
         <translation>比特率：</translation>
@@ -2736,7 +2752,7 @@ or the communication between a tag and a reader.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2554" />
         <source>Clone to T55xx (Experimental)</source>
-        <translation>克隆到 T55xx（实验）</translation>
+        <translation>克隆到 T55xx（实验性）</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2562" />
@@ -2870,6 +2886,16 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>命令字体：</translation>
     </message>
     <message>
+        <location filename="../src/ui/mainwindow.ui" line="3284" />
+        <source>Original Project:</source>
+        <translation>原项目地址：</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="3312" />
+        <source>This project is based on the original project, with firmware compatibility maintenance and additional features.</source>
+        <translation>本项目基于原项目进行固件兼容维护与新功能增加。</translation>
+    </message>
+    <message>
         <location filename="../src/ui/mainwindow.ui" line="2980" />
         <source>Keep buttons enabled even the client is running or disconnected</source>
         <translation>保持所有按钮可点击，即使未连接客户端或有任务正在运行</translation>
@@ -2877,7 +2903,7 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
     <message>
         <location filename="../src/ui/mainwindow.ui" line="1244" />
         <source>LF</source>
-        <translation>低频</translation>
+        <translation>LF</translation>
     </message>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="1331" />
@@ -3096,6 +3122,16 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>Amiibo</translation>
     </message>
     <message>
+        <location filename="../src/ui/mainwindow.cpp" line="78" />
+        <source>NTAG/UL</source>
+        <translation>NTAG/UL</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="87" />
+        <source>eMRTD</source>
+        <translation>eMRTD</translation>
+    </message>
+    <message>
         <location filename="../src/ui/mainwindow.cpp" line="272" />
         <source>The client path is invalid</source>
         <translation>客户端路径无效</translation>
@@ -3257,6 +3293,16 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <translation>空闲</translation>
     </message>
     <message>
+        <location filename="../src/ui/mainwindow.cpp" line="53" />
+        <source>LF Functions</source>
+        <translation>LF 功能</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="54" />
+        <source>LF Parser</source>
+        <translation>LF 解析</translation>
+    </message>
+    <message>
         <location filename="../src/ui/mainwindow.cpp" line="1260" />
         <source>Stop</source>
         <translation>停止</translation>
@@ -3310,7 +3356,7 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <source>Actural Freq: </source>
         <translation>实际频率： </translation>
     </message>
-<message><source>Low frequency functions</source><translation>低频功能</translation></message><message><source>LF multi-protocol parsing</source><translation>LF 多协议解析</translation></message></context>
+</context>
 <context>
     <name>Mifare</name>
     <message>
@@ -4793,6 +4839,11 @@ Only these user pages are written; UID, CC, lock, OTP, configuration and PWD/PAC
         <translation>快捷启动（NDEF URI）— 实验性</translation>
     </message>
     <message>
+        <location filename="../src/module/ntagtab.cpp" line="403" />
+        <source>NDEF / Quick Launch</source>
+        <translation>NDEF / 快捷启动</translation>
+    </message>
+    <message>
         <location filename="../src/module/ntagtab.cpp" line="574" />
         <location filename="../src/module/ntagtab.cpp" line="1542" />
         <source>%1 (4 bytes/page)</source>
@@ -5461,6 +5512,17 @@ Only these user pages are written; UID, CC, lock, OTP, configuration and PWD/PAC
 <context>
     <name>T55xx</name>
     <message>
+        <location filename="../src/module/t55xx.cpp" line="87" />
+        <source>Not implemented in this build.</source>
+        <translation>此版本未实现。</translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="116" />
+        <location filename="../src/module/t55xx.cpp" line="117" />
+        <source>Experimental. Requires LF-capable firmware; results are not hardware-verified in this build.</source>
+        <translation>实验性：需要支持 LF 的固件；此构建未进行硬件验证。</translation>
+    </message>
+    <message>
         <location filename="../src/module/t55xx.cpp" line="283" />
         <location filename="../src/module/t55xx.cpp" line="327" />
         <location filename="../src/module/t55xx.cpp" line="340" />
@@ -5540,7 +5602,7 @@ Continue?</source>
 
 是否继续？</translation>
     </message>
-<message><source>Not implemented in this version. The control is kept for UI compatibility and is marked Experimental.</source><translation>本版本未实现。该控件仅为界面兼容保留，并标记为实验性。</translation></message></context>
+</context>
 <context>
     <name>T55xxTab</name>
     <message>

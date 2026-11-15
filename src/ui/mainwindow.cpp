@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent):
     dockAllWindows = new QAction(tr("Dock all windows"), this);
     myInfo = new QAction("wh201906", this);
     currVersion = new QAction(tr("Ver: ") + QApplication::applicationVersion().section('.', 0, -2), this); // ignore the 4th version number
-    checkUpdate = new QAction(tr("Check Update"), this);
     connect(dockAllWindows, &QAction::triggered, [ = ]()
     {
         for(int i = 0; i < dockList.size(); i++)
@@ -23,10 +22,6 @@ MainWindow::MainWindow(QWidget *parent):
     connect(myInfo, &QAction::triggered, [ = ]()
     {
         QDesktopServices::openUrl(QUrl("https://github.com/wh201906"));
-    });
-    connect(checkUpdate, &QAction::triggered, [ = ]()
-    {
-        QDesktopServices::openUrl(QUrl("https://github.com/wh201906/Proxmark3GUI/releases"));
     });
 
     settings = new QSettings("GUIsettings.ini", QSettings::IniFormat);
@@ -53,9 +48,18 @@ MainWindow::MainWindow(QWidget *parent):
     {
         const QString lfTitle = ui->funcTab->tabText(lfTabIndex);
         QTabWidget *lfTabs = new QTabWidget(this);
+        lfTabs->setObjectName(QStringLiteral("LF_subTabs"));
         ui->funcTab->removeTab(lfTabIndex);
-        lfTabs->addTab(ui->lfTab, tr("Low frequency functions"));
-        lfTabs->addTab(lfParserTab, tr("LF multi-protocol parsing"));
+        lfTabs->addTab(ui->lfTab, tr("LF Functions"));
+        lfTabs->addTab(lfParserTab, tr("LF Parser"));
+        // T55XX is an LF feature; keep the existing page and widgets intact,
+        // but host it under the LF entry instead of a top-level tab.
+        const int t55xxTabIndex = ui->funcTab->indexOf(ui->t55xxTab);
+        if(t55xxTabIndex >= 0)
+        {
+            ui->funcTab->removeTab(t55xxTabIndex);
+            lfTabs->addTab(ui->t55xxTab, tr("T55XX"));
+        }
         ui->funcTab->insertTab(lfTabIndex, lfTabs, lfTitle);
         connect(lfParserTab, &LfParserTab::clientTextRequested, this, [this]()
         {
@@ -67,10 +71,11 @@ MainWindow::MainWindow(QWidget *parent):
     // Amiibo is an NTAG215 / Type 2 feature, so it lives with the NTAG page.
     // This build has no JTAG implementation, so no JTAG tab is shown.
     QTabWidget *ntagTabs = new QTabWidget(this);
+    ntagTabs->setObjectName(QStringLiteral("NTAG_subTabs"));
     ntagTabs->addTab(ntag, tr("NTAG"));
     amiiboPage = new AmiiboPage(util, pm3, this);
     ntagTabs->addTab(amiiboPage, tr("Amiibo"));
-    ui->funcTab->insertTab(3, ntagTabs, tr("NTAG/Ultralight"));
+    ui->funcTab->insertTab(2, ntagTabs, tr("NTAG/UL"));
 
     connect(amiiboPage, &AmiiboPage::stopRequested, this, [this]()
     {
@@ -79,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent):
 
     emrtdPage = new EMRTDPage(this);
     emrtdReconnect = false;
-    ui->funcTab->insertTab(4, emrtdPage, tr("eMRTD Reader"));
+    ui->funcTab->insertTab(3, emrtdPage, tr("eMRTD"));
     connect(emrtdPage, &EMRTDPage::aboutToRead, this, [this]()
     {
         // Only one process may own the serial port: release ours first.
@@ -129,7 +134,6 @@ MainWindow::MainWindow(QWidget *parent):
     contextMenu->addAction(myInfo);
     currVersion->setEnabled(false);
     contextMenu->addAction(currVersion);
-    contextMenu->addAction(checkUpdate);
 
 }
 

@@ -84,7 +84,7 @@ void T55xx::populateCombos()
 
 void T55xx::disableUnimplementedControls()
 {
-    const QString tip = tr("Not implemented in this version. The control is kept for UI compatibility and is marked Experimental.");
+    const QString tip = tr("Not implemented in this build.");
 
     // T55x7 block 0 fields whose bit mapping is not verified in this build.
     const QList<QWidget *> unsupported = {
@@ -113,8 +113,8 @@ void T55xx::disableUnimplementedControls()
         }
     }
 
-    ui->T55_cloneGroupBox->setToolTip(tr("Experimental. The current firmware has no LF support, so this is not hardware-verified."));
-    ui->groupBox_4->setToolTip(tr("Experimental. Commands are verified against Iceman v4.23346 help, but the attached firmware lacks LF."));
+    ui->T55_cloneGroupBox->setToolTip(tr("Experimental. Requires LF-capable firmware; results are not hardware-verified in this build."));
+    ui->groupBox_4->setToolTip(tr("Experimental. Requires LF-capable firmware; results are not hardware-verified in this build."));
 }
 
 QString T55xx::normalizedHex(const QString &text, int digits)

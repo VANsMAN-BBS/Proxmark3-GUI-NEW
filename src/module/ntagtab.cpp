@@ -29,6 +29,7 @@
 #include <QPalette>
 #include <QPushButton>
 #include <QRegularExpression>
+#include <QScrollArea>
 #include <QSet>
 #include <QSettings>
 #include <QSignalBlocker>
@@ -390,10 +391,24 @@ void NtagTab::buildUi()
     quickStatusLabel->setWordWrap(true);
     quickLayout->addWidget(quickStatusLabel);
 
+    // NDEF display and Quick Launch both operate on the same NDEF area.
+    // Group them under one entry; the two pages and their logic are unchanged.
+    QTabWidget *ndefTabs = new QTabWidget(this);
+    ndefTabs->setObjectName(QStringLiteral("NTAG_ndefTabs"));
+    ndefTabs->addTab(ndefGroup, tr("NDEF"));
+    // Quick Launch has many rows; a scroll area keeps every control reachable
+    // at high DPI or when the dock is short.
+    QScrollArea *quickScroll = new QScrollArea(ndefTabs);
+    quickScroll->setObjectName(QStringLiteral("NTAG_quickScroll"));
+    quickScroll->setWidgetResizable(true);
+    quickScroll->setFrameShape(QFrame::NoFrame);
+    quickScroll->setWidget(quickGroup);
+    ndefTabs->addTab(quickScroll, tr("Quick Launch"));
+
     viewTabs = new QTabWidget(this);
+    viewTabs->setObjectName(QStringLiteral("NTAG_viewTabs"));
     viewTabs->addTab(pagesGroup, tr("Memory"));
-    viewTabs->addTab(ndefGroup, tr("NDEF"));
-    viewTabs->addTab(quickGroup, tr("Quick Launch"));
+    viewTabs->addTab(ndefTabs, tr("NDEF / Quick Launch"));
     mainLayout->addWidget(viewTabs);
 
     m_busyButtons = {readAllButton, refreshButton, readSelectedButton, readPageButton,

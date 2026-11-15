@@ -2395,6 +2395,11 @@ It could make the whole sector blocked irreversibly!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/mainwindow.ui" line="156"/>
+        <source>MIFARE</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/mainwindow.ui" line="252"/>
         <source>Select All</source>
         <translation type="unfinished"></translation>
@@ -2537,6 +2542,12 @@ On Iceman/RRG repo, press the button on PM3 to stop measuring</source>
         <source>Sniff low frequency signal with LF field OFF.
 Use this to get raw data from a reader 
 or the communication between a tag and a reader.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="1883"/>
+        <location filename="../src/ui/mainwindow.cpp" line="61"/>
+        <source>T55XX</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2693,6 +2704,11 @@ or the communication between a tag and a reader.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="2360"/>
         <source>Downlink Protocol:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="2422"/>
+        <source>T55xx Read Config (Experimental)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2877,6 +2893,16 @@ or the communication between a tag and a reader.</source>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="3247"/>
         <source>Command Font:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="3284"/>
+        <source>Original Project:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.ui" line="3312"/>
+        <source>This project is based on the original project, with firmware compatibility maintenance and additional features.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3077,6 +3103,16 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/mainwindow.cpp" line="78"/>
+        <source>NTAG/UL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="87"/>
+        <source>eMRTD</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/mainwindow.cpp" line="272"/>
         <source>The client path is invalid</source>
         <translation type="unfinished"></translation>
@@ -3220,6 +3256,16 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
         <location filename="../src/ui/mainwindow.cpp" line="1258"/>
         <location filename="../src/ui/mainwindow.cpp" line="1522"/>
         <source>Idle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="53"/>
+        <source>LF Functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/mainwindow.cpp" line="54"/>
+        <source>LF Parser</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4148,6 +4194,11 @@ Only 00 00 00 00 is written to confirmed writable user pages. UID, CC, OTP, lock
     <message>
         <location filename="../src/module/ntagtab.cpp" line="329"/>
         <source>Quick Launch (NDEF URI) - Experimental</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/ntagtab.cpp" line="403"/>
+        <source>NDEF / Quick Launch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5397,6 +5448,17 @@ Only user data pages are written. The Capability Container, UID, lock, OTP, conf
 </context>
 <context>
     <name>T55xx</name>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="87"/>
+        <source>Not implemented in this build.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/module/t55xx.cpp" line="116"/>
+        <location filename="../src/module/t55xx.cpp" line="117"/>
+        <source>Experimental. Requires LF-capable firmware; results are not hardware-verified in this build.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../src/module/t55xx.cpp" line="283"/>
         <location filename="../src/module/t55xx.cpp" line="327"/>

@@ -239,7 +239,6 @@ private:
     QAction* dockAllWindows;
     QAction* myInfo;
     QAction* currVersion;
-    QAction* checkUpdate;
     QSettings* settings;
     MyEventFilter* keyEventFilter;
     MyEventFilter* resizeEventFilter;
