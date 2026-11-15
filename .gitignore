@@ -4,3 +4,4 @@
 /deliverables/LF_Parser_Standalone/build*/
 /tests/*/build/
 /tests/lfparser_stage2/stage2-tests.log
+/artifacts/
