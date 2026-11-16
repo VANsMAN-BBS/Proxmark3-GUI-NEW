@@ -1,0 +1,42 @@
+#!/bin/sh
+# Local pre-push audit for Proxmark3-GUI-NEW.
+# Installed via scripts/setup-git-hooks.ps1 (core.hooksPath = .githooks).
+#
+# The audit never edits or deletes files. It only blocks the push and reports
+# what must be removed, sanitized or reviewed.
+
+root="$(git rev-parse --show-toplevel 2>/dev/null)" || exit 0
+script="$root/scripts/git-push-audit.ps1"
+if [ ! -f "$script" ]; then
+    echo "git audit: scripts/git-push-audit.ps1 is missing; push blocked." >&2
+    exit 1
+fi
+
+powershell_bin="powershell.exe"
+if command -v pwsh.exe >/dev/null 2>&1; then
+    powershell_bin="pwsh.exe"
+fi
+
+worst=0
+while read local_ref local_sha remote_ref remote_sha; do
+    [ -z "$local_sha" ] && continue
+    case "$local_sha" in
+        0000000000000000000000000000000000000000) continue ;;
+    esac
+    "$powershell_bin" -NoProfile -ExecutionPolicy Bypass -File "$script" -PrePush -PrePushLine "$local_sha|$remote_sha|$remote_ref"
+    rc=$?
+    if [ "$rc" -gt "$worst" ]; then
+        worst=$rc
+    fi
+done
+
+if [ "$worst" -eq 1 ]; then
+    echo "" >&2
+    echo "git audit: BLOCK - push rejected. Remove or sanitize the listed files." >&2
+elif [ "$worst" -eq 2 ]; then
+    echo "" >&2
+    echo "git audit: REVIEW - push rejected until the listed files are reviewed." >&2
+    echo "Run: powershell -ExecutionPolicy Bypass -File scripts/audit-git-content.ps1" >&2
+fi
+
+exit "$worst"
