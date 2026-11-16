@@ -38,7 +38,8 @@
     "resources/felica/station_codes_legacy.csv",
     "docs/images/",
     ".githooks/",
-    "resources/icons/"
+    "resources/icons/",
+    "resources/felica/station_names_i18n.csv"
   ],
   "block_paths": [
     "artifacts/",
