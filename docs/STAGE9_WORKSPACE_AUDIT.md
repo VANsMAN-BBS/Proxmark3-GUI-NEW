@@ -4,7 +4,7 @@ Date: 2026-11-16
 
 Branch: `upgrade/v0.4.1-polish` @ `3edca79`
 
-Backup: `E:\Opencode_project_Backup_Stage9_20261116_1532` (7,827 files, 720.3 MB)
+Backup: `external backup directory` (7,827 files, 720.3 MB)
 
 ## 1. State before cleanup
 
