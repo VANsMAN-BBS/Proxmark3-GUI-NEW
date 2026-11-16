@@ -34,6 +34,7 @@
 #include "module/emrtd.h"
 #include "module/amiibopage.h"
 #include "module/felicatab.h"
+#include "module/hidseospage.h"
 #include "module/lfparsertab.h"
 #include "common/util.h"
 #include "ui/mf_trailerdecoderdialog.h"
@@ -264,6 +265,7 @@ private:
     EMRTDPage* emrtdPage;
     AmiiboPage* amiiboPage;
     FelicaTab* felicaPage;
+    HidSeosPage* hidSeosPage;
     LfParserTab* lfParserTab;
     bool emrtdReconnect;
     Mifare* mifare;

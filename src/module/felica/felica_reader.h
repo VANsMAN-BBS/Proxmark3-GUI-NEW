@@ -65,6 +65,7 @@ private:
     void poll();
     void requestInfo();
     void enqueueTasks();
+    void enqueueOctopusTask();
     void nextTask();
     void sendReadTask();
     void retryOrFail(const QString &error);
@@ -80,6 +81,7 @@ private:
     ClientSession *m_session = nullptr;
     bool m_running = false;
     bool m_cancelled = false;
+    bool m_octopus = false;
     bool m_retryPending = false;
     Step m_step = Step::Idle;
     quint64 m_pendingId = 0;

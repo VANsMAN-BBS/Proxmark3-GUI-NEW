@@ -239,3 +239,48 @@ int StationTable::entryCount()
     ensureLoaded();
     return m_count;
 }
+
+StationNameMap &StationNameMap::instance()
+{
+    static StationNameMap map;
+    return map;
+}
+
+StationNameMap::StationNameMap() = default;
+
+void StationNameMap::ensureLoaded()
+{
+    if (m_loaded)
+        return;
+    m_loaded = true;
+
+    QFile file(QStringLiteral(":/felica/station_names_i18n.csv"));
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        return;
+
+    QTextStream stream(&file);
+    stream.setCodec("UTF-8");
+    const QVector<QStringList> rows = parseCsv(stream.readAll());
+    for (const QStringList &row : rows)
+    {
+        if (row.size() < 3)
+            continue;
+        const QString ja = row.at(0).trimmed();
+        if (ja.isEmpty() || ja == QStringLiteral("ja"))
+            continue;
+        m_names.insert(ja, qMakePair(row.at(1).trimmed(), row.at(2).trimmed()));
+    }
+}
+
+QString StationNameMap::localized(const QString &japanese, Transit::LabelLanguage language) const
+{
+    const_cast<StationNameMap *>(this)->ensureLoaded();
+    const auto it = m_names.constFind(japanese);
+    if (it == m_names.constEnd())
+        return japanese;
+    if (language == Transit::LabelLanguage::Chinese && !it.value().first.isEmpty())
+        return japanese + QStringLiteral("\uff08") + it.value().first + QStringLiteral("\uff09");
+    if (language == Transit::LabelLanguage::English && !it.value().second.isEmpty())
+        return japanese + QStringLiteral(" (") + it.value().second + QStringLiteral(")");
+    return japanese;
+}

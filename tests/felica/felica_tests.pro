@@ -15,7 +15,8 @@ SOURCES += \
     $$MODULE/cjrc_profile.cpp \
     $$MODULE/station_table.cpp \
     $$MODULE/code_tables.cpp \
-    $$MODULE/felica_exporter.cpp
+    $$MODULE/felica_exporter.cpp \
+    $$MODULE/octopus_parser.cpp
 
 HEADERS += \
     $$MODULE/cjrc_profile.h \
@@ -23,7 +24,8 @@ HEADERS += \
     $$MODULE/code_tables.h \
     $$MODULE/transit_types.h \
     $$MODULE/felica_chunks.h \
-    $$MODULE/felica_exporter.h
+    $$MODULE/felica_exporter.h \
+    $$MODULE/octopus_parser.h
 
 RESOURCES += $$PWD/../../resources/felica/felica.qrc
 

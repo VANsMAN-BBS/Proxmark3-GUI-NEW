@@ -16,6 +16,13 @@
  */
 namespace Transit {
 
+enum class LabelLanguage
+{
+    Japanese,
+    Chinese,
+    English,
+};
+
 enum class ParseStatus
 {
     Ok,
@@ -77,6 +84,9 @@ struct BalanceInfo
     QString currency;          // "JPY"
     QString sourceService;     // "0x008B"
     int confidence = 0;        // 0..100
+    bool hasDeposit = false;
+    qint64 deposit = 0;        // minor units
+    qint64 totalWithDeposit = 0;
     QByteArray raw;
 };
 

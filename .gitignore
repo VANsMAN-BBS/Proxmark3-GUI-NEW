@@ -13,6 +13,7 @@
 
 # Local release/test artifacts (published releases stay on GitHub Releases)
 /artifacts/latest/
+/artifacts/release/
 /artifacts/temp/
 /artifacts/test/logs/
 /artifacts/test/coverage/

@@ -3356,6 +3356,10 @@ The "&lt;client dir&gt;" will be replaced by the directory of the "Client Path"<
         <source>Actural Freq: </source>
         <translation>实际频率： </translation>
     </message>
+    <message>
+        <source>HID SEOS</source>
+        <translation>HID SEOS</translation>
+    </message>
 </context>
 <context>
     <name>Mifare</name>
@@ -6008,6 +6012,14 @@ Exit</source>
         <source>Raw data</source>
         <translation>原始数据</translation>
     </message>
+    <message>
+        <source>Including Deposit: %1</source>
+        <translation>含押金金额：%1</translation>
+    </message>
+    <message>
+        <source>Deposit: %1</source>
+        <translation>其中押金：%1</translation>
+    </message>
 </context>
 <context>
     <name>FelicaReader</name>
@@ -6097,6 +6109,700 @@ Exit</source>
     <message>
         <source>FeliCa</source>
         <translation>FeliCa</translation>
+    </message>
+</context>
+<context>
+    <name>HidSeosPage</name>
+    <message>
+        <source>Read Card</source>
+        <translation>读取卡片</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Export JSON</source>
+        <translation>导出 JSON</translation>
+    </message>
+    <message>
+        <source>Export CSV</source>
+        <translation>导出 CSV</translation>
+    </message>
+    <message>
+        <source>Clear View</source>
+        <translation>清空视图</translation>
+    </message>
+    <message>
+        <source>Balance</source>
+        <translation>余额</translation>
+    </message>
+    <message>
+        <source>Card type:</source>
+        <translation>卡片类型：</translation>
+    </message>
+    <message>
+        <source>Card kind:</source>
+        <translation>卡片类别：</translation>
+    </message>
+    <message>
+        <source>UID:</source>
+        <translation>UID：</translation>
+    </message>
+    <message>
+        <source>CSN:</source>
+        <translation>CSN（卡号）：</translation>
+    </message>
+    <message>
+        <source>Issuer:</source>
+        <translation>发卡方：</translation>
+    </message>
+    <message>
+        <source>User type:</source>
+        <translation>用户类型：</translation>
+    </message>
+    <message>
+        <source>Issued:</source>
+        <translation>发行日期：</translation>
+    </message>
+    <message>
+        <source>Expires:</source>
+        <translation>有效期至：</translation>
+    </message>
+    <message>
+        <source>Protocol:</source>
+        <translation>协议：</translation>
+    </message>
+    <message>
+        <source>Period pass</source>
+        <translation>定期券</translation>
+    </message>
+    <message>
+        <source>Valid:</source>
+        <translation>有效期：</translation>
+    </message>
+    <message>
+        <source>Days:</source>
+        <translation>天数：</translation>
+    </message>
+    <message>
+        <source>Product code:</source>
+        <translation>产品代码：</translation>
+    </message>
+    <message>
+        <source>Status:</source>
+        <translation>状态：</translation>
+    </message>
+    <message>
+        <source>Date calibration:</source>
+        <translation>日期校准：</translation>
+    </message>
+    <message>
+        <source>Connect the Proxmark3 client, then press Read Card.</source>
+        <translation>请先连接 Proxmark3 客户端，然后点击“读取卡片”。</translation>
+    </message>
+    <message>
+        <source>#</source>
+        <translation>#</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>日期</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>时间</translation>
+    </message>
+    <message>
+        <source>Event</source>
+        <translation>事件</translation>
+    </message>
+    <message>
+        <source>Transport</source>
+        <translation>交通方式</translation>
+    </message>
+    <message>
+        <source>Counter</source>
+        <translation>计数器</translation>
+    </message>
+    <message>
+        <source>Journey</source>
+        <translation>行程</translation>
+    </message>
+    <message>
+        <source>Recorded fare (KRW)</source>
+        <translation>记录运费（KRW）</translation>
+    </message>
+    <message>
+        <source>Distance (m)</source>
+        <translation>距离（米）</translation>
+    </message>
+    <message>
+        <source>Select a tap to inspect its fields; double-click for details.</source>
+        <translation>选择一条刷卡记录以查看字段；双击查看详情。</translation>
+    </message>
+    <message>
+        <source>Transactions</source>
+        <translation>刷卡记录</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>开始</translation>
+    </message>
+    <message>
+        <source>End</source>
+        <translation>结束</translation>
+    </message>
+    <message>
+        <source>Legs</source>
+        <translation>路段</translation>
+    </message>
+    <message>
+        <source>Taps</source>
+        <translation>刷卡次数</translation>
+    </message>
+    <message>
+        <source>Select a journey to inspect the merged transfer legs.</source>
+        <translation>选择一段行程以查看合并的换乘路段。</translation>
+    </message>
+    <message>
+        <source>Grouped trips</source>
+        <translation>合并行程</translation>
+    </message>
+    <message>
+        <source>SFI</source>
+        <translation>SFI</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>类型</translation>
+    </message>
+    <message>
+        <source>Balance (KRW)</source>
+        <translation>余额（KRW）</translation>
+    </message>
+    <message>
+        <source>Sequence</source>
+        <translation>序号</translation>
+    </message>
+    <message>
+        <source>Fare (KRW)</source>
+        <translation>运费（KRW）</translation>
+    </message>
+    <message>
+        <source>Marker</source>
+        <translation>标记</translation>
+    </message>
+    <message>
+        <source>Terminal</source>
+        <translation>终端</translation>
+    </message>
+    <message>
+        <source>Select a record to inspect its fields; double-click for details.</source>
+        <translation>选择一条记录以查看字段；双击查看详情。</translation>
+    </message>
+    <message>
+        <source>Financial records</source>
+        <translation>金额记录</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation>文件</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>记录</translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation>长度</translation>
+    </message>
+    <message>
+        <source>Data (hex)</source>
+        <translation>数据（十六进制）</translation>
+    </message>
+    <message>
+        <source>Raw data</source>
+        <translation>原始数据</translation>
+    </message>
+    <message>
+        <source>Proxmark3 client is not connected.</source>
+        <translation>Proxmark3 客户端未连接。</translation>
+    </message>
+    <message>
+        <source>Cleared. Press Read Card to read the card again.</source>
+        <translation>已清空。点击“读取卡片”重新读取。</translation>
+    </message>
+    <message>
+        <source>Starting read...</source>
+        <translation>开始读取...</translation>
+    </message>
+    <message>
+        <source>Cancelling...</source>
+        <translation>正在取消...</translation>
+    </message>
+    <message>
+        <source>Read cancelled; showing partial data.</source>
+        <translation>已取消读取，显示部分数据。</translation>
+    </message>
+    <message>
+        <source>Read finished with warnings; some records may be missing.</source>
+        <translation>读取结束但有警告；部分记录可能缺失。</translation>
+    </message>
+    <message>
+        <source>Read complete.</source>
+        <translation>读取完成。</translation>
+    </message>
+    <message>
+        <source>partial</source>
+        <translation>部分</translation>
+    </message>
+    <message>
+        <source>%1 warning(s)</source>
+        <translation>%1 条警告</translation>
+    </message>
+    <message>
+        <source>Unknown (%1)</source>
+        <translation>未知（%1）</translation>
+    </message>
+    <message>
+        <source>T-money</source>
+        <translation>T-money</translation>
+    </message>
+    <message>
+        <source>Climate Card</source>
+        <translation>Climate Card（定期券）</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>未知</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>不适用</translation>
+    </message>
+    <message>
+        <source>Stored balance returned by GET BALANCE (90 4C).</source>
+        <translation>GET BALANCE (90 4C) 返回的存储余额。</translation>
+    </message>
+    <message>
+        <source>%1 (%2 day(s), verified)</source>
+        <translation>%1（%2 天，已验证）</translation>
+    </message>
+    <message>
+        <source>%1 (community default)</source>
+        <translation>%1（社区默认值）</translation>
+    </message>
+    <message>
+        <source>ATQA: %1</source>
+        <translation>ATQA：%1</translation>
+    </message>
+    <message>
+        <source>SAK: %1</source>
+        <translation>SAK：%1</translation>
+    </message>
+    <message>
+        <source>ATS: %1</source>
+        <translation>ATS：%1</translation>
+    </message>
+    <message>
+        <source>%1 day(s)</source>
+        <translation>%1 天</translation>
+    </message>
+    <message>
+        <source>Stored product bytes: %1; their semantics are not publicly documented.</source>
+        <translation>产品原始字节：%1；其含义未公开。</translation>
+    </message>
+    <message>
+        <source>card-read event</source>
+        <translation>读卡事件</translation>
+    </message>
+    <message>
+        <source>Unknown SFI</source>
+        <translation>未知 SFI</translation>
+    </message>
+    <message>
+        <source>boarding</source>
+        <translation>上车</translation>
+    </message>
+    <message>
+        <source>alighting</source>
+        <translation>下车</translation>
+    </message>
+    <message>
+        <source>bus</source>
+        <translation>公交</translation>
+    </message>
+    <message>
+        <source>metro</source>
+        <translation>地铁</translation>
+    </message>
+    <message>
+        <source>train</source>
+        <translation>列车</translation>
+    </message>
+    <message>
+        <source>transit</source>
+        <translation>交通</translation>
+    </message>
+    <message>
+        <source>top-up</source>
+        <translation>充值</translation>
+    </message>
+    <message>
+        <source>SFI 3 record #%1</source>
+        <translation>SFI 3 记录 #%1</translation>
+    </message>
+    <message>
+        <source>Date: %1  Time: %2 (second %3)</source>
+        <translation>日期：%1  时间：%2（秒 %3）</translation>
+    </message>
+    <message>
+        <source>Event: %1 (%2)</source>
+        <translation>事件：%1（%2）</translation>
+    </message>
+    <message>
+        <source>Transport: %1 (%2)</source>
+        <translation>交通方式：%1（%2）</translation>
+    </message>
+    <message>
+        <source>Journey counter: %1</source>
+        <translation>行程计数器：%1</translation>
+    </message>
+    <message>
+        <source>Journey fare (recorded): %1</source>
+        <translation>行程运费（记录值）：%1</translation>
+    </message>
+    <message>
+        <source>Leg base fare: %1</source>
+        <translation>单段基础运费：%1</translation>
+    </message>
+    <message>
+        <source>Fare field 22: %1</source>
+        <translation>字段 22 运费：%1</translation>
+    </message>
+    <message>
+        <source>Distance: %1 m</source>
+        <translation>距离：%1 米</translation>
+    </message>
+    <message>
+        <source>Station / terminal: %1</source>
+        <translation>车站 / 终端：%1</translation>
+    </message>
+    <message>
+        <source>Device: %1</source>
+        <translation>设备：%1</translation>
+    </message>
+    <message>
+        <source>Surcharge: %1</source>
+        <translation>加价：%1</translation>
+    </message>
+    <message>
+        <source>Packed timestamp: %1 (day %2)</source>
+        <translation>打包时间戳：%1（天计数 %2）</translation>
+    </message>
+    <message>
+        <source>Community-epoch time: %1</source>
+        <translation>社区 epoch 时间：%1</translation>
+    </message>
+    <message>
+        <source>Calibrated time: %1</source>
+        <translation>校准后时间：%1</translation>
+    </message>
+    <message>
+        <source>Recorded fare is a gate-written nominal amount; the pass may cover it.</source>
+        <translation>记录运费是闸机写入的名义金额；定期券可能已覆盖。</translation>
+    </message>
+    <message>
+        <source>Raw: %1</source>
+        <translation>原始数据：%1</translation>
+    </message>
+    <message>
+        <source>Grouped journey (counter %1)</source>
+        <translation>合并行程（计数器 %1）</translation>
+    </message>
+    <message>
+        <source>Date: %1  Start: %2  End: %3</source>
+        <translation>日期：%1  开始：%2  结束：%3</translation>
+    </message>
+    <message>
+        <source>Taps: %1</source>
+        <translation>刷卡次数：%1</translation>
+    </message>
+    <message>
+        <source>Recorded journey fare: %1</source>
+        <translation>记录行程运费：%1</translation>
+    </message>
+    <message>
+        <source>Legs:</source>
+        <translation>路段：</translation>
+    </message>
+    <message>
+        <source>  %1. %2 %3 → %4  base %5  distance %6 m</source>
+        <translation>  %1. %2 %3 → %4  基础 %5  距离 %6 米</translation>
+    </message>
+    <message>
+        <source>Taps in this journey:</source>
+        <translation>本次行程的刷卡记录：</translation>
+    </message>
+    <message>
+        <source>  #%1 %2 %3 %4 — %5</source>
+        <translation>  #%1 %2 %3 %4 — %5</translation>
+    </message>
+    <message>
+        <source>Transfer legs share one journey counter; their amounts are cumulative, not repeated charges.</source>
+        <translation>换乘路段共享同一行程计数器；金额为累计值，不是重复扣费。</translation>
+    </message>
+    <message>
+        <source>SFI %1 record #%2</source>
+        <translation>SFI %1 记录 #%2</translation>
+    </message>
+    <message>
+        <source>Type: card-read event</source>
+        <translation>类型：读卡事件</translation>
+    </message>
+    <message>
+        <source>Type: %1 (%2)</source>
+        <translation>类型：%1（%2）</translation>
+    </message>
+    <message>
+        <source>Balance after: %1</source>
+        <translation>交易后余额：%1</translation>
+    </message>
+    <message>
+        <source>Sequence: %1</source>
+        <translation>序号：%1</translation>
+    </message>
+    <message>
+        <source>Fare: %1</source>
+        <translation>运费：%1</translation>
+    </message>
+    <message>
+        <source>Marker: %1</source>
+        <translation>标记：%1</translation>
+    </message>
+    <message>
+        <source>Terminal: %1</source>
+        <translation>终端：%1</translation>
+    </message>
+    <message>
+        <source>BCD date/time: %1</source>
+        <translation>BCD 日期/时间：%1</translation>
+    </message>
+    <message>
+        <source>Note: marker 0x0720 is a card-read / initialization event, not a purchase.</source>
+        <translation>注意：标记 0x0720 是读卡/初始化事件，不是消费。</translation>
+    </message>
+    <message>
+        <source>Note: marker 0x0000 is a top-up record.</source>
+        <translation>注意：标记 0x0000 是充值记录。</translation>
+    </message>
+    <message>
+        <source>Trip record #%1</source>
+        <translation>刷卡记录 #%1</translation>
+    </message>
+    <message>
+        <source>Grouped journey %1</source>
+        <translation>合并行程 %1</translation>
+    </message>
+    <message>
+        <source>SFI 11 record #%1</source>
+        <translation>SFI 11 记录 #%1</translation>
+    </message>
+    <message>
+        <source>JSON files (*.json)</source>
+        <translation>JSON 文件 (*.json)</translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation>导出失败</translation>
+    </message>
+    <message>
+        <source>Exported JSON: %1</source>
+        <translation>已导出 JSON：%1</translation>
+    </message>
+    <message>
+        <source>CSV files (*.csv)</source>
+        <translation>CSV 文件 (*.csv)</translation>
+    </message>
+    <message>
+        <source>Exported CSV: %1, %2</source>
+        <translation>已导出 CSV：%1、%2</translation>
+    </message>
+</context>
+<context>
+    <name>HidSeos::SeosReader</name>
+    <message>
+        <source>Proxmark3 client is not connected.</source>
+        <translation>Proxmark3 客户端未连接。</translation>
+    </message>
+    <message>
+        <source>Detecting an ISO14443-A card...</source>
+        <translation>正在检测 ISO14443-A 卡片...</translation>
+    </message>
+    <message>
+        <source>Selecting the T-money application (D4100000030001)...</source>
+        <translation>正在选择 T-money 应用（D4100000030001）...</translation>
+    </message>
+    <message>
+        <source>Reading the stored balance...</source>
+        <translation>正在读取存储余额...</translation>
+    </message>
+    <message>
+        <source>Reading the period-pass record (SFI 7)...</source>
+        <translation>正在读取定期券记录（SFI 7）...</translation>
+    </message>
+    <message>
+        <source>Reading trip records (SFI 3, %1/%2)...</source>
+        <translation>正在读取乘车记录（SFI 3，%1/%2）...</translation>
+    </message>
+    <message>
+        <source>Reading financial records (SFI 4, %1/%2)...</source>
+        <translation>正在读取金额记录（SFI 4，%1/%2）...</translation>
+    </message>
+    <message>
+        <source>Reading top-up records (SFI 5, %1/%2)...</source>
+        <translation>正在读取充值记录（SFI 5，%1/%2）...</translation>
+    </message>
+    <message>
+        <source>Reading card-read events (SFI 11, %1/%2)...</source>
+        <translation>正在读取读卡事件（SFI 11，%1/%2）...</translation>
+    </message>
+    <message>
+        <source>Reading the auxiliary file (SFI 13)...</source>
+        <translation>正在读取辅助文件（SFI 13）...</translation>
+    </message>
+    <message>
+        <source>Card not ready (%1). Retrying %2/%3...</source>
+        <translation>卡片未就绪（%1）。重试 %2/%3...</translation>
+    </message>
+    <message>
+        <source>No ISO14443-A card detected.</source>
+        <translation>未检测到 ISO14443-A 卡片。</translation>
+    </message>
+    <message>
+        <source>Card did not answer SELECT (%1). Retrying...</source>
+        <translation>卡片未响应 SELECT（%1）。正在重试...</translation>
+    </message>
+    <message>
+        <source>The card did not respond to SELECT AID.</source>
+        <translation>卡片未响应 SELECT AID。</translation>
+    </message>
+    <message>
+        <source>Card detected: %1</source>
+        <translation>已检测到卡片：%1</translation>
+    </message>
+    <message>
+        <source>No ISO14443-A card detected (the detection command timed out).</source>
+        <translation>未检测到 ISO14443-A 卡片（检测命令超时）。</translation>
+    </message>
+    <message>
+        <source>no UID in the client output</source>
+        <translation>客户端输出中没有 UID</translation>
+    </message>
+    <message>
+        <source>no APDU response</source>
+        <translation>没有 APDU 响应</translation>
+    </message>
+    <message>
+        <source>This is not a T-money / KS X 6924 card (SELECT AID returned %1).</source>
+        <translation>这不是 T-money / KS X 6924 卡片（SELECT AID 返回 %1）。</translation>
+    </message>
+    <message>
+        <source>The SELECT response does not contain a valid 47-byte PurseInfo.</source>
+        <translation>SELECT 响应中没有有效的 47 字节 PurseInfo。</translation>
+    </message>
+    <message>
+        <source>GET BALANCE did not return a response.</source>
+        <translation>GET BALANCE 没有返回响应。</translation>
+    </message>
+    <message>
+        <source>GET BALANCE returned %1.</source>
+        <translation>GET BALANCE 返回 %1。</translation>
+    </message>
+    <message>
+        <source>SFI 7 did not return a response.</source>
+        <translation>SFI 7 没有返回响应。</translation>
+    </message>
+    <message>
+        <source>SFI 7 returned %1; no period pass is shown.</source>
+        <translation>SFI 7 返回 %1；不显示定期券。</translation>
+    </message>
+    <message>
+        <source>The card stopped responding during the SFI 3 read.</source>
+        <translation>读取 SFI 3 时卡片停止响应。</translation>
+    </message>
+    <message>
+        <source>SFI 3 is not a record file (%1).</source>
+        <translation>SFI 3 不是记录文件（%1）。</translation>
+    </message>
+    <message>
+        <source>SFI 3 record %1 returned %2.</source>
+        <translation>SFI 3 记录 %1 返回 %2。</translation>
+    </message>
+    <message>
+        <source>The card stopped responding during the SFI 4 read.</source>
+        <translation>读取 SFI 4 时卡片停止响应。</translation>
+    </message>
+    <message>
+        <source>SFI 4 returned %1; the series was stopped.</source>
+        <translation>SFI 4 返回 %1；已停止该序列。</translation>
+    </message>
+    <message>
+        <source>The card stopped responding during the SFI 5 read.</source>
+        <translation>读取 SFI 5 时卡片停止响应。</translation>
+    </message>
+    <message>
+        <source>SFI 5 returned %1; the series was stopped.</source>
+        <translation>SFI 5 返回 %1；已停止该序列。</translation>
+    </message>
+    <message>
+        <source>The card stopped responding during the SFI 11 read.</source>
+        <translation>读取 SFI 11 时卡片停止响应。</translation>
+    </message>
+    <message>
+        <source>SFI 11 returned %1; the series was stopped.</source>
+        <translation>SFI 11 返回 %1；已停止该序列。</translation>
+    </message>
+    <message>
+        <source>SFI 13 did not return a response.</source>
+        <translation>SFI 13 没有返回响应。</translation>
+    </message>
+    <message>
+        <source>SFI 13 returned %1.</source>
+        <translation>SFI 13 返回 %1。</translation>
+    </message>
+    <message>
+        <source>Read cancelled.</source>
+        <translation>已取消读取。</translation>
+    </message>
+    <message>
+        <source>Read complete.</source>
+        <translation>读取完成。</translation>
+    </message>
+    <message>
+        <source>The SFI 7 record could not be parsed as a 27-byte period pass.</source>
+        <translation>SFI 7 记录无法解析为 27 字节定期券。</translation>
+    </message>
+    <message>
+        <source>Card type 0xB5 was read, but the SFI 7 pass is missing or invalid; the card is shown as unknown instead of Climate Card.</source>
+        <translation>读到卡片类型 0xB5，但 SFI 7 定期券缺失或无效；按未知卡片显示，不标记为 Climate Card。</translation>
+    </message>
+    <message>
+        <source>Unknown card type %1; decoded values are shown without an interpretation.</source>
+        <translation>未知卡片类型 %1；仅显示解码值，不做解释。</translation>
+    </message>
+    <message>
+        <source>Climate Card does not support GET BALANCE (90 4C returns 6D00).</source>
+        <translation>Climate Card 不支持 GET BALANCE（90 4C 返回 6D00）。</translation>
+    </message>
+    <message>
+        <source>Balance is not available for this Climate Card (status %1).</source>
+        <translation>该 Climate Card 不提供余额（状态 %1）。</translation>
+    </message>
+    <message>
+        <source>The card does not support GET BALANCE (90 4C returns 6D00).</source>
+        <translation>该卡不支持 GET BALANCE（90 4C 返回 6D00）。</translation>
     </message>
 </context>
 </TS>

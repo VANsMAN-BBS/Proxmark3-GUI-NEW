@@ -62,6 +62,8 @@ private:
     QString candidateText(const Transit::StationInfo &station) const;
     QString tableCell(const Transit::StationInfo &station) const;
     QString timestampOf(const Transit::TransactionRecord &record) const;
+    Transit::LabelLanguage uiLanguage() const;
+    QString localizedStationName(const QString &japanese) const;
 
     Util *m_util = nullptr;
     ClientSession *m_session = nullptr;
@@ -77,6 +79,7 @@ private:
     QLabel *m_statusLabel = nullptr;
     QLabel *m_balanceLabel = nullptr;
     QLabel *m_balanceCaption = nullptr;
+    QLabel *m_depositLabel = nullptr;
     QLabel *m_cardTypeValue = nullptr;
     QLabel *m_cardIdValue = nullptr;
     QLabel *m_pmmValue = nullptr;

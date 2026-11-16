@@ -155,29 +155,114 @@ const QHash<int, QPair<QString, int> > &serviceTable()
 
 } // namespace
 
-QString equipmentLabel(int code)
+QString equipmentLabel(int code, Transit::LabelLanguage language)
 {
-    return equipmentTable().value(code, unknown("Unknown equipment", code));
+    if (language == Transit::LabelLanguage::Japanese)
+        return equipmentTable().value(code, unknown("Unknown equipment", code));
+    const bool zh = (language == Transit::LabelLanguage::Chinese);
+    switch (code)
+    {
+    case 0x00: return zh ? QStringLiteral("未定义") : QStringLiteral("Undefined");
+    case 0x05: return zh ? QStringLiteral("公交车载机") : QStringLiteral("Bus onboard terminal");
+    case 0x07: return zh ? QStringLiteral("发卡机") : QStringLiteral("Card vending machine");
+    case 0x08: return zh ? QStringLiteral("自动售票机") : QStringLiteral("Ticket vending machine");
+    case 0x16: return zh ? QStringLiteral("自动检票机") : QStringLiteral("Automatic ticket gate");
+    case 0x17: return zh ? QStringLiteral("简易检票机") : QStringLiteral("Simplified ticket gate");
+    case 0x1B: return zh ? QStringLiteral("移动 FeliCa") : QStringLiteral("Mobile FeliCa");
+    case 0x1D: return zh ? QStringLiteral("换乘自动检票机") : QStringLiteral("Transfer ticket gate");
+    case 0x1F: return zh ? QStringLiteral("充值机") : QStringLiteral("Top-up machine");
+    case 0xC7: return zh ? QStringLiteral("销售终端 (POS)") : QStringLiteral("Point-of-sale terminal");
+    case 0xC8: return zh ? QStringLiteral("自动售货机") : QStringLiteral("Vending machine");
+    case 0xC9: return zh ? QStringLiteral("非规范终端 (0xC9)") : QStringLiteral("Non-standard terminal (0xC9)");
+    case 0xCA: return zh ? QStringLiteral("非规范终端 (0xCA)") : QStringLiteral("Non-standard terminal (0xCA)");
+    default: break;
+    }
+    return zh ? QStringLiteral("未知终端 (0x%1)").arg(QString::number(code, 16).toUpper().rightJustified(2, QLatin1Char('0')))
+              : QStringLiteral("Unknown terminal (0x%1)").arg(QString::number(code, 16).toUpper().rightJustified(2, QLatin1Char('0')));
 }
 
-QString transactionLabel(int code)
+QString transactionLabel(int code, Transit::LabelLanguage language)
 {
-    return transactionTable().value(code & 0x7F, unknown("Unknown transaction", code & 0x7F));
+    const int value = code & 0x7F;
+    if (language == Transit::LabelLanguage::Japanese)
+        return transactionTable().value(value, unknown("Unknown transaction", value));
+    const bool zh = (language == Transit::LabelLanguage::Chinese);
+    switch (value)
+    {
+    case 0x00: return zh ? QStringLiteral("未定义") : QStringLiteral("Undefined");
+    case 0x01: return zh ? QStringLiteral("自动检票机出场（支付车费）") : QStringLiteral("Automatic gate exit (fare payment)");
+    case 0x02: return zh ? QStringLiteral("SF 充值") : QStringLiteral("SF top-up");
+    case 0x05: return zh ? QStringLiteral("超程补票") : QStringLiteral("Fare adjustment");
+    case 0x0D: return zh ? QStringLiteral("公交均一票价") : QStringLiteral("Bus flat fare");
+    case 0x0F: return zh ? QStringLiteral("公交") : QStringLiteral("Bus");
+    case 0x13: return zh ? QStringLiteral("票价出场") : QStringLiteral("Fare exit");
+    case 0x14: return zh ? QStringLiteral("自动充值") : QStringLiteral("Auto top-up");
+    case 0x46: return zh ? QStringLiteral("购物") : QStringLiteral("Purchase");
+    case 0x48: return zh ? QStringLiteral("积分充值") : QStringLiteral("Points top-up");
+    case 0x4A: return zh ? QStringLiteral("购物取消") : QStringLiteral("Purchase cancellation");
+    case 0x4B: return zh ? QStringLiteral("入场・购物") : QStringLiteral("Entry / purchase");
+    default: break;
+    }
+    return zh ? QStringLiteral("未知交易类型 (0x%1)").arg(QString::number(value, 16).toUpper().rightJustified(2, QLatin1Char('0')))
+              : QStringLiteral("Unknown transaction (0x%1)").arg(QString::number(value, 16).toUpper().rightJustified(2, QLatin1Char('0')));
 }
 
-QString paymentLabel(int code)
+QString paymentLabel(int code, Transit::LabelLanguage language)
 {
-    return paymentTable().value(code, unknown("Unknown payment", code));
+    if (language == Transit::LabelLanguage::Japanese)
+        return paymentTable().value(code, unknown("Unknown payment", code));
+    const bool zh = (language == Transit::LabelLanguage::Chinese);
+    switch (code)
+    {
+    case 0x00: return zh ? QStringLiteral("现金 / 无") : QStringLiteral("Cash / None");
+    case 0x02: return QStringLiteral("VIEW");
+    case 0x0B: return QStringLiteral("PiTaPa");
+    case 0x0D: return zh ? QStringLiteral("PASMO 自动充值") : QStringLiteral("PASMO auto top-up");
+    case 0x3F: return zh ? QStringLiteral("Mobile Suica（非 VIEW）") : QStringLiteral("Mobile Suica (non-VIEW)");
+    default: break;
+    }
+    return zh ? QStringLiteral("未知支付方式 (0x%1)").arg(QString::number(code, 16).toUpper().rightJustified(2, QLatin1Char('0')))
+              : QStringLiteral("Unknown payment (0x%1)").arg(QString::number(code, 16).toUpper().rightJustified(2, QLatin1Char('0')));
 }
 
-QString gateInstructionLabel(int code)
+QString gateInstructionLabel(int code, Transit::LabelLanguage language)
 {
-    return gateInstructionTable().value(code, unknown("Unknown gate instruction", code));
+    if (language == Transit::LabelLanguage::Japanese)
+        return gateInstructionTable().value(code, unknown("Unknown gate instruction", code));
+    const bool zh = (language == Transit::LabelLanguage::Chinese);
+    switch (code)
+    {
+    case 0x00: return zh ? QStringLiteral("不适用 / 未定义") : QStringLiteral("Not applicable / undefined");
+    case 0x01: return zh ? QStringLiteral("入场") : QStringLiteral("Entry");
+    case 0x02: return zh ? QStringLiteral("入场 / 出场") : QStringLiteral("Entry / Exit");
+    case 0x03: return zh ? QStringLiteral("定期入场 / 出场") : QStringLiteral("Commuter pass entry / exit");
+    case 0x04: return zh ? QStringLiteral("入场 / 定期出场") : QStringLiteral("Entry / commuter pass exit");
+    case 0x05: return zh ? QStringLiteral("未公开（推测为换乘 / 联络）") : QStringLiteral("Undisclosed (transfer assumed)");
+    case 0x0E: return zh ? QStringLiteral("窗口出场") : QStringLiteral("Staffed gate exit");
+    case 0x0F: return zh ? QStringLiteral("入场 / 出场（公交）") : QStringLiteral("Entry / Exit (bus)");
+    default: break;
+    }
+    return zh ? QStringLiteral("未知改札处理 (0x%1)").arg(QString::number(code, 16).toUpper().rightJustified(2, QLatin1Char('0')))
+              : QStringLiteral("Unknown gate instruction (0x%1)").arg(QString::number(code, 16).toUpper().rightJustified(2, QLatin1Char('0')));
 }
 
-QString gateInOutLabel(int code)
+QString gateInOutLabel(int code, Transit::LabelLanguage language)
 {
-    return gateInOutTable().value(code, unknown("Unknown gate type", code));
+    if (language == Transit::LabelLanguage::Japanese)
+        return gateInOutTable().value(code, unknown("Unknown gate type", code));
+    const bool zh = (language == Transit::LabelLanguage::Chinese);
+    switch (code)
+    {
+    case 0x00: return zh ? QStringLiteral("精算出场") : QStringLiteral("Fare adjustment exit");
+    case 0x20: return zh ? QStringLiteral("出场") : QStringLiteral("Exit");
+    case 0x21: return zh ? QStringLiteral("站务设备出场") : QStringLiteral("Staffed equipment exit");
+    case 0x40: return zh ? QStringLiteral("定期出场") : QStringLiteral("Commuter pass exit");
+    case 0xA0: return zh ? QStringLiteral("入场") : QStringLiteral("Entry");
+    case 0xC0: return zh ? QStringLiteral("定期入场") : QStringLiteral("Commuter pass entry");
+    default: break;
+    }
+    return zh ? QStringLiteral("未知改札类型 (0x%1)").arg(QString::number(code, 16).toUpper().rightJustified(2, QLatin1Char('0')))
+              : QStringLiteral("Unknown gate type (0x%1)").arg(QString::number(code, 16).toUpper().rightJustified(2, QLatin1Char('0')));
 }
 
 QString intermediateGateLabel(int code)

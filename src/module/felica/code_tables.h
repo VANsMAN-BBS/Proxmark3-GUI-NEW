@@ -14,11 +14,11 @@
  */
 namespace FelicaCodes {
 
-QString equipmentLabel(int code);
-QString transactionLabel(int code);
-QString paymentLabel(int code);
-QString gateInstructionLabel(int code);
-QString gateInOutLabel(int code);
+QString equipmentLabel(int code, Transit::LabelLanguage language = Transit::LabelLanguage::Japanese);
+QString transactionLabel(int code, Transit::LabelLanguage language = Transit::LabelLanguage::Japanese);
+QString paymentLabel(int code, Transit::LabelLanguage language = Transit::LabelLanguage::Japanese);
+QString gateInstructionLabel(int code, Transit::LabelLanguage language = Transit::LabelLanguage::Japanese);
+QString gateInOutLabel(int code, Transit::LabelLanguage language = Transit::LabelLanguage::Japanese);
 QString intermediateGateLabel(int code);
 QString regionLabel(int area);
 

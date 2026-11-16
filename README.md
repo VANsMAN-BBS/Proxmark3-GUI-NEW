@@ -141,15 +141,15 @@ The 256 KB test firmware is a specific device configuration. Its missing LF supp
 
 ## Download and installation
 
-### Windows x64 — v0.4.1
+### Windows x64 — v0.5.0
 
-- [GitHub Release v0.4.1](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/tag/v0.4.1)
-- [Proxmark3-GUI-v0.4.1-win-x64.zip](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.4.1/Proxmark3-GUI-v0.4.1-win-x64.zip)
-- [SHA256SUMS.txt](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.4.1/SHA256SUMS.txt)
+- [GitHub Release v0.4.1](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/tag/v0.5.0)
+- [Proxmark3-GUI-v0.5.0-win-x64.zip](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.5.0/Proxmark3-GUI-v0.5.0-win-x64.zip)
+- [SHA256SUMS.txt](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.5.0/SHA256SUMS.txt)
 
 ```text
-SHA-256  211BD1F39A74D34198F8514DEAE21400B23F0309B8A654AEF6140CF8CBEFB9DE
-Size     52,499,142 bytes
+SHA-256  1E1CB2FC8C944F02004AC4063EDC7B29046DEF94CDB2D686C5EF06021F1DA005
+Size     52,851,489 bytes
 ```
 
 The ZIP contains the GUI, Qt 5.15 runtime, MinGW/MSYS2 runtime and the eMRTD
@@ -310,15 +310,15 @@ lfparser_stage2 126 passed
 
 ### 下载与运行
 
-### Windows x64 — v0.4.1
+### Windows x64 — v0.5.0
 
-- [GitHub Release v0.4.1](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/tag/v0.4.1)
-- [Proxmark3-GUI-v0.4.1-win-x64.zip](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.4.1/Proxmark3-GUI-v0.4.1-win-x64.zip)
-- [SHA256SUMS.txt](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.4.1/SHA256SUMS.txt)
+- [GitHub Release v0.4.1](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/tag/v0.5.0)
+- [Proxmark3-GUI-v0.5.0-win-x64.zip](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.5.0/Proxmark3-GUI-v0.5.0-win-x64.zip)
+- [SHA256SUMS.txt](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.5.0/SHA256SUMS.txt)
 
 ```text
-SHA-256  211BD1F39A74D34198F8514DEAE21400B23F0309B8A654AEF6140CF8CBEFB9DE
-大小     52,499,142 字节
+SHA-256  1E1CB2FC8C944F02004AC4063EDC7B29046DEF94CDB2D686C5EF06021F1DA005
+大小     52,851,489 字节
 ```
 
 ZIP 包含 GUI、Qt 5.15 运行时、MinGW/MSYS2 运行时和 eMRTD Python 运行时；

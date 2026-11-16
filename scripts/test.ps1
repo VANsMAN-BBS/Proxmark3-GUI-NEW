@@ -27,7 +27,7 @@ $make = Resolve-Tool "mingw32-make" @("C:\msys64\ucrt64\bin\mingw32-make.exe")
 if (-not $qmake -or -not $make) { Write-Host "Qt 5.15 / MinGW tools not found." -ForegroundColor Red; exit 2 }
 $env:PATH = (Split-Path $qmake -Parent) + ";" + $env:PATH
 
-$qtTests = @("felica", "ntagmodel", "amiibodata", "lfparser", "lfparser_stage2")
+$qtTests = @("felica", "hidseos", "ntagmodel", "amiibodata", "lfparser", "lfparser_stage2")
 $failures = 0
 $summary = @()
 

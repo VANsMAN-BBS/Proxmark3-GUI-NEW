@@ -111,6 +111,18 @@ MainWindow::MainWindow(QWidget *parent):
                 if (felicaPage)
                     felicaPage->setClientConnected(connected);
             });
+
+    // Read-only T-money / Climate Card page (KS X 6924 over ISO14443-A +
+    // ISO-DEP). Inserted after FeliCa; it shares the same command queue and
+    // never issues MIFARE Classic, write, authentication, or clone commands.
+    hidSeosPage = new HidSeosPage(util, pm3, this);
+    ui->funcTab->insertTab(5, hidSeosPage, tr("HID SEOS"));
+    connect(pm3, &ClientSession::stateChanged, hidSeosPage,
+            [this](bool connected, const QString &)
+            {
+                if (hidSeosPage)
+                    hidSeosPage->setClientConnected(connected);
+            });
     connect(ui->PM3_portBox, &QComboBox::currentTextChanged, this, [this](const QString &text)
     {
         if(emrtdPage)

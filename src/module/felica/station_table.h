@@ -2,6 +2,7 @@
 #define FELICA_STATION_TABLE_H
 
 #include <QHash>
+#include <QPair>
 #include <QString>
 #include <QVector>
 
@@ -40,3 +41,18 @@ private:
 };
 
 #endif // FELICA_STATION_TABLE_H
+
+/** Optional zh/en names keyed by the Japanese station name. Unknown names
+ *  fall back to the Japanese original; no machine translation is invented. */
+class StationNameMap
+{
+public:
+    static StationNameMap &instance();
+    QString localized(const QString &japanese, Transit::LabelLanguage language) const;
+
+private:
+    StationNameMap();
+    void ensureLoaded();
+    QHash<QString, QPair<QString, QString> > m_names; // ja -> (zh, en)
+    bool m_loaded = false;
+};

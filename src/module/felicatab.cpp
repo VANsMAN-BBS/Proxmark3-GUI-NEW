@@ -6,8 +6,10 @@
 #include "felica/code_tables.h"
 #include "felica/felica_exporter.h"
 #include "felica/felica_reader.h"
+#include "felica/station_table.h"
 
 #include <QCheckBox>
+#include <QCoreApplication>
 #include <QColor>
 #include <QDir>
 #include <QDateTime>
@@ -127,6 +129,10 @@ void FelicaTab::buildUi()
     m_balanceLabel->setAlignment(Qt::AlignCenter);
     balanceLayout->addWidget(m_balanceCaption);
     balanceLayout->addWidget(m_balanceLabel);
+    m_depositLabel = new QLabel(cardFrame);
+    m_depositLabel->setAlignment(Qt::AlignCenter);
+    m_depositLabel->setWordWrap(true);
+    balanceLayout->addWidget(m_depositLabel);
     balanceLayout->addStretch();
     cardLayout->addLayout(balanceLayout, 1);
 
@@ -286,6 +292,7 @@ void FelicaTab::resetView()
     m_hasResult = false;
 
     m_balanceLabel->setText(QStringLiteral("—"));
+    m_depositLabel->clear();
     m_cardTypeValue->setText(QStringLiteral("—"));
     m_cardIdValue->setText(QStringLiteral("—"));
     m_pmmValue->setText(QStringLiteral("—"));
@@ -382,15 +389,31 @@ void FelicaTab::updateCardPanel()
                                                    : card.systems.join(QStringLiteral(", ")));
     m_detectedValue->setText(card.detectedAt.isEmpty() ? QStringLiteral("—") : card.detectedAt);
 
-    if (m_result.balance.valid)
+    m_depositLabel->clear();
+    if (!m_result.balance.valid)
     {
-        m_balanceLabel->setText(QStringLiteral("%1 %2")
-                                    .arg(QStringLiteral("¥"))
-                                    .arg(m_result.balance.amount));
+        m_balanceLabel->setText(QStringLiteral("—"));
+        return;
+    }
+
+    const Transit::BalanceInfo &balance = m_result.balance;
+    if (balance.currency == QStringLiteral("HKD"))
+    {
+        m_balanceLabel->setText(QStringLiteral("HKD %1")
+                                    .arg(balance.amount / 10.0, 0, 'f', 1));
+        if (balance.hasDeposit)
+        {
+            m_depositLabel->setText(
+                tr("Including Deposit: %1").arg(QStringLiteral("HKD %1")
+                    .arg(balance.totalWithDeposit / 10.0, 0, 'f', 1))
+                + QLatin1Char('\n')
+                + tr("Deposit: %1").arg(QStringLiteral("HKD %1")
+                    .arg(balance.deposit / 10.0, 0, 'f', 1)));
+        }
     }
     else
     {
-        m_balanceLabel->setText(QStringLiteral("—"));
+        m_balanceLabel->setText(QStringLiteral("¥ %1").arg(balance.amount));
     }
 }
 
@@ -403,11 +426,23 @@ QString FelicaTab::formatAmount(qint64 value, bool known) const
     return QString::number(value);
 }
 
+Transit::LabelLanguage FelicaTab::uiLanguage() const
+{
+    const QString probe = QCoreApplication::translate("FelicaTab", "Read Card");
+    return probe == QStringLiteral("Read Card") ? Transit::LabelLanguage::English
+                                                : Transit::LabelLanguage::Chinese;
+}
+
+QString FelicaTab::localizedStationName(const QString &japanese) const
+{
+    return StationNameMap::instance().localized(japanese, uiLanguage());
+}
+
 QString FelicaTab::stationText(const Transit::StationInfo &station) const
 {
     if (!station.resolved)
         return QString();
-    QString text = station.primaryName;
+    QString text = localizedStationName(station.primaryName);
     if (station.ambiguous)
     {
         QStringList others;
@@ -416,7 +451,7 @@ QString FelicaTab::stationText(const Transit::StationInfo &station) const
             if (!candidate.station.isEmpty() && candidate.station != station.primaryName
                 && !others.contains(candidate.station))
             {
-                others.append(candidate.station);
+                others.append(localizedStationName(candidate.station));
             }
         }
         if (!others.isEmpty())
@@ -435,7 +470,8 @@ QString FelicaTab::candidateText(const Transit::StationInfo &station) const
     for (const Transit::StationCandidate &candidate : station.candidates)
     {
         lines.append(QStringLiteral("%1 / %2 / %3 [%4]")
-                         .arg(candidate.company, candidate.line, candidate.station,
+                         .arg(candidate.company, candidate.line,
+                              localizedStationName(candidate.station),
                               candidate.table));
     }
     return lines.join(QLatin1Char('\n'));
@@ -496,10 +532,12 @@ void FelicaTab::populateHistory()
             timeItem->setToolTip(tr("Time derived from the matching gate record (0x108F)."));
         m_historyTable->setItem(row, 2, timeItem);
 
-        m_historyTable->setItem(row, 3, new QTableWidgetItem(record.transactionLabel));
+        m_historyTable->setItem(row, 3, new QTableWidgetItem(
+            FelicaCodes::transactionLabel(record.transactionCode, uiLanguage())));
         m_historyTable->setItem(row, 4, new QTableWidgetItem(tableCell(record.entry)));
         m_historyTable->setItem(row, 5, new QTableWidgetItem(tableCell(record.exit)));
-        m_historyTable->setItem(row, 6, new QTableWidgetItem(record.terminalLabel));
+        m_historyTable->setItem(row, 6, new QTableWidgetItem(
+            FelicaCodes::equipmentLabel(record.terminalCode, uiLanguage())));
 
         NumericItem *amount = new NumericItem(formatAmount(record.delta, record.deltaKnown),
                                               static_cast<double>(record.delta));
@@ -531,7 +569,8 @@ void FelicaTab::populateGates()
         m_gateTable->setItem(row, 0, new NumericItem(QString::number(record.index), record.index));
         m_gateTable->setItem(row, 1, new QTableWidgetItem(record.date));
         m_gateTable->setItem(row, 2, new QTableWidgetItem(record.timeKnown ? record.time : QStringLiteral("—")));
-        m_gateTable->setItem(row, 3, new QTableWidgetItem(record.directionLabel));
+        m_gateTable->setItem(row, 3, new QTableWidgetItem(
+            FelicaCodes::gateInOutLabel(record.directionCode, uiLanguage())));
         m_gateTable->setItem(row, 4, new QTableWidgetItem(tableCell(record.station)));
         m_gateTable->setItem(row, 5, new NumericItem(QString::number(record.amount),
                                                      static_cast<double>(record.amount)));
@@ -606,10 +645,14 @@ void FelicaTab::onHistorySelectionChanged()
     const Transit::TransactionRecord &record = m_result.transactions.at(index);
     QStringList lines;
     lines.append(tr("Raw: %1").arg(hexBytes(record.raw)));
-    lines.append(tr("Terminal: %1").arg(record.terminalLabel));
-    lines.append(tr("Transaction: %1").arg(record.transactionLabel));
-    lines.append(tr("Payment: %1").arg(record.paymentLabel));
-    lines.append(tr("Gate instruction: %1").arg(record.gateInstructionLabel));
+    lines.append(tr("Terminal: %1").arg(
+        FelicaCodes::equipmentLabel(record.terminalCode, uiLanguage())));
+    lines.append(tr("Transaction: %1").arg(
+        FelicaCodes::transactionLabel(record.transactionCode, uiLanguage())));
+    lines.append(tr("Payment: %1").arg(
+        FelicaCodes::paymentLabel(record.paymentCode, uiLanguage())));
+    lines.append(tr("Gate instruction: %1").arg(
+        FelicaCodes::gateInstructionLabel(record.gateInstructionCode, uiLanguage())));
     if (record.hasPosId)
         lines.append(tr("POS ID: %1 (no public merchant mapping)").arg(record.posIdHex));
     if (record.entry.resolved)

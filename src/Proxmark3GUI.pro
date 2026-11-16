@@ -41,6 +41,12 @@ SOURCES += \
     module/felica/station_table.cpp \
     module/felica/code_tables.cpp \
     module/felica/felica_exporter.cpp \
+    module/felica/octopus_parser.cpp \
+    module/hidseospage.cpp \
+    module/hidseos/seos_codes.cpp \
+    module/hidseos/seos_parser.cpp \
+    module/hidseos/seos_reader.cpp \
+    module/hidseos/seos_exporter.cpp \
     lf/parser/src/lf/lfparsetypes.cpp \
     lf/parser/src/lf/lftextnormalizer.cpp \
     lf/parser/src/lf/lfparserregistry.cpp \
@@ -99,7 +105,14 @@ HEADERS += \
     module/felica/station_table.h \
     module/felica/code_tables.h \
     module/felica/felica_exporter.h \
+    module/felica/octopus_parser.h \
     module/felica/felica_chunks.h \
+    module/hidseospage.h \
+    module/hidseos/seos_types.h \
+    module/hidseos/seos_codes.h \
+    module/hidseos/seos_parser.h \
+    module/hidseos/seos_reader.h \
+    module/hidseos/seos_exporter.h \
     lf/parser/include/lf/lfparsetypes.h \
     lf/parser/include/lf/lftextnormalizer.h \
     lf/parser/include/lf/lfparser.h \
@@ -151,7 +164,7 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-VERSION = 0.4.1
+VERSION = 0.5.0
 QMAKE_TARGET_PRODUCT = "Proxmark3GUI"
 QMAKE_TARGET_DESCRIPTION = "A cross-platform GUI for Proxmark3 client"
 QMAKE_TARGET_COMPANY = "wh201906"

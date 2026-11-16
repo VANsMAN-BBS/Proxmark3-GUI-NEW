@@ -3322,6 +3322,10 @@ The &quot;&lt;client dir&gt;&quot; will be replaced by the directory of the &quo
         <source>Actural Freq: </source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>HID SEOS</source>
+        <translation>HID SEOS</translation>
+    </message>
 </context>
 <context>
     <name>Mifare</name>
@@ -5940,6 +5944,14 @@ Exit</translation>
         <source>Raw data</source>
         <translation>Raw data</translation>
     </message>
+    <message>
+        <source>Including Deposit: %1</source>
+        <translation>Including Deposit: %1</translation>
+    </message>
+    <message>
+        <source>Deposit: %1</source>
+        <translation>Deposit: %1</translation>
+    </message>
 </context>
 <context>
     <name>FelicaReader</name>
@@ -6029,6 +6041,700 @@ Exit</translation>
     <message>
         <source>FeliCa</source>
         <translation>FeliCa</translation>
+    </message>
+</context>
+<context>
+    <name>HidSeosPage</name>
+    <message>
+        <source>Read Card</source>
+        <translation>Read Card</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+    <message>
+        <source>Export JSON</source>
+        <translation>Export JSON</translation>
+    </message>
+    <message>
+        <source>Export CSV</source>
+        <translation>Export CSV</translation>
+    </message>
+    <message>
+        <source>Clear View</source>
+        <translation>Clear View</translation>
+    </message>
+    <message>
+        <source>Balance</source>
+        <translation>Balance</translation>
+    </message>
+    <message>
+        <source>Card type:</source>
+        <translation>Card type:</translation>
+    </message>
+    <message>
+        <source>Card kind:</source>
+        <translation>Card kind:</translation>
+    </message>
+    <message>
+        <source>UID:</source>
+        <translation>UID:</translation>
+    </message>
+    <message>
+        <source>CSN:</source>
+        <translation>CSN:</translation>
+    </message>
+    <message>
+        <source>Issuer:</source>
+        <translation>Issuer:</translation>
+    </message>
+    <message>
+        <source>User type:</source>
+        <translation>User type:</translation>
+    </message>
+    <message>
+        <source>Issued:</source>
+        <translation>Issued:</translation>
+    </message>
+    <message>
+        <source>Expires:</source>
+        <translation>Expires:</translation>
+    </message>
+    <message>
+        <source>Protocol:</source>
+        <translation>Protocol:</translation>
+    </message>
+    <message>
+        <source>Period pass</source>
+        <translation>Period pass</translation>
+    </message>
+    <message>
+        <source>Valid:</source>
+        <translation>Valid:</translation>
+    </message>
+    <message>
+        <source>Days:</source>
+        <translation>Days:</translation>
+    </message>
+    <message>
+        <source>Product code:</source>
+        <translation>Product code:</translation>
+    </message>
+    <message>
+        <source>Status:</source>
+        <translation>Status:</translation>
+    </message>
+    <message>
+        <source>Date calibration:</source>
+        <translation>Date calibration:</translation>
+    </message>
+    <message>
+        <source>Connect the Proxmark3 client, then press Read Card.</source>
+        <translation>Connect the Proxmark3 client, then press Read Card.</translation>
+    </message>
+    <message>
+        <source>#</source>
+        <translation>#</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Time</translation>
+    </message>
+    <message>
+        <source>Event</source>
+        <translation>Event</translation>
+    </message>
+    <message>
+        <source>Transport</source>
+        <translation>Transport</translation>
+    </message>
+    <message>
+        <source>Counter</source>
+        <translation>Counter</translation>
+    </message>
+    <message>
+        <source>Journey</source>
+        <translation>Journey</translation>
+    </message>
+    <message>
+        <source>Recorded fare (KRW)</source>
+        <translation>Recorded fare (KRW)</translation>
+    </message>
+    <message>
+        <source>Distance (m)</source>
+        <translation>Distance (m)</translation>
+    </message>
+    <message>
+        <source>Select a tap to inspect its fields; double-click for details.</source>
+        <translation>Select a tap to inspect its fields; double-click for details.</translation>
+    </message>
+    <message>
+        <source>Transactions</source>
+        <translation>Transactions</translation>
+    </message>
+    <message>
+        <source>Start</source>
+        <translation>Start</translation>
+    </message>
+    <message>
+        <source>End</source>
+        <translation>End</translation>
+    </message>
+    <message>
+        <source>Legs</source>
+        <translation>Legs</translation>
+    </message>
+    <message>
+        <source>Taps</source>
+        <translation>Taps</translation>
+    </message>
+    <message>
+        <source>Select a journey to inspect the merged transfer legs.</source>
+        <translation>Select a journey to inspect the merged transfer legs.</translation>
+    </message>
+    <message>
+        <source>Grouped trips</source>
+        <translation>Grouped trips</translation>
+    </message>
+    <message>
+        <source>SFI</source>
+        <translation>SFI</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Balance (KRW)</source>
+        <translation>Balance (KRW)</translation>
+    </message>
+    <message>
+        <source>Sequence</source>
+        <translation>Sequence</translation>
+    </message>
+    <message>
+        <source>Fare (KRW)</source>
+        <translation>Fare (KRW)</translation>
+    </message>
+    <message>
+        <source>Marker</source>
+        <translation>Marker</translation>
+    </message>
+    <message>
+        <source>Terminal</source>
+        <translation>Terminal</translation>
+    </message>
+    <message>
+        <source>Select a record to inspect its fields; double-click for details.</source>
+        <translation>Select a record to inspect its fields; double-click for details.</translation>
+    </message>
+    <message>
+        <source>Financial records</source>
+        <translation>Financial records</translation>
+    </message>
+    <message>
+        <source>File</source>
+        <translation>File</translation>
+    </message>
+    <message>
+        <source>Record</source>
+        <translation>Record</translation>
+    </message>
+    <message>
+        <source>Length</source>
+        <translation>Length</translation>
+    </message>
+    <message>
+        <source>Data (hex)</source>
+        <translation>Data (hex)</translation>
+    </message>
+    <message>
+        <source>Raw data</source>
+        <translation>Raw data</translation>
+    </message>
+    <message>
+        <source>Proxmark3 client is not connected.</source>
+        <translation>Proxmark3 client is not connected.</translation>
+    </message>
+    <message>
+        <source>Cleared. Press Read Card to read the card again.</source>
+        <translation>Cleared. Press Read Card to read the card again.</translation>
+    </message>
+    <message>
+        <source>Starting read...</source>
+        <translation>Starting read...</translation>
+    </message>
+    <message>
+        <source>Cancelling...</source>
+        <translation>Cancelling...</translation>
+    </message>
+    <message>
+        <source>Read cancelled; showing partial data.</source>
+        <translation>Read cancelled; showing partial data.</translation>
+    </message>
+    <message>
+        <source>Read finished with warnings; some records may be missing.</source>
+        <translation>Read finished with warnings; some records may be missing.</translation>
+    </message>
+    <message>
+        <source>Read complete.</source>
+        <translation>Read complete.</translation>
+    </message>
+    <message>
+        <source>partial</source>
+        <translation>partial</translation>
+    </message>
+    <message>
+        <source>%1 warning(s)</source>
+        <translation>%1 warning(s)</translation>
+    </message>
+    <message>
+        <source>Unknown (%1)</source>
+        <translation>Unknown (%1)</translation>
+    </message>
+    <message>
+        <source>T-money</source>
+        <translation>T-money</translation>
+    </message>
+    <message>
+        <source>Climate Card</source>
+        <translation>Climate Card</translation>
+    </message>
+    <message>
+        <source>Unknown</source>
+        <translation>Unknown</translation>
+    </message>
+    <message>
+        <source>N/A</source>
+        <translation>N/A</translation>
+    </message>
+    <message>
+        <source>Stored balance returned by GET BALANCE (90 4C).</source>
+        <translation>Stored balance returned by GET BALANCE (90 4C).</translation>
+    </message>
+    <message>
+        <source>%1 (%2 day(s), verified)</source>
+        <translation>%1 (%2 day(s), verified)</translation>
+    </message>
+    <message>
+        <source>%1 (community default)</source>
+        <translation>%1 (community default)</translation>
+    </message>
+    <message>
+        <source>ATQA: %1</source>
+        <translation>ATQA: %1</translation>
+    </message>
+    <message>
+        <source>SAK: %1</source>
+        <translation>SAK: %1</translation>
+    </message>
+    <message>
+        <source>ATS: %1</source>
+        <translation>ATS: %1</translation>
+    </message>
+    <message>
+        <source>%1 day(s)</source>
+        <translation>%1 day(s)</translation>
+    </message>
+    <message>
+        <source>Stored product bytes: %1; their semantics are not publicly documented.</source>
+        <translation>Stored product bytes: %1; their semantics are not publicly documented.</translation>
+    </message>
+    <message>
+        <source>card-read event</source>
+        <translation>card-read event</translation>
+    </message>
+    <message>
+        <source>Unknown SFI</source>
+        <translation>Unknown SFI</translation>
+    </message>
+    <message>
+        <source>boarding</source>
+        <translation>boarding</translation>
+    </message>
+    <message>
+        <source>alighting</source>
+        <translation>alighting</translation>
+    </message>
+    <message>
+        <source>bus</source>
+        <translation>bus</translation>
+    </message>
+    <message>
+        <source>metro</source>
+        <translation>metro</translation>
+    </message>
+    <message>
+        <source>train</source>
+        <translation>train</translation>
+    </message>
+    <message>
+        <source>transit</source>
+        <translation>transit</translation>
+    </message>
+    <message>
+        <source>top-up</source>
+        <translation>top-up</translation>
+    </message>
+    <message>
+        <source>SFI 3 record #%1</source>
+        <translation>SFI 3 record #%1</translation>
+    </message>
+    <message>
+        <source>Date: %1  Time: %2 (second %3)</source>
+        <translation>Date: %1  Time: %2 (second %3)</translation>
+    </message>
+    <message>
+        <source>Event: %1 (%2)</source>
+        <translation>Event: %1 (%2)</translation>
+    </message>
+    <message>
+        <source>Transport: %1 (%2)</source>
+        <translation>Transport: %1 (%2)</translation>
+    </message>
+    <message>
+        <source>Journey counter: %1</source>
+        <translation>Journey counter: %1</translation>
+    </message>
+    <message>
+        <source>Journey fare (recorded): %1</source>
+        <translation>Journey fare (recorded): %1</translation>
+    </message>
+    <message>
+        <source>Leg base fare: %1</source>
+        <translation>Leg base fare: %1</translation>
+    </message>
+    <message>
+        <source>Fare field 22: %1</source>
+        <translation>Fare field 22: %1</translation>
+    </message>
+    <message>
+        <source>Distance: %1 m</source>
+        <translation>Distance: %1 m</translation>
+    </message>
+    <message>
+        <source>Station / terminal: %1</source>
+        <translation>Station / terminal: %1</translation>
+    </message>
+    <message>
+        <source>Device: %1</source>
+        <translation>Device: %1</translation>
+    </message>
+    <message>
+        <source>Surcharge: %1</source>
+        <translation>Surcharge: %1</translation>
+    </message>
+    <message>
+        <source>Packed timestamp: %1 (day %2)</source>
+        <translation>Packed timestamp: %1 (day %2)</translation>
+    </message>
+    <message>
+        <source>Community-epoch time: %1</source>
+        <translation>Community-epoch time: %1</translation>
+    </message>
+    <message>
+        <source>Calibrated time: %1</source>
+        <translation>Calibrated time: %1</translation>
+    </message>
+    <message>
+        <source>Recorded fare is a gate-written nominal amount; the pass may cover it.</source>
+        <translation>Recorded fare is a gate-written nominal amount; the pass may cover it.</translation>
+    </message>
+    <message>
+        <source>Raw: %1</source>
+        <translation>Raw: %1</translation>
+    </message>
+    <message>
+        <source>Grouped journey (counter %1)</source>
+        <translation>Grouped journey (counter %1)</translation>
+    </message>
+    <message>
+        <source>Date: %1  Start: %2  End: %3</source>
+        <translation>Date: %1  Start: %2  End: %3</translation>
+    </message>
+    <message>
+        <source>Taps: %1</source>
+        <translation>Taps: %1</translation>
+    </message>
+    <message>
+        <source>Recorded journey fare: %1</source>
+        <translation>Recorded journey fare: %1</translation>
+    </message>
+    <message>
+        <source>Legs:</source>
+        <translation>Legs:</translation>
+    </message>
+    <message>
+        <source>  %1. %2 %3 → %4  base %5  distance %6 m</source>
+        <translation>  %1. %2 %3 → %4  base %5  distance %6 m</translation>
+    </message>
+    <message>
+        <source>Taps in this journey:</source>
+        <translation>Taps in this journey:</translation>
+    </message>
+    <message>
+        <source>  #%1 %2 %3 %4 — %5</source>
+        <translation>  #%1 %2 %3 %4 — %5</translation>
+    </message>
+    <message>
+        <source>Transfer legs share one journey counter; their amounts are cumulative, not repeated charges.</source>
+        <translation>Transfer legs share one journey counter; their amounts are cumulative, not repeated charges.</translation>
+    </message>
+    <message>
+        <source>SFI %1 record #%2</source>
+        <translation>SFI %1 record #%2</translation>
+    </message>
+    <message>
+        <source>Type: card-read event</source>
+        <translation>Type: card-read event</translation>
+    </message>
+    <message>
+        <source>Type: %1 (%2)</source>
+        <translation>Type: %1 (%2)</translation>
+    </message>
+    <message>
+        <source>Balance after: %1</source>
+        <translation>Balance after: %1</translation>
+    </message>
+    <message>
+        <source>Sequence: %1</source>
+        <translation>Sequence: %1</translation>
+    </message>
+    <message>
+        <source>Fare: %1</source>
+        <translation>Fare: %1</translation>
+    </message>
+    <message>
+        <source>Marker: %1</source>
+        <translation>Marker: %1</translation>
+    </message>
+    <message>
+        <source>Terminal: %1</source>
+        <translation>Terminal: %1</translation>
+    </message>
+    <message>
+        <source>BCD date/time: %1</source>
+        <translation>BCD date/time: %1</translation>
+    </message>
+    <message>
+        <source>Note: marker 0x0720 is a card-read / initialization event, not a purchase.</source>
+        <translation>Note: marker 0x0720 is a card-read / initialization event, not a purchase.</translation>
+    </message>
+    <message>
+        <source>Note: marker 0x0000 is a top-up record.</source>
+        <translation>Note: marker 0x0000 is a top-up record.</translation>
+    </message>
+    <message>
+        <source>Trip record #%1</source>
+        <translation>Trip record #%1</translation>
+    </message>
+    <message>
+        <source>Grouped journey %1</source>
+        <translation>Grouped journey %1</translation>
+    </message>
+    <message>
+        <source>SFI 11 record #%1</source>
+        <translation>SFI 11 record #%1</translation>
+    </message>
+    <message>
+        <source>JSON files (*.json)</source>
+        <translation>JSON files (*.json)</translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation>Export failed</translation>
+    </message>
+    <message>
+        <source>Exported JSON: %1</source>
+        <translation>Exported JSON: %1</translation>
+    </message>
+    <message>
+        <source>CSV files (*.csv)</source>
+        <translation>CSV files (*.csv)</translation>
+    </message>
+    <message>
+        <source>Exported CSV: %1, %2</source>
+        <translation>Exported CSV: %1, %2</translation>
+    </message>
+</context>
+<context>
+    <name>HidSeos::SeosReader</name>
+    <message>
+        <source>Proxmark3 client is not connected.</source>
+        <translation>Proxmark3 client is not connected.</translation>
+    </message>
+    <message>
+        <source>Detecting an ISO14443-A card...</source>
+        <translation>Detecting an ISO14443-A card...</translation>
+    </message>
+    <message>
+        <source>Selecting the T-money application (D4100000030001)...</source>
+        <translation>Selecting the T-money application (D4100000030001)...</translation>
+    </message>
+    <message>
+        <source>Reading the stored balance...</source>
+        <translation>Reading the stored balance...</translation>
+    </message>
+    <message>
+        <source>Reading the period-pass record (SFI 7)...</source>
+        <translation>Reading the period-pass record (SFI 7)...</translation>
+    </message>
+    <message>
+        <source>Reading trip records (SFI 3, %1/%2)...</source>
+        <translation>Reading trip records (SFI 3, %1/%2)...</translation>
+    </message>
+    <message>
+        <source>Reading financial records (SFI 4, %1/%2)...</source>
+        <translation>Reading financial records (SFI 4, %1/%2)...</translation>
+    </message>
+    <message>
+        <source>Reading top-up records (SFI 5, %1/%2)...</source>
+        <translation>Reading top-up records (SFI 5, %1/%2)...</translation>
+    </message>
+    <message>
+        <source>Reading card-read events (SFI 11, %1/%2)...</source>
+        <translation>Reading card-read events (SFI 11, %1/%2)...</translation>
+    </message>
+    <message>
+        <source>Reading the auxiliary file (SFI 13)...</source>
+        <translation>Reading the auxiliary file (SFI 13)...</translation>
+    </message>
+    <message>
+        <source>Card not ready (%1). Retrying %2/%3...</source>
+        <translation>Card not ready (%1). Retrying %2/%3...</translation>
+    </message>
+    <message>
+        <source>No ISO14443-A card detected.</source>
+        <translation>No ISO14443-A card detected.</translation>
+    </message>
+    <message>
+        <source>Card did not answer SELECT (%1). Retrying...</source>
+        <translation>Card did not answer SELECT (%1). Retrying...</translation>
+    </message>
+    <message>
+        <source>The card did not respond to SELECT AID.</source>
+        <translation>The card did not respond to SELECT AID.</translation>
+    </message>
+    <message>
+        <source>Card detected: %1</source>
+        <translation>Card detected: %1</translation>
+    </message>
+    <message>
+        <source>No ISO14443-A card detected (the detection command timed out).</source>
+        <translation>No ISO14443-A card detected (the detection command timed out).</translation>
+    </message>
+    <message>
+        <source>no UID in the client output</source>
+        <translation>no UID in the client output</translation>
+    </message>
+    <message>
+        <source>no APDU response</source>
+        <translation>no APDU response</translation>
+    </message>
+    <message>
+        <source>This is not a T-money / KS X 6924 card (SELECT AID returned %1).</source>
+        <translation>This is not a T-money / KS X 6924 card (SELECT AID returned %1).</translation>
+    </message>
+    <message>
+        <source>The SELECT response does not contain a valid 47-byte PurseInfo.</source>
+        <translation>The SELECT response does not contain a valid 47-byte PurseInfo.</translation>
+    </message>
+    <message>
+        <source>GET BALANCE did not return a response.</source>
+        <translation>GET BALANCE did not return a response.</translation>
+    </message>
+    <message>
+        <source>GET BALANCE returned %1.</source>
+        <translation>GET BALANCE returned %1.</translation>
+    </message>
+    <message>
+        <source>SFI 7 did not return a response.</source>
+        <translation>SFI 7 did not return a response.</translation>
+    </message>
+    <message>
+        <source>SFI 7 returned %1; no period pass is shown.</source>
+        <translation>SFI 7 returned %1; no period pass is shown.</translation>
+    </message>
+    <message>
+        <source>The card stopped responding during the SFI 3 read.</source>
+        <translation>The card stopped responding during the SFI 3 read.</translation>
+    </message>
+    <message>
+        <source>SFI 3 is not a record file (%1).</source>
+        <translation>SFI 3 is not a record file (%1).</translation>
+    </message>
+    <message>
+        <source>SFI 3 record %1 returned %2.</source>
+        <translation>SFI 3 record %1 returned %2.</translation>
+    </message>
+    <message>
+        <source>The card stopped responding during the SFI 4 read.</source>
+        <translation>The card stopped responding during the SFI 4 read.</translation>
+    </message>
+    <message>
+        <source>SFI 4 returned %1; the series was stopped.</source>
+        <translation>SFI 4 returned %1; the series was stopped.</translation>
+    </message>
+    <message>
+        <source>The card stopped responding during the SFI 5 read.</source>
+        <translation>The card stopped responding during the SFI 5 read.</translation>
+    </message>
+    <message>
+        <source>SFI 5 returned %1; the series was stopped.</source>
+        <translation>SFI 5 returned %1; the series was stopped.</translation>
+    </message>
+    <message>
+        <source>The card stopped responding during the SFI 11 read.</source>
+        <translation>The card stopped responding during the SFI 11 read.</translation>
+    </message>
+    <message>
+        <source>SFI 11 returned %1; the series was stopped.</source>
+        <translation>SFI 11 returned %1; the series was stopped.</translation>
+    </message>
+    <message>
+        <source>SFI 13 did not return a response.</source>
+        <translation>SFI 13 did not return a response.</translation>
+    </message>
+    <message>
+        <source>SFI 13 returned %1.</source>
+        <translation>SFI 13 returned %1.</translation>
+    </message>
+    <message>
+        <source>Read cancelled.</source>
+        <translation>Read cancelled.</translation>
+    </message>
+    <message>
+        <source>Read complete.</source>
+        <translation>Read complete.</translation>
+    </message>
+    <message>
+        <source>The SFI 7 record could not be parsed as a 27-byte period pass.</source>
+        <translation>The SFI 7 record could not be parsed as a 27-byte period pass.</translation>
+    </message>
+    <message>
+        <source>Card type 0xB5 was read, but the SFI 7 pass is missing or invalid; the card is shown as unknown instead of Climate Card.</source>
+        <translation>Card type 0xB5 was read, but the SFI 7 pass is missing or invalid; the card is shown as unknown instead of Climate Card.</translation>
+    </message>
+    <message>
+        <source>Unknown card type %1; decoded values are shown without an interpretation.</source>
+        <translation>Unknown card type %1; decoded values are shown without an interpretation.</translation>
+    </message>
+    <message>
+        <source>Climate Card does not support GET BALANCE (90 4C returns 6D00).</source>
+        <translation>Climate Card does not support GET BALANCE (90 4C returns 6D00).</translation>
+    </message>
+    <message>
+        <source>Balance is not available for this Climate Card (status %1).</source>
+        <translation>Balance is not available for this Climate Card (status %1).</translation>
+    </message>
+    <message>
+        <source>The card does not support GET BALANCE (90 4C returns 6D00).</source>
+        <translation>The card does not support GET BALANCE (90 4C returns 6D00).</translation>
     </message>
 </context>
 </TS>

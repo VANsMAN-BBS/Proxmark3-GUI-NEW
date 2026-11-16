@@ -3,6 +3,7 @@
 #include "cjrc_profile.h"
 #include "code_tables.h"
 #include "felica_chunks.h"
+#include "octopus_parser.h"
 
 #include "core/clientsession.h"
 
@@ -86,6 +87,7 @@ void FelicaReader::resetState()
     m_pendingId = 0;
     m_retryCount = 0;
     m_card = Transit::CardInfo();
+    m_octopus = false;
     m_tasks.clear();
     m_currentTask = ReadTask();
     m_serviceBlocks.clear();
@@ -173,6 +175,24 @@ void FelicaReader::enqueueTasks()
     nextTask();
 }
 
+void FelicaReader::enqueueOctopusTask()
+{
+    Transit::ServiceReadStatus status;
+    status.code = OctopusBalanceParser::kBalanceService;
+    status.name = QStringLiteral("Octopus balance");
+    status.blocksExpected = 1;
+    m_statuses.append(status);
+
+    ReadTask task;
+    task.service = OctopusBalanceParser::kBalanceService;
+    task.firstBlock = 0;
+    task.count = 1;
+    m_tasks.enqueue(task);
+    m_totalTasks = 1;
+    m_doneTasks = 0;
+    nextTask();
+}
+
 void FelicaReader::nextTask()
 {
     if (m_cancelled)
@@ -203,10 +223,15 @@ void FelicaReader::sendReadTask()
                       .replace(QStringLiteral("0X"), QStringLiteral("0x")),
                   percent);
 
-    const QString command = QStringLiteral("hf felica raw -s -c %1")
-                                .arg(buildReadFrame(m_currentTask.service,
-                                                    m_currentTask.firstBlock,
-                                                    m_currentTask.count));
+    // Octopus (system 0x8008) does not answer Read Without Encryption after
+    // an Active Select (-s): the select phase succeeds, then the read returns
+    // PM3_ERFTRANS (-7). Active field without select (-a) reads block 0
+    // correctly. CJRC cards keep the verified -s path.
+    const QString flag = m_octopus ? QStringLiteral("-a") : QStringLiteral("-s");
+    const QString command = QStringLiteral("hf felica raw %1 -c %2")
+                                .arg(flag, buildReadFrame(m_currentTask.service,
+                                                          m_currentTask.firstBlock,
+                                                          m_currentTask.count));
     m_pendingId = m_session->executeCommand(command, kReadTimeoutMs, false);
 }
 
@@ -445,6 +470,18 @@ void FelicaReader::onCommandFinished(quint64 id, const QString &output, bool suc
             parseInfo(output, &card);
 
         CjrcProfile profile;
+        m_octopus = card.systems.contains(QStringLiteral("8008"));
+        if (m_octopus)
+        {
+            card.profileId = QStringLiteral("octopus");
+            card.issuer = QStringLiteral("Octopus Cards Limited");
+            card.cardType = QStringLiteral("Octopus (Hong Kong)");
+            m_card = card;
+            emit cardDetected(m_card);
+            enqueueOctopusTask();
+            return;
+        }
+
         if (!card.systems.isEmpty() && !profile.matches(card))
         {
             m_running = false;
@@ -523,8 +560,36 @@ void FelicaReader::complete(bool cancelled)
     result.services = m_statuses;
 
     QStringList warnings;
-    if (!rawBlocks.isEmpty())
+    if (m_octopus)
+    {
+        QByteArray block;
+        for (const Transit::RawBlock &item : rawBlocks)
+        {
+            if (item.service == OctopusBalanceParser::kBalanceService && item.block == 0)
+                block = item.data;
+        }
+        const OctopusBalance balance = OctopusBalanceParser::parse(block);
+        if (balance.valid)
+        {
+            result.balance.valid = true;
+            result.balance.amount = balance.availableDeci;
+            result.balance.currency = QStringLiteral("HKD");
+            result.balance.sourceService = QStringLiteral("0x0117");
+            result.balance.confidence = 100;
+            result.balance.hasDeposit = true;
+            result.balance.deposit = balance.depositDeci;
+            result.balance.totalWithDeposit = balance.totalDeci;
+            result.balance.raw = block;
+        }
+        else
+        {
+            warnings.append(balance.error);
+        }
+    }
+    else if (!rawBlocks.isEmpty())
+    {
         profile.parse(rawBlocks, result, warnings);
+    }
     enrichRailTimesFromGates(result);
     result.warnings = warnings;
 

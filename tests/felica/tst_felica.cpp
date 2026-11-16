@@ -3,6 +3,8 @@
 #include "cjrc_profile.h"
 #include "felica_chunks.h"
 #include "felica_exporter.h"
+#include "code_tables.h"
+#include "octopus_parser.h"
 #include "station_table.h"
 #include "transit_types.h"
 
@@ -113,6 +115,11 @@ private slots:
     void emptyInputIsSafe();
     void currencyIsNotHardCodedInModel();
     void exportJsonAndCsv();
+    void historyBeyondTwentyAndDedupe();
+    void localizedDetailLabels();
+    void stationNameLocalization();
+    void sampleRecordRegression();
+    void octopusBalanceParsing();
 };
 
 void TestFelica::stationTableLoads()
@@ -369,6 +376,133 @@ void TestFelica::currencyIsNotHardCodedInModel()
 
 QTEST_MAIN(TestFelica)
 #include "tst_felica.moc"
+
+void TestFelica::historyBeyondTwentyAndDedupe()
+{
+    QVector<Transit::RawBlock> blocks;
+    const quint16 date = encodeDate(2026, 6, 1);
+    for (int i = 0; i < 22; ++i)
+    {
+        blocks.append(rawBlock(kHistoryService, i,
+                               makeRecord(0x16, 0x01, 0x00, 0x02, date,
+                                          0xE6, 0x33, 0xE6, 0x31,
+                                          static_cast<quint16>(1000 + i * 10), 200 + i, 0x00)));
+    }
+    // Exact duplicate of block 0 must not produce a second transaction.
+    blocks.append(rawBlock(kHistoryService, 22, blocks.first().data));
+
+    CjrcProfile profile;
+    Transit::ReadResult result;
+    QStringList warnings;
+    QVERIFY(profile.parse(blocks, result, warnings));
+
+    QCOMPARE(result.transactions.size(), 22);
+    QCOMPARE(result.rawBlocks.size(), 23);
+    QCOMPARE(result.transactions.first().raw, blocks.first().data);
+}
+
+void TestFelica::localizedDetailLabels()
+{
+    QCOMPARE(FelicaCodes::equipmentLabel(0x16, Transit::LabelLanguage::Chinese),
+             QStringLiteral("自动检票机"));
+    QCOMPARE(FelicaCodes::equipmentLabel(0x16, Transit::LabelLanguage::English),
+             QStringLiteral("Automatic ticket gate"));
+    QCOMPARE(FelicaCodes::transactionLabel(0x01, Transit::LabelLanguage::Chinese),
+             QStringLiteral("自动检票机出场（支付车费）"));
+    QCOMPARE(FelicaCodes::transactionLabel(0x01, Transit::LabelLanguage::English),
+             QStringLiteral("Automatic gate exit (fare payment)"));
+    QCOMPARE(FelicaCodes::paymentLabel(0x00, Transit::LabelLanguage::Chinese),
+             QStringLiteral("现金 / 无"));
+    QCOMPARE(FelicaCodes::paymentLabel(0x00, Transit::LabelLanguage::English),
+             QStringLiteral("Cash / None"));
+    QCOMPARE(FelicaCodes::gateInstructionLabel(0x02, Transit::LabelLanguage::Chinese),
+             QStringLiteral("入场 / 出场"));
+    QCOMPARE(FelicaCodes::gateInstructionLabel(0x02, Transit::LabelLanguage::English),
+             QStringLiteral("Entry / Exit"));
+
+    const QString zhUnknown = FelicaCodes::equipmentLabel(0xEE, Transit::LabelLanguage::Chinese);
+    const QString enUnknown = FelicaCodes::equipmentLabel(0xEE, Transit::LabelLanguage::English);
+    QVERIFY(zhUnknown.startsWith(QStringLiteral("未知终端")));
+    QVERIFY(enUnknown.startsWith(QStringLiteral("Unknown terminal")));
+    QVERIFY(!zhUnknown.contains(QStringLiteral("不明")));
+    QVERIFY(!enUnknown.contains(QStringLiteral("不明")));
+}
+
+void TestFelica::stationNameLocalization()
+{
+    StationNameMap &map = StationNameMap::instance();
+    QCOMPARE(map.localized(QStringLiteral("鐘ケ淵"), Transit::LabelLanguage::Chinese),
+             QStringLiteral("鐘ケ淵（钟渊）"));
+    QCOMPARE(map.localized(QStringLiteral("鐘ケ淵"), Transit::LabelLanguage::English),
+             QStringLiteral("鐘ケ淵 (Kanegafuchi)"));
+    QCOMPARE(map.localized(QStringLiteral("存在しない駅"), Transit::LabelLanguage::Chinese),
+             QStringLiteral("存在しない駅"));
+    QCOMPARE(map.localized(QStringLiteral("存在しない駅"), Transit::LabelLanguage::English),
+             QStringLiteral("存在しない駅"));
+}
+
+void TestFelica::sampleRecordRegression()
+{
+    const QByteArray raw = QByteArray::fromHex("1601000234C19D059D02FB0700003000");
+    QVector<Transit::RawBlock> blocks;
+    blocks.append(rawBlock(kHistoryService, 0, raw));
+
+    CjrcProfile profile;
+    Transit::ReadResult result;
+    QStringList warnings;
+    QVERIFY(profile.parse(blocks, result, warnings));
+    QCOMPARE(result.transactions.size(), 1);
+
+    const Transit::TransactionRecord &record = result.transactions.at(0);
+    QCOMPARE(record.raw, raw);
+    QCOMPARE(record.terminalCode, 0x16);
+    QCOMPARE(record.transactionCode, 0x01);
+    QCOMPARE(record.paymentCode, 0x00);
+    QCOMPARE(record.gateInstructionCode, 0x02);
+
+    QStringList entryNames;
+    for (const Transit::StationCandidate &candidate : record.entry.candidates)
+        entryNames.append(candidate.station);
+    QVERIFY(entryNames.contains(QStringLiteral("鐘ケ淵")));
+
+    QStringList exitNames;
+    QStringList exitTables;
+    for (const Transit::StationCandidate &candidate : record.exit.candidates)
+    {
+        exitNames.append(candidate.station);
+        if (!exitTables.contains(candidate.table))
+            exitTables.append(candidate.table);
+    }
+    QVERIFY(exitNames.contains(QStringLiteral("とうきょうスカイツリー")));
+    QVERIFY(exitNames.contains(QStringLiteral("業平橋")));
+    QVERIFY(exitTables.contains(QStringLiteral("suica-viewer")));
+    QVERIFY(exitTables.contains(QStringLiteral("solidx-legacy")));
+
+    QCOMPARE(StationNameMap::instance().localized(QStringLiteral("鐘ケ淵"),
+                                                  Transit::LabelLanguage::Chinese),
+             QStringLiteral("鐘ケ淵（钟渊）"));
+    QCOMPARE(StationNameMap::instance().localized(QStringLiteral("鐘ケ淵"),
+                                                  Transit::LabelLanguage::English),
+             QStringLiteral("鐘ケ淵 (Kanegafuchi)"));
+}
+
+void TestFelica::octopusBalanceParsing()
+{
+    const QByteArray sample = QByteArray::fromHex("000002A300000000000000000000002B");
+    const OctopusBalance balance = OctopusBalanceParser::parse(sample);
+    QVERIFY(balance.valid);
+    QCOMPARE(balance.raw, static_cast<quint32>(675));
+    QCOMPARE(balance.availableDeci, static_cast<qint64>(175));
+    QCOMPARE(balance.depositDeci, static_cast<qint64>(500));
+    QCOMPARE(balance.totalDeci, static_cast<qint64>(675));
+
+    QVERIFY(!OctopusBalanceParser::parse(QByteArray::fromHex("000001F3")).valid);
+    QVERIFY(!OctopusBalanceParser::parse(QByteArray::fromHex("0000")).valid);
+    QVERIFY(!OctopusBalanceParser::parse(QByteArray(16, '\0')).valid);
+    QVERIFY(OctopusBalanceParser::parse(QByteArray::fromHex("000001F4")).valid);
+    QCOMPARE(OctopusBalanceParser::kSystemCode, static_cast<quint16>(0x8008));
+    QCOMPARE(OctopusBalanceParser::kBalanceService, static_cast<quint16>(0x0117));
+}
 
 void TestFelica::exportJsonAndCsv()
 {

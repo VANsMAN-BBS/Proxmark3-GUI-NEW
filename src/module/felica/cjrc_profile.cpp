@@ -300,13 +300,15 @@ bool CjrcProfile::parse(const QVector<Transit::RawBlock> &blocks,
     }
 
     const QVector<Transit::RawBlock> historyBlocks = serviceBlocks(blocks, kHistoryService);
+    QVector<QByteArray> seenRecords;
     for (const Transit::RawBlock &block : historyBlocks)
     {
         if (block.data.size() != 16 || isBlank(block.data))
             continue;
+        if (seenRecords.contains(block.data))
+            continue;
+        seenRecords.append(block.data);
         out.transactions.append(parseHistoryBlock(block.data, block.block, warnings));
-        if (out.transactions.size() >= 20)
-            break;
     }
 
     for (int i = 0; i + 1 < out.transactions.size(); ++i)
