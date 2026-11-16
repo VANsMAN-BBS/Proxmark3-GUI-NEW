@@ -1,7 +1,33 @@
-/build*/
-/data
+# Local build outputs
+/build/*
+!/build/README.md
+/build-*/
 /dist/
+/data
+
+# Test builds and logs
 /deliverables/LF_Parser_Standalone/build*/
 /tests/*/build/
+/tests/*/logs/
 /tests/lfparser_stage2/stage2-tests.log
-/artifacts/
+
+# Local release/test artifacts (published releases stay on GitHub Releases)
+/artifacts/temp/
+/artifacts/test/logs/
+/artifacts/test/coverage/
+/artifacts/test/reports/
+/artifacts/publish/**/Proxmark3-GUI-*.zip
+/artifacts/publish/**/SHA256SUMS.txt
+/artifacts/publish/**/MANIFEST.txt
+/artifacts/publish/**/Proxmark3-GUI-*-win-x64/
+/artifacts/screenshots/private/
+
+# Local runtime data and settings
+*.log
+GUIsettings.ini
+.proxmark3/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp

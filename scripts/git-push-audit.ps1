@@ -105,6 +105,14 @@ function Get-DecisionName {
 function Get-PathDecision {
     param([string]$Path)
 
+    if ($policy.allow_exact_paths) {
+        foreach ($allowed in $policy.allow_exact_paths) {
+            if ($Path.Equals($allowed, [System.StringComparison]::OrdinalIgnoreCase)) {
+                return @{ Decision = 0; Reason = "explicitly allow-listed documentation" }
+            }
+        }
+    }
+
     foreach ($pattern in $policy.block_paths) {
         if (Test-PathPattern $Path $pattern) { return @{ Decision = 1; Reason = "path matches block rule: $pattern" } }
     }

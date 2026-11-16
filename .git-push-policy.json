@@ -2,11 +2,36 @@
   "version": 1,
   "description": "Local Git push audit policy for Proxmark3-GUI-NEW. Unknown files are never allowed automatically.",
   "allow_extensions": [
-    ".cpp", ".h", ".c", ".pro", ".pri", ".ui", ".qrc",
-    ".ts", ".qm", ".md", ".txt", ".json", ".ini",
-    ".sh", ".ps1", ".bat", ".cmd", ".py", ".js", ".rs",
-    ".svg", ".ico", ".ttf", ".woff", ".woff2", ".wav",
-    ".yml", ".yaml", ".gitignore", ".gitattributes"
+    ".cpp",
+    ".h",
+    ".c",
+    ".pro",
+    ".pri",
+    ".ui",
+    ".qrc",
+    ".ts",
+    ".qm",
+    ".md",
+    ".txt",
+    ".json",
+    ".ini",
+    ".sh",
+    ".ps1",
+    ".bat",
+    ".cmd",
+    ".py",
+    ".js",
+    ".rs",
+    ".svg",
+    ".ico",
+    ".ttf",
+    ".woff",
+    ".woff2",
+    ".wav",
+    ".yml",
+    ".yaml",
+    ".gitignore",
+    ".gitattributes"
   ],
   "allow_paths": [
     "resources/felica/station_codes.csv",
@@ -35,8 +60,19 @@
     "*.pdb"
   ],
   "review_extensions": [
-    ".exe", ".dll", ".zip", ".7z", ".rar", ".tar", ".gz",
-    ".pdf", ".bin", ".dat", ".img", ".iso", ".woff2"
+    ".exe",
+    ".dll",
+    ".zip",
+    ".7z",
+    ".rar",
+    ".tar",
+    ".gz",
+    ".pdf",
+    ".bin",
+    ".dat",
+    ".img",
+    ".iso",
+    ".woff2"
   ],
   "review_paths": [
     "data/",
@@ -57,5 +93,9 @@
     "\\bCOM[0-9]{1,3}\\b",
     "(?:[0-9A-Fa-f]{2}\\s+){40,}",
     "(?i)card[_-]?number\\s*[:=]\\s*[0-9]{12,}"
+  ],
+  "allow_exact_paths": [
+    "artifacts/README.md",
+    "build/README.md"
   ]
 }

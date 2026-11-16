@@ -216,6 +216,7 @@ Linux and macOS builds are not verified in this repository.
 ## Documentation
 
 - [Build Guide](BUILD_GUIDE.md)
+- [Workspace guide](WORKSPACE_GUIDE.md)
 - [Changelog](CHANGELOG.md)
 - [v0.4.1 release notes](docs/RELEASE_NOTES_v0.4.1.md)
 - [Architecture](ARCHITECTURE_UPGRADE.md)
@@ -364,6 +365,7 @@ mingw32-make -j4
 ### 文档与许可
 
 - 构建：[BUILD_GUIDE.md](BUILD_GUIDE.md)
+- 工作区指南：[WORKSPACE_GUIDE.md](WORKSPACE_GUIDE.md)
 - 更新记录：[CHANGELOG.md](CHANGELOG.md)
 - 发行说明：[docs/RELEASE_NOTES_v0.4.1.md](docs/RELEASE_NOTES_v0.4.1.md)
 - 架构：[ARCHITECTURE_UPGRADE.md](ARCHITECTURE_UPGRADE.md)
