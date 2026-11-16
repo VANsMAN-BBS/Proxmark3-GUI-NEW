@@ -12,6 +12,7 @@
 /tests/lfparser_stage2/stage2-tests.log
 
 # Local release/test artifacts (published releases stay on GitHub Releases)
+/artifacts/latest/
 /artifacts/temp/
 /artifacts/test/logs/
 /artifacts/test/coverage/

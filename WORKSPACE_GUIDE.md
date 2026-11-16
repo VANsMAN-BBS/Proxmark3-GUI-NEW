@@ -27,6 +27,22 @@ Requirements: Windows x64, Qt 5.15 (MSYS2 UCRT64), MinGW-w64, qmake.
 The scripts locate `qmake-qt5` / `mingw32-make` from PATH or from
 `C:\msys64\ucrt64\bin`. Missing tools produce exit code 2 and a readable error.
 
+## Latest runnable test build
+
+After every change, refresh the directly runnable package:
+
+```powershell
+.\scripts\update-latest-build.ps1
+```
+
+Output: `artifacts/latest/win-x64/Proxmark3-GUI-latest-win-x64/`
+
+It builds Release, mirrors the verified v0.4.1 portable tree (Qt/MinGW
+runtime, eMRTD Python runtime, licenses), replaces only `Proxmark3GUI.exe`,
+removes local settings/logs, and writes `BUILD_INFO.txt` with the commit and
+EXE SHA256. This directory is the one to launch for manual testing; it is not
+a release and is ignored by Git.
+
 ## Testers
 
 ```powershell

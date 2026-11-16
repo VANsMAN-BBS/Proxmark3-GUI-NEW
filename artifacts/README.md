@@ -5,6 +5,7 @@ this README.
 
 ```text
 artifacts/
+├── latest/win-x64/Proxmark3-GUI-latest-win-x64/   current runnable test build
 ├── publish/win-x64/v0.4.1/      released files (never overwrite; never re-zip)
 ├── test/reports/<timestamp>/    test logs from scripts/test.ps1
 ├── test/logs/                   Python / Git audit logs
@@ -15,6 +16,9 @@ artifacts/
 
 Rules:
 
+- `latest/` is the current directly runnable test package. Refresh it with
+  `scripts/update-latest-build.ps1` after every change; never treat it as a
+  release. It is ignored by Git.
 - `publish/` keeps a released version's original ZIP and SHA256; new versions
   get a new directory. Do not regenerate or overwrite a published version.
 - Never place real card dumps, UIDs, transaction data or private screenshots
