@@ -1,0 +1,21 @@
+FeliCa station code data
+========================
+
+station_codes.csv
+-----------------
+Source : soltia48/suica-viewer (assets/station_codes.csv)
+License: MIT (Copyright (c) 2025 KIRISHIKI Yudai)
+Format : UTF-8, area/line/station are hexadecimal strings
+Usage  : primary station lookup table
+
+station_codes_legacy.csv
+------------------------
+Source : SolidX/SuicaTools (Data Sources/StationCode.csv)
+License: the upstream repository does not declare a license.
+Content: only the cross-version conflict rows (182 codes) that disagree with
+         the primary table. These rows are factual station-code/name mappings
+         used solely to display alternative interpretations; no code was copied.
+Usage  : secondary candidates; never used as the primary result.
+
+The tables are data, not program code. The Proxmark3 client and firmware are
+separate GPLv3 projects and are not bundled with this application.

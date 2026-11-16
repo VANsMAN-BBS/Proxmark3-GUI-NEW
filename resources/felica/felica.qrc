@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/felica">
+        <file>station_codes.csv</file>
+        <file>station_codes_legacy.csv</file>
+    </qresource>
+</RCC>

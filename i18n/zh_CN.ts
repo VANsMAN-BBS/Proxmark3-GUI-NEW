@@ -5709,4 +5709,394 @@ or load a graph buffer with `data load`.</source>
         <translation>采样序号 %1 .. %2（data save 未提供采样率）</translation>
     </message>
 </context>
+<context>
+    <name>FelicaTab</name>
+    <message>
+        <source>Read Card</source>
+        <translation>读取卡片</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+    <message>
+        <source>Export JSON</source>
+        <translation>导出 JSON</translation>
+    </message>
+    <message>
+        <source>Export CSV</source>
+        <translation>导出 CSV</translation>
+    </message>
+    <message>
+        <source>Clear View</source>
+        <translation>清空视图</translation>
+    </message>
+    <message>
+        <source>Include raw data in JSON</source>
+        <translation>JSON 中包含原始数据</translation>
+    </message>
+    <message>
+        <source>Balance</source>
+        <translation>余额</translation>
+    </message>
+    <message>
+        <source>Card type:</source>
+        <translation>卡片类型：</translation>
+    </message>
+    <message>
+        <source>IDm:</source>
+        <translation>IDm：</translation>
+    </message>
+    <message>
+        <source>PMm:</source>
+        <translation>PMm：</translation>
+    </message>
+    <message>
+        <source>IC:</source>
+        <translation>IC：</translation>
+    </message>
+    <message>
+        <source>Systems:</source>
+        <translation>系统：</translation>
+    </message>
+    <message>
+        <source>Read at:</source>
+        <translation>读取时间：</translation>
+    </message>
+    <message>
+        <source>Connect the Proxmark3 client, then press Read Card.</source>
+        <translation>请先连接 Proxmark3 客户端，然后点击“读取卡片”。</translation>
+    </message>
+    <message>
+        <source>Proxmark3 client is not connected.</source>
+        <translation>Proxmark3 客户端未连接。</translation>
+    </message>
+    <message>
+        <source>Starting read...</source>
+        <translation>开始读取...</translation>
+    </message>
+    <message>
+        <source>Cancelling...</source>
+        <translation>正在取消...</translation>
+    </message>
+    <message>
+        <source>Read complete.</source>
+        <translation>读取完成。</translation>
+    </message>
+    <message>
+        <source>Read cancelled; showing partial data.</source>
+        <translation>已取消读取，显示部分数据。</translation>
+    </message>
+    <message>
+        <source>Read finished with warnings; some services were not read.</source>
+        <translation>读取结束但有警告，部分服务未能读取。</translation>
+    </message>
+    <message>
+        <source>Cleared. Press Read Card to read the card again.</source>
+        <translation>已清空。点击“读取卡片”重新读取。</translation>
+    </message>
+    <message>
+        <source>#</source>
+        <translation>#</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>日期</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>时间</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>类型</translation>
+    </message>
+    <message>
+        <source>Entry</source>
+        <translation>入口</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>出口</translation>
+    </message>
+    <message>
+        <source>Terminal</source>
+        <translation>终端</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>金额</translation>
+    </message>
+    <message>
+        <source>TX#</source>
+        <translation>交易号</translation>
+    </message>
+    <message>
+        <source>Entry
+Exit</source>
+        <translation>入口/出口</translation>
+    </message>
+    <message>
+        <source>Transactions</source>
+        <translation>交易记录</translation>
+    </message>
+    <message>
+        <source>Gate history</source>
+        <translation>改札记录</translation>
+    </message>
+    <message>
+        <source>In / Out</source>
+        <translation>入/出</translation>
+    </message>
+    <message>
+        <source>Station</source>
+        <translation>车站</translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation>设备</translation>
+    </message>
+    <message>
+        <source>Services</source>
+        <translation>服务</translation>
+    </message>
+    <message>
+        <source>Service</source>
+        <translation>服务</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>名称</translation>
+    </message>
+    <message>
+        <source>Access</source>
+        <translation>访问</translation>
+    </message>
+    <message>
+        <source>Blocks</source>
+        <translation>块数</translation>
+    </message>
+    <message>
+        <source>Read</source>
+        <translation>已读</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>状态</translation>
+    </message>
+    <message>
+        <source>Block</source>
+        <translation>块</translation>
+    </message>
+    <message>
+        <source>Data (hex)</source>
+        <translation>数据（十六进制）</translation>
+    </message>
+    <message>
+        <source>not read</source>
+        <translation>未读取</translation>
+    </message>
+    <message>
+        <source>failed</source>
+        <translation>失败</translation>
+    </message>
+    <message>
+        <source>failed: %1</source>
+        <translation>失败：%1</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>partial</source>
+        <translation>部分</translation>
+    </message>
+    <message>
+        <source>%1 warning(s)</source>
+        <translation>%1 条警告</translation>
+    </message>
+    <message>
+        <source>Select a transaction to inspect its raw bytes.</source>
+        <translation>选择一条交易以查看原始字节。</translation>
+    </message>
+    <message>
+        <source>Select a gate record to inspect its raw bytes.</source>
+        <translation>选择一条改札记录以查看原始字节。</translation>
+    </message>
+    <message>
+        <source>Raw: %1</source>
+        <translation>原始数据：%1</translation>
+    </message>
+    <message>
+        <source>Terminal: %1</source>
+        <translation>终端：%1</translation>
+    </message>
+    <message>
+        <source>Transaction: %1</source>
+        <translation>交易：%1</translation>
+    </message>
+    <message>
+        <source>Payment: %1</source>
+        <translation>支付：%1</translation>
+    </message>
+    <message>
+        <source>Gate instruction: %1</source>
+        <translation>改札处理：%1</translation>
+    </message>
+    <message>
+        <source>POS ID: %1 (no public merchant mapping)</source>
+        <translation>POS ID：%1（无公开商户映射）</translation>
+    </message>
+    <message>
+        <source>Entry candidates:</source>
+        <translation>入口候选：</translation>
+    </message>
+    <message>
+        <source>Exit candidates:</source>
+        <translation>出口候选：</translation>
+    </message>
+    <message>
+        <source>Amount: unknown (oldest record in the 20-record window)</source>
+        <translation>金额：未知（20 条窗口内最旧的一条）</translation>
+    </message>
+    <message>
+        <source>Raw station code: %1</source>
+        <translation>原始站码：%1</translation>
+    </message>
+    <message>
+        <source>Station candidates:</source>
+        <translation>车站候选：</translation>
+    </message>
+    <message>
+        <source>Device: %1</source>
+        <translation>设备：%1</translation>
+    </message>
+    <message>
+        <source>Unknown (%1)</source>
+        <translation>未知（%1）</translation>
+    </message>
+    <message>
+        <source>Unresolved code: %1</source>
+        <translation>未解析站码：%1</translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation>导出失败</translation>
+    </message>
+    <message>
+        <source>Exported JSON: %1</source>
+        <translation>已导出 JSON：%1</translation>
+    </message>
+    <message>
+        <source>Exported CSV: %1, %2</source>
+        <translation>已导出 CSV：%1、%2</translation>
+    </message>
+    <message>
+        <source>Time derived from the matching gate record (0x108F).</source>
+        <translation>时刻来自匹配的改札记录（0x108F）。</translation>
+    </message>
+    <message>
+        <source>JSON files (*.json)</source>
+        <translation>JSON 文件 (*.json)</translation>
+    </message>
+    <message>
+        <source>CSV files (*.csv)</source>
+        <translation>CSV 文件 (*.csv)</translation>
+    </message>
+    <message>
+        <source>Raw data</source>
+        <translation>原始数据</translation>
+    </message>
+</context>
+<context>
+    <name>FelicaReader</name>
+    <message>
+        <source>Polling for a FeliCa card...</source>
+        <translation>正在寻找 FeliCa 卡片...</translation>
+    </message>
+    <message>
+        <source>Reading card information...</source>
+        <translation>正在读取卡片信息...</translation>
+    </message>
+    <message>
+        <source>Reading service 0x%1, blocks %2-%3...</source>
+        <translation>正在读取服务 0x%1，块 %2-%3...</translation>
+    </message>
+    <message>
+        <source>No FeliCa card detected.</source>
+        <translation>未检测到 FeliCa 卡片。</translation>
+    </message>
+    <message>
+        <source>This card is not a CJRC transit card (system 0x0003 was not found).</source>
+        <translation>该卡不是 CJRC 交通卡（未找到系统 0x0003）。</translation>
+    </message>
+    <message>
+        <source>Card did not respond.</source>
+        <translation>卡片无响应。</translation>
+    </message>
+    <message>
+        <source>Read failed (%1). Retrying %2/%3...</source>
+        <translation>读取失败（%1）。重试 %2/%3...</translation>
+    </message>
+    <message>
+        <source>Card rejected the read (status %1 %2).</source>
+        <translation>卡片拒绝读取（状态 %1 %2）。</translation>
+    </message>
+    <message>
+        <source>Card returned %1 blocks, expected %2.</source>
+        <translation>卡片返回 %1 块，预期 %2 块。</translation>
+    </message>
+    <message>
+        <source>Incomplete block data.</source>
+        <translation>块数据不完整。</translation>
+    </message>
+    <message>
+        <source>Truncated response from the client.</source>
+        <translation>客户端响应被截断。</translation>
+    </message>
+    <message>
+        <source>Unexpected FeliCa frame.</source>
+        <translation>非预期的 FeliCa 帧。</translation>
+    </message>
+    <message>
+        <source>Unexpected response from the client.</source>
+        <translation>客户端响应异常。</translation>
+    </message>
+    <message>
+        <source>command timed out</source>
+        <translation>命令超时</translation>
+    </message>
+    <message>
+        <source>read failed</source>
+        <translation>读取失败</translation>
+    </message>
+    <message>
+        <source>no IDm in the client output</source>
+        <translation>客户端输出中没有 IDm</translation>
+    </message>
+    <message>
+        <source>Read complete.</source>
+        <translation>读取完成。</translation>
+    </message>
+    <message>
+        <source>Read cancelled.</source>
+        <translation>已取消读取。</translation>
+    </message>
+    <message>
+        <source>FeliCa Standard</source>
+        <translation>FeliCa Standard</translation>
+    </message>
+    <message>
+        <source>Proxmark3 client is not connected.</source>
+        <translation>Proxmark3 客户端未连接。</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>FeliCa</source>
+        <translation>FeliCa</translation>
+    </message>
+</context>
 </TS>

@@ -5640,4 +5640,395 @@ or load a graph buffer with `data load`.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>FelicaTab</name>
+    <message>
+        <source>Read Card</source>
+        <translation>Read Card</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
+    </message>
+    <message>
+        <source>Export JSON</source>
+        <translation>Export JSON</translation>
+    </message>
+    <message>
+        <source>Export CSV</source>
+        <translation>Export CSV</translation>
+    </message>
+    <message>
+        <source>Clear View</source>
+        <translation>Clear View</translation>
+    </message>
+    <message>
+        <source>Include raw data in JSON</source>
+        <translation>Include raw data in JSON</translation>
+    </message>
+    <message>
+        <source>Balance</source>
+        <translation>Balance</translation>
+    </message>
+    <message>
+        <source>Card type:</source>
+        <translation>Card type:</translation>
+    </message>
+    <message>
+        <source>IDm:</source>
+        <translation>IDm:</translation>
+    </message>
+    <message>
+        <source>PMm:</source>
+        <translation>PMm:</translation>
+    </message>
+    <message>
+        <source>IC:</source>
+        <translation>IC:</translation>
+    </message>
+    <message>
+        <source>Systems:</source>
+        <translation>Systems:</translation>
+    </message>
+    <message>
+        <source>Read at:</source>
+        <translation>Read at:</translation>
+    </message>
+    <message>
+        <source>Connect the Proxmark3 client, then press Read Card.</source>
+        <translation>Connect the Proxmark3 client, then press Read Card.</translation>
+    </message>
+    <message>
+        <source>Proxmark3 client is not connected.</source>
+        <translation>Proxmark3 client is not connected.</translation>
+    </message>
+    <message>
+        <source>Starting read...</source>
+        <translation>Starting read...</translation>
+    </message>
+    <message>
+        <source>Cancelling...</source>
+        <translation>Cancelling...</translation>
+    </message>
+    <message>
+        <source>Read complete.</source>
+        <translation>Read complete.</translation>
+    </message>
+    <message>
+        <source>Read cancelled; showing partial data.</source>
+        <translation>Read cancelled; showing partial data.</translation>
+    </message>
+    <message>
+        <source>Read finished with warnings; some services were not read.</source>
+        <translation>Read finished with warnings; some services were not read.</translation>
+    </message>
+    <message>
+        <source>Cleared. Press Read Card to read the card again.</source>
+        <translation>Cleared. Press Read Card to read the card again.</translation>
+    </message>
+    <message>
+        <source>#</source>
+        <translation>#</translation>
+    </message>
+    <message>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <source>Time</source>
+        <translation>Time</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Type</translation>
+    </message>
+    <message>
+        <source>Entry</source>
+        <translation>Entry</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation>Exit</translation>
+    </message>
+    <message>
+        <source>Terminal</source>
+        <translation>Terminal</translation>
+    </message>
+    <message>
+        <source>Amount</source>
+        <translation>Amount</translation>
+    </message>
+    <message>
+        <source>TX#</source>
+        <translation>TX#</translation>
+    </message>
+    <message>
+        <source>Entry
+Exit</source>
+        <translation>Entry
+Exit</translation>
+    </message>
+    <message>
+        <source>Transactions</source>
+        <translation>Transactions</translation>
+    </message>
+    <message>
+        <source>Gate history</source>
+        <translation>Gate history</translation>
+    </message>
+    <message>
+        <source>In / Out</source>
+        <translation>In / Out</translation>
+    </message>
+    <message>
+        <source>Station</source>
+        <translation>Station</translation>
+    </message>
+    <message>
+        <source>Device</source>
+        <translation>Device</translation>
+    </message>
+    <message>
+        <source>Services</source>
+        <translation>Services</translation>
+    </message>
+    <message>
+        <source>Service</source>
+        <translation>Service</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>Access</source>
+        <translation>Access</translation>
+    </message>
+    <message>
+        <source>Blocks</source>
+        <translation>Blocks</translation>
+    </message>
+    <message>
+        <source>Read</source>
+        <translation>Read</translation>
+    </message>
+    <message>
+        <source>Status</source>
+        <translation>Status</translation>
+    </message>
+    <message>
+        <source>Block</source>
+        <translation>Block</translation>
+    </message>
+    <message>
+        <source>Data (hex)</source>
+        <translation>Data (hex)</translation>
+    </message>
+    <message>
+        <source>not read</source>
+        <translation>not read</translation>
+    </message>
+    <message>
+        <source>failed</source>
+        <translation>failed</translation>
+    </message>
+    <message>
+        <source>failed: %1</source>
+        <translation>failed: %1</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>partial</source>
+        <translation>partial</translation>
+    </message>
+    <message>
+        <source>%1 warning(s)</source>
+        <translation>%1 warning(s)</translation>
+    </message>
+    <message>
+        <source>Select a transaction to inspect its raw bytes.</source>
+        <translation>Select a transaction to inspect its raw bytes.</translation>
+    </message>
+    <message>
+        <source>Select a gate record to inspect its raw bytes.</source>
+        <translation>Select a gate record to inspect its raw bytes.</translation>
+    </message>
+    <message>
+        <source>Raw: %1</source>
+        <translation>Raw: %1</translation>
+    </message>
+    <message>
+        <source>Terminal: %1</source>
+        <translation>Terminal: %1</translation>
+    </message>
+    <message>
+        <source>Transaction: %1</source>
+        <translation>Transaction: %1</translation>
+    </message>
+    <message>
+        <source>Payment: %1</source>
+        <translation>Payment: %1</translation>
+    </message>
+    <message>
+        <source>Gate instruction: %1</source>
+        <translation>Gate instruction: %1</translation>
+    </message>
+    <message>
+        <source>POS ID: %1 (no public merchant mapping)</source>
+        <translation>POS ID: %1 (no public merchant mapping)</translation>
+    </message>
+    <message>
+        <source>Entry candidates:</source>
+        <translation>Entry candidates:</translation>
+    </message>
+    <message>
+        <source>Exit candidates:</source>
+        <translation>Exit candidates:</translation>
+    </message>
+    <message>
+        <source>Amount: unknown (oldest record in the 20-record window)</source>
+        <translation>Amount: unknown (oldest record in the 20-record window)</translation>
+    </message>
+    <message>
+        <source>Raw station code: %1</source>
+        <translation>Raw station code: %1</translation>
+    </message>
+    <message>
+        <source>Station candidates:</source>
+        <translation>Station candidates:</translation>
+    </message>
+    <message>
+        <source>Device: %1</source>
+        <translation>Device: %1</translation>
+    </message>
+    <message>
+        <source>Unknown (%1)</source>
+        <translation>Unknown (%1)</translation>
+    </message>
+    <message>
+        <source>Unresolved code: %1</source>
+        <translation>Unresolved code: %1</translation>
+    </message>
+    <message>
+        <source>Export failed</source>
+        <translation>Export failed</translation>
+    </message>
+    <message>
+        <source>Exported JSON: %1</source>
+        <translation>Exported JSON: %1</translation>
+    </message>
+    <message>
+        <source>Exported CSV: %1, %2</source>
+        <translation>Exported CSV: %1, %2</translation>
+    </message>
+    <message>
+        <source>Time derived from the matching gate record (0x108F).</source>
+        <translation>Time derived from the matching gate record (0x108F).</translation>
+    </message>
+    <message>
+        <source>JSON files (*.json)</source>
+        <translation>JSON files (*.json)</translation>
+    </message>
+    <message>
+        <source>CSV files (*.csv)</source>
+        <translation>CSV files (*.csv)</translation>
+    </message>
+    <message>
+        <source>Raw data</source>
+        <translation>Raw data</translation>
+    </message>
+</context>
+<context>
+    <name>FelicaReader</name>
+    <message>
+        <source>Polling for a FeliCa card...</source>
+        <translation>Polling for a FeliCa card...</translation>
+    </message>
+    <message>
+        <source>Reading card information...</source>
+        <translation>Reading card information...</translation>
+    </message>
+    <message>
+        <source>Reading service 0x%1, blocks %2-%3...</source>
+        <translation>Reading service 0x%1, blocks %2-%3...</translation>
+    </message>
+    <message>
+        <source>No FeliCa card detected.</source>
+        <translation>No FeliCa card detected.</translation>
+    </message>
+    <message>
+        <source>This card is not a CJRC transit card (system 0x0003 was not found).</source>
+        <translation>This card is not a CJRC transit card (system 0x0003 was not found).</translation>
+    </message>
+    <message>
+        <source>Card did not respond.</source>
+        <translation>Card did not respond.</translation>
+    </message>
+    <message>
+        <source>Read failed (%1). Retrying %2/%3...</source>
+        <translation>Read failed (%1). Retrying %2/%3...</translation>
+    </message>
+    <message>
+        <source>Card rejected the read (status %1 %2).</source>
+        <translation>Card rejected the read (status %1 %2).</translation>
+    </message>
+    <message>
+        <source>Card returned %1 blocks, expected %2.</source>
+        <translation>Card returned %1 blocks, expected %2.</translation>
+    </message>
+    <message>
+        <source>Incomplete block data.</source>
+        <translation>Incomplete block data.</translation>
+    </message>
+    <message>
+        <source>Truncated response from the client.</source>
+        <translation>Truncated response from the client.</translation>
+    </message>
+    <message>
+        <source>Unexpected FeliCa frame.</source>
+        <translation>Unexpected FeliCa frame.</translation>
+    </message>
+    <message>
+        <source>Unexpected response from the client.</source>
+        <translation>Unexpected response from the client.</translation>
+    </message>
+    <message>
+        <source>command timed out</source>
+        <translation>command timed out</translation>
+    </message>
+    <message>
+        <source>read failed</source>
+        <translation>read failed</translation>
+    </message>
+    <message>
+        <source>no IDm in the client output</source>
+        <translation>no IDm in the client output</translation>
+    </message>
+    <message>
+        <source>Read complete.</source>
+        <translation>Read complete.</translation>
+    </message>
+    <message>
+        <source>Read cancelled.</source>
+        <translation>Read cancelled.</translation>
+    </message>
+    <message>
+        <source>FeliCa Standard</source>
+        <translation>FeliCa Standard</translation>
+    </message>
+    <message>
+        <source>Proxmark3 client is not connected.</source>
+        <translation>Proxmark3 client is not connected.</translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>FeliCa</source>
+        <translation>FeliCa</translation>
+    </message>
+</context>
 </TS>

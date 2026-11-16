@@ -35,6 +35,12 @@ SOURCES += \
     module/ntag/ntagmodel.cpp \
     module/ntag/ndefbuilder.cpp \
     module/ntag/ntagmemory.cpp \
+    module/felicatab.cpp \
+    module/felica/felica_reader.cpp \
+    module/felica/cjrc_profile.cpp \
+    module/felica/station_table.cpp \
+    module/felica/code_tables.cpp \
+    module/felica/felica_exporter.cpp \
     lf/parser/src/lf/lfparsetypes.cpp \
     lf/parser/src/lf/lftextnormalizer.cpp \
     lf/parser/src/lf/lfparserregistry.cpp \
@@ -86,6 +92,14 @@ HEADERS += \
     module/ntag/ntagmodel.h \
     module/ntag/ndefbuilder.h \
     module/ntag/ntagmemory.h \
+    module/felicatab.h \
+    module/felica/transit_types.h \
+    module/felica/felica_reader.h \
+    module/felica/cjrc_profile.h \
+    module/felica/station_table.h \
+    module/felica/code_tables.h \
+    module/felica/felica_exporter.h \
+    module/felica/felica_chunks.h \
     lf/parser/include/lf/lfparsetypes.h \
     lf/parser/include/lf/lftextnormalizer.h \
     lf/parser/include/lf/lfparser.h \
@@ -146,6 +160,7 @@ RESOURCES += \
     ../i18n/language.qrc \
     ../config/config.qrc \
     ../resources/icons/icons.qrc \
+    ../resources/felica/felica.qrc \
     qdarkstyle/dark/darkstyle.qrc \
     qdarkstyle/light/lightstyle.qrc
 

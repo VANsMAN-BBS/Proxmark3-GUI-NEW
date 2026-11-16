@@ -100,6 +100,17 @@ MainWindow::MainWindow(QWidget *parent):
             pm3->restartClient();
         }
     });
+
+    // Read-only FeliCa transit cards (Suica/PASMO). The page never writes to
+    // the card and uses the same ClientSession queue as every other page.
+    felicaPage = new FelicaTab(util, pm3, this);
+    ui->funcTab->insertTab(4, felicaPage, tr("FeliCa"));
+    connect(pm3, &ClientSession::stateChanged, felicaPage,
+            [this](bool connected, const QString &)
+            {
+                if (felicaPage)
+                    felicaPage->setClientConnected(connected);
+            });
     connect(ui->PM3_portBox, &QComboBox::currentTextChanged, this, [this](const QString &text)
     {
         if(emrtdPage)
