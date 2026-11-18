@@ -33,3 +33,6 @@ GUIsettings.ini
 *.tmp
 *.bak
 *.swp
+
+# Local/private development reports
+/docs-private/

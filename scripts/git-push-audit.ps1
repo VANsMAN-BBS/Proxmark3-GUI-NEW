@@ -113,6 +113,21 @@ function Get-PathDecision {
         }
     }
 
+    if ($policy.block_prefixes) {
+        foreach ($prefix in $policy.block_prefixes) {
+            if ($Path.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+                return @{ Decision = 1; Reason = "development report path is blocked" }
+            }
+        }
+    }
+    if ($policy.block_suffixes) {
+        foreach ($suffix in $policy.block_suffixes) {
+            if ($Path.EndsWith($suffix, [System.StringComparison]::OrdinalIgnoreCase)) {
+                return @{ Decision = 1; Reason = "development report file is blocked" }
+            }
+        }
+    }
+
     foreach ($pattern in $policy.block_paths) {
         if (Test-PathPattern $Path $pattern) { return @{ Decision = 1; Reason = "path matches block rule: $pattern" } }
     }

@@ -98,5 +98,13 @@
   "allow_exact_paths": [
     "artifacts/README.md",
     "build/README.md"
+  ],
+  "block_prefixes": [
+    "docs/STAGE",
+    "docs-private/"
+  ],
+  "block_suffixes": [
+    "_REPORT.md",
+    "_AUDIT.md"
   ]
 }
