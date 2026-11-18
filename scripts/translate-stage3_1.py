@@ -1,6 +1,7 @@
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
-TS = r"E:\Opencode_project\Proxmark3GUI-master\i18n\zh_CN.ts"
+TS = str(Path(__file__).resolve().parent.parent / "i18n" / "zh_CN.ts")
 MAP = {
     "Manage Amiibo files and simulate them through the Proxmark3.":
         "管理 Amiibo 数据文件并通过 Proxmark3 模拟。",

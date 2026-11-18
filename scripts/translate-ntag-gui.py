@@ -1,8 +1,9 @@
 """zh_CN translations for the NTAG memory browser / NDEF view."""
 
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
-TS = r"E:\Opencode_project\Proxmark3GUI-master\i18n\zh_CN.ts"
+TS = str(Path(__file__).resolve().parent.parent / "i18n" / "zh_CN.ts")
 
 MAP = {
     "Model:": "型号：",

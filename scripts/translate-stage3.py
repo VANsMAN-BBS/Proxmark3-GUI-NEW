@@ -1,6 +1,7 @@
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
-TS = r"E:\Opencode_project\Proxmark3GUI-master\i18n\zh_CN.ts"
+TS = str(Path(__file__).resolve().parent.parent / "i18n" / "zh_CN.ts")
 
 MAP = {
     "The file is empty.": "文件为空。",

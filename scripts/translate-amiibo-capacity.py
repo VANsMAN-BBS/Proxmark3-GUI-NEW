@@ -1,6 +1,7 @@
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
-TS = r"E:\Opencode_project\Proxmark3GUI-master\i18n\zh_CN.ts"
+TS = str(Path(__file__).resolve().parent.parent / "i18n" / "zh_CN.ts")
 MAP = {
     "The tag holds %1 bytes but the image is %2 bytes.":
         "标签容量为 %1 字节，但镜像为 %2 字节。",

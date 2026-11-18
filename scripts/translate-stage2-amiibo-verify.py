@@ -1,6 +1,7 @@
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
-TS = r"E:\Opencode_project\Proxmark3GUI-master\i18n\zh_CN.ts"
+TS = str(Path(__file__).resolve().parent.parent / "i18n" / "zh_CN.ts")
 MAP = {
     "Writable pages checked: %1, passed: %2, failed: %3, not checkable: %4":
         "已校验可写页：%1，通过：%2，失败：%3，不可校验：%4",

@@ -1,6 +1,7 @@
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
-TS = r"E:\Opencode_project\Proxmark3GUI-master\i18n\zh_CN.ts"
+TS = str(Path(__file__).resolve().parent.parent / "i18n" / "zh_CN.ts")
 MAP = {
     "(not read)": "（未读取）",
     "Unverified: %1 targeted page(s) were cleared but %2 page(s) could not be read back.":
