@@ -14,11 +14,9 @@ The GUI does not implement USB or serial protocol itself. Every device operation
 
 软件本身不实现USB或串行协议。所有设备操作均由单独的`proxmark3.exe`客户端进程执行。GUI拥有该客户端进程，负责序列化命令并解析其文本输出。
 
-> Verified compatibility baseline / 已验证的兼容性基线: Iceman/RRG client `v4.23346` on Windows, with a Proxmark3 `PM3 GENERIC` / AT91SAM7S256 / 256 KB firmware.
+> This project has been verified on RDV2 and RDV3/Easy.
 
-> Other client versions, firmware builds and Proxmark3 hardware are not verified by this project.
-
-> 本项目未验证其他固件版本和Proxmark3硬件。
+> 本项目在RDV2与RDV3/Easy上验证通过
 
 ---
 
