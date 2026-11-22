@@ -1,24 +1,18 @@
 # Proxmark3GUI
 
 **A desktop GUI for Proxmark3, maintained for the new Iceman/RRG client.**
-
 **为Proxmark3设计的桌面图形用户界面，维护自最新的冰人RRG固件。**
 
 [![License: LGPL-2.1](https://img.shields.io/badge/license-LGPL--2.1-blue)](LICENSE) [![Qt 5.15](https://img.shields.io/badge/Qt-5.15-informational)](BUILD_GUIDE.md)
 
 Proxmark3GUI is a Windows-oriented desktop application for practical Proxmark3 workflows. It is a maintained fork of [wh201906/Proxmark3GUI](https://github.com/wh201906/Proxmark3GUI), extended for the **Iceman/RRG client v4.23346**.
-
 Proxmark3GUI是一款面向Windows的桌面应用程序，专为Proxmark3的实际工作流程设计。它是[wh201906/Proxmark3GUI](https://github.com/wh201906/Proxmark3GUI)的维护分支，针对**Iceman/RRG v4.23346固件客户端**进行了扩展。
 
 The GUI does not implement USB or serial protocol itself. Every device operation is performed by a separate `proxmark3.exe` client process. The GUI owns the client process, serializes commands, and parses its text output.
-
 软件本身不实现USB或串行协议。所有设备操作均由单独的`proxmark3.exe`客户端进程执行。GUI拥有该客户端进程，负责序列化命令并解析其文本输出。
 
-> Verified compatibility baseline / 已验证的兼容性基线: Iceman/RRG client `v4.23346` on Windows, with a Proxmark3 `PM3 GENERIC` / AT91SAM7S256 / 256 KB firmware.
-
-> Other client versions, firmware builds and Proxmark3 hardware are not verified by this project.
-
-> 本项目未验证其他固件版本和Proxmark3硬件。
+> This project has been verified on RDV2 and RDV3/Easy.
+> 本项目在RDV2与RDV3/Easy上验证通过。
 
 ---
 
