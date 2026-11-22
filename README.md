@@ -112,9 +112,7 @@ The GUI does not implement USB or serial protocol itself. Every device operation
 
 ## Download and installation / 下载与安装
 ### Windows x64 — v0.5.0
-- [GitHub New Release / GitHub 新版本发布](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/tag/v0.5.0)
-- [Proxmark3-GUI-v0.5.0-win-x64.zip](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.5.0/Proxmark3-GUI-v0.5.0-win-x64.zip)
-- [SHA256SUMS.txt](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/download/v0.5.0/SHA256SUMS.txt)
+- [GitHub New Release / GitHub 新版本发布](https://github.com/VANsMAN-BBS/Proxmark3-GUI-NEW/releases/tag/v0.5.1)
 ```text
 SHA-256  1E1CB2FC8C944F02004AC4063EDC7B29046DEF94CDB2D686C5EF06021F1DA005
 Size     52,851,489 bytes
