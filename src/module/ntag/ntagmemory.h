@@ -166,6 +166,10 @@ public:
     bool isValid() const { return m_dir && m_dir->isValid(); }
     QString path() const;
     QString sidecarPath() const;
+    QString simPath() const;
+
+    /** Writes a simulator dump into this workspace (no user path involved). */
+    bool writeSimDump(const QByteArray &dump, QString *error = nullptr);
 
     /** Removes the dump and every client sidecar inside this workspace only. */
     void clearDump();

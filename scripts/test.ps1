@@ -27,7 +27,7 @@ $make = Resolve-Tool "mingw32-make" @("C:\msys64\ucrt64\bin\mingw32-make.exe")
 if (-not $qmake -or -not $make) { Write-Host "Qt 5.15 / MinGW tools not found." -ForegroundColor Red; exit 2 }
 $env:PATH = (Split-Path $qmake -Parent) + ";" + $env:PATH
 
-$qtTests = @("felica", "hidseos", "ntagmodel", "amiibodata", "lfparser", "lfparser_stage2")
+$qtTests = @("terminal", "commandcatalog", "rawworkspace", "uitheme", "settingslayout", "mifareui", "session", "felica", "hidseos", "emv", "iso14443a", "ntagmodel", "quicklaunch", "amiibodata", "mifaregen3", "lfparser", "lfparser_stage2")
 $failures = 0
 $summary = @()
 
@@ -107,6 +107,60 @@ if ($python) {
     if ($rc -ne 0) { $failures++ }
 } else {
     $summary += "emrtd : PYTHON NOT FOUND (skipped)"
+}
+
+# EMV contactless Python parser tests (11 unittest cases).
+# During development the fixture lives in the sibling emv_log_reader folder;
+# it is not copied into the app because it contains a local mock .bat and
+# machine-specific sample logs.
+$emvPythonTest = Join-Path (Split-Path $ProjectRoot -Parent) "emv_log_reader\test_parse.py"
+if ($python -and (Test-Path $emvPythonTest)) {
+    $log = Join-Path $LogDir "emv-python-$Stamp.log"
+    Push-Location (Split-Path $emvPythonTest -Parent)
+    try {
+        $previous = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        & $python -W ignore::ResourceWarning $emvPythonTest 2>&1 | Tee-Object $log | Out-Null
+        $rc = $LASTEXITCODE
+        $ErrorActionPreference = $previous
+    } finally {
+        Pop-Location
+    }
+    $tail = (Get-Content $log | Select-String "^(OK|FAILED|Ran )" | Select-Object -Last 1).Line
+    if (-not $tail) { $tail = (Get-Content $log | Select-Object -Last 1) }
+    $summary += "emv-python : rc=$rc $tail"
+    if ($rc -ne 0) { $failures++ }
+} else {
+    $summary += "emv-python : test_parse.py not found (skipped)"
+}
+
+# ISO 14443A sidecar protocol tests (plain unittest; no pytest required).
+$sidecarPython = $python
+if (-not $sidecarPython) {
+    $cmd = Get-Command python -ErrorAction SilentlyContinue
+    if ($cmd) { $sidecarPython = $cmd.Source }
+    elseif (Test-Path "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe") {
+        $sidecarPython = "$env:LOCALAPPDATA\Programs\Python\Python312\python.exe"
+    }
+}
+if ($sidecarPython) {
+    $log = Join-Path $LogDir "iso14443-sidecar-$Stamp.log"
+    Push-Location $ProjectRoot
+    try {
+        $previous = $ErrorActionPreference
+        $ErrorActionPreference = "Continue"
+        & $sidecarPython -m unittest discover -s "tests\sidecar" -p "test_*.py" 2>&1 | Tee-Object $log | Out-Null
+        $rc = $LASTEXITCODE
+        $ErrorActionPreference = $previous
+    } finally {
+        Pop-Location
+    }
+    $tail = (Get-Content $log | Select-String "^(OK|FAILED|Ran )" | Select-Object -Last 1).Line
+    if (-not $tail) { $tail = (Get-Content $log | Select-Object -Last 1) }
+    $summary += "iso14443-sidecar : rc=$rc $tail"
+    if ($rc -ne 0) { $failures++ }
+} else {
+    $summary += "iso14443-sidecar : PYTHON NOT FOUND (skipped)"
 }
 
 # Git push audit self-tests

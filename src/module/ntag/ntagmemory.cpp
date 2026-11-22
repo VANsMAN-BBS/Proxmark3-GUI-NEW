@@ -437,6 +437,47 @@ QString DumpWorkspace::sidecarPath() const
                  : QString();
 }
 
+QString DumpWorkspace::simPath() const
+{
+    return m_dir ? m_dir->filePath(QStringLiteral("pm3gui-ntag-sim.bin"))
+                 : QString();
+}
+
+bool DumpWorkspace::writeSimDump(const QByteArray &dump, QString *error)
+{
+    if(error)
+        error->clear();
+    if(!m_dir || !m_dir->isValid())
+    {
+        if(error)
+            *error = QStringLiteral("no temporary directory is available");
+        return false;
+    }
+    if(dump.isEmpty())
+    {
+        if(error)
+            *error = QStringLiteral("the simulator dump is empty");
+        return false;
+    }
+    QFile file(simPath());
+    if(!file.open(QIODevice::WriteOnly))
+    {
+        if(error)
+            *error = QStringLiteral("cannot create %1").arg(simPath());
+        return false;
+    }
+    const qint64 written = file.write(dump);
+    file.close();
+    if(written != dump.size())
+    {
+        if(error)
+            *error = QStringLiteral("cannot write the complete simulator dump");
+        QFile::remove(simPath());
+        return false;
+    }
+    return true;
+}
+
 void DumpWorkspace::clearDump()
 {
     if(!m_dir || !m_dir->isValid())
@@ -444,7 +485,9 @@ void DumpWorkspace::clearDump()
     QDir dir(m_dir->path());
     const QStringList files = dir.entryList(
                 QStringList() << QStringLiteral("pm3gui-ntag-dump*.bin")
-                              << QStringLiteral("pm3gui-ntag-dump*.json"),
+                              << QStringLiteral("pm3gui-ntag-dump*.json")
+                              << QStringLiteral("pm3gui-ntag-sim*.bin")
+                              << QStringLiteral("pm3gui-ntag-sim*.json"),
                 QDir::Files);
     for(const QString &name : files)
         dir.remove(name);

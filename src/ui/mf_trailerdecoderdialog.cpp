@@ -1,4 +1,4 @@
-﻿#include "mf_trailerdecoderdialog.h"
+#include "mf_trailerdecoderdialog.h"
 #include "ui_mf_trailerdecoderdialog.h"
 
 MF_trailerDecoderDialog::MF_trailerDecoderDialog(QWidget *parent) :

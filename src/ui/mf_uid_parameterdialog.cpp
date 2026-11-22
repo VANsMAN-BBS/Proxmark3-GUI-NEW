@@ -1,4 +1,4 @@
-﻿#include "mf_uid_parameterdialog.h"
+#include "mf_uid_parameterdialog.h"
 #include "ui_mf_uid_parameterdialog.h"
 #include <QMessageBox>
 #include <QRegularExpression>

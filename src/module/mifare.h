@@ -6,17 +6,35 @@
 #include "ui/mf_attack_hardnesteddialog.h"
 #include "ui/mf_uid_parameterdialog.h"
 #include "ui/mf_sim_simdialog.h"
+#include "module/mifare/mfcancelgate.h"
+#include "module/mifare/mfgen3types.h"
+#include "module/mifare/mfpm3log.h"
 #include <QObject>
 #include <QString>
 #include <QStringList>
 #include <QRegularExpression>
 #include <QMessageBox>
 #include <QJsonObject>
+#include <QAtomicInt>
+
+class ClientSession;
+
 class Mifare : public QObject
 {
     Q_OBJECT
 public:
-    explicit Mifare(Ui::MainWindow *ui, Util *addr, QWidget *parent = nullptr);
+    /** Entry points offered by the MIFARE page's main operation area. */
+    enum QuickTask
+    {
+        TASK_QUICK_READ = 0,
+        TASK_CRACK_GEN3,
+        TASK_IMPORT_PM3,
+        TASK_IMPORT_PM3GUI,
+    };
+
+    explicit Mifare(Ui::MainWindow *ui, Util *addr, ClientSession *session = nullptr,
+                    QWidget *parent = nullptr);
+    ~Mifare() override;
 
     enum KeyType
     {
@@ -65,7 +83,7 @@ public:
     static const AccessType trailerReadCondition[8][3];
     static const AccessType trailerWriteCondition[8][3];
 
-    QMap<QString, QString> info(bool isRequiringOutput = false);
+    QMap<QString, QString> info(bool isRequiringOutput = true);
     void chk();
     void nested(bool isStaticNested = false);
     void darkside();
@@ -116,19 +134,100 @@ public:
     quint16 getTrailerBlockId(quint8 sectorId, qint8 cardTypeId = -1); // -1: use current cardtype
     void setConfigMap(const QVariantMap& configMap);
     QString getTraceSavePath();
+
+    // ---- MIFARE one-click read / FM11RF08S (Gen3) integration -------------
+    /** "Read Card": identify the card and drive the cheapest working path. */
+    void quickReadCard();
+    /** "Crack FM11RF08S": probe -> collect -> solve -> verify -> read. */
+    void crackGen3Card();
+    /** Import a nonce evidence file and verify it on the card (candidate verification). */
+    void importNonceEvidence(int format);
+    /** Ask the running task to stop; safe to call when idle. */
+    void cancelGen3Task();
+    /** Busy flag for the main window (single running task at a time). */
+    bool gen3Busy() const { return gen3Running; }
+    /** Re-read `hf 14a info` and refresh the status area. */
+    void refreshCardStatus();
+    /**
+     * Single read-card-info workflow: one `hf 14a info`, then `hf mf info`
+     * only for a MIFARE Classic layout.  Keeps the MIFARE page and uses the
+     * existing ClientSession output stream.
+     */
+    void readCardInfo();
+    /** Popup menus shared by the primary operation area. */
+    void showImportMenu();
+    void showExportMenu();
+
 public slots:
+    void onPm3StateChanged(bool connected, const QString &info);
+
 signals:
+    /** The page asks the main window to reuse the original file dialogs. */
+    void requestLegacyLoad();
+    void requestLegacySave();
+    void gen3TaskStateChanged(bool running);
+    /** A confirmed read-only identity may change the table layout. */
+    void cardTypeDetected(int typeId, const QString &uid, bool confirmed);
+    /** The Gen3 result changed the card layout; the shell must resize the
+     *  data/key tables (row count and model size change together). */
+    void cardLayoutChangeRequested(int cardType);
 
 private:
     QWidget* parent;
     Ui::MainWindow *ui;
     Util* util;
+    ClientSession* session;
+
+    // ---- one-click task plumbing (worker thread + GUI-thread command pump) --
+    void startGen3Task(int task);
+    void runGen3Task(int task);
+    void finishGen3Task(const mfgen3::CrackResult &result);
+    void setTaskUiBusy(bool busy);
+    void setInfoBusy(bool busy);
+    void appendResultLog(const QString &text);
+    void appendPm3Log(const QString &text);
+    void appendLogLine(const QString &prefix, const QString &text);
+    void showResultSummary(const mfgen3::CrackResult &result);
+    void applyCardIdentity(const mfgen3::CardIdentity &identity);
+    QString identityConfidenceText(mfgen3::Confidence confidence) const;
+    QString identityCapacityText(const mfgen3::CardIdentity &identity) const;
+    QString identityAllowedFlowText(const mfgen3::CardIdentity &identity) const;
+    QString quickFlowText(mfgen3::QuickFlow flow, const mfgen3::CardIdentity &identity,
+                          const QString &detail = QString()) const;
+    void applyCrackResult(const mfgen3::CrackResult &result);
+    /** Back up the complete in-memory image; false when it could not be saved. */
+    bool backupCurrentImage(const QString &uid);
+    void updateStatusLabels();
+    QString buildImportError(const QString &detail) const;
+    QString uniqueOutputPath(const QString &path) const;
+    mfgen3::FwFlavor currentFlavor() const;
+    QString gen3WorkDir() const;
+    QString gen3ExecFromWorker(const QString &cmd, int timeoutMs);
+    void gen3StepFromWorker(int step, int total, const QString &text, int percent);
+    void gen3LogFromWorker(const QString &text);
+
+    QThread *gen3Thread = nullptr;
+    mfgen3::CancelGate gen3Cancel;
+    mfgen3::CancelGate infoCancel;
+    bool infoRunning = false;
+    bool gen3Running = false;
+    int gen3Task = -1;
+    quint64 gen3TaskSerial = 0;
+    mfgen3::Pm3LogFilter pm3LogFilter;
+    QString importPath;
+    mfgen3::CrackResult lastResult;
+    mfgen3::NonceSet lastNonceSet;
+    bool lastNonceValid = false;
+    mfgen3::CardIdentity lastIdentity;
+    QString lastKeySource;
+    bool pm3Connected = false;
 
     QVariantMap configMap;
 
     QStringList* keyAList;
     QStringList* keyBList;
     QStringList* dataList;
+    QString gen3ButtonIdleText;
     bool sniffBufferLoaded = false;
     QRegularExpression* dataPattern;
     QRegularExpression* keyPattern_res;

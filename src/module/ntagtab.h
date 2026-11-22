@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QString>
 #include <QMap>
+#include <QPair>
 #include <QVector>
 
 #include "ntag/ntagmodel.h"
@@ -22,6 +23,8 @@ class QComboBox;
 class QPushButton;
 class QCheckBox;
 class QEvent;
+
+namespace Ndef { struct LaunchPayload; }
 
 /**
  * NTAG / MIFARE Ultralight page.
@@ -44,6 +47,12 @@ public:
                      QWidget *parent = nullptr);
     ~NtagTab();
 
+signals:
+    /** The owner must restart/stop the client to end a detached simulation. */
+    void stopSimulationRequested();
+    /** The NTAG simulator started or stopped; the owner enforces serial exclusivity. */
+    void simulationStateChanged(bool active);
+
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
     void changeEvent(QEvent *event) override;
@@ -62,6 +71,9 @@ private slots:
     void quickTypeChanged();
     void updateQuickPreview();
     void writeQuickLaunch();
+    void toggleQuickSimulation();
+    void onSimulationOutput(const QString &text);
+    void onSimulationDetachedChanged(bool detached);
     void undoEdit();    void redoEdit();
     void discardEdits();
     void exportMemory();
@@ -134,10 +146,13 @@ private:
     QLineEdit *quickSubject;
     QLabel *quickBodyLabel;
     QLineEdit *quickBody;
+    QLabel *quickExtraLabel;
+    QLineEdit *quickExtra;
     QLabel *quickCapacityLabel;
     QLabel *quickInfoLabel;
     QPlainTextEdit *quickPreview;
     QPushButton *quickWriteButton;
+    QPushButton *quickSimButton;
     QLabel *quickStatusLabel;
 
     int m_pages = 0;
@@ -168,17 +183,25 @@ private:
     QList<int> writeTargets;
     QMap<int, QByteArray> writeExpected;
     QMap<int, QByteArray> writePlanned;
+    QList<QPair<int, QByteArray> > writeSequence;
     int writeIndex = 0;
     bool writeAllowRetry = false;
     bool writeVerifyPageOnly = false;
     bool writeEraseFlow = false;
+    bool writeQuickFlow = false;
     QString writeTitle;
     QString writePageHex;
+    QString writeQuickDescription;
+    QStringList writeQuickWarnings;
+    QByteArray writeQuickArea;
+    int writeQuickFirstPage = -1;
+    int writeQuickLastPage = -1;
     QStringList m_writeFailedPages;
     Ntag::ErasePlan m_erasePlan;
     Ntag::DumpWorkspace m_dumpWorkspace;
+    bool m_simActive = false;
 
-    bool deviceBusy() const { return m_readJob.busy || m_writeJob.busy; }
+    bool deviceBusy() const { return m_readJob.busy || m_writeJob.busy || m_simActive; }
     void startWriteJob(Ntag::WriteJobMode mode, const QList<int> &targets,
                        const QMap<int, QByteArray> &expected,
                        const QString &title, bool allowRetry,
@@ -189,6 +212,13 @@ private:
     void writeAttemptFailed(const QString &reason);
     void commitWrittenPage(const QString &actual);
     void finishWriteJob(bool cancelled, const QString &message, bool error = false);
+    void startQuickLaunchWrite(const Ndef::LaunchPayload &payload);
+    void startQuickSimulation(const Ndef::LaunchPayload &payload);
+    void stopQuickSimulation(const QString &message = QString());
+    void setSimulationUiActive(bool active);
+    bool buildSimulationDump(const Ndef::LaunchPayload &payload,
+                             QByteArray *dump, QString *error);
+    static bool outputLooksUnsupported(const QString &output);
     void showWriteReport(const QMap<int, QByteArray> &expected,
                          const QList<QByteArray> &pages,
                          const QVector<Ntag::PageState> &states,

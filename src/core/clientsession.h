@@ -68,6 +68,8 @@ public:
     void sendRawCommand(const QString &cmd);
 
     void setWorkingDirectory(const QString &dir);
+    /** Working directory the client process was started in (empty when unset). */
+    QString workingDirectory() const { return m_workingDir; }
     void setEnvironment(const QStringList &env);
 
 public slots:
@@ -86,6 +88,14 @@ signals:
     void busyChanged(bool busy);
     void detachedChanged(bool detached);
     void commandStateChanged(const QString &state, const QString &detail);
+    /**
+     * Output chunk attributed to the currently running queued command.
+     *
+     * This is the same decoded stream as newOutput(), but carries the request
+     * id so a task-scoped detail log can ignore late chunks from a cancelled
+     * command instead of mixing them into the next task.
+     */
+    void commandOutput(quint64 id, const QString &output);
     void commandFinished(quint64 id, const QString &output, bool success,
                          bool timedOut, const QString &error);
 
@@ -146,6 +156,11 @@ private:
     void parseVersionOutput(const QString &text);
     static QStringList ensureFlushArgument(const QStringList &args);
     static QString makeToken(quint64 id);
+
+    /** Stop the child process; true when it is NotRunning afterwards. */
+    bool stopProcess(int gracefulMs, int killMs);
+    /** Fail the active request and every queued request with one reason. */
+    void failPendingRequests(const QString &reason);
 };
 
 #endif // CLIENTSESSION_H

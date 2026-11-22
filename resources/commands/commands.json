@@ -1,0 +1,7188 @@
+{
+  "source": {
+    "client": "Iceman v4.23346",
+    "metadata": "proxmark3 -t --incognito",
+    "dump": "proxmark3.exe -t --incognito"
+  },
+  "categories": [
+    "all",
+    "hf",
+    "lf",
+    "hf14a",
+    "hfmf",
+    "hf15",
+    "lfem",
+    "other"
+  ],
+  "count": 1024,
+  "commands": [
+    {
+      "id": "cmd.help",
+      "command": "help",
+      "category": "other",
+      "description": "Use `<command> help` for details of a command",
+      "offline": true
+    },
+    {
+      "id": "cmd.auto",
+      "command": "auto",
+      "category": "other",
+      "description": "Automated detection process for unknown tags",
+      "offline": false
+    },
+    {
+      "id": "cmd.clear",
+      "command": "clear",
+      "category": "other",
+      "description": "Clear screen",
+      "offline": true
+    },
+    {
+      "id": "cmd.hints",
+      "command": "hints",
+      "category": "other",
+      "description": "Turn hints on / off",
+      "offline": true
+    },
+    {
+      "id": "cmd.msleep",
+      "command": "msleep",
+      "category": "other",
+      "description": "Add a pause in milliseconds",
+      "offline": true
+    },
+    {
+      "id": "cmd.rem",
+      "command": "rem",
+      "category": "other",
+      "description": "Add a text line in log file",
+      "offline": true
+    },
+    {
+      "id": "cmd.quit",
+      "command": "quit",
+      "category": "other",
+      "description": "",
+      "offline": true
+    },
+    {
+      "id": "cmd.exit",
+      "command": "exit",
+      "category": "other",
+      "description": "Exit program",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_help",
+      "command": "prefs help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_show",
+      "command": "prefs show",
+      "category": "other",
+      "description": "Show all preferences",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_barmode",
+      "command": "prefs get barmode",
+      "category": "other",
+      "description": "Get bar mode preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_client_debug",
+      "command": "prefs get client.debug",
+      "category": "other",
+      "description": "Get client debug level preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_client_delay",
+      "command": "prefs get client.delay",
+      "category": "other",
+      "description": "Get client execution delay preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_client_timeout",
+      "command": "prefs get client.timeout",
+      "category": "other",
+      "description": "Get client execution delay preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_hf_field_timeout_sec",
+      "command": "prefs get hf.field.timeout_sec",
+      "category": "other",
+      "description": "Get PM3 HF field inactivity timeout preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_color",
+      "command": "prefs get color",
+      "category": "other",
+      "description": "Get color support preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_savepaths",
+      "command": "prefs get savepaths",
+      "category": "other",
+      "description": "Get file folder",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_emoji",
+      "command": "prefs get emoji",
+      "category": "other",
+      "description": "Get emoji display preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_hints",
+      "command": "prefs get hints",
+      "category": "other",
+      "description": "Get hint display preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_output",
+      "command": "prefs get output",
+      "category": "other",
+      "description": "Get dump output style preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_plotsliders",
+      "command": "prefs get plotsliders",
+      "category": "other",
+      "description": "Get plot slider display preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_get_mqtt",
+      "command": "prefs get mqtt",
+      "category": "other",
+      "description": "Get MQTT preference",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_help",
+      "command": "prefs set help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_barmode",
+      "command": "prefs set barmode",
+      "category": "other",
+      "description": "Set bar mode",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_client_debug",
+      "command": "prefs set client.debug",
+      "category": "other",
+      "description": "Set client debug level",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_client_delay",
+      "command": "prefs set client.delay",
+      "category": "other",
+      "description": "Set client execution delay",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_client_timeout",
+      "command": "prefs set client.timeout",
+      "category": "other",
+      "description": "Set client communication timeout",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_hf_field_timeout_sec",
+      "command": "prefs set hf.field.timeout_sec",
+      "category": "other",
+      "description": "Set PM3 HF field inactivity timeout",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_color",
+      "command": "prefs set color",
+      "category": "other",
+      "description": "Set color support",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_emoji",
+      "command": "prefs set emoji",
+      "category": "other",
+      "description": "Set emoji display",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_hints",
+      "command": "prefs set hints",
+      "category": "other",
+      "description": "Set hint display",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_savepaths",
+      "command": "prefs set savepaths",
+      "category": "other",
+      "description": "... to be adjusted next ...",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_output",
+      "command": "prefs set output",
+      "category": "other",
+      "description": "Set dump output style",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_plotsliders",
+      "command": "prefs set plotsliders",
+      "category": "other",
+      "description": "Set plot slider display",
+      "offline": true
+    },
+    {
+      "id": "cmd.prefs_set_mqtt",
+      "command": "prefs set mqtt",
+      "category": "other",
+      "description": "Set MQTT default values",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_help",
+      "command": "analyse help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_lrc",
+      "command": "analyse lrc",
+      "category": "other",
+      "description": "Generate final byte for XOR LRC",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_crc",
+      "command": "analyse crc",
+      "category": "other",
+      "description": "Stub method for CRC evaluations",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_chksum",
+      "command": "analyse chksum",
+      "category": "other",
+      "description": "Checksum with adding, masking and one's complement",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_dates",
+      "command": "analyse dates",
+      "category": "other",
+      "description": "Look for datestamps in a given array of bytes",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_lfsr",
+      "command": "analyse lfsr",
+      "category": "other",
+      "description": "LFSR tests",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_a",
+      "command": "analyse a",
+      "category": "other",
+      "description": "num bits test",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_nuid",
+      "command": "analyse nuid",
+      "category": "other",
+      "description": "create NUID from 7byte UID",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_demodbuff",
+      "command": "analyse demodbuff",
+      "category": "other",
+      "description": "Load binary string to DemodBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_freq",
+      "command": "analyse freq",
+      "category": "other",
+      "description": "Calc wave lengths",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_foo",
+      "command": "analyse foo",
+      "category": "other",
+      "description": "muxer",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_regex",
+      "command": "analyse regex",
+      "category": "other",
+      "description": "Regex utility (subset: ^ $ . * with \\\\ escape)",
+      "offline": true
+    },
+    {
+      "id": "cmd.analyse_units",
+      "command": "analyse units",
+      "category": "other",
+      "description": "convert ETU <> US <> SSP_CLK (3.39MHz)",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_help",
+      "command": "data help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_clear",
+      "command": "data clear",
+      "category": "other",
+      "description": "Clears various buffers used by the graph window",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_hide",
+      "command": "data hide",
+      "category": "other",
+      "description": "Hide the graph window",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_load",
+      "command": "data load",
+      "category": "other",
+      "description": "Load contents of file into graph window",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_num",
+      "command": "data num",
+      "category": "other",
+      "description": "Converts dec/hex/bin",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_plot",
+      "command": "data plot",
+      "category": "other",
+      "description": "Show the graph window",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_print",
+      "command": "data print",
+      "category": "other",
+      "description": "Print the data in the DemodBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_save",
+      "command": "data save",
+      "category": "other",
+      "description": "Save signal trace data",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_setdebugmode",
+      "command": "data setdebugmode",
+      "category": "other",
+      "description": "Set Debugging Level on client side",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_xor",
+      "command": "data xor",
+      "category": "other",
+      "description": "Xor a input string",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_biphaserawdecode",
+      "command": "data biphaserawdecode",
+      "category": "other",
+      "description": "Biphase decode bin stream in DemodBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_detectclock",
+      "command": "data detectclock",
+      "category": "other",
+      "description": "Detect ASK, FSK, NRZ, PSK clock rate of wave in GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_fsktonrz",
+      "command": "data fsktonrz",
+      "category": "other",
+      "description": "Convert fsk2 to nrz wave for alternate fsk demodulating (for weak fsk)",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_manrawdecode",
+      "command": "data manrawdecode",
+      "category": "other",
+      "description": "Manchester decode binary stream in DemodBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_modulation",
+      "command": "data modulation",
+      "category": "other",
+      "description": "Identify LF signal for clock and modulation",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_rawdemod",
+      "command": "data rawdemod",
+      "category": "other",
+      "description": "Demodulate the data in the GraphBuffer and output binary",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_autodemod",
+      "command": "data autodemod",
+      "category": "other",
+      "description": "Detect modulation, encoding and clock, then demodulate",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_fft",
+      "command": "data fft",
+      "category": "other",
+      "description": "Fourier transform of the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_fitscore",
+      "command": "data fitscore",
+      "category": "other",
+      "description": "Rank matched filter hypotheses for modulation, encoding and clock",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_spectrum",
+      "command": "data spectrum",
+      "category": "other",
+      "description": "Spectral peaks, symbol rate and modulation family hint",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_askedgedetect",
+      "command": "data askedgedetect",
+      "category": "other",
+      "description": "Adjust Graph for manual ASK demod",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_autocorr",
+      "command": "data autocorr",
+      "category": "other",
+      "description": "Autocorrelation over window",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_convertbitstream",
+      "command": "data convertbitstream",
+      "category": "other",
+      "description": "Convert GraphBuffer's 0/1 values to 127 / -127",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_cthreshold",
+      "command": "data cthreshold",
+      "category": "other",
+      "description": "Average out all values between",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_dirthreshold",
+      "command": "data dirthreshold",
+      "category": "other",
+      "description": "Max rising higher up-thres/ Min falling lower down-thres",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_decimate",
+      "command": "data decimate",
+      "category": "other",
+      "description": "Decimate samples",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_envelope",
+      "command": "data envelope",
+      "category": "other",
+      "description": "Generate square envelope of samples",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_grid",
+      "command": "data grid",
+      "category": "other",
+      "description": "overlay grid on graph window",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_getbitstream",
+      "command": "data getbitstream",
+      "category": "other",
+      "description": "Convert GraphBuffer's >=1 values to 1 and <1 to 0",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_hpf",
+      "command": "data hpf",
+      "category": "other",
+      "description": "Remove DC offset from trace",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_iir",
+      "command": "data iir",
+      "category": "other",
+      "description": "Apply IIR buttersworth filter on plot data",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_ltrim",
+      "command": "data ltrim",
+      "category": "other",
+      "description": "Trim samples from left of trace",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_mtrim",
+      "command": "data mtrim",
+      "category": "other",
+      "description": "Trim out samples from the specified start to the specified stop",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_norm",
+      "command": "data norm",
+      "category": "other",
+      "description": "Normalize max/min to +/-128",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_rtrim",
+      "command": "data rtrim",
+      "category": "other",
+      "description": "Trim samples from right of trace",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_setgraphmarkers",
+      "command": "data setgraphmarkers",
+      "category": "other",
+      "description": "Set the markers in the graph window",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_shiftgraphzero",
+      "command": "data shiftgraphzero",
+      "category": "other",
+      "description": "Shift 0 for Graphed wave + or - shift value",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_timescale",
+      "command": "data timescale",
+      "category": "other",
+      "description": "Set cursor display timescale",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_undecimate",
+      "command": "data undecimate",
+      "category": "other",
+      "description": "Un-decimate samples",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_zerocrossings",
+      "command": "data zerocrossings",
+      "category": "other",
+      "description": "Count time between zero-crossings",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_asn1",
+      "command": "data asn1",
+      "category": "other",
+      "description": "ASN1 decoder",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_atr",
+      "command": "data atr",
+      "category": "other",
+      "description": "ATR lookup",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_bitsamples",
+      "command": "data bitsamples",
+      "category": "other",
+      "description": "Get raw samples as bitstring",
+      "offline": false
+    },
+    {
+      "id": "cmd.data_bmap",
+      "command": "data bmap",
+      "category": "other",
+      "description": "Convert hex value according a binary template",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_crypto",
+      "command": "data crypto",
+      "category": "other",
+      "description": "Encrypt and decrypt data",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_diff",
+      "command": "data diff",
+      "category": "other",
+      "description": "Diff of input files",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_hexsamples",
+      "command": "data hexsamples",
+      "category": "other",
+      "description": "Dump big buffer as hex bytes",
+      "offline": false
+    },
+    {
+      "id": "cmd.data_samples",
+      "command": "data samples",
+      "category": "other",
+      "description": "Get raw samples for graph window ( GraphBuffer )",
+      "offline": false
+    },
+    {
+      "id": "cmd.data_qrcode",
+      "command": "data qrcode",
+      "category": "other",
+      "description": "Create a QR code",
+      "offline": true
+    },
+    {
+      "id": "cmd.data_gensignal",
+      "command": "data gensignal",
+      "category": "other",
+      "description": "Generate a synthetic LF waveform into the GraphBuffer",
+      "offline": false
+    },
+    {
+      "id": "cmd.data_test_ss8",
+      "command": "data test_ss8",
+      "category": "other",
+      "description": "Test the implementation of Buffer Save States (8-bit buffer)",
+      "offline": false
+    },
+    {
+      "id": "cmd.data_test_ss32",
+      "command": "data test_ss32",
+      "category": "other",
+      "description": "Test the implementation of Buffer Save States (32-bit buffer)",
+      "offline": false
+    },
+    {
+      "id": "cmd.data_test_ss32s",
+      "command": "data test_ss32s",
+      "category": "other",
+      "description": "Test the implementation of Buffer Save States (32-bit signed buffer)",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_help",
+      "command": "emv help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.emv_list",
+      "command": "emv list",
+      "category": "other",
+      "description": "List ISO7816 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.emv_test",
+      "command": "emv test",
+      "category": "other",
+      "description": "Perform crypto logic self tests",
+      "offline": true
+    },
+    {
+      "id": "cmd.emv_challenge",
+      "command": "emv challenge",
+      "category": "other",
+      "description": "Generate challenge",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_exec",
+      "command": "emv exec",
+      "category": "other",
+      "description": "Executes EMV contactless transaction",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_genac",
+      "command": "emv genac",
+      "category": "other",
+      "description": "Generate ApplicationCryptogram",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_gpo",
+      "command": "emv gpo",
+      "category": "other",
+      "description": "Execute GetProcessingOptions",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_intauth",
+      "command": "emv intauth",
+      "category": "other",
+      "description": "Internal authentication",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_pse",
+      "command": "emv pse",
+      "category": "other",
+      "description": "Execute PPSE. It selects 2PAY.SYS.DDF01 or 1PAY.SYS.DDF01 directory",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_reader",
+      "command": "emv reader",
+      "category": "other",
+      "description": "Act like an EMV reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_readrec",
+      "command": "emv readrec",
+      "category": "other",
+      "description": "Read files from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_roca",
+      "command": "emv roca",
+      "category": "other",
+      "description": "Extract public keys and run ROCA test",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_scan",
+      "command": "emv scan",
+      "category": "other",
+      "description": "Scan EMV card and save it contents to json file for emulator",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_search",
+      "command": "emv search",
+      "category": "other",
+      "description": "Try to select all applets from applets list and print installed applets",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_select",
+      "command": "emv select",
+      "category": "other",
+      "description": "Select applet",
+      "offline": false
+    },
+    {
+      "id": "cmd.emv_smart2nfc",
+      "command": "emv smart2nfc",
+      "category": "other",
+      "description": "Complete transaction as a nfc smart card, using the ISO-7816 interface for auth",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_help",
+      "command": "hf help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_list",
+      "command": "hf list",
+      "category": "hf",
+      "description": "List protocol data in trace buffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_plot",
+      "command": "hf plot",
+      "category": "hf",
+      "description": "Plot signal",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_tune",
+      "command": "hf tune",
+      "category": "hf",
+      "description": "Continuously measure HF antenna tuning",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_search",
+      "command": "hf search",
+      "category": "hf",
+      "description": "Search for known HF tags",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_sniff",
+      "command": "hf sniff",
+      "category": "hf",
+      "description": "Generic HF Sniff",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_help",
+      "command": "hf 14a help",
+      "category": "hf14a",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_14a_list",
+      "command": "hf 14a list",
+      "category": "hf14a",
+      "description": "List ISO 14443-a history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_14a_antifuzz",
+      "command": "hf 14a antifuzz",
+      "category": "hf14a",
+      "description": "Fuzzing the anticollision phase.  Warning! Readers may react strange",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_config",
+      "command": "hf 14a config",
+      "category": "hf14a",
+      "description": "Configure 14a settings (use with caution)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_cuids",
+      "command": "hf 14a cuids",
+      "category": "hf14a",
+      "description": "Collect n>0 ISO14443-a UIDs in one go",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_info",
+      "command": "hf 14a info",
+      "category": "hf14a",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_sim",
+      "command": "hf 14a sim",
+      "category": "hf14a",
+      "description": "Simulate ISO 14443-a tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_simaid",
+      "command": "hf 14a simaid",
+      "category": "hf14a",
+      "description": "Simulate ISO 14443-a AID Selection",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_sniff",
+      "command": "hf 14a sniff",
+      "category": "hf14a",
+      "description": "sniff ISO 14443-a traffic",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_raw",
+      "command": "hf 14a raw",
+      "category": "hf14a",
+      "description": "Send raw hex data to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_reader",
+      "command": "hf 14a reader",
+      "category": "hf14a",
+      "description": "Act like an ISO14443-a reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_apdu",
+      "command": "hf 14a apdu",
+      "category": "hf14a",
+      "description": "Send ISO 14443-4 APDU to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_apdufind",
+      "command": "hf 14a apdufind",
+      "category": "hf14a",
+      "description": "Enumerate APDUs - CLA/INS/P1P2",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_chaining",
+      "command": "hf 14a chaining",
+      "category": "hf14a",
+      "description": "Control ISO 14443-4 input chaining",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_ndefformat",
+      "command": "hf 14a ndefformat",
+      "category": "hf14a",
+      "description": "Format ISO 14443-A as NFC Type 4 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_ndefread",
+      "command": "hf 14a ndefread",
+      "category": "hf14a",
+      "description": "Read an NDEF file from ISO 14443-A Type 4 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14a_ndefwrite",
+      "command": "hf 14a ndefwrite",
+      "category": "hf14a",
+      "description": "Write NDEF records to ISO 14443-A tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_help",
+      "command": "hf 14b help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_14b_config",
+      "command": "hf 14b config",
+      "category": "hf",
+      "description": "Configure 14b settings (use with caution)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_list",
+      "command": "hf 14b list",
+      "category": "hf",
+      "description": "List ISO-14443-B history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_14b_apdu",
+      "command": "hf 14b apdu",
+      "category": "hf",
+      "description": "Send ISO 14443-4 APDU to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_dump",
+      "command": "hf 14b dump",
+      "category": "hf",
+      "description": "Read all memory pages of an ISO-14443-B tag, save to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_info",
+      "command": "hf 14b info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_ndefread",
+      "command": "hf 14b ndefread",
+      "category": "hf",
+      "description": "Read NDEF file on tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_raw",
+      "command": "hf 14b raw",
+      "category": "hf",
+      "description": "Send raw hex data to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_rdbl",
+      "command": "hf 14b rdbl",
+      "category": "hf",
+      "description": "Read SRI512/SRIX4 block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_reader",
+      "command": "hf 14b reader",
+      "category": "hf",
+      "description": "Act as a ISO-14443-B reader to identify a tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_restore",
+      "command": "hf 14b restore",
+      "category": "hf",
+      "description": "Restore from file to all memory pages of an ISO-14443-B tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_sim",
+      "command": "hf 14b sim",
+      "category": "hf",
+      "description": "Fake ISO ISO-14443-B tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_sniff",
+      "command": "hf 14b sniff",
+      "category": "hf",
+      "description": "Eavesdrop ISO-14443-B",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_wrbl",
+      "command": "hf 14b wrbl",
+      "category": "hf",
+      "description": "Write data to a SRI512/SRIX4 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_tearoff",
+      "command": "hf 14b tearoff",
+      "category": "hf",
+      "description": "Tear-off attack on ST25TB/SRx counter blocks",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_view",
+      "command": "hf 14b view",
+      "category": "hf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_14b_ctdump",
+      "command": "hf 14b ctdump",
+      "category": "hf",
+      "description": "Dump ASK CTS/C-ticket",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_ctrdbl",
+      "command": "hf 14b ctrdbl",
+      "category": "hf",
+      "description": "Read ASK CTS/C-ticket block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_14b_setuid",
+      "command": "hf 14b setuid",
+      "category": "hf",
+      "description": "Set UID for magic card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_help",
+      "command": "hf 15 help",
+      "category": "hf15",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_15_list",
+      "command": "hf 15 list",
+      "category": "hf15",
+      "description": "List ISO-15693 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_15_demod",
+      "command": "hf 15 demod",
+      "category": "hf15",
+      "description": "Demodulate ISO-15693 from tag",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_15_dump",
+      "command": "hf 15 dump",
+      "category": "hf15",
+      "description": "Read all memory pages of an ISO-15693 tag, save to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_info",
+      "command": "hf 15 info",
+      "category": "hf15",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_sniff",
+      "command": "hf 15 sniff",
+      "category": "hf15",
+      "description": "Sniff ISO-15693 traffic",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_raw",
+      "command": "hf 15 raw",
+      "category": "hf15",
+      "description": "Send raw hex data to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_rdbl",
+      "command": "hf 15 rdbl",
+      "category": "hf15",
+      "description": "Read a block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_rdmulti",
+      "command": "hf 15 rdmulti",
+      "category": "hf15",
+      "description": "Reads multiple blocks",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_reader",
+      "command": "hf 15 reader",
+      "category": "hf15",
+      "description": "Act like an ISO-15693 reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_restore",
+      "command": "hf 15 restore",
+      "category": "hf15",
+      "description": "Restore from file to all memory pages of an ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_samples",
+      "command": "hf 15 samples",
+      "category": "hf15",
+      "description": "Acquire samples as reader (enables carrier, sends inquiry)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_view",
+      "command": "hf 15 view",
+      "category": "hf15",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_15_wipe",
+      "command": "hf 15 wipe",
+      "category": "hf15",
+      "description": "Wipe card to zeros",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_wrbl",
+      "command": "hf 15 wrbl",
+      "category": "hf15",
+      "description": "Write a block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_sim",
+      "command": "hf 15 sim",
+      "category": "hf15",
+      "description": "Fake an ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_eload",
+      "command": "hf 15 eload",
+      "category": "hf15",
+      "description": "Upload file into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_esave",
+      "command": "hf 15 esave",
+      "category": "hf15",
+      "description": "Save emulator memory to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_eview",
+      "command": "hf 15 eview",
+      "category": "hf15",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_slixwritepwd",
+      "command": "hf 15 slixwritepwd",
+      "category": "hf15",
+      "description": "Writes a password on a SLIX ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_slixeasdisable",
+      "command": "hf 15 slixeasdisable",
+      "category": "hf15",
+      "description": "Disable EAS mode on SLIX ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_slixeasenable",
+      "command": "hf 15 slixeasenable",
+      "category": "hf15",
+      "description": "Enable EAS mode on SLIX ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_slixprivacydisable",
+      "command": "hf 15 slixprivacydisable",
+      "category": "hf15",
+      "description": "Disable privacy mode on SLIX ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_slixprivacyenable",
+      "command": "hf 15 slixprivacyenable",
+      "category": "hf15",
+      "description": "Enable privacy mode on SLIX ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_slixprotectpage",
+      "command": "hf 15 slixprotectpage",
+      "category": "hf15",
+      "description": "Protect pages on SLIX ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_passprotectafi",
+      "command": "hf 15 passprotectafi",
+      "category": "hf15",
+      "description": "Password protect AFI - Cannot be undone",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_passprotecteas",
+      "command": "hf 15 passprotecteas",
+      "category": "hf15",
+      "description": "Password protect EAS - Cannot be undone",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_findafi",
+      "command": "hf 15 findafi",
+      "category": "hf15",
+      "description": "Brute force AFI of an ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_writeafi",
+      "command": "hf 15 writeafi",
+      "category": "hf15",
+      "description": "Writes the AFI on an ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_writedsfid",
+      "command": "hf 15 writedsfid",
+      "category": "hf15",
+      "description": "Writes the DSFID on an ISO-15693 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_csetuid",
+      "command": "hf 15 csetuid",
+      "category": "hf15",
+      "description": "Set UID for magic card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_15_cfinalize",
+      "command": "hf 15 cfinalize",
+      "category": "hf15",
+      "description": "Finalize a magic V3 tag (irreversible)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_aliro_help",
+      "command": "hf aliro help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_aliro_list",
+      "command": "hf aliro list",
+      "category": "hf",
+      "description": "List ISO 14443A/7816 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_aliro_info",
+      "command": "hf aliro info",
+      "category": "hf",
+      "description": "Get Aliro applet information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_aliro_read",
+      "command": "hf aliro read",
+      "category": "hf",
+      "description": "Run SELECT-AUTH0-AUTH1 and optional step-up document retrieval",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_calypso_help",
+      "command": "hf calypso help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_calypso_info",
+      "command": "hf calypso info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_calypso_dump",
+      "command": "hf calypso dump",
+      "category": "hf",
+      "description": "Dump nodes after application profile scan",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_calypso_probecmdcompat",
+      "command": "hf calypso probecmdcompat",
+      "category": "hf",
+      "description": "Probe SELECT command compatibility",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_calypso_list",
+      "command": "hf calypso list",
+      "category": "hf",
+      "description": "List Calypso history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_cipurse_help",
+      "command": "hf cipurse help",
+      "category": "hf",
+      "description": "This help.",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_cipurse_test",
+      "command": "hf cipurse test",
+      "category": "hf",
+      "description": "Regression self tests",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_cipurse_auth",
+      "command": "hf cipurse auth",
+      "category": "hf",
+      "description": "Authenticate CIPURSE tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_aread",
+      "command": "hf cipurse aread",
+      "category": "hf",
+      "description": "Read file attributes",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_awrite",
+      "command": "hf cipurse awrite",
+      "category": "hf",
+      "description": "Write file attributes",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_create",
+      "command": "hf cipurse create",
+      "category": "hf",
+      "description": "Create file, application, key via DGI record",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_delete",
+      "command": "hf cipurse delete",
+      "category": "hf",
+      "description": "Delete file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_default",
+      "command": "hf cipurse default",
+      "category": "hf",
+      "description": "Set default key and file id for all the other commands",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_formatall",
+      "command": "hf cipurse formatall",
+      "category": "hf",
+      "description": "Erase all the data from chip",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_info",
+      "command": "hf cipurse info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_read",
+      "command": "hf cipurse read",
+      "category": "hf",
+      "description": "Read binary file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_select",
+      "command": "hf cipurse select",
+      "category": "hf",
+      "description": "Select CIPURSE application or file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_updkey",
+      "command": "hf cipurse updkey",
+      "category": "hf",
+      "description": "Update key",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_updakey",
+      "command": "hf cipurse updakey",
+      "category": "hf",
+      "description": "Update key attributes",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_cipurse_write",
+      "command": "hf cipurse write",
+      "category": "hf",
+      "description": "Write binary file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_epa_help",
+      "command": "hf epa help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_epa_cnonces",
+      "command": "hf epa cnonces",
+      "category": "hf",
+      "description": "Acquire encrypted PACE nonces of specific size",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_epa_replay",
+      "command": "hf epa replay",
+      "category": "hf",
+      "description": "Perform PACE protocol by replaying given APDUs",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_epa_sim",
+      "command": "hf epa sim",
+      "category": "hf",
+      "description": "Simulate PACE protocol",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_emrtd_help",
+      "command": "hf emrtd help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_emrtd_dump",
+      "command": "hf emrtd dump",
+      "category": "hf",
+      "description": "Dump eMRTD files to binary files",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_emrtd_info",
+      "command": "hf emrtd info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_emrtd_list",
+      "command": "hf emrtd list",
+      "category": "hf",
+      "description": "List ISO 14443A/7816 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_emrtd_test",
+      "command": "hf emrtd test",
+      "category": "hf",
+      "description": "Regression tests",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_felica_help",
+      "command": "hf felica help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_felica_list",
+      "command": "hf felica list",
+      "category": "hf",
+      "description": "List ISO 18092/FeliCa history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_felica_info",
+      "command": "hf felica info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_raw",
+      "command": "hf felica raw",
+      "category": "hf",
+      "description": "Send raw hex data to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_rdbl",
+      "command": "hf felica rdbl",
+      "category": "hf",
+      "description": "read block data from authentication-not-required Service.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_reader",
+      "command": "hf felica reader",
+      "category": "hf",
+      "description": "Act like an ISO18092/FeliCa reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_sniff",
+      "command": "hf felica sniff",
+      "category": "hf",
+      "description": "Sniff ISO 18092/FeliCa traffic",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_wrbl",
+      "command": "hf felica wrbl",
+      "category": "hf",
+      "description": "write block data to an authentication-not-required Service.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_seacauth1",
+      "command": "hf felica seacauth1",
+      "category": "hf",
+      "description": "FeliCa SEAC Authentication1",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_dump",
+      "command": "hf felica dump",
+      "category": "hf",
+      "description": "Wait for and try dumping FeliCa",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_discnodes",
+      "command": "hf felica discnodes",
+      "category": "hf",
+      "description": "discover Area Code and Service Code nodes.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_sim",
+      "command": "hf felica sim",
+      "category": "hf",
+      "description": "Emulate FeliCa Standard from dump file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_rqservice",
+      "command": "hf felica rqservice",
+      "category": "hf",
+      "description": "verify the existence of Area and Service, and to acquire Key Version.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_rqresponse",
+      "command": "hf felica rqresponse",
+      "category": "hf",
+      "description": "verify the existence of a card and its Mode.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_scsvcode",
+      "command": "hf felica scsvcode",
+      "category": "hf",
+      "description": "acquire Area Code and Service Code.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_rqsyscode",
+      "command": "hf felica rqsyscode",
+      "category": "hf",
+      "description": "acquire System Code registered to the card.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_auth1",
+      "command": "hf felica auth1",
+      "category": "hf",
+      "description": "authenticate a card. Start mutual authentication with Auth1",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_auth2",
+      "command": "hf felica auth2",
+      "category": "hf",
+      "description": "allow a card to authenticate a Reader/Writer. Complete mutual authentication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_rqspecver",
+      "command": "hf felica rqspecver",
+      "category": "hf",
+      "description": "acquire the version of card OS.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_resetmode",
+      "command": "hf felica resetmode",
+      "category": "hf",
+      "description": "reset Mode to Mode 0.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_litesim",
+      "command": "hf felica litesim",
+      "category": "hf",
+      "description": "Emulating ISO/18092 FeliCa Lite tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_liteauth",
+      "command": "hf felica liteauth",
+      "category": "hf",
+      "description": "authenticate a card.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_felica_litedump",
+      "command": "hf felica litedump",
+      "category": "hf",
+      "description": "Wait for and try dumping FelicaLite",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fido_help",
+      "command": "hf fido help",
+      "category": "hf",
+      "description": "This help.",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_fido_list",
+      "command": "hf fido list",
+      "category": "hf",
+      "description": "List ISO 14443A history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_fido_info",
+      "command": "hf fido info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fido_reg",
+      "command": "hf fido reg",
+      "category": "hf",
+      "description": "FIDO U2F Registration Message.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fido_auth",
+      "command": "hf fido auth",
+      "category": "hf",
+      "description": "FIDO U2F Authentication Message.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fido_make",
+      "command": "hf fido make",
+      "category": "hf",
+      "description": "FIDO2 MakeCredential command.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fido_assert",
+      "command": "hf fido assert",
+      "category": "hf",
+      "description": "FIDO2 GetAssertion command.",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_help",
+      "command": "hf fmcos help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_fmcos_info",
+      "command": "hf fmcos info",
+      "category": "hf",
+      "description": "Detect card and print file-system info",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_select",
+      "command": "hf fmcos select",
+      "category": "hf",
+      "description": "SELECT FILE by 2-byte ID or AID name",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_erase",
+      "command": "hf fmcos erase",
+      "category": "hf",
+      "description": "ERASE DF contents",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_createdir",
+      "command": "hf fmcos createdir",
+      "category": "hf",
+      "description": "CREATE DIRECTORY (DF)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_createfile",
+      "command": "hf fmcos createfile",
+      "category": "hf",
+      "description": "CREATE EF (binary / fixed / variable / loop / wallet)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_createkeyfile",
+      "command": "hf fmcos createkeyfile",
+      "category": "hf",
+      "description": "CREATE KEYFILE",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_readbinary",
+      "command": "hf fmcos readbinary",
+      "category": "hf",
+      "description": "READ BINARY from transparent EF",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_readrecord",
+      "command": "hf fmcos readrecord",
+      "category": "hf",
+      "description": "READ RECORD from record-based EF",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_writebinary",
+      "command": "hf fmcos writebinary",
+      "category": "hf",
+      "description": "UPDATE BINARY in transparent EF",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_writerecord",
+      "command": "hf fmcos writerecord",
+      "category": "hf",
+      "description": "UPDATE RECORD in record-based EF",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_append",
+      "command": "hf fmcos append",
+      "category": "hf",
+      "description": "APPEND RECORD to cyclic / linear EF",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_authexternal",
+      "command": "hf fmcos authexternal",
+      "category": "hf",
+      "description": "EXTERNAL AUTHENTICATE using DES/3DES key",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_authinternal",
+      "command": "hf fmcos authinternal",
+      "category": "hf",
+      "description": "INTERNAL AUTHENTICATE (card proves key knowledge)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_key",
+      "command": "hf fmcos key",
+      "category": "hf",
+      "description": "WRITE KEY to keyfile",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_pinverify",
+      "command": "hf fmcos pinverify",
+      "category": "hf",
+      "description": "VERIFY PIN (present PIN to card)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_pinchange",
+      "command": "hf fmcos pinchange",
+      "category": "hf",
+      "description": "CHANGE PIN (old + new, requires old PIN)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_pinreset",
+      "command": "hf fmcos pinreset",
+      "category": "hf",
+      "description": "RESET PIN (new PIN + change-PIN key MAC)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_pinunblock",
+      "command": "hf fmcos pinunblock",
+      "category": "hf",
+      "description": "UNBLOCK PIN (encrypted new PIN + MAC)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_balance",
+      "command": "hf fmcos balance",
+      "category": "hf",
+      "description": "GET BALANCE (wallet or passbook)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_credit",
+      "command": "hf fmcos credit",
+      "category": "hf",
+      "description": "ADD CREDIT to wallet or passbook",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_purchase",
+      "command": "hf fmcos purchase",
+      "category": "hf",
+      "description": "PURCHASE from wallet or passbook",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_overdraft",
+      "command": "hf fmcos overdraft",
+      "category": "hf",
+      "description": "UPDATE OVERDRAFT LIMIT",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_history",
+      "command": "hf fmcos history",
+      "category": "hf",
+      "description": "READ transaction history from loop EF",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_block",
+      "command": "hf fmcos block",
+      "category": "hf",
+      "description": "BLOCK card or application",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_unblock",
+      "command": "hf fmcos unblock",
+      "category": "hf",
+      "description": "UNBLOCK application",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_tidsetcard",
+      "command": "hf fmcos tidsetcard",
+      "category": "hf",
+      "description": "SET CARD configuration block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_tidsetuid",
+      "command": "hf fmcos tidsetuid",
+      "category": "hf",
+      "description": "SET UID",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_tidsetauth",
+      "command": "hf fmcos tidsetauth",
+      "category": "hf",
+      "description": "SET INTERNAL AUTH key",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_tiderase",
+      "command": "hf fmcos tiderase",
+      "category": "hf",
+      "description": "ERASE TID card file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_tidprovision",
+      "command": "hf fmcos tidprovision",
+      "category": "hf",
+      "description": "Full TID provisioning sequence",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_tidcreatedf",
+      "command": "hf fmcos tidcreatedf",
+      "category": "hf",
+      "description": "CREATE sub-DF (TID format)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_tidcreatebin",
+      "command": "hf fmcos tidcreatebin",
+      "category": "hf",
+      "description": "CREATE binary EF (TID format)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fmcos_tidcreaterec",
+      "command": "hf fmcos tidcreaterec",
+      "category": "hf",
+      "description": "CREATE record EF (TID format)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fudan_help",
+      "command": "hf fudan help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_fudan_reader",
+      "command": "hf fudan reader",
+      "category": "hf",
+      "description": "Act like a fudan reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fudan_dump",
+      "command": "hf fudan dump",
+      "category": "hf",
+      "description": "Dump FUDAN tag to binary file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fudan_rdbl",
+      "command": "hf fudan rdbl",
+      "category": "hf",
+      "description": "Read a fudan tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_fudan_view",
+      "command": "hf fudan view",
+      "category": "hf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_fudan_wrbl",
+      "command": "hf fudan wrbl",
+      "category": "hf",
+      "description": "Write a fudan tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_gallagher_help",
+      "command": "hf gallagher help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_gallagher_test",
+      "command": "hf gallagher test",
+      "category": "hf",
+      "description": "Test the function of Gallagher Mifare Core",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_gallagher_clone",
+      "command": "hf gallagher clone",
+      "category": "hf",
+      "description": "Clone Gallagher credentials to a DESFire or Classic card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_gallagher_delete",
+      "command": "hf gallagher delete",
+      "category": "hf",
+      "description": "Delete Gallagher credentials from a DESFire card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_gallagher_diversifykey",
+      "command": "hf gallagher diversifykey",
+      "category": "hf",
+      "description": "Diversify Gallagher key",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_gallagher_decode",
+      "command": "hf gallagher decode",
+      "category": "hf",
+      "description": "Decode Gallagher credential block",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_gallagher_encode",
+      "command": "hf gallagher encode",
+      "category": "hf",
+      "description": "Encode Gallagher credential block",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_gallagher_reader",
+      "command": "hf gallagher reader",
+      "category": "hf",
+      "description": "Read & decode all Gallagher credentials on a DESFire or Classic card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_gst_help",
+      "command": "hf gst help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_gst_list",
+      "command": "hf gst list",
+      "category": "hf",
+      "description": "List ISO 14443A/7816 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_gst_test",
+      "command": "hf gst test",
+      "category": "hf",
+      "description": "Perform self tests",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_gst_info",
+      "command": "hf gst info",
+      "category": "hf",
+      "description": "Get Google Smart Tap applet information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_gst_read",
+      "command": "hf gst read",
+      "category": "hf",
+      "description": "Read and decode Google Smart Tap pass objects",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_secc_help",
+      "command": "hf secc help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_secc_info",
+      "command": "hf secc info",
+      "category": "hf",
+      "description": "Read and decode Card Recognition Data (GP tag 0066)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_secc_sim",
+      "command": "hf secc sim",
+      "category": "hf",
+      "description": "Simulate HID iCLASS SE Config Card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_secc_sniff",
+      "command": "hf secc sniff",
+      "category": "hf",
+      "description": "Sniff reader<->card, jam A0 D4 APDU",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_help",
+      "command": "hf iclass help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_list",
+      "command": "hf iclass list",
+      "category": "hf",
+      "description": "List iclass history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_dump",
+      "command": "hf iclass dump",
+      "category": "hf",
+      "description": "Dump Picopass / iCLASS tag to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_info",
+      "command": "hf iclass info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_rdbl",
+      "command": "hf iclass rdbl",
+      "category": "hf",
+      "description": "Read Picopass / iCLASS block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_reader",
+      "command": "hf iclass reader",
+      "category": "hf",
+      "description": "Act like a Picopass / iCLASS reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_restore",
+      "command": "hf iclass restore",
+      "category": "hf",
+      "description": "Restore a dump file onto a Picopass / iCLASS tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_sniff",
+      "command": "hf iclass sniff",
+      "category": "hf",
+      "description": "Eavesdrop Picopass / iCLASS communication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_view",
+      "command": "hf iclass view",
+      "category": "hf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_wrbl",
+      "command": "hf iclass wrbl",
+      "category": "hf",
+      "description": "Write Picopass / iCLASS block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_creditepurse",
+      "command": "hf iclass creditepurse",
+      "category": "hf",
+      "description": "Credit epurse value",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_tear",
+      "command": "hf iclass tear",
+      "category": "hf",
+      "description": "Performs tearoff attack on iCLASS block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_liberate",
+      "command": "hf iclass liberate",
+      "category": "hf",
+      "description": "Detect and liberate MKF / iCopy-X cloned cards",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_chk",
+      "command": "hf iclass chk",
+      "category": "hf",
+      "description": "Check keys",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_loclass",
+      "command": "hf iclass loclass",
+      "category": "hf",
+      "description": "Use loclass to perform bruteforce reader attack",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_lookup",
+      "command": "hf iclass lookup",
+      "category": "hf",
+      "description": "Uses authentication trace to check for key in dictionary file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_legrec",
+      "command": "hf iclass legrec",
+      "category": "hf",
+      "description": "Recovers 24 bits of the diversified key of a legacy card provided a valid nr-mac combination",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_legbrute",
+      "command": "hf iclass legbrute",
+      "category": "hf",
+      "description": "Bruteforces 40 bits of a partial diversified key, provided 24 bits of the key and two valid nr-macs",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_unhash",
+      "command": "hf iclass unhash",
+      "category": "hf",
+      "description": "Reverses a diversified key to retrieve hash0 pre-images after DES encryption",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_blacktears",
+      "command": "hf iclass blacktears",
+      "category": "hf",
+      "description": "Automated tearoff attack on new silicon cards to enable non-secure page mode",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_sim",
+      "command": "hf iclass sim",
+      "category": "hf",
+      "description": "Simulate iCLASS tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_tagsim",
+      "command": "hf iclass tagsim",
+      "category": "hf",
+      "description": "Simulate a full iCLASS 2K tag from FC/CN and keys",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_eload",
+      "command": "hf iclass eload",
+      "category": "hf",
+      "description": "Upload file into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_esave",
+      "command": "hf iclass esave",
+      "category": "hf",
+      "description": "Save emulator memory to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_esetblk",
+      "command": "hf iclass esetblk",
+      "category": "hf",
+      "description": "Set emulator memory block data",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_eview",
+      "command": "hf iclass eview",
+      "category": "hf",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_configcard",
+      "command": "hf iclass configcard",
+      "category": "hf",
+      "description": "Reader configuration card generator",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_iclass_calcnewkey",
+      "command": "hf iclass calcnewkey",
+      "category": "hf",
+      "description": "Calc diversified keys (blocks 3 & 4) to write new keys",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_encode",
+      "command": "hf iclass encode",
+      "category": "hf",
+      "description": "Encode binary wiegand to block 7",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_encrypt",
+      "command": "hf iclass encrypt",
+      "category": "hf",
+      "description": "Encrypt given block data",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_decrypt",
+      "command": "hf iclass decrypt",
+      "category": "hf",
+      "description": "Decrypt given block data or tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_managekeys",
+      "command": "hf iclass managekeys",
+      "category": "hf",
+      "description": "Manage keys to use with iclass commands",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_permutekey",
+      "command": "hf iclass permutekey",
+      "category": "hf",
+      "description": "Permute function from 'heart of darkness' paper",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_iclass_sam",
+      "command": "hf iclass sam",
+      "category": "hf",
+      "description": "Extract PACS from a HID SAM",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ict_help",
+      "command": "hf ict help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_ict_credential",
+      "command": "hf ict credential",
+      "category": "hf",
+      "description": "Read ICT credential and decode",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ict_info",
+      "command": "hf ict info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ict_list",
+      "command": "hf ict list",
+      "category": "hf",
+      "description": "List ICT history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_ict_reader",
+      "command": "hf ict reader",
+      "category": "hf",
+      "description": "Act like an IS14443-a reader",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_jooki_help",
+      "command": "hf jooki help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_jooki_clone",
+      "command": "hf jooki clone",
+      "category": "hf",
+      "description": "Write a Jooki token",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_jooki_decode",
+      "command": "hf jooki decode",
+      "category": "hf",
+      "description": "Decode Jooki token",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_jooki_encode",
+      "command": "hf jooki encode",
+      "category": "hf",
+      "description": "Encode Jooki token",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_jooki_sim",
+      "command": "hf jooki sim",
+      "category": "hf",
+      "description": "Simulate Jooki token",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ksx6924_help",
+      "command": "hf ksx6924 help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_ksx6924_select",
+      "command": "hf ksx6924 select",
+      "category": "hf",
+      "description": "Select application, and leave field up",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ksx6924_info",
+      "command": "hf ksx6924 info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ksx6924_balance",
+      "command": "hf ksx6924 balance",
+      "category": "hf",
+      "description": "Get current purse balance",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ksx6924_init",
+      "command": "hf ksx6924 init",
+      "category": "hf",
+      "description": "Perform transaction initialization with Mpda",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ksx6924_prec",
+      "command": "hf ksx6924 prec",
+      "category": "hf",
+      "description": "Send proprietary get record command (CLA=90, INS=4C)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_help",
+      "command": "hf legic help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_legic_dump",
+      "command": "hf legic dump",
+      "category": "hf",
+      "description": "Dump LEGIC Prime tag to binary file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_info",
+      "command": "hf legic info",
+      "category": "hf",
+      "description": "Display deobfuscated and decoded LEGIC Prime tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_list",
+      "command": "hf legic list",
+      "category": "hf",
+      "description": "List LEGIC history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_legic_rdbl",
+      "command": "hf legic rdbl",
+      "category": "hf",
+      "description": "Read bytes from a LEGIC Prime tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_reader",
+      "command": "hf legic reader",
+      "category": "hf",
+      "description": "LEGIC Prime Reader UID and tag info",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_restore",
+      "command": "hf legic restore",
+      "category": "hf",
+      "description": "Restore an exact dump back onto the same LEGIC Prime card family",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_clone",
+      "command": "hf legic clone",
+      "category": "hf",
+      "description": "Clone a LEGIC Prime dump to a new MCC or different tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_migrate",
+      "command": "hf legic migrate",
+      "category": "hf",
+      "description": "Clone a LEGIC Prime dump to a tag; DCF stays opt-in",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_wipe",
+      "command": "hf legic wipe",
+      "category": "hf",
+      "description": "Wipe a LEGIC Prime tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_wrbl",
+      "command": "hf legic wrbl",
+      "category": "hf",
+      "description": "Write data to a LEGIC Prime tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_sim",
+      "command": "hf legic sim",
+      "category": "hf",
+      "description": "Start tag simulator",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_eload",
+      "command": "hf legic eload",
+      "category": "hf",
+      "description": "Upload file into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_esave",
+      "command": "hf legic esave",
+      "category": "hf",
+      "description": "Save emulator memory to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_eview",
+      "command": "hf legic eview",
+      "category": "hf",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_einfo",
+      "command": "hf legic einfo",
+      "category": "hf",
+      "description": "Display deobfuscated and decoded emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_legic_crc",
+      "command": "hf legic crc",
+      "category": "hf",
+      "description": "Calculate Legic CRC over given bytes",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_legic_view",
+      "command": "hf legic view",
+      "category": "hf",
+      "description": "Display deobfuscated and decoded content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_lto_help",
+      "command": "hf lto help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_lto_dump",
+      "command": "hf lto dump",
+      "category": "hf",
+      "description": "Dump LTO-CM tag to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_lto_info",
+      "command": "hf lto info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_lto_list",
+      "command": "hf lto list",
+      "category": "hf",
+      "description": "List LTO-CM history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_lto_rdbl",
+      "command": "hf lto rdbl",
+      "category": "hf",
+      "description": "Read block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_lto_reader",
+      "command": "hf lto reader",
+      "category": "hf",
+      "description": "Act like a LTO-CM reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_lto_restore",
+      "command": "hf lto restore",
+      "category": "hf",
+      "description": "Restore dump file to LTO-CM tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_lto_wrbl",
+      "command": "hf lto wrbl",
+      "category": "hf",
+      "description": "Write block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_help",
+      "command": "hf mf help",
+      "category": "hfmf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_list",
+      "command": "hf mf list",
+      "category": "hfmf",
+      "description": "List MIFARE history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_darkside",
+      "command": "hf mf darkside",
+      "category": "hfmf",
+      "description": "Darkside attack",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_nested",
+      "command": "hf mf nested",
+      "category": "hfmf",
+      "description": "Nested attack",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_hardnested",
+      "command": "hf mf hardnested",
+      "category": "hfmf",
+      "description": "Nested attack for hardened MIFARE Classic cards",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_staticnested",
+      "command": "hf mf staticnested",
+      "category": "hfmf",
+      "description": "Nested attack against static nonce MIFARE Classic cards",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_sen",
+      "command": "hf mf sen",
+      "category": "hfmf",
+      "description": "FM11RF08S Static Encrypted Nonce attack",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_brute",
+      "command": "hf mf brute",
+      "category": "hfmf",
+      "description": "Smart bruteforce to exploit weak key generators",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_autopwn",
+      "command": "hf mf autopwn",
+      "category": "hfmf",
+      "description": "Automatic key recovery tool for MIFARE Classic",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_nack",
+      "command": "hf mf nack",
+      "category": "hfmf",
+      "description": "Test for MIFARE NACK bug",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_chk",
+      "command": "hf mf chk",
+      "category": "hfmf",
+      "description": "Check keys",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_fchk",
+      "command": "hf mf fchk",
+      "category": "hfmf",
+      "description": "Check keys fast, targets all keys on card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_decrypt",
+      "command": "hf mf decrypt",
+      "category": "hfmf",
+      "description": "Decrypt Crypto1 data from sniff or trace",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_supercard",
+      "command": "hf mf supercard",
+      "category": "hfmf",
+      "description": "Extract info from a `super card`",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_keygen",
+      "command": "hf mf keygen",
+      "category": "hfmf",
+      "description": "Generate key table for some known KDFs",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_auth4",
+      "command": "hf mf auth4",
+      "category": "hfmf",
+      "description": "ISO14443-4 AES authentication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_acl",
+      "command": "hf mf acl",
+      "category": "hfmf",
+      "description": "Decode and print MIFARE Classic access rights bytes",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_dump",
+      "command": "hf mf dump",
+      "category": "hfmf",
+      "description": "Dump MIFARE Classic tag to binary file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_info",
+      "command": "hf mf info",
+      "category": "hfmf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_isen",
+      "command": "hf mf isen",
+      "category": "hfmf",
+      "description": "Information Static Encrypted Nonces",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_mad",
+      "command": "hf mf mad",
+      "category": "hfmf",
+      "description": "Checks and prints MAD",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_madread",
+      "command": "hf mf madread",
+      "category": "hfmf",
+      "description": "Read data from MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_madwrite",
+      "command": "hf mf madwrite",
+      "category": "hfmf",
+      "description": "Write data to MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_madverify",
+      "command": "hf mf madverify",
+      "category": "hfmf",
+      "description": "Verify data in MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_personalize",
+      "command": "hf mf personalize",
+      "category": "hfmf",
+      "description": "Personalize UID (MIFARE Classic EV1 only)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_rdbl",
+      "command": "hf mf rdbl",
+      "category": "hfmf",
+      "description": "Read MIFARE Classic block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_rdsc",
+      "command": "hf mf rdsc",
+      "category": "hfmf",
+      "description": "Read MIFARE Classic sector",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_restore",
+      "command": "hf mf restore",
+      "category": "hfmf",
+      "description": "Restore MIFARE Classic binary file to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_setmod",
+      "command": "hf mf setmod",
+      "category": "hfmf",
+      "description": "Set MIFARE Classic EV1 load modulation strength",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_value",
+      "command": "hf mf value",
+      "category": "hfmf",
+      "description": "Value blocks",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_view",
+      "command": "hf mf view",
+      "category": "hfmf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_wipe",
+      "command": "hf mf wipe",
+      "category": "hfmf",
+      "description": "Wipe card to zeros and default keys/acc",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_wrbl",
+      "command": "hf mf wrbl",
+      "category": "hfmf",
+      "description": "Write MIFARE Classic block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_sim",
+      "command": "hf mf sim",
+      "category": "hfmf",
+      "description": "Simulate MIFARE card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_ecfill",
+      "command": "hf mf ecfill",
+      "category": "hfmf",
+      "description": "Fill emulator memory with help of keys from emulator",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_eclr",
+      "command": "hf mf eclr",
+      "category": "hfmf",
+      "description": "Clear emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_egetblk",
+      "command": "hf mf egetblk",
+      "category": "hfmf",
+      "description": "Get emulator memory block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_egetsc",
+      "command": "hf mf egetsc",
+      "category": "hfmf",
+      "description": "Get emulator memory sector",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_ekeyprn",
+      "command": "hf mf ekeyprn",
+      "category": "hfmf",
+      "description": "Print keys from emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_eload",
+      "command": "hf mf eload",
+      "category": "hfmf",
+      "description": "Upload file into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_esave",
+      "command": "hf mf esave",
+      "category": "hfmf",
+      "description": "Save emulator memory to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_esetblk",
+      "command": "hf mf esetblk",
+      "category": "hfmf",
+      "description": "Set emulator memory block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_eview",
+      "command": "hf mf eview",
+      "category": "hfmf",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_cgetblk",
+      "command": "hf mf cgetblk",
+      "category": "hfmf",
+      "description": "Read block from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_cgetsc",
+      "command": "hf mf cgetsc",
+      "category": "hfmf",
+      "description": "Read sector from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_cload",
+      "command": "hf mf cload",
+      "category": "hfmf",
+      "description": "Load dump to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_csave",
+      "command": "hf mf csave",
+      "category": "hfmf",
+      "description": "Save dump from card into file or emulator",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_csetblk",
+      "command": "hf mf csetblk",
+      "category": "hfmf",
+      "description": "Write block to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_csetuid",
+      "command": "hf mf csetuid",
+      "category": "hfmf",
+      "description": "Set UID on card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_cview",
+      "command": "hf mf cview",
+      "category": "hfmf",
+      "description": "View card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_cwipe",
+      "command": "hf mf cwipe",
+      "category": "hfmf",
+      "description": "Wipe card to default UID/Sectors/Keys",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gen3uid",
+      "command": "hf mf gen3uid",
+      "category": "hfmf",
+      "description": "Set UID without changing manufacturer block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gen3blk",
+      "command": "hf mf gen3blk",
+      "category": "hfmf",
+      "description": "Overwrite manufacturer block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gen3freeze",
+      "command": "hf mf gen3freeze",
+      "category": "hfmf",
+      "description": "Perma lock UID changes. irreversible",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_ginfo",
+      "command": "hf mf ginfo",
+      "category": "hfmf",
+      "description": "Info about configuration of the card",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_ggetblk",
+      "command": "hf mf ggetblk",
+      "category": "hfmf",
+      "description": "Read block from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gload",
+      "command": "hf mf gload",
+      "category": "hfmf",
+      "description": "Load dump to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gsave",
+      "command": "hf mf gsave",
+      "category": "hfmf",
+      "description": "Save dump from card into file or emulator",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gsetblk",
+      "command": "hf mf gsetblk",
+      "category": "hfmf",
+      "description": "Write block to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gview",
+      "command": "hf mf gview",
+      "category": "hfmf",
+      "description": "View card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gchpwd",
+      "command": "hf mf gchpwd",
+      "category": "hfmf",
+      "description": "Change card access password. Warning!",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmgetcfg",
+      "command": "hf mf gdmgetcfg",
+      "category": "hfmf",
+      "description": "Get configuration data from GDM card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmsetcfg",
+      "command": "hf mf gdmsetcfg",
+      "category": "hfmf",
+      "description": "Set configuration data on GDM card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmparsecfg",
+      "command": "hf mf gdmparsecfg",
+      "category": "hfmf",
+      "description": "Parse configuration data for GDM card",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mf_gdmgetblk",
+      "command": "hf mf gdmgetblk",
+      "category": "hfmf",
+      "description": "Read public block from GDM card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmsetblk",
+      "command": "hf mf gdmsetblk",
+      "category": "hfmf",
+      "description": "Write public block to GDM card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmgethidblk",
+      "command": "hf mf gdmgethidblk",
+      "category": "hfmf",
+      "description": "Read hidden block from GDM card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmsethidblk",
+      "command": "hf mf gdmsethidblk",
+      "category": "hfmf",
+      "description": "Write hidden block to GDM card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmsetuid",
+      "command": "hf mf gdmsetuid",
+      "category": "hfmf",
+      "description": "Set UID on GDM card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmwipe",
+      "command": "hf mf gdmwipe",
+      "category": "hfmf",
+      "description": "Wipe GDM card to factory defaults",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_gdmsetsig",
+      "command": "hf mf gdmsetsig",
+      "category": "hfmf",
+      "description": "Set MFC EV1 signature on GDM card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_ndefformat",
+      "command": "hf mf ndefformat",
+      "category": "hfmf",
+      "description": "Format MIFARE Classic Tag as NFC Tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_ndefread",
+      "command": "hf mf ndefread",
+      "category": "hfmf",
+      "description": "Read and print NDEF records from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_ndefwrite",
+      "command": "hf mf ndefwrite",
+      "category": "hfmf",
+      "description": "Write NDEF records to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mf_encodehid",
+      "command": "hf mf encodehid",
+      "category": "hfmf",
+      "description": "Encode a HID Credential / NDEF record to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_help",
+      "command": "hf mfp help",
+      "category": "hfmf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfp_list",
+      "command": "hf mfp list",
+      "category": "hfmf",
+      "description": "List MIFARE Plus history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfp_acl",
+      "command": "hf mfp acl",
+      "category": "hfmf",
+      "description": "Decode ACL values for Mifare Plus",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfp_auth",
+      "command": "hf mfp auth",
+      "category": "hfmf",
+      "description": "Authentication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_chk",
+      "command": "hf mfp chk",
+      "category": "hfmf",
+      "description": "Check keys",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_dump",
+      "command": "hf mfp dump",
+      "category": "hfmf",
+      "description": "Dump MIFARE Plus tag to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_info",
+      "command": "hf mfp info",
+      "category": "hfmf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_mad",
+      "command": "hf mfp mad",
+      "category": "hfmf",
+      "description": "Check and print MAD",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_madread",
+      "command": "hf mfp madread",
+      "category": "hfmf",
+      "description": "Read data from MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_madwrite",
+      "command": "hf mfp madwrite",
+      "category": "hfmf",
+      "description": "Write data to MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_madverify",
+      "command": "hf mfp madverify",
+      "category": "hfmf",
+      "description": "Verify data in MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_rdbl",
+      "command": "hf mfp rdbl",
+      "category": "hfmf",
+      "description": "Read blocks from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_rdsc",
+      "command": "hf mfp rdsc",
+      "category": "hfmf",
+      "description": "Read sectors from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_wrbl",
+      "command": "hf mfp wrbl",
+      "category": "hfmf",
+      "description": "Write block to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_chkey",
+      "command": "hf mfp chkey",
+      "category": "hfmf",
+      "description": "Change key on card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_chconf",
+      "command": "hf mfp chconf",
+      "category": "hfmf",
+      "description": "Change config on card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_commitp",
+      "command": "hf mfp commitp",
+      "category": "hfmf",
+      "description": "Configure security layer (SL1/SL3 mode)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_initp",
+      "command": "hf mfp initp",
+      "category": "hfmf",
+      "description": "Fill all the card's keys in SL0 mode",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_wrp",
+      "command": "hf mfp wrp",
+      "category": "hfmf",
+      "description": "Write Perso command",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_ndefformat",
+      "command": "hf mfp ndefformat",
+      "category": "hfmf",
+      "description": "Format MIFARE Plus Tag as NFC Tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_ndefread",
+      "command": "hf mfp ndefread",
+      "category": "hfmf",
+      "description": "Read and print NDEF records from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfp_ndefwrite",
+      "command": "hf mfp ndefwrite",
+      "category": "hfmf",
+      "description": "Write NDEF records to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_help",
+      "command": "hf mfu help",
+      "category": "hfmf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfu_list",
+      "command": "hf mfu list",
+      "category": "hfmf",
+      "description": "List MIFARE Ultralight / NTAG history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfu_keygen",
+      "command": "hf mfu keygen",
+      "category": "hfmf",
+      "description": "Generate DES/3DES/AES MIFARE diversified keys",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfu_pwdgen",
+      "command": "hf mfu pwdgen",
+      "category": "hfmf",
+      "description": "Generate pwd from known algos",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfu_otptear",
+      "command": "hf mfu otptear",
+      "category": "hfmf",
+      "description": "Tear-off test on OTP bits",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_countertear",
+      "command": "hf mfu countertear",
+      "category": "hfmf",
+      "description": "Tear-off test on Ev1/NTAG Counter bits",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_chk",
+      "command": "hf mfu chk",
+      "category": "hfmf",
+      "description": "Ultralight C/AES - Authentication dictionary check",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_cauth",
+      "command": "hf mfu cauth",
+      "category": "hfmf",
+      "description": "Ultralight-C - Authentication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_desbrute",
+      "command": "hf mfu desbrute",
+      "category": "hfmf",
+      "description": "Ultralight-C - 3DES key segment brute force",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfu_aesauth",
+      "command": "hf mfu aesauth",
+      "category": "hfmf",
+      "description": "Ultralight-AES - Authentication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_aesgetuid",
+      "command": "hf mfu aesgetuid",
+      "category": "hfmf",
+      "description": "Ultralight-AES - Get UID when RID in use",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_setkey",
+      "command": "hf mfu setkey",
+      "category": "hfmf",
+      "description": "Ultralight C/AES - Set 3DES/AES keys",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_dump",
+      "command": "hf mfu dump",
+      "category": "hfmf",
+      "description": "Dump MIFARE Ultralight family tag to binary file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_incr",
+      "command": "hf mfu incr",
+      "category": "hfmf",
+      "description": "Increments Ev1/NTAG counter",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_info",
+      "command": "hf mfu info",
+      "category": "hfmf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_ndefformat",
+      "command": "hf mfu ndefformat",
+      "category": "hfmf",
+      "description": "Format tag as NDEF, writes the Capability Container",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_ndefread",
+      "command": "hf mfu ndefread",
+      "category": "hfmf",
+      "description": "Prints NDEF records from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_ndefwrite",
+      "command": "hf mfu ndefwrite",
+      "category": "hfmf",
+      "description": "Write NDEF records to card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_rdbl",
+      "command": "hf mfu rdbl",
+      "category": "hfmf",
+      "description": "Read block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_restore",
+      "command": "hf mfu restore",
+      "category": "hfmf",
+      "description": "Restore a dump file onto a tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_tamper",
+      "command": "hf mfu tamper",
+      "category": "hfmf",
+      "description": "NTAG 213TT - Configure the tamper feature",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_view",
+      "command": "hf mfu view",
+      "category": "hfmf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfu_wipe",
+      "command": "hf mfu wipe",
+      "category": "hfmf",
+      "description": "Wipe card to zeros and default key",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_wrbl",
+      "command": "hf mfu wrbl",
+      "category": "hfmf",
+      "description": "Write block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_eload",
+      "command": "hf mfu eload",
+      "category": "hfmf",
+      "description": "Upload file into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_esave",
+      "command": "hf mfu esave",
+      "category": "hfmf",
+      "description": "Save emulator memory to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_eview",
+      "command": "hf mfu eview",
+      "category": "hfmf",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_esetblk",
+      "command": "hf mfu esetblk",
+      "category": "hfmf",
+      "description": "Set emulator memory block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_sim",
+      "command": "hf mfu sim",
+      "category": "hfmf",
+      "description": "Simulate MIFARE Ultralight from emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_setuid",
+      "command": "hf mfu setuid",
+      "category": "hfmf",
+      "description": "Set UID - MAGIC tags only",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfu_amiibo",
+      "command": "hf mfu amiibo",
+      "category": "hfmf",
+      "description": "Amiibo tag operations",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_help",
+      "command": "hf mfdes help",
+      "category": "hfmf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfdes_list",
+      "command": "hf mfdes list",
+      "category": "hfmf",
+      "description": "List DESFire (ISO 14443A) history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfdes_auth",
+      "command": "hf mfdes auth",
+      "category": "hfmf",
+      "description": "MIFARE DesFire Authentication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_chk",
+      "command": "hf mfdes chk",
+      "category": "hfmf",
+      "description": "Check keys",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_default",
+      "command": "hf mfdes default",
+      "category": "hfmf",
+      "description": "Set defaults for all the commands",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_detect",
+      "command": "hf mfdes detect",
+      "category": "hfmf",
+      "description": "Detect key type and tries to find one from the list",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_formatpicc",
+      "command": "hf mfdes formatpicc",
+      "category": "hfmf",
+      "description": "Format PICC",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_freemem",
+      "command": "hf mfdes freemem",
+      "category": "hfmf",
+      "description": "Get free memory size",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getversion",
+      "command": "hf mfdes getversion",
+      "category": "hfmf",
+      "description": "Get version/type information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getuid",
+      "command": "hf mfdes getuid",
+      "category": "hfmf",
+      "description": "Get uid from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_pc",
+      "command": "hf mfdes pc",
+      "category": "hfmf",
+      "description": "Run proximity check",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_info",
+      "command": "hf mfdes info",
+      "category": "hfmf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_mad",
+      "command": "hf mfdes mad",
+      "category": "hfmf",
+      "description": "Prints MAD records / files from the card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_setconfig",
+      "command": "hf mfdes setconfig",
+      "category": "hfmf",
+      "description": "Set card configuration",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_lsapp",
+      "command": "hf mfdes lsapp",
+      "category": "hfmf",
+      "description": "Show all applications with files list",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getaids",
+      "command": "hf mfdes getaids",
+      "category": "hfmf",
+      "description": "Get Application IDs list",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getappnames",
+      "command": "hf mfdes getappnames",
+      "category": "hfmf",
+      "description": "Get Applications list",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_bruteaid",
+      "command": "hf mfdes bruteaid",
+      "category": "hfmf",
+      "description": "Recover AIDs by bruteforce",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_brutedamslot",
+      "command": "hf mfdes brutedamslot",
+      "category": "hfmf",
+      "description": "Recover DAM slots to delegated AIDs by bruteforce",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_createapp",
+      "command": "hf mfdes createapp",
+      "category": "hfmf",
+      "description": "Create Application",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_createdelegateapp",
+      "command": "hf mfdes createdelegateapp",
+      "category": "hfmf",
+      "description": "Create Delegated Application",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getdelegateappinfo",
+      "command": "hf mfdes getdelegateappinfo",
+      "category": "hfmf",
+      "description": "Get Delegated Application info by DAM slot",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_deleteapp",
+      "command": "hf mfdes deleteapp",
+      "category": "hfmf",
+      "description": "Delete Application",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_selectapp",
+      "command": "hf mfdes selectapp",
+      "category": "hfmf",
+      "description": "Select Application ID",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_selectisofid",
+      "command": "hf mfdes selectisofid",
+      "category": "hfmf",
+      "description": "Select file by ISO ID",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_changekey",
+      "command": "hf mfdes changekey",
+      "category": "hfmf",
+      "description": "Change Key",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_chkeysettings",
+      "command": "hf mfdes chkeysettings",
+      "category": "hfmf",
+      "description": "Change Key Settings",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getkeysettings",
+      "command": "hf mfdes getkeysettings",
+      "category": "hfmf",
+      "description": "Get Key Settings",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getkeyversions",
+      "command": "hf mfdes getkeyversions",
+      "category": "hfmf",
+      "description": "Get Key Versions",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_bruteisofid",
+      "command": "hf mfdes bruteisofid",
+      "category": "hfmf",
+      "description": "Recover file ISO IDs by bruteforce",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getfileids",
+      "command": "hf mfdes getfileids",
+      "category": "hfmf",
+      "description": "Get File IDs list",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getfileisoids",
+      "command": "hf mfdes getfileisoids",
+      "category": "hfmf",
+      "description": "Get File ISO IDs list",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_lsfiles",
+      "command": "hf mfdes lsfiles",
+      "category": "hfmf",
+      "description": "Show all files list",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_dump",
+      "command": "hf mfdes dump",
+      "category": "hfmf",
+      "description": "Dump all files",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_view",
+      "command": "hf mfdes view",
+      "category": "hfmf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfdes_eload",
+      "command": "hf mfdes eload",
+      "category": "hfmf",
+      "description": "Upload file into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_esave",
+      "command": "hf mfdes esave",
+      "category": "hfmf",
+      "description": "Save emulator memory to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_eview",
+      "command": "hf mfdes eview",
+      "category": "hfmf",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_sim",
+      "command": "hf mfdes sim",
+      "category": "hfmf",
+      "description": "Simulate DESFire card from emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_etest",
+      "command": "hf mfdes etest",
+      "category": "hfmf",
+      "description": "Drive the simulation from the host, no RF",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_createfile",
+      "command": "hf mfdes createfile",
+      "category": "hfmf",
+      "description": "Create Standard/Backup File",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_createvaluefile",
+      "command": "hf mfdes createvaluefile",
+      "category": "hfmf",
+      "description": "Create Value File",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_createrecordfile",
+      "command": "hf mfdes createrecordfile",
+      "category": "hfmf",
+      "description": "Create Linear/Cyclic Record File",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_createmacfile",
+      "command": "hf mfdes createmacfile",
+      "category": "hfmf",
+      "description": "Create Transaction MAC File",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_deletefile",
+      "command": "hf mfdes deletefile",
+      "category": "hfmf",
+      "description": "Delete File",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_getfilesettings",
+      "command": "hf mfdes getfilesettings",
+      "category": "hfmf",
+      "description": "Get file settings",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_chfilesettings",
+      "command": "hf mfdes chfilesettings",
+      "category": "hfmf",
+      "description": "Change file settings",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_read",
+      "command": "hf mfdes read",
+      "category": "hfmf",
+      "description": "Read data from standard/backup/record/value/mac file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_write",
+      "command": "hf mfdes write",
+      "category": "hfmf",
+      "description": "Write data to standard/backup/record/value file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_value",
+      "command": "hf mfdes value",
+      "category": "hfmf",
+      "description": "Operations with value file (get/credit/limited credit/debit/clear)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_clearrecfile",
+      "command": "hf mfdes clearrecfile",
+      "category": "hfmf",
+      "description": "Clear record File",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_makemfclicense",
+      "command": "hf mfdes makemfclicense",
+      "category": "hfmf",
+      "description": "Generate a Mifare Classic license for DESFire EV3C",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_mfdes_createmfcmapping",
+      "command": "hf mfdes createmfcmapping",
+      "category": "hfmf",
+      "description": "Create a Mifare Classic mapping on a DESFire EV3C",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_verifycert",
+      "command": "hf mfdes verifycert",
+      "category": "hfmf",
+      "description": "Validate cert from file and verify key possession",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_intauth",
+      "command": "hf mfdes intauth",
+      "category": "hfmf",
+      "description": "ISO Internal Authenticate (ECDSA challenge-response)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_vdesign",
+      "command": "hf mfdes vdesign",
+      "category": "hfmf",
+      "description": "VDE ECDSASign (EV charging signature over 32-byte challenge)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_mfdes_test",
+      "command": "hf mfdes test",
+      "category": "hfmf",
+      "description": "Regression crypto tests",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_ntag424_help",
+      "command": "hf ntag424 help",
+      "category": "hfmf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_ntag424_info",
+      "command": "hf ntag424 info",
+      "category": "hfmf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ntag424_view",
+      "command": "hf ntag424 view",
+      "category": "hfmf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_ntag424_auth",
+      "command": "hf ntag424 auth",
+      "category": "hfmf",
+      "description": "Test authentication with key",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ntag424_read",
+      "command": "hf ntag424 read",
+      "category": "hfmf",
+      "description": "Read file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ntag424_write",
+      "command": "hf ntag424 write",
+      "category": "hfmf",
+      "description": "Write file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ntag424_getfs",
+      "command": "hf ntag424 getfs",
+      "category": "hfmf",
+      "description": "Get file settings",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ntag424_changefs",
+      "command": "hf ntag424 changefs",
+      "category": "hfmf",
+      "description": "Change file settings",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_ntag424_changekey",
+      "command": "hf ntag424 changekey",
+      "category": "hfmf",
+      "description": "Change key",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_saflok_help",
+      "command": "hf saflok help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_saflok_test",
+      "command": "hf saflok test",
+      "category": "hf",
+      "description": "Perform self-test",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_saflok_cksum",
+      "command": "hf saflok cksum",
+      "category": "hf",
+      "description": "Generate checksum for data block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_saflok_encode",
+      "command": "hf saflok encode",
+      "category": "hf",
+      "description": "Encode Saflok card data",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_saflok_encrypt",
+      "command": "hf saflok encrypt",
+      "category": "hf",
+      "description": "Encrypt 17-byte decrypted block",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_saflok_decode",
+      "command": "hf saflok decode",
+      "category": "hf",
+      "description": "Decode Saflok card data",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_saflok_decrypt",
+      "command": "hf saflok decrypt",
+      "category": "hf",
+      "description": "Decrypt 17-byte encrypted block",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_saflok_interrogate",
+      "command": "hf saflok interrogate",
+      "category": "hf",
+      "description": "Interrogate saflok card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_saflok_provision",
+      "command": "hf saflok provision",
+      "category": "hf",
+      "description": "Provision Saflok card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_saflok_modify",
+      "command": "hf saflok modify",
+      "category": "hf",
+      "description": "Modify Saflok card data",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_saflok_read",
+      "command": "hf saflok read",
+      "category": "hf",
+      "description": "Read Saflok card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_seos_help",
+      "command": "hf seos help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_seos_list",
+      "command": "hf seos list",
+      "category": "hf",
+      "description": "List SEOS history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_seos_sam",
+      "command": "hf seos sam",
+      "category": "hf",
+      "description": "SAM tests",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_seos_info",
+      "command": "hf seos info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_seos_pacs",
+      "command": "hf seos pacs",
+      "category": "hf",
+      "description": "Extract PACS Information from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_seos_write",
+      "command": "hf seos write",
+      "category": "hf",
+      "description": "Write an ADF to the card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_seos_adf",
+      "command": "hf seos adf",
+      "category": "hf",
+      "description": "Read an ADF from the card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_seos_gdf",
+      "command": "hf seos gdf",
+      "category": "hf",
+      "description": "Read an GDF from card",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_seos_sim",
+      "command": "hf seos sim",
+      "category": "hf",
+      "description": "Simulate Seos tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_seos_managekeys",
+      "command": "hf seos managekeys",
+      "category": "hf",
+      "description": "Manage keys to use with SEOS commands",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_st25ta_help",
+      "command": "hf st25ta help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_st25ta_eload",
+      "command": "hf st25ta eload",
+      "category": "hf",
+      "description": "Upload NDEF response into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_st25ta_esave",
+      "command": "hf st25ta esave",
+      "category": "hf",
+      "description": "Save emulator memory to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_st25ta_eview",
+      "command": "hf st25ta eview",
+      "category": "hf",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_st25ta_info",
+      "command": "hf st25ta info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_st25ta_list",
+      "command": "hf st25ta list",
+      "category": "hf",
+      "description": "List ISO 14443A/7816 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_st25ta_ndefread",
+      "command": "hf st25ta ndefread",
+      "category": "hf",
+      "description": "read NDEF file on tag",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_st25ta_protect",
+      "command": "hf st25ta protect",
+      "category": "hf",
+      "description": "change protection on tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_st25ta_pwd",
+      "command": "hf st25ta pwd",
+      "category": "hf",
+      "description": "change password on tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_st25ta_sim",
+      "command": "hf st25ta sim",
+      "category": "hf",
+      "description": "Fake ISO 14443A/ST tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_tesla_help",
+      "command": "hf tesla help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_tesla_info",
+      "command": "hf tesla info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_tesla_list",
+      "command": "hf tesla list",
+      "category": "hf",
+      "description": "List ISO 14443A/7816 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_texkom_help",
+      "command": "hf texkom help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_texkom_reader",
+      "command": "hf texkom reader",
+      "category": "hf",
+      "description": "Act like a Texkom reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_texkom_sim",
+      "command": "hf texkom sim",
+      "category": "hf",
+      "description": "Simulate a Texkom tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_thinfilm_help",
+      "command": "hf thinfilm help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_thinfilm_info",
+      "command": "hf thinfilm info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_thinfilm_list",
+      "command": "hf thinfilm list",
+      "category": "hf",
+      "description": "List NFC Barcode / Thinfilm history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_thinfilm_sim",
+      "command": "hf thinfilm sim",
+      "category": "hf",
+      "description": "Fake Thinfilm tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_thinfilm_sniff",
+      "command": "hf thinfilm sniff",
+      "category": "hf",
+      "description": "Sniff Thinfilm tag communication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_topaz_help",
+      "command": "hf topaz help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_topaz_list",
+      "command": "hf topaz list",
+      "category": "hf",
+      "description": "List Topaz history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_topaz_dump",
+      "command": "hf topaz dump",
+      "category": "hf",
+      "description": "Dump TOPAZ family tag to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_topaz_info",
+      "command": "hf topaz info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_topaz_raw",
+      "command": "hf topaz raw",
+      "category": "hf",
+      "description": "Send raw hex data to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_topaz_rdbl",
+      "command": "hf topaz rdbl",
+      "category": "hf",
+      "description": "Read block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_topaz_reader",
+      "command": "hf topaz reader",
+      "category": "hf",
+      "description": "Act like a Topaz reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_topaz_sim",
+      "command": "hf topaz sim",
+      "category": "hf",
+      "description": "Simulate Topaz tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_topaz_sniff",
+      "command": "hf topaz sniff",
+      "category": "hf",
+      "description": "Sniff Topaz reader-tag communication",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_topaz_view",
+      "command": "hf topaz view",
+      "category": "hf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_topaz_wrbl",
+      "command": "hf topaz wrbl",
+      "category": "hf",
+      "description": "Write block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_vas_help",
+      "command": "hf vas help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_vas_info",
+      "command": "hf vas info",
+      "category": "hf",
+      "description": "Get VAS applet information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_vas_reader",
+      "command": "hf vas reader",
+      "category": "hf",
+      "description": "Read and decrypt VAS message",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_vas_decrypt",
+      "command": "hf vas decrypt",
+      "category": "hf",
+      "description": "Decrypt a previously captured VAS cryptogram",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_xerox_help",
+      "command": "hf xerox help",
+      "category": "hf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_xerox_list",
+      "command": "hf xerox list",
+      "category": "hf",
+      "description": "List ISO-14443B history",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_xerox_info",
+      "command": "hf xerox info",
+      "category": "hf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_xerox_dump",
+      "command": "hf xerox dump",
+      "category": "hf",
+      "description": "Read all memory pages of an Fuji/Xerox tag, save to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_xerox_reader",
+      "command": "hf xerox reader",
+      "category": "hf",
+      "description": "Act like a Fuji/Xerox reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.hf_xerox_view",
+      "command": "hf xerox view",
+      "category": "hf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.hf_xerox_rdbl",
+      "command": "hf xerox rdbl",
+      "category": "hf",
+      "description": "Read Fuji/Xerox block",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_help",
+      "command": "hw help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hw_detectreader",
+      "command": "hw detectreader",
+      "category": "other",
+      "description": "Detect external reader field",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_status",
+      "command": "hw status",
+      "category": "other",
+      "description": "Show runtime status information about the connected Proxmark3",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_tearoff",
+      "command": "hw tearoff",
+      "category": "other",
+      "description": "Program a tearoff hook for the next command supporting tearoff",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_timeout",
+      "command": "hw timeout",
+      "category": "other",
+      "description": "Set the communication timeout on the client side",
+      "offline": true
+    },
+    {
+      "id": "cmd.hw_version",
+      "command": "hw version",
+      "category": "other",
+      "description": "Show version information about the client and Proxmark3",
+      "offline": true
+    },
+    {
+      "id": "cmd.hw_break",
+      "command": "hw break",
+      "category": "other",
+      "description": "Send break loop usb command",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_bootloader",
+      "command": "hw bootloader",
+      "category": "other",
+      "description": "Reboot into bootloader mode",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_connect",
+      "command": "hw connect",
+      "category": "other",
+      "description": "Connect to the device via serial port",
+      "offline": true
+    },
+    {
+      "id": "cmd.hw_dbg",
+      "command": "hw dbg",
+      "category": "other",
+      "description": "Set device side debug level",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_fpga",
+      "command": "hw fpga",
+      "category": "other",
+      "description": "Fpga commands",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_fpgaoff",
+      "command": "hw fpgaoff",
+      "category": "other",
+      "description": "Turn off FPGA on device",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_ant_pm5",
+      "command": "hw ant_pm5",
+      "category": "other",
+      "description": "Control the antennal of pm5",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_qc_pm5",
+      "command": "hw qc_pm5",
+      "category": "other",
+      "description": "Perform QC test (hardware or IO) for the PM5",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_factorydata",
+      "command": "hw factorydata",
+      "category": "other",
+      "description": "Get/Set the factory data for Device",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_lcd",
+      "command": "hw lcd",
+      "category": "other",
+      "description": "Send command/data to LCD",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_lcdreset",
+      "command": "hw lcdreset",
+      "category": "other",
+      "description": "Hardware reset LCD",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_ping",
+      "command": "hw ping",
+      "category": "other",
+      "description": "Test if the Proxmark3 is responsive",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_readmem",
+      "command": "hw readmem",
+      "category": "other",
+      "description": "Read from MCU flash",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_reset",
+      "command": "hw reset",
+      "category": "other",
+      "description": "Reset the device",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_setlfdivisor",
+      "command": "hw setlfdivisor",
+      "category": "other",
+      "description": "Drive LF antenna at 12MHz / (divisor + 1)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_sethfthresh",
+      "command": "hw sethfthresh",
+      "category": "other",
+      "description": "Set thresholds in HF/14a mode",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_setmux",
+      "command": "hw setmux",
+      "category": "other",
+      "description": "Set the ADC mux to a specific value",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_standalone",
+      "command": "hw standalone",
+      "category": "other",
+      "description": "Start installed standalone mode on device",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_tia",
+      "command": "hw tia",
+      "category": "other",
+      "description": "Trigger a Timing Interval Acquisition to re-adjust the RealTimeCounter divider",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_tune",
+      "command": "hw tune",
+      "category": "other",
+      "description": "Measure tuning of device antenna",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_decay",
+      "command": "hw decay",
+      "category": "other",
+      "description": "Measure HF antenna decay after field-off",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_bwm_help",
+      "command": "hw bwm help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.hw_bwm_autooff",
+      "command": "hw bwm autooff",
+      "category": "other",
+      "description": "Toggle auto power-off on USB unplug",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_bwm_charge",
+      "command": "hw bwm charge",
+      "category": "other",
+      "description": "Enable/disable battery charging (one-shot)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_bwm_name",
+      "command": "hw bwm name",
+      "category": "other",
+      "description": "Get/set the BWM BLE advertising name",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_bwm_setcap",
+      "command": "hw bwm setcap",
+      "category": "other",
+      "description": "Set fuel-gauge design capacity (run once after battery change)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_bwm_upgrade",
+      "command": "hw bwm upgrade",
+      "category": "other",
+      "description": "Reflash BWM (ESP32) firmware over the BWM link, no header",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_bwm_vchg",
+      "command": "hw bwm vchg",
+      "category": "other",
+      "description": "Set charger charge-voltage target (default 4100 mV)",
+      "offline": false
+    },
+    {
+      "id": "cmd.hw_bwm_wifi",
+      "command": "hw bwm wifi",
+      "category": "other",
+      "description": "Bring up WiFi (STA + TCP server) for a tcp: connection",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_help",
+      "command": "lf help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_config",
+      "command": "lf config",
+      "category": "lf",
+      "description": "Get/Set config for LF sampling, bit/sample, decimation, frequency",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_cmdread",
+      "command": "lf cmdread",
+      "category": "lf",
+      "description": "Modulate LF reader field to send command before read",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_read",
+      "command": "lf read",
+      "category": "lf",
+      "description": "Read LF tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_relay",
+      "command": "lf relay",
+      "category": "lf",
+      "description": "LF relay between two pm3 devices (tag/rdr mode)",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_search",
+      "command": "lf search",
+      "category": "lf",
+      "description": "Read and Search for valid known tag",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_sim",
+      "command": "lf sim",
+      "category": "lf",
+      "description": "Simulate LF tag from buffer",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_simask",
+      "command": "lf simask",
+      "category": "lf",
+      "description": "Simulate ASK tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_simfsk",
+      "command": "lf simfsk",
+      "category": "lf",
+      "description": "Simulate FSK tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_simpsk",
+      "command": "lf simpsk",
+      "category": "lf",
+      "description": "Simulate PSK tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_sniff",
+      "command": "lf sniff",
+      "category": "lf",
+      "description": "Sniff LF traffic between reader and tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_tune",
+      "command": "lf tune",
+      "category": "lf",
+      "description": "Continuously measure LF antenna tuning",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_awid_help",
+      "command": "lf awid help",
+      "category": "lf",
+      "description": "this help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_awid_brute",
+      "command": "lf awid brute",
+      "category": "lf",
+      "description": "bruteforce card number against reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_awid_clone",
+      "command": "lf awid clone",
+      "category": "lf",
+      "description": "clone AWID tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_awid_demod",
+      "command": "lf awid demod",
+      "category": "lf",
+      "description": "demodulate an AWID FSK tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_awid_reader",
+      "command": "lf awid reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_awid_sim",
+      "command": "lf awid sim",
+      "category": "lf",
+      "description": "simulate AWID tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_awid_watch",
+      "command": "lf awid watch",
+      "category": "lf",
+      "description": "continuously watch for cards.  Reader mode",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_cotag_help",
+      "command": "lf cotag help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_cotag_demod",
+      "command": "lf cotag demod",
+      "category": "lf",
+      "description": "demodulate a COTAG tag",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_cotag_reader",
+      "command": "lf cotag reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_destron_help",
+      "command": "lf destron help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_destron_demod",
+      "command": "lf destron demod",
+      "category": "lf",
+      "description": "demodulate an Destron tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_destron_reader",
+      "command": "lf destron reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_destron_clone",
+      "command": "lf destron clone",
+      "category": "lf",
+      "description": "clone Destron tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_destron_sim",
+      "command": "lf destron sim",
+      "category": "lf",
+      "description": "simulate Destron tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_help",
+      "command": "lf em help",
+      "category": "lfem",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_410x_help",
+      "command": "lf em 410x help",
+      "category": "lfem",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_410x_demod",
+      "command": "lf em 410x demod",
+      "category": "lfem",
+      "description": "demodulate a EM410x tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_410x_reader",
+      "command": "lf em 410x reader",
+      "category": "lfem",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_410x_sim",
+      "command": "lf em 410x sim",
+      "category": "lfem",
+      "description": "simulate EM410x tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_410x_brute",
+      "command": "lf em 410x brute",
+      "category": "lfem",
+      "description": "reader bruteforce attack by simulating EM410x tags",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_410x_watch",
+      "command": "lf em 410x watch",
+      "category": "lfem",
+      "description": "watches for EM410x 125/134 kHz tags",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_410x_spoof",
+      "command": "lf em 410x spoof",
+      "category": "lfem",
+      "description": "watches for EM410x 125/134 kHz tags, and replays them",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_410x_clone",
+      "command": "lf em 410x clone",
+      "category": "lfem",
+      "description": "clone EM410x Tag ID to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_help",
+      "command": "lf em 4x05 help",
+      "category": "lfem",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x05_clonehelp",
+      "command": "lf em 4x05 clonehelp",
+      "category": "lfem",
+      "description": "Shows the available clone commands",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_brute",
+      "command": "lf em 4x05 brute",
+      "category": "lfem",
+      "description": "Bruteforce password",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_chk",
+      "command": "lf em 4x05 chk",
+      "category": "lfem",
+      "description": "Check passwords",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_config",
+      "command": "lf em 4x05 config",
+      "category": "lfem",
+      "description": "Create common configuration words",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x05_demod",
+      "command": "lf em 4x05 demod",
+      "category": "lfem",
+      "description": "Demodulate a EM4x05/EM4x69 tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x05_dump",
+      "command": "lf em 4x05 dump",
+      "category": "lfem",
+      "description": "Dump EM4x05/EM4x69 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_info",
+      "command": "lf em 4x05 info",
+      "category": "lfem",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_read",
+      "command": "lf em 4x05 read",
+      "category": "lfem",
+      "description": "Read word data from EM4x05/EM4x69",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_sniff",
+      "command": "lf em 4x05 sniff",
+      "category": "lfem",
+      "description": "Attempt to recover em4x05 commands from sample buffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x05_unlock",
+      "command": "lf em 4x05 unlock",
+      "category": "lfem",
+      "description": "Execute tear off against EM4x05/EM4x69",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_view",
+      "command": "lf em 4x05 view",
+      "category": "lfem",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x05_wipe",
+      "command": "lf em 4x05 wipe",
+      "category": "lfem",
+      "description": "Wipe EM4x05/EM4x69 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x05_write",
+      "command": "lf em 4x05 write",
+      "category": "lfem",
+      "description": "Write word data to EM4x05/EM4x69",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_help",
+      "command": "lf em 4x50 help",
+      "category": "lfem",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x50_brute",
+      "command": "lf em 4x50 brute",
+      "category": "lfem",
+      "description": "Bruteforce attack to find password",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_chk",
+      "command": "lf em 4x50 chk",
+      "category": "lfem",
+      "description": "Check passwords",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_dump",
+      "command": "lf em 4x50 dump",
+      "category": "lfem",
+      "description": "Dump EM4x50 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_info",
+      "command": "lf em 4x50 info",
+      "category": "lfem",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_login",
+      "command": "lf em 4x50 login",
+      "category": "lfem",
+      "description": "Login into EM4x50 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_rdbl",
+      "command": "lf em 4x50 rdbl",
+      "category": "lfem",
+      "description": "Read EM4x50 word data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_reader",
+      "command": "lf em 4x50 reader",
+      "category": "lfem",
+      "description": "Show standard read mode data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_restore",
+      "command": "lf em 4x50 restore",
+      "category": "lfem",
+      "description": "Restore EM4x50 dump to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_view",
+      "command": "lf em 4x50 view",
+      "category": "lfem",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x50_wipe",
+      "command": "lf em 4x50 wipe",
+      "category": "lfem",
+      "description": "Wipe EM4x50 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_wrbl",
+      "command": "lf em 4x50 wrbl",
+      "category": "lfem",
+      "description": "Write EM4x50 word data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_wrpwd",
+      "command": "lf em 4x50 wrpwd",
+      "category": "lfem",
+      "description": "Change EM4x50 password",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_eload",
+      "command": "lf em 4x50 eload",
+      "category": "lfem",
+      "description": "Upload file into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_esave",
+      "command": "lf em 4x50 esave",
+      "category": "lfem",
+      "description": "Save emulator memory to file",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_eview",
+      "command": "lf em 4x50 eview",
+      "category": "lfem",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x50_sim",
+      "command": "lf em 4x50 sim",
+      "category": "lfem",
+      "description": "Simulate EM4x50 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x70_help",
+      "command": "lf em 4x70 help",
+      "category": "lfem",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x70_brute",
+      "command": "lf em 4x70 brute",
+      "category": "lfem",
+      "description": "Bruteforce EM4X70 to find partial key",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x70_info",
+      "command": "lf em 4x70 info",
+      "category": "lfem",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x70_write",
+      "command": "lf em 4x70 write",
+      "category": "lfem",
+      "description": "Write EM4x70",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x70_unlock",
+      "command": "lf em 4x70 unlock",
+      "category": "lfem",
+      "description": "Unlock EM4x70 for writing",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x70_auth",
+      "command": "lf em 4x70 auth",
+      "category": "lfem",
+      "description": "Authenticate EM4x70",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x70_setpin",
+      "command": "lf em 4x70 setpin",
+      "category": "lfem",
+      "description": "Write PIN",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x70_setkey",
+      "command": "lf em 4x70 setkey",
+      "category": "lfem",
+      "description": "Write key",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_em_4x70_calc",
+      "command": "lf em 4x70 calc",
+      "category": "lfem",
+      "description": "Calculate EM4x70 challenge and response",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x70_recover",
+      "command": "lf em 4x70 recover",
+      "category": "lfem",
+      "description": "Recover remaining key from partial key",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_em_4x70_autorecover",
+      "command": "lf em 4x70 autorecover",
+      "category": "lfem",
+      "description": "Recover entire key from writable tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_fdxb_help",
+      "command": "lf fdxb help",
+      "category": "lf",
+      "description": "this help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_fdxb_demod",
+      "command": "lf fdxb demod",
+      "category": "lf",
+      "description": "demodulate a FDX-B ISO11784/85 tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_fdxb_reader",
+      "command": "lf fdxb reader",
+      "category": "lf",
+      "description": "attempt to read at 134kHz and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_fdxb_clone",
+      "command": "lf fdxb clone",
+      "category": "lf",
+      "description": "clone animal ID tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_fdxb_sim",
+      "command": "lf fdxb sim",
+      "category": "lf",
+      "description": "simulate Animal ID tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_gallagher_help",
+      "command": "lf gallagher help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_gallagher_demod",
+      "command": "lf gallagher demod",
+      "category": "lf",
+      "description": "demodulate an GALLAGHER tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_gallagher_reader",
+      "command": "lf gallagher reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_gallagher_clone",
+      "command": "lf gallagher clone",
+      "category": "lf",
+      "description": "clone GALLAGHER tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_gallagher_sim",
+      "command": "lf gallagher sim",
+      "category": "lf",
+      "description": "simulate GALLAGHER tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_gproxii_help",
+      "command": "lf gproxii help",
+      "category": "lf",
+      "description": "this help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_gproxii_demod",
+      "command": "lf gproxii demod",
+      "category": "lf",
+      "description": "demodulate a G Prox II tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_gproxii_reader",
+      "command": "lf gproxii reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_gproxii_clone",
+      "command": "lf gproxii clone",
+      "category": "lf",
+      "description": "clone Guardall tag to T55x7 or Q5/T5555",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_gproxii_sim",
+      "command": "lf gproxii sim",
+      "category": "lf",
+      "description": "simulate Guardall tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hid_help",
+      "command": "lf hid help",
+      "category": "lf",
+      "description": "this help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hid_demod",
+      "command": "lf hid demod",
+      "category": "lf",
+      "description": "demodulate HID Prox tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hid_reader",
+      "command": "lf hid reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hid_clone",
+      "command": "lf hid clone",
+      "category": "lf",
+      "description": "clone HID tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hid_sim",
+      "command": "lf hid sim",
+      "category": "lf",
+      "description": "simulate HID tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hid_brute",
+      "command": "lf hid brute",
+      "category": "lf",
+      "description": "bruteforce facility code or card number against reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hid_watch",
+      "command": "lf hid watch",
+      "category": "lf",
+      "description": "continuously watch for cards.  Reader mode",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_help",
+      "command": "lf hitag help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_list",
+      "command": "lf hitag list",
+      "category": "lf",
+      "description": "List Hitag trace history",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_info",
+      "command": "lf hitag info",
+      "category": "lf",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_reader",
+      "command": "lf hitag reader",
+      "category": "lf",
+      "description": "Act like a Hitag 2 reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_test",
+      "command": "lf hitag test",
+      "category": "lf",
+      "description": "Perform self tests",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_dump",
+      "command": "lf hitag dump",
+      "category": "lf",
+      "description": "Dump Hitag 2 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_read",
+      "command": "lf hitag read",
+      "category": "lf",
+      "description": "Read Hitag memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_sniff",
+      "command": "lf hitag sniff",
+      "category": "lf",
+      "description": "Eavesdrop Hitag communication",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_view",
+      "command": "lf hitag view",
+      "category": "lf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_wrbl",
+      "command": "lf hitag wrbl",
+      "category": "lf",
+      "description": "Write a block (page) in Hitag memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_restore",
+      "command": "lf hitag restore",
+      "category": "lf",
+      "description": "Restore a dump file to a Hitag 2 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_eload",
+      "command": "lf hitag eload",
+      "category": "lf",
+      "description": "Upload file into emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_eview",
+      "command": "lf hitag eview",
+      "category": "lf",
+      "description": "View emulator memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_sim",
+      "command": "lf hitag sim",
+      "category": "lf",
+      "description": "Simulate Hitag transponder",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_cc",
+      "command": "lf hitag cc",
+      "category": "lf",
+      "description": "Hitag S: test all provided challenges",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_crack2",
+      "command": "lf hitag crack2",
+      "category": "lf",
+      "description": "Recover 2048bits of crypto stream",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_chk",
+      "command": "lf hitag chk",
+      "category": "lf",
+      "description": "Check keys",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_lookup",
+      "command": "lf hitag lookup",
+      "category": "lf",
+      "description": "Uses authentication trace to check for key in dictionary file",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_ta",
+      "command": "lf hitag ta",
+      "category": "lf",
+      "description": "Hitag 2: test all recorded authentications",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_hts_help",
+      "command": "lf hitag hts help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_hts_list",
+      "command": "lf hitag hts list",
+      "category": "lf",
+      "description": "List Hitag S trace history",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_hts_reader",
+      "command": "lf hitag hts reader",
+      "category": "lf",
+      "description": "Act like a Hitag S reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_hts_rdbl",
+      "command": "lf hitag hts rdbl",
+      "category": "lf",
+      "description": "Read Hitag S page",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_hts_dump",
+      "command": "lf hitag hts dump",
+      "category": "lf",
+      "description": "Dump Hitag S pages to a file",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_hts_restore",
+      "command": "lf hitag hts restore",
+      "category": "lf",
+      "description": "Restore Hitag S memory from dump file",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_hts_wrbl",
+      "command": "lf hitag hts wrbl",
+      "category": "lf",
+      "description": "Write Hitag S page",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_hts_sim",
+      "command": "lf hitag hts sim",
+      "category": "lf",
+      "description": "Simulate Hitag S transponder",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_htu_help",
+      "command": "lf hitag htu help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_htu_list",
+      "command": "lf hitag htu list",
+      "category": "lf",
+      "description": "List Hitag µ trace history",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_hitag_htu_reader",
+      "command": "lf hitag htu reader",
+      "category": "lf",
+      "description": "Act like a Hitag µ reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_htu_rdbl",
+      "command": "lf hitag htu rdbl",
+      "category": "lf",
+      "description": "Read Hitag µ block",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_htu_dump",
+      "command": "lf hitag htu dump",
+      "category": "lf",
+      "description": "Dump Hitag µ blocks to a file",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_htu_wrbl",
+      "command": "lf hitag htu wrbl",
+      "category": "lf",
+      "description": "Write Hitag µ block",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_hitag_htu_sim",
+      "command": "lf hitag htu sim",
+      "category": "lf",
+      "description": "Simulate Hitag µ transponder",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_idteck_help",
+      "command": "lf idteck help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_idteck_demod",
+      "command": "lf idteck demod",
+      "category": "lf",
+      "description": "demodulate an Idteck tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_idteck_reader",
+      "command": "lf idteck reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_idteck_clone",
+      "command": "lf idteck clone",
+      "category": "lf",
+      "description": "clone Idteck tag to T55x7 or Q5/T5555",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_idteck_sim",
+      "command": "lf idteck sim",
+      "category": "lf",
+      "description": "simulate Idteck tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_indala_help",
+      "command": "lf indala help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_indala_brute",
+      "command": "lf indala brute",
+      "category": "lf",
+      "description": "Bruteforce an Indala reader with a specified facility code",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_indala_demod",
+      "command": "lf indala demod",
+      "category": "lf",
+      "description": "Demodulate an Indala tag (PSK1) from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_indala_altdemod",
+      "command": "lf indala altdemod",
+      "category": "lf",
+      "description": "Alternative method to demodulate samples for Indala 64 bit UID (option '224' for 224 bit)",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_indala_reader",
+      "command": "lf indala reader",
+      "category": "lf",
+      "description": "Read an Indala tag from the antenna",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_indala_clone",
+      "command": "lf indala clone",
+      "category": "lf",
+      "description": "Clone Indala tag to T55x7 or Q5/T5555",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_indala_sim",
+      "command": "lf indala sim",
+      "category": "lf",
+      "description": "Simulate Indala tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_io_help",
+      "command": "lf io help",
+      "category": "lf",
+      "description": "this help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_io_demod",
+      "command": "lf io demod",
+      "category": "lf",
+      "description": "demodulate an ioProx tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_io_reader",
+      "command": "lf io reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_io_clone",
+      "command": "lf io clone",
+      "category": "lf",
+      "description": "clone ioProx tag to T55x7 or Q5/T5555",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_io_sim",
+      "command": "lf io sim",
+      "category": "lf",
+      "description": "simulate ioProx tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_io_watch",
+      "command": "lf io watch",
+      "category": "lf",
+      "description": "continuously watch for cards. Reader mode",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_jablotron_help",
+      "command": "lf jablotron help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_jablotron_demod",
+      "command": "lf jablotron demod",
+      "category": "lf",
+      "description": "demodulate an Jablotron tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_jablotron_reader",
+      "command": "lf jablotron reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_jablotron_clone",
+      "command": "lf jablotron clone",
+      "category": "lf",
+      "description": "clone jablotron tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_jablotron_sim",
+      "command": "lf jablotron sim",
+      "category": "lf",
+      "description": "simulate jablotron tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_keri_help",
+      "command": "lf keri help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_keri_demod",
+      "command": "lf keri demod",
+      "category": "lf",
+      "description": "demodulate an KERI tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_keri_reader",
+      "command": "lf keri reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_keri_clone",
+      "command": "lf keri clone",
+      "category": "lf",
+      "description": "clone KERI tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_keri_sim",
+      "command": "lf keri sim",
+      "category": "lf",
+      "description": "simulate KERI tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_motorola_help",
+      "command": "lf motorola help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_motorola_demod",
+      "command": "lf motorola demod",
+      "category": "lf",
+      "description": "demodulate an MOTOROLA tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_motorola_reader",
+      "command": "lf motorola reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_motorola_clone",
+      "command": "lf motorola clone",
+      "category": "lf",
+      "description": "clone MOTOROLA tag to T55x7",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_motorola_sim",
+      "command": "lf motorola sim",
+      "category": "lf",
+      "description": "simulate MOTOROLA tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_nedap_help",
+      "command": "lf nedap help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_nedap_demod",
+      "command": "lf nedap demod",
+      "category": "lf",
+      "description": "demodulate Nedap tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_nedap_reader",
+      "command": "lf nedap reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_nedap_clone",
+      "command": "lf nedap clone",
+      "category": "lf",
+      "description": "clone Nedap tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_nedap_sim",
+      "command": "lf nedap sim",
+      "category": "lf",
+      "description": "simulate Nedap tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_nexwatch_help",
+      "command": "lf nexwatch help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_nexwatch_demod",
+      "command": "lf nexwatch demod",
+      "category": "lf",
+      "description": "demodulate a NexWatch tag (nexkey, quadrakey) from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_nexwatch_reader",
+      "command": "lf nexwatch reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_nexwatch_clone",
+      "command": "lf nexwatch clone",
+      "category": "lf",
+      "description": "clone NexWatch tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_nexwatch_sim",
+      "command": "lf nexwatch sim",
+      "category": "lf",
+      "description": "simulate NexWatch tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_noralsy_help",
+      "command": "lf noralsy help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_noralsy_demod",
+      "command": "lf noralsy demod",
+      "category": "lf",
+      "description": "demodulate an Noralsy tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_noralsy_reader",
+      "command": "lf noralsy reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_noralsy_clone",
+      "command": "lf noralsy clone",
+      "category": "lf",
+      "description": "clone Noralsy tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_noralsy_sim",
+      "command": "lf noralsy sim",
+      "category": "lf",
+      "description": "simulate Noralsy tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pac_help",
+      "command": "lf pac help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_pac_demod",
+      "command": "lf pac demod",
+      "category": "lf",
+      "description": "demodulate a PAC tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_pac_reader",
+      "command": "lf pac reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pac_clone",
+      "command": "lf pac clone",
+      "category": "lf",
+      "description": "clone PAC tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pac_sim",
+      "command": "lf pac sim",
+      "category": "lf",
+      "description": "simulate PAC tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_paradox_help",
+      "command": "lf paradox help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_paradox_demod",
+      "command": "lf paradox demod",
+      "category": "lf",
+      "description": "demodulate a Paradox FSK tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_paradox_reader",
+      "command": "lf paradox reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_paradox_clone",
+      "command": "lf paradox clone",
+      "category": "lf",
+      "description": "clone paradox tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_paradox_sim",
+      "command": "lf paradox sim",
+      "category": "lf",
+      "description": "simulate paradox tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pcf7931_help",
+      "command": "lf pcf7931 help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_pcf7931_reader",
+      "command": "lf pcf7931 reader",
+      "category": "lf",
+      "description": "Read content of a PCF7931 transponder",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pcf7931_write",
+      "command": "lf pcf7931 write",
+      "category": "lf",
+      "description": "Write data on a PCF7931 transponder.",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pcf7931_config",
+      "command": "lf pcf7931 config",
+      "category": "lf",
+      "description": "Configure the password, the tags initialization delay and time offsets (optional)",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_presco_help",
+      "command": "lf presco help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_presco_demod",
+      "command": "lf presco demod",
+      "category": "lf",
+      "description": "demodulate Presco tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_presco_reader",
+      "command": "lf presco reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_presco_clone",
+      "command": "lf presco clone",
+      "category": "lf",
+      "description": "clone presco tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_presco_sim",
+      "command": "lf presco sim",
+      "category": "lf",
+      "description": "simulate presco tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pyramid_help",
+      "command": "lf pyramid help",
+      "category": "lf",
+      "description": "this help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_pyramid_demod",
+      "command": "lf pyramid demod",
+      "category": "lf",
+      "description": "demodulate a Pyramid FSK tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_pyramid_reader",
+      "command": "lf pyramid reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pyramid_clone",
+      "command": "lf pyramid clone",
+      "category": "lf",
+      "description": "clone pyramid tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_pyramid_sim",
+      "command": "lf pyramid sim",
+      "category": "lf",
+      "description": "simulate pyramid tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_securakey_help",
+      "command": "lf securakey help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_securakey_demod",
+      "command": "lf securakey demod",
+      "category": "lf",
+      "description": "demodulate an Securakey tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_securakey_reader",
+      "command": "lf securakey reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_securakey_clone",
+      "command": "lf securakey clone",
+      "category": "lf",
+      "description": "clone Securakey tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_securakey_sim",
+      "command": "lf securakey sim",
+      "category": "lf",
+      "description": "simulate Securakey tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_ti_help",
+      "command": "lf ti help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_ti_demod",
+      "command": "lf ti demod",
+      "category": "lf",
+      "description": "Demodulate raw bits for TI LF tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_ti_reader",
+      "command": "lf ti reader",
+      "category": "lf",
+      "description": "Read and decode a TI 134 kHz tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_ti_write",
+      "command": "lf ti write",
+      "category": "lf",
+      "description": "Write new data to a r/w TI 134 kHz tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_help",
+      "command": "lf t55xx help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_t55xx_clonehelp",
+      "command": "lf t55xx clonehelp",
+      "category": "lf",
+      "description": "Shows the available clone commands",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_config",
+      "command": "lf t55xx config",
+      "category": "lf",
+      "description": "Set/Get T55XX configuration (modulation, inverted, offset, rate)",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_t55xx_dangerraw",
+      "command": "lf t55xx dangerraw",
+      "category": "lf",
+      "description": "Sends raw bitstream. Dangerous, do not use!!",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_detect",
+      "command": "lf t55xx detect",
+      "category": "lf",
+      "description": "Try detecting the tag modulation from reading the configuration block",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_t55xx_deviceconfig",
+      "command": "lf t55xx deviceconfig",
+      "category": "lf",
+      "description": "Set/Get T55XX device configuration",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_dump",
+      "command": "lf t55xx dump",
+      "category": "lf",
+      "description": "Dump T55xx card Page 0 block 0-7",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_info",
+      "command": "lf t55xx info",
+      "category": "lf",
+      "description": "Show T55x7 configuration data (page 0/ blk 0)",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_t55xx_p1detect",
+      "command": "lf t55xx p1detect",
+      "category": "lf",
+      "description": "Try detecting if this is a t55xx tag by reading page 1",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_read",
+      "command": "lf t55xx read",
+      "category": "lf",
+      "description": "Read T55xx block data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_resetread",
+      "command": "lf t55xx resetread",
+      "category": "lf",
+      "description": "Send Reset Cmd then lf read the stream to attempt to identify the start",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_restore",
+      "command": "lf t55xx restore",
+      "category": "lf",
+      "description": "Restore T55xx card Page 0 / Page 1 blocks",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_trace",
+      "command": "lf t55xx trace",
+      "category": "lf",
+      "description": "Show T55x7 traceability data (page 1/ blk 0-1)",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_t55xx_wakeup",
+      "command": "lf t55xx wakeup",
+      "category": "lf",
+      "description": "Send AOR wakeup command",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_view",
+      "command": "lf t55xx view",
+      "category": "lf",
+      "description": "Display content from tag dump file",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_t55xx_write",
+      "command": "lf t55xx write",
+      "category": "lf",
+      "description": "Write T55xx block data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_bruteforce",
+      "command": "lf t55xx bruteforce",
+      "category": "lf",
+      "description": "Simple bruteforce attack to find password",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_chk",
+      "command": "lf t55xx chk",
+      "category": "lf",
+      "description": "Check passwords",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_protect",
+      "command": "lf t55xx protect",
+      "category": "lf",
+      "description": "Password protect tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_recoverpw",
+      "command": "lf t55xx recoverpw",
+      "category": "lf",
+      "description": "Try to recover from bad password write from a cloner",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_sniff",
+      "command": "lf t55xx sniff",
+      "category": "lf",
+      "description": "Attempt to recover T55xx commands from sample buffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_t55xx_special",
+      "command": "lf t55xx special",
+      "category": "lf",
+      "description": "Show block changes with 64 different offsets",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_t55xx_wipe",
+      "command": "lf t55xx wipe",
+      "category": "lf",
+      "description": "Wipe a T55xx tag and set defaults (will destroy any data on tag)",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_trovan_help",
+      "command": "lf trovan help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_trovan_demod",
+      "command": "lf trovan demod",
+      "category": "lf",
+      "description": "demodulate a Trovan tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_trovan_reader",
+      "command": "lf trovan reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_trovan_clone",
+      "command": "lf trovan clone",
+      "category": "lf",
+      "description": "clone Trovan tag to T55x7 or Q5/T5555",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_viking_help",
+      "command": "lf viking help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_viking_demod",
+      "command": "lf viking demod",
+      "category": "lf",
+      "description": "demodulate a Viking tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_viking_reader",
+      "command": "lf viking reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_viking_clone",
+      "command": "lf viking clone",
+      "category": "lf",
+      "description": "clone Viking tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_viking_sim",
+      "command": "lf viking sim",
+      "category": "lf",
+      "description": "simulate Viking tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_visa2000_help",
+      "command": "lf visa2000 help",
+      "category": "lf",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_visa2000_demod",
+      "command": "lf visa2000 demod",
+      "category": "lf",
+      "description": "demodulate an VISA2000 tag from the GraphBuffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.lf_visa2000_reader",
+      "command": "lf visa2000 reader",
+      "category": "lf",
+      "description": "attempt to read and extract tag data",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_visa2000_clone",
+      "command": "lf visa2000 clone",
+      "category": "lf",
+      "description": "clone Visa2000 tag to T55x7, Q5/T5555 or EM4305/4469",
+      "offline": false
+    },
+    {
+      "id": "cmd.lf_visa2000_sim",
+      "command": "lf visa2000 sim",
+      "category": "lf",
+      "description": "simulate Visa2000 tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.mad_help",
+      "command": "mad help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.mad_read",
+      "command": "mad read",
+      "category": "other",
+      "description": "Read data from MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.mad_write",
+      "command": "mad write",
+      "category": "other",
+      "description": "Write data to MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.mad_verify",
+      "command": "mad verify",
+      "category": "other",
+      "description": "Verify data in MAD AID sectors",
+      "offline": false
+    },
+    {
+      "id": "cmd.mad_decode",
+      "command": "mad decode",
+      "category": "other",
+      "description": "Decode MAD byte array",
+      "offline": true
+    },
+    {
+      "id": "cmd.mad_encode",
+      "command": "mad encode",
+      "category": "other",
+      "description": "Encode MAD byte array from AID mappings",
+      "offline": true
+    },
+    {
+      "id": "cmd.mad_test",
+      "command": "mad test",
+      "category": "other",
+      "description": "Perform MAD regression self-tests",
+      "offline": true
+    },
+    {
+      "id": "cmd.mem_help",
+      "command": "mem help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.mem_baudrate",
+      "command": "mem baudrate",
+      "category": "other",
+      "description": "Set Flash memory Spi baudrate",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_dump",
+      "command": "mem dump",
+      "category": "other",
+      "description": "Dump data from flash memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_info",
+      "command": "mem info",
+      "category": "other",
+      "description": "Flash memory information",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_load",
+      "command": "mem load",
+      "category": "other",
+      "description": "Load data to flash memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_wipe",
+      "command": "mem wipe",
+      "category": "other",
+      "description": "Wipe data from flash memory",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_help",
+      "command": "mem spiffs help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.mem_spiffs_test",
+      "command": "mem spiffs test",
+      "category": "other",
+      "description": "Perform SPIFFS Operations tests",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_copy",
+      "command": "mem spiffs copy",
+      "category": "other",
+      "description": "Copy a file to another (destructively) in SPIFFS file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_check",
+      "command": "mem spiffs check",
+      "category": "other",
+      "description": "Check/try to defrag faulty/fragmented file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_dump",
+      "command": "mem spiffs dump",
+      "category": "other",
+      "description": "Dump a file from SPIFFS file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_info",
+      "command": "mem spiffs info",
+      "category": "other",
+      "description": "File system information and usage statistics",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_mount",
+      "command": "mem spiffs mount",
+      "category": "other",
+      "description": "Mount the SPIFFS file system if not already mounted",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_remove",
+      "command": "mem spiffs remove",
+      "category": "other",
+      "description": "Remove a file from SPIFFS file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_rename",
+      "command": "mem spiffs rename",
+      "category": "other",
+      "description": "Rename/move a file in SPIFFS file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_tree",
+      "command": "mem spiffs tree",
+      "category": "other",
+      "description": "Print the Flash memory file system tree",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_unmount",
+      "command": "mem spiffs unmount",
+      "category": "other",
+      "description": "Un-mount the SPIFFS file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_upload",
+      "command": "mem spiffs upload",
+      "category": "other",
+      "description": "Upload file into SPIFFS file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_view",
+      "command": "mem spiffs view",
+      "category": "other",
+      "description": "View file on SPIFFS file system",
+      "offline": false
+    },
+    {
+      "id": "cmd.mem_spiffs_wipe",
+      "command": "mem spiffs wipe",
+      "category": "other",
+      "description": "Wipe all files from SPIFFS file system   * dangerous *",
+      "offline": false
+    },
+    {
+      "id": "cmd.mqtt_help",
+      "command": "mqtt help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.mqtt_send",
+      "command": "mqtt send",
+      "category": "other",
+      "description": "Send messages or json file over MQTT",
+      "offline": true
+    },
+    {
+      "id": "cmd.mqtt_receive",
+      "command": "mqtt receive",
+      "category": "other",
+      "description": "Receive message or json file over MQTT",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_help",
+      "command": "nfc help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_decode",
+      "command": "nfc decode",
+      "category": "other",
+      "description": "Decode NDEF records",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_encode",
+      "command": "nfc encode",
+      "category": "other",
+      "description": "Encode NDEF records",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_type1_read",
+      "command": "nfc type1 read",
+      "category": "other",
+      "description": "read NFC Forum Tag Type 1",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type1_help",
+      "command": "nfc type1 help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_type2_format",
+      "command": "nfc type2 format",
+      "category": "other",
+      "description": "format MIFARE Ultralight / NTAG as NFC Forum Tag Type 2",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type2_read",
+      "command": "nfc type2 read",
+      "category": "other",
+      "description": "read NFC Forum Tag Type 2",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type2_write",
+      "command": "nfc type2 write",
+      "category": "other",
+      "description": "write NFC Forum Tag Type 2",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type2_help",
+      "command": "nfc type2 help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_type4a_format",
+      "command": "nfc type4a format",
+      "category": "other",
+      "description": "format ISO-14443-a tag as NFC Tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type4a_read",
+      "command": "nfc type4a read",
+      "category": "other",
+      "description": "read NFC Forum Tag Type 4 A",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type4a_write",
+      "command": "nfc type4a write",
+      "category": "other",
+      "description": "write NFC Forum Tag Type 4 A",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type4a_st25taread",
+      "command": "nfc type4a st25taread",
+      "category": "other",
+      "description": "read ST25TA as NFC Forum Tag Type 4",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type4a_help",
+      "command": "nfc type4a help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_type4b_read",
+      "command": "nfc type4b read",
+      "category": "other",
+      "description": "read NFC Forum Tag Type 4 B",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_type4b_help",
+      "command": "nfc type4b help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_mf_cformat",
+      "command": "nfc mf cformat",
+      "category": "other",
+      "description": "format MIFARE Classic Tag as NFC Tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_mf_cread",
+      "command": "nfc mf cread",
+      "category": "other",
+      "description": "read NFC Type MIFARE Classic Tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_mf_cwrite",
+      "command": "nfc mf cwrite",
+      "category": "other",
+      "description": "write NFC Type MIFARE Classic Tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_mf_pread",
+      "command": "nfc mf pread",
+      "category": "other",
+      "description": "read NFC Type MIFARE Plus Tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_mf_help",
+      "command": "nfc mf help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.nfc_barcode_read",
+      "command": "nfc barcode read",
+      "category": "other",
+      "description": "read NFC Barcode",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_barcode_sim",
+      "command": "nfc barcode sim",
+      "category": "other",
+      "description": "simulate NFC Barcode",
+      "offline": false
+    },
+    {
+      "id": "cmd.nfc_barcode_help",
+      "command": "nfc barcode help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.piv_help",
+      "command": "piv help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.piv_select",
+      "command": "piv select",
+      "category": "other",
+      "description": "Select the PIV applet",
+      "offline": false
+    },
+    {
+      "id": "cmd.piv_getdata",
+      "command": "piv getdata",
+      "category": "other",
+      "description": "Gets a container on a PIV card",
+      "offline": false
+    },
+    {
+      "id": "cmd.piv_authsign",
+      "command": "piv authsign",
+      "category": "other",
+      "description": "Authenticate with the card",
+      "offline": false
+    },
+    {
+      "id": "cmd.piv_scan",
+      "command": "piv scan",
+      "category": "other",
+      "description": "Scan PIV card for known containers",
+      "offline": false
+    },
+    {
+      "id": "cmd.piv_list",
+      "command": "piv list",
+      "category": "other",
+      "description": "List ISO7816 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.smart_help",
+      "command": "smart help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.smart_list",
+      "command": "smart list",
+      "category": "other",
+      "description": "List ISO 7816 history",
+      "offline": true
+    },
+    {
+      "id": "cmd.smart_brute",
+      "command": "smart brute",
+      "category": "other",
+      "description": "Bruteforce SFI",
+      "offline": false
+    },
+    {
+      "id": "cmd.smart_info",
+      "command": "smart info",
+      "category": "other",
+      "description": "Tag information",
+      "offline": false
+    },
+    {
+      "id": "cmd.smart_pcsc",
+      "command": "smart pcsc",
+      "category": "other",
+      "description": "Turn pm3 into pcsc reader and relay to host OS via vpcd",
+      "offline": true
+    },
+    {
+      "id": "cmd.smart_pps",
+      "command": "smart pps",
+      "category": "other",
+      "description": "Run an ISO 7816-3 PPS exchange",
+      "offline": false
+    },
+    {
+      "id": "cmd.smart_reader",
+      "command": "smart reader",
+      "category": "other",
+      "description": "Act like an IS07816 reader",
+      "offline": false
+    },
+    {
+      "id": "cmd.smart_raw",
+      "command": "smart raw",
+      "category": "other",
+      "description": "Send raw hex data to tag",
+      "offline": false
+    },
+    {
+      "id": "cmd.smart_upgrade",
+      "command": "smart upgrade",
+      "category": "other",
+      "description": "Upgrade sim module firmware",
+      "offline": true
+    },
+    {
+      "id": "cmd.smart_setclock",
+      "command": "smart setclock",
+      "category": "other",
+      "description": "Set clock speed",
+      "offline": false
+    },
+    {
+      "id": "cmd.script_help",
+      "command": "script help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.script_list",
+      "command": "script list",
+      "category": "other",
+      "description": "List available scripts",
+      "offline": true
+    },
+    {
+      "id": "cmd.script_run",
+      "command": "script run",
+      "category": "other",
+      "description": "<name> - execute a script",
+      "offline": true
+    },
+    {
+      "id": "cmd.trace_help",
+      "command": "trace help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.trace_clear",
+      "command": "trace clear",
+      "category": "other",
+      "description": "Clear the client side trace buffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.trace_extract",
+      "command": "trace extract",
+      "category": "other",
+      "description": "Extract authentication challenges found in trace",
+      "offline": true
+    },
+    {
+      "id": "cmd.trace_list",
+      "command": "trace list",
+      "category": "other",
+      "description": "List protocol data in trace buffer",
+      "offline": true
+    },
+    {
+      "id": "cmd.trace_load",
+      "command": "trace load",
+      "category": "other",
+      "description": "Load trace from file",
+      "offline": true
+    },
+    {
+      "id": "cmd.trace_save",
+      "command": "trace save",
+      "category": "other",
+      "description": "Save trace buffer to file",
+      "offline": true
+    },
+    {
+      "id": "cmd.usart_help",
+      "command": "usart help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.usart_btpin",
+      "command": "usart btpin",
+      "category": "other",
+      "description": "Change BT add-on PIN",
+      "offline": false
+    },
+    {
+      "id": "cmd.usart_btfactory",
+      "command": "usart btfactory",
+      "category": "other",
+      "description": "Reset BT add-on to factory settings",
+      "offline": false
+    },
+    {
+      "id": "cmd.usart_tx",
+      "command": "usart tx",
+      "category": "other",
+      "description": "Send string over USART",
+      "offline": false
+    },
+    {
+      "id": "cmd.usart_rx",
+      "command": "usart rx",
+      "category": "other",
+      "description": "Receive string over USART",
+      "offline": false
+    },
+    {
+      "id": "cmd.usart_txrx",
+      "command": "usart txrx",
+      "category": "other",
+      "description": "Send string over USART and wait for response",
+      "offline": false
+    },
+    {
+      "id": "cmd.usart_txhex",
+      "command": "usart txhex",
+      "category": "other",
+      "description": "Send bytes over USART",
+      "offline": false
+    },
+    {
+      "id": "cmd.usart_rxhex",
+      "command": "usart rxhex",
+      "category": "other",
+      "description": "Receive bytes over USART",
+      "offline": false
+    },
+    {
+      "id": "cmd.usart_config",
+      "command": "usart config",
+      "category": "other",
+      "description": "Configure USART",
+      "offline": false
+    },
+    {
+      "id": "cmd.wiegand_help",
+      "command": "wiegand help",
+      "category": "other",
+      "description": "This help",
+      "offline": true
+    },
+    {
+      "id": "cmd.wiegand_list",
+      "command": "wiegand list",
+      "category": "other",
+      "description": "List available wiegand formats",
+      "offline": true
+    },
+    {
+      "id": "cmd.wiegand_encode",
+      "command": "wiegand encode",
+      "category": "other",
+      "description": "Encode to wiegand raw hex (currently for HID Prox)",
+      "offline": true
+    },
+    {
+      "id": "cmd.wiegand_decode",
+      "command": "wiegand decode",
+      "category": "other",
+      "description": "Convert raw hex to decoded wiegand format (currently for HID Prox)",
+      "offline": true
+    }
+  ]
+}

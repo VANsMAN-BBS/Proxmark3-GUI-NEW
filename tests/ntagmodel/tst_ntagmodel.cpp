@@ -82,7 +82,7 @@ private slots:
     void ndefBuilderPhone();
     void ndefBuilderSmsEncodesBody();
     void ndefBuilderEmail();
-    void ndefBuilderWifiUnsupported();
+    void ndefBuilderWifiSupported();
     void ndefBuilderLongRecord();
     void ndefBuilderRejectsBadUri();
     void ndefBuilderModelCapacity();
@@ -567,7 +567,7 @@ void TestNtagModel::ndefBuilderUrlRecord()
     const Ndef::LaunchPayload payload = Ndef::buildUri(
                 QStringLiteral("https://example.com"));
     QVERIFY(payload.ok);
-    QCOMPARE(payload.message.left(5), bytes({0xD1, 0x01, 'U', 0x0C, 0x04}));
+    QCOMPARE(payload.message.left(5), bytes({0xD1, 0x01, 0x0C, 'U', 0x04}));
     QCOMPARE(payload.message.mid(5), QByteArray("example.com"));
     QCOMPARE(payload.requiredBytes, 2 + payload.message.size() + 1);
     QCOMPARE(payload.userArea.size() % 4, 0);
@@ -609,15 +609,17 @@ void TestNtagModel::ndefBuilderEmail()
     QCOMPARE(static_cast<quint8>(payload.message.at(4)), quint8(0x06));
 }
 
-void TestNtagModel::ndefBuilderWifiUnsupported()
+void TestNtagModel::ndefBuilderWifiSupported()
 {
     Ndef::LaunchRequest request;
     request.type = Ndef::LaunchType::Wifi;
     request.primary = QStringLiteral("SSID");
+    request.subject = QStringLiteral("password");
     const Ndef::LaunchPayload payload = Ndef::buildLaunch(request);
-    QVERIFY(!payload.ok);
-    QVERIFY(!payload.error.isEmpty());
-    QVERIFY(payload.message.isEmpty());
+    QVERIFY(payload.ok);
+    QCOMPARE(static_cast<quint8>(payload.message.at(0)) & 0x07, quint8(0x02));
+    QVERIFY(payload.message.contains("application/vnd.wfa.wsc"));
+    QVERIFY(!payload.message.isEmpty());
 }
 
 void TestNtagModel::ndefBuilderLongRecord()

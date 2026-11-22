@@ -133,12 +133,22 @@ void ClientSession::startClient(const QString &path, const QStringList &args)
     }
 
     // A second Connect press while the old process exists must not create a
-    // second writer on the same pipe. Stop the old process synchronously first.
-    if (m_process->state() != QProcess::NotRunning) {
-        m_stopping = true;
-        m_process->kill();
-        m_process->waitForFinished(1500);
-        m_stopping = false;
+    // second writer on the same pipe.  A QProcess that is still in the Starting
+    // state is killed too; if it cannot be reaped we must not call start() on
+    // a live QProcess (Qt reports "Process is already running" and the late
+    // CrashExit would poison the new session).
+    if (!stopProcess(800, 2500)) {
+        failConnection(tr("The previous Proxmark3 client process did not exit. "
+                          "Close it manually and reconnect."));
+        return;
+    }
+
+    // Any request still held here belongs to the old process.  Report it
+    // instead of silently dropping queue entries.
+    failPendingRequests(tr("The client was restarted before the command completed."));
+    if (m_detached) {
+        m_detached = false;
+        emit detachedChanged(false);
     }
 
     m_clientPath = path;
@@ -163,6 +173,14 @@ void ClientSession::startClient(const QString &path, const QStringList &args)
     m_handshakeTimer->start(20000);
     emit connecting();
     m_process->start(path, m_clientArgs, QIODevice::ReadWrite);
+    if (!m_process->waitForStarted(5000)) {
+        // errorOccurred(FailedToStart) normally reports this first; guard the
+        // duplicate because failConnection() also stops the process.
+        if (m_connecting) {
+            failConnection(tr("Failed to start the client: %1").arg(m_process->errorString()));
+        }
+        return;
+    }
 }
 void ClientSession::onStarted()
 {
@@ -323,6 +341,18 @@ void ClientSession::processDecoded(const QString &text, bool fromStderr)
     }
 
     if (m_hasActive) {
+        // Attribute the chunk to the request that is running *now*, before a
+        // sentinel in the same chunk can finish it and start the next command.
+        // The sentinel line itself is removed so it never reaches the log.
+        const quint64 activeId = m_active.id;
+        if (!m_activeToken.isEmpty()) {
+            const QString attributed = stripSentinel(clean, m_activeToken, nullptr);
+            if (!attributed.trimmed().isEmpty()) {
+                emit commandOutput(activeId, attributed);
+            }
+        } else {
+            emit commandOutput(activeId, clean);
+        }
         m_active.output += clean;
         bool sentinelFound = false;
         QString withoutSentinel = stripSentinel(m_active.output, m_activeToken, &sentinelFound);
@@ -427,10 +457,14 @@ void ClientSession::parseVersionOutput(const QString &text)
 void ClientSession::onFinished(int exitCode, QProcess::ExitStatus status)
 {
     const bool wasStopping = m_stopping;
-    Logger::log(wasStopping ? Logger::Info : Logger::Warning,
-                QStringLiteral("ClientSession"),
-                QStringLiteral("client finished: exit=%1 crash=%2")
-                .arg(exitCode).arg(status == QProcess::CrashExit));
+    if (wasStopping) {
+        Logger::info(QStringLiteral("ClientSession"),
+                     QStringLiteral("client stopped: exit=%1 (requested)").arg(exitCode));
+    } else {
+        Logger::warning(QStringLiteral("ClientSession"),
+                        QStringLiteral("client finished: exit=%1 crash=%2")
+                        .arg(exitCode).arg(status == QProcess::CrashExit));
+    }
 
     m_connecting = false;
     m_handshakeTimer->stop();
@@ -485,7 +519,7 @@ void ClientSession::onErrorOccurred(QProcess::ProcessError error)
         // A command-driven Stop/kill is expected; do not report it as a fault.
         if (m_stopping)
             Logger::info(QStringLiteral("ClientSession"),
-                         QStringLiteral("process stopped: %1").arg(m_process->errorString()));
+                         QStringLiteral("expected process stop: %1").arg(m_process->errorString()));
         else
             Logger::warning(QStringLiteral("ClientSession"),
                             QStringLiteral("process error %1: %2").arg(int(error)).arg(m_process->errorString()));
@@ -715,14 +749,9 @@ void ClientSession::stopClient()
         emit commandFinished(req.id, QString(), false, false, tr("The client was stopped."));
     }
 
-    if (m_process->state() != QProcess::NotRunning) {
-        m_stopping = true;
-        m_process->write("quit\n");
-        if (!m_process->waitForFinished(800)) {
-            m_process->kill();
-            m_process->waitForFinished(1200);
-        }
-        m_stopping = false;
+    if (!stopProcess(800, 2500)) {
+        Logger::warning(QStringLiteral("ClientSession"),
+                        QStringLiteral("client process is still running after Stop"));
     }
 
     const bool wasConnected = m_info.connected;
@@ -732,10 +761,66 @@ void ClientSession::stopClient()
     }
 }
 
+bool ClientSession::stopProcess(int gracefulMs, int killMs)
+{
+    if (!m_process || m_process->state() == QProcess::NotRunning) {
+        return true;
+    }
+
+    m_stopping = true;
+    const QProcess::ProcessState state = m_process->state();
+    if (state == QProcess::Running) {
+        m_process->write("quit\n");
+        m_process->waitForBytesWritten(100);
+        if (!m_process->waitForFinished(gracefulMs)) {
+            Logger::info(QStringLiteral("ClientSession"),
+                         QStringLiteral("graceful stop timed out; killing client"));
+            m_process->kill();
+            m_process->waitForFinished(killMs);
+        }
+    } else {
+        // Still Starting: there is no readline to receive "quit".
+        m_process->kill();
+        m_process->waitForFinished(killMs);
+    }
+
+    const bool stopped = m_process->state() == QProcess::NotRunning;
+    if (!stopped) {
+        Logger::warning(QStringLiteral("ClientSession"),
+                        QStringLiteral("client process did not reach NotRunning"));
+    }
+    m_stopping = false;
+    return stopped;
+}
+
+void ClientSession::failPendingRequests(const QString &reason)
+{
+    if (m_hasActive) {
+        Request req = m_active;
+        m_hasActive = false;
+        m_active = Request();
+        m_activeToken.clear();
+        m_commandTimer->stop();
+        if (!req.timeoutEmitted) {
+            emit commandFinished(req.id, req.output, false, false, reason);
+        }
+        emit busyChanged(false);
+    }
+
+    while (!m_queue.isEmpty()) {
+        Request req = m_queue.dequeue();
+        emit commandFinished(req.id, QString(), false, false, reason);
+    }
+}
+
 void ClientSession::restartClient()
 {
     const QString path = m_clientPath;
     const QStringList args = m_clientArgs;
+    if (path.isEmpty()) {
+        failConnection(tr("Cannot restart: the client path is empty."));
+        return;
+    }
     stopClient();
     startClient(path, args);
 }

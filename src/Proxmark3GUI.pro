@@ -26,6 +26,11 @@ SOURCES += \
     common/util.cpp \
     module/lf.cpp \
     module/mifare.cpp \
+    module/mifare/mfgen3crypto.cpp \
+    module/mifare/mfnoncestore.cpp \
+    module/mifare/mfgen3service.cpp \
+    module/mifare/mfcardinfoservice.cpp \
+    module/mifare/mfpm3log.cpp \
     module/t55xx.cpp \
     module/ntagtab.cpp \
     module/emrtd.cpp \
@@ -47,6 +52,13 @@ SOURCES += \
     module/hidseos/seos_parser.cpp \
     module/hidseos/seos_reader.cpp \
     module/hidseos/seos_exporter.cpp \
+    module/emv/emvruntime.cpp \
+    module/emv/emvworker.cpp \
+    module/emv/emvexport.cpp \
+    module/emv/emvpage.cpp \
+    module/iso14443a/iso14443aruntime.cpp \
+    module/iso14443a/iso14443aservice.cpp \
+    module/iso14443a/iso14443apage.cpp \
     lf/parser/src/lf/lfparsetypes.cpp \
     lf/parser/src/lf/lftextnormalizer.cpp \
     lf/parser/src/lf/lfparserregistry.cpp \
@@ -77,6 +89,13 @@ SOURCES += \
     ui/mf_sim_simdialog.cpp \
     ui/mf_uid_parameterdialog.cpp \
     ui/mainwindow.cpp \
+    ui/commandcatalogmodel.cpp \
+    ui/commandcatalogdelegate.cpp \
+    ui/terminalclassifier.cpp \
+    ui/terminalhighlighter.cpp \
+    ui/terminalpalette.cpp \
+    ui/rawworkspace.cpp \
+    ui/settingslayout.cpp \
     ui/mf_attack_hardnesteddialog.cpp \
     ui/waveformwidget.cpp \
     ui/waveformdialog.cpp \
@@ -89,6 +108,16 @@ HEADERS += \
     common/util.h \
     module/lf.h \
     module/mifare.h \
+    module/mifare/mfgen3crypto.h \
+    module/mifare/mfgen3types.h \
+    module/mifare/mfnoncestore.h \
+    module/mifare/mfgen3service.h \
+    module/mifare/mfcardinfoservice.h \
+    module/mifare/mfcardtypesel.h \
+    module/mifare/mfpm3log.h \
+    module/mifare/mfcancelgate.h \
+    module/mifare/mfimage.h \
+    module/mifare/mftablelayout.h \
     module/t55xx.h \
     module/ntagtab.h \
     module/emrtd.h \
@@ -113,6 +142,14 @@ HEADERS += \
     module/hidseos/seos_parser.h \
     module/hidseos/seos_reader.h \
     module/hidseos/seos_exporter.h \
+    module/emv/emvtypes.h \
+    module/emv/emvruntime.h \
+    module/emv/emvworker.h \
+    module/emv/emvexport.h \
+    module/emv/emvpage.h \
+    module/iso14443a/iso14443aruntime.h \
+    module/iso14443a/iso14443aservice.h \
+    module/iso14443a/iso14443apage.h \
     lf/parser/include/lf/lfparsetypes.h \
     lf/parser/include/lf/lftextnormalizer.h \
     lf/parser/include/lf/lfparser.h \
@@ -144,6 +181,15 @@ HEADERS += \
     ui/mf_sim_simdialog.h \
     ui/mf_uid_parameterdialog.h \
     ui/mainwindow.h \
+    ui/mifaresplitter.h \
+    ui/commandcatalogmodel.h \
+    ui/commandcatalogdelegate.h \
+    ui/terminalclassifier.h \
+    ui/terminalhighlighter.h \
+    ui/terminalpalette.h \
+    ui/rawworkspace.h \
+    ui/settingslayout.h \
+    ui/docktitlemetrics.h \
     ui/mf_attack_hardnesteddialog.h \
     ui/waveformwidget.h \
     ui/waveformdialog.h \
@@ -174,6 +220,9 @@ RESOURCES += \
     ../config/config.qrc \
     ../resources/icons/icons.qrc \
     ../resources/felica/felica.qrc \
+    ../resources/emv/emv.qrc \
+    ../resources/iso14443a/iso14443a.qrc \
+    ../resources/commands/commands.qrc \
     qdarkstyle/dark/darkstyle.qrc \
     qdarkstyle/light/lightstyle.qrc
 

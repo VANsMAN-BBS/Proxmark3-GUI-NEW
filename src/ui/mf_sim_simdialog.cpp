@@ -1,4 +1,4 @@
-﻿#include "mf_sim_simdialog.h"
+#include "mf_sim_simdialog.h"
 #include "ui_mf_sim_simdialog.h"
 
 MF_Sim_simDialog::MF_Sim_simDialog(int cardType, QString cardTypeText, QWidget *parent) :

@@ -39,7 +39,8 @@
     "docs/images/",
     ".githooks/",
     "resources/icons/",
-    "resources/felica/station_names_i18n.csv"
+    "resources/felica/station_names_i18n.csv",
+    "src/qdarkstyle/"
   ],
   "block_paths": [
     "artifacts/",
@@ -97,7 +98,9 @@
   ],
   "allow_exact_paths": [
     "artifacts/README.md",
-    "build/README.md"
+    "build/README.md",
+    "LICENSE",
+    "emrtd_pm3/pyproject.toml"
   ],
   "block_prefixes": [
     "docs/STAGE",

@@ -15,6 +15,9 @@
 /artifacts/latest/
 /artifacts/release/
 /artifacts/temp/
+/artifacts/test/
+/artifacts/stage*/
+/artifacts/stage*.txt
 /artifacts/test/logs/
 /artifacts/test/coverage/
 /artifacts/test/reports/
@@ -33,6 +36,9 @@ GUIsettings.ini
 *.tmp
 *.bak
 *.swp
+__pycache__/
+*.pyc
+.pytest_cache/
 
 # Local/private development reports
 /docs-private/

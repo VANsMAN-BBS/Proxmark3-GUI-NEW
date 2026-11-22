@@ -1,6 +1,26 @@
 ﻿#include "mifare.h"
-#include <QJsonArray>
+#include "core/clientsession.h"
+#include "module/mifare/mfcardinfoservice.h"
+#include "module/mifare/mfcardtypesel.h"
+#include "module/mifare/mfgen3crypto.h"
+#include "module/mifare/mfgen3service.h"
+#include "module/mifare/mfimage.h"
+#include "module/mifare/mfnoncestore.h"
+#include "module/mifare/mftablelayout.h"
+
+#include <QCoreApplication>
+#include <QDateTime>
+#include <QDir>
+#include <QFileDialog>
 #include <QFileInfo>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QMenu>
+#include <QPlainTextEdit>
+#include <QProgressBar>
+#include <QScrollBar>
+#include <QThread>
+#include <QAtomicInt>
 
 namespace {
 QString normalizeHex(const QString &text, int byteCount)
@@ -124,12 +144,19 @@ const Mifare::AccessType Mifare::trailerWriteCondition[8][3] =
     {ACC_NEVER, ACC_NEVER, ACC_NEVER}, // {C33, C23, C13} = 7
 };
 
-Mifare::Mifare(Ui::MainWindow *ui, Util *addr, QWidget *parent): QObject(parent)
+Mifare::Mifare(Ui::MainWindow *ui, Util *addr, ClientSession *session, QWidget *parent): QObject(parent)
 {
     this->parent = parent;
     util = addr;
     this->ui = ui;
+    this->session = session;
     cardType = card_1k;
+    // The button caption is the two-line backdoor label from the UI file,
+    // translated by retranslateUi() before Mifare is constructed.  Remember
+    // it so the busy state can restore the exact text without duplicating the
+    // translation lookup in two modules.
+    if(ui->MF_Quick_crackButton)
+        gen3ButtonIdleText = ui->MF_Quick_crackButton->text();
     keyAList = new QStringList();
     keyBList = new QStringList();
     dataList = new QStringList();
@@ -138,62 +165,84 @@ Mifare::Mifare(Ui::MainWindow *ui, Util *addr, QWidget *parent): QObject(parent)
     dataPattern = new QRegularExpression("([0-9a-fA-F]{2} ){15}[0-9a-fA-F]{2}");
     keyPattern_res = new QRegularExpression("\\|\\s*\\d{3}\\s*\\|\\s*.+?\\s*\\|\\s*.+?\\s*\\|\\s*.+?\\s*\\|\\s*.+?\\s*\\|");
     keyPattern = new QRegularExpression("\\|\\s*\\d{3}\\s*\\|\\s*.+?\\s*\\|\\s*.+?\\s*\\|");
+
+    // Stage 3: status area + result area defaults.
+    if(ui->MF_result_progressBar)
+        ui->MF_result_progressBar->setValue(0);
+    if(session)
+    {
+        pm3Connected = session->isConnected();
+        connect(session, &ClientSession::stateChanged, this, &Mifare::onPm3StateChanged);
+    }
+    updateStatusLabels();
 }
 
-void Mifare::setConfigMap(const QVariantMap& configMap)
+Mifare::~Mifare()
 {
+    // A running one-click task must not outlive the page: stop issuing
+    // commands and give the worker a bounded window to return.
+    if(gen3Thread)
+    {
+        gen3Cancel.request();
+        pm3LogFilter.suspend();
+        if(!gen3Thread->wait(5000))
+            gen3Thread->disconnect(this);
+    }
+}
+
+void Mifare::setConfigMap(const QVariantMap& configMap){
     this->configMap = configMap;
 }
 
 QMap<QString, QString> Mifare::info(bool isRequiringOutput)
 {
+    Q_UNUSED(isRequiringOutput);
     QMap<QString, QString> map;
     QVariantMap config = configMap["info"].toMap();
-    if(isRequiringOutput)
+    QString cmd = config["basic cmd"].toString();
+
+    // for official client
+    if(cmd.isEmpty())
+        cmd = config["cmd"].toString();
+    // The read-only info path never uses the old NACK-bug probe and never
+    // leaves the MIFARE page.  `info()` keeps the captured-output behavior for
+    // callers such as the UID parameter dialog; the single card-info workflow
+    // lives in readCardInfo().
+    cmd.remove(QRegularExpression("\\s+-nsv\\b"));
+    if(cmd.isEmpty())
+        cmd = QStringLiteral("hf 14a info");
+    QString result = util->execCMDWithOutput(cmd, 500);
+    QStringList lineList = result.split("\n");
+
+    // v4.23346 prints e.g.:
+    //   [+]  UID: 2F 7B 54 54   ( FNUID, fixed, non-unique ID )
+    //   [+] ATQA: 00 04
+    //   [+]  SAK: 20 [1]
+    // Parsing the token after the label avoids picking letters out of the
+    // annotation (e.g. the "F" in "FNUID").
+    const QRegularExpression uidRe(QStringLiteral("UID:\\s*([0-9A-Fa-f ]+)"));
+    const QRegularExpression atqaRe(QStringLiteral("ATQA:\\s*([0-9A-Fa-f ]+)"));
+    const QRegularExpression sakRe(QStringLiteral("SAK:\\s*([0-9A-Fa-f ]+)"));
+
+    for(const QString& line : lineList)
     {
-        QString cmd = config["basic cmd"].toString();
-
-        // for official client
-        if(cmd.isEmpty())
-            cmd = config["cmd"].toString();
-        QString result = util->execCMDWithOutput(cmd, 500);
-        QStringList lineList = result.split("\n");
-
-        // v4.23346 prints e.g.:
-        //   [+]  UID: 2F 7B 54 54   ( FNUID, fixed, non-unique ID )
-        //   [+] ATQA: 00 04
-        //   [+]  SAK: 20 [1]
-        // Parsing the token after the label avoids picking letters out of the
-        // annotation (e.g. the "F" in "FNUID").
-        const QRegularExpression uidRe(QStringLiteral("UID:\\s*([0-9A-Fa-f ]+)"));
-        const QRegularExpression atqaRe(QStringLiteral("ATQA:\\s*([0-9A-Fa-f ]+)"));
-        const QRegularExpression sakRe(QStringLiteral("SAK:\\s*([0-9A-Fa-f ]+)"));
-
-        for(const QString& line : lineList)
+        QRegularExpressionMatch match = uidRe.match(line);
+        if(match.hasMatch())
         {
-            QRegularExpressionMatch match = uidRe.match(line);
-            if(match.hasMatch())
-            {
-                map["UID"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
-                continue;
-            }
-            match = atqaRe.match(line);
-            if(match.hasMatch())
-            {
-                map["ATQA"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
-                continue;
-            }
-            match = sakRe.match(line);
-            if(match.hasMatch())
-            {
-                map["SAK"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
-            }
+            map["UID"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
+            continue;
         }
-    }
-    else
-    {
-        util->execCMD(config["cmd"].toString());
-        Util::gotoRawTab();
+        match = atqaRe.match(line);
+        if(match.hasMatch())
+        {
+            map["ATQA"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
+            continue;
+        }
+        match = sakRe.match(line);
+        if(match.hasMatch())
+        {
+            map["SAK"] = match.captured(1).remove(QRegularExpression("[^0-9a-fA-F]")).trimmed();
+        }
     }
     return map;
 }
@@ -962,7 +1011,12 @@ void Mifare::data_syncWithDataWidget(bool syncAll, int block)
     QString tmp;
     if(syncAll)
     {
-        for(int i = 0; i < cardType.block_size; i++)
+        // The tables are resized by the shell, but the lists are owned here.
+        // Clamp to both the model and the widget: a stale/short table must
+        // never turn into a null `item(i, 2)` dereference.
+        const int limit = qMin(int(cardType.block_size),
+                               qMin(ui->MF_dataWidget->rowCount(), dataList->size()));
+        for(int i = 0; i < limit; i++)
         {
             tmp = "";
             if(dataList->at(i) != "")
@@ -974,13 +1028,13 @@ void Mifare::data_syncWithDataWidget(bool syncAll, int block)
                     tmp += dataList->at(i).midRef(j * 2, 2);
                 }
             }
-            ui->MF_dataWidget->item(i, 2)->setText(tmp);
+            mftable::setItemText(ui->MF_dataWidget, i, 2, tmp);
         }
     }
     else
     {
         tmp = "";
-        if(dataList->at(block) != "")
+        if(block >= 0 && block < dataList->size() && dataList->at(block) != "")
         {
             tmp += dataList->at(block).midRef(0, 2);
             for(int j = 1; j < 16; j++)
@@ -989,7 +1043,7 @@ void Mifare::data_syncWithDataWidget(bool syncAll, int block)
                 tmp += dataList->at(block).midRef(j * 2, 2);
             }
         }
-        ui->MF_dataWidget->item(block, 2)->setText(tmp);
+        mftable::setItemText(ui->MF_dataWidget, block, 2, tmp);
     }
     ui->MF_dataWidget->blockSignals(false);
 }
@@ -999,18 +1053,26 @@ void Mifare::data_syncWithKeyWidget(bool syncAll, int sector, KeyType keyType)
     ui->MF_keyWidget->blockSignals(true);
     if(syncAll)
     {
-        for(int i = 0; i < cardType.sector_size; i++)
+        const int limit = qMin(int(cardType.sector_size),
+                               qMin(ui->MF_keyWidget->rowCount(), keyAList->size()));
+        for(int i = 0; i < limit; i++)
         {
-            ui->MF_keyWidget->item(i, 1)->setText(keyAList->at(i));
-            ui->MF_keyWidget->item(i, 2)->setText(keyBList->at(i));
+            mftable::setItemText(ui->MF_keyWidget, i, 1, keyAList->at(i));
+            if(i < keyBList->size())
+                mftable::setItemText(ui->MF_keyWidget, i, 2, keyBList->at(i));
         }
     }
     else
     {
         if(keyType == KEY_A)
-            ui->MF_keyWidget->item(sector, 1)->setText(keyAList->at(sector));
-        else
-            ui->MF_keyWidget->item(sector, 2)->setText(keyBList->at(sector));
+        {
+            if(sector >= 0 && sector < keyAList->size())
+                mftable::setItemText(ui->MF_keyWidget, sector, 1, keyAList->at(sector));
+        }
+        else if(sector >= 0 && sector < keyBList->size())
+        {
+            mftable::setItemText(ui->MF_keyWidget, sector, 2, keyBList->at(sector));
+        }
     }
     ui->MF_keyWidget->blockSignals(false);
 }
@@ -1525,4 +1587,876 @@ QString Mifare::getTraceSavePath()
     return reMatch.captured(1).trimmed();
 }
 
+// =========================================================================
+// Stage 3: one-click read / FM11RF08S (Gen3) crack
+//
+// The heavy work runs on a worker thread; every PM3 command is pumped back to
+// the GUI thread (the only thread that may touch the client process), which is
+// also why a Cancel click is processed while a long fchk/rdbl wait is running.
+// =========================================================================
 
+mfgen3::FwFlavor Mifare::currentFlavor() const
+{
+    // iceman/RRG clients understand --blk/-k/-a/-b; the official client keeps
+    // the legacy "chk *1 ? d" / "rdbl N A K" argument style.
+    return Util::getClientType() == Util::CLIENTTYPE_ICEMAN ? mfgen3::FwFlavor::New : mfgen3::FwFlavor::Old;
+}
+
+QString Mifare::gen3WorkDir() const
+{
+    if(session)
+    {
+        const QString dir = session->workingDirectory();
+        if(!dir.isEmpty())
+            return dir;
+    }
+    return QDir::currentPath();
+}
+
+QString Mifare::gen3ExecFromWorker(const QString &cmd, int timeoutMs)
+{
+    if(gen3Cancel.requested())
+        return QString();
+    QString output;
+    QMetaObject::invokeMethod(this, [this, cmd, timeoutMs, &output]() {
+        if(gen3Cancel.requested())
+            return;
+        const quint64 serial = gen3TaskSerial;
+        // The command itself is always kept in the detail log; the terminal
+        // shows the complete client session separately.
+        appendPm3Log(QStringLiteral("> ") + cmd);
+        output = util->execCMDWithOutputInterruptible(cmd, timeoutMs, gen3Cancel.atomic(), true,
+            [this, serial](const QString &chunk) {
+                const QStringList lines = pm3LogFilter.feed(
+                    serial, chunk, gen3Cancel.requested());
+                for(const QString &line : lines)
+                    appendPm3Log(line);
+            });
+    }, Qt::BlockingQueuedConnection);
+    return output;
+}
+
+void Mifare::gen3StepFromWorker(int step, int total, const QString &text, int percent)
+{
+    QMetaObject::invokeMethod(this, [this, step, total, text, percent]() {
+        if(ui->MF_result_progressBar)
+            ui->MF_result_progressBar->setValue(qBound(0, percent, 100));
+        if(ui->MF_result_stepLabel)
+            ui->MF_result_stepLabel->setText(QStringLiteral("%1/%2  %3").arg(step).arg(total).arg(text));
+        Q_UNUSED(step);
+    }, Qt::QueuedConnection);
+}
+
+void Mifare::gen3LogFromWorker(const QString &text)
+{
+    QMetaObject::invokeMethod(this, [this, text]() {
+        appendResultLog(text);
+    }, Qt::QueuedConnection);
+}
+
+void Mifare::appendResultLog(const QString &text)
+{
+    appendLogLine(QStringLiteral("[GUI] "), text);
+}
+
+void Mifare::appendPm3Log(const QString &text)
+{
+    appendLogLine(QStringLiteral("[PM3] "), text);
+}
+
+void Mifare::appendLogLine(const QString &prefix, const QString &text)
+{
+    if(!ui->MF_result_logView || text.isEmpty())
+        return;
+    QScrollBar *bar = ui->MF_result_logView->verticalScrollBar();
+    // Appending must not yank the view away while the user is reading an
+    // earlier part of the log.  Only follow the tail when it was already
+    // pinned to the bottom.
+    const bool follow = !bar || mfgen3::Pm3LogFilter::shouldAutoScroll(bar->value(), bar->maximum());
+    ui->MF_result_logView->appendPlainText(prefix + text);
+    if(follow && bar)
+        bar->setValue(bar->maximum());
+}
+
+void Mifare::onPm3StateChanged(bool connected, const QString &info)
+{
+    Q_UNUSED(info);
+    pm3Connected = connected;
+    updateStatusLabels();
+}
+
+QString Mifare::identityConfidenceText(mfgen3::Confidence confidence) const
+{
+    switch(confidence)
+    {
+    case mfgen3::Confidence::Confirmed:
+        return tr("Confirmed");
+    case mfgen3::Confidence::Suspected:
+        return tr("Suspected");
+    default:
+        return tr("Unknown");
+    }
+}
+
+QString Mifare::identityAllowedFlowText(const mfgen3::CardIdentity &identity) const
+{
+    if(!identity.detected)
+        return tr("Identify a card first");
+    if(identity.magic)
+        return tr("Identification only (read-only): no key read, Gen3 probe, unlock, UID/block write or erase");
+
+    // The 4K / Mini layouts are not the 1K Gen3 pipeline, even when the
+    // read-only evidence suggests a Fudan die.
+    if(identity.family == QLatin1String("classic4k"))
+        return tr("Public info only; use Advanced (Classic 4K; Gen3 flow is 1K-only)");
+    if(identity.family == QLatin1String("classicmini"))
+        return tr("Public info only; use Advanced (Mini layout is not the 1K Gen3 flow)");
+
+    switch(identity.kind)
+    {
+    case mfgen3::CardKind::FM11RF08S:
+    case mfgen3::CardKind::Classic1K:
+        if(identity.gen3Candidate)
+            return tr("Known-key read; if no key: FM11RF08S Gen3 probe (backdoor -> nonces -> verify -> read)");
+        return tr("Known-key read; if no key: Advanced (dictionary / nested / hardnested)");
+    case mfgen3::CardKind::ClassicMini:
+        return tr("Public info only; use Advanced (Mini layout is not the 1K Gen3 flow)");
+    case mfgen3::CardKind::Classic4K:
+        return tr("Public info only; use Advanced (Classic 4K; Gen3 flow is 1K-only)");
+    case mfgen3::CardKind::UltralightNtag:
+        return tr("Public info only; use the existing NTAG page");
+    case mfgen3::CardKind::DesFire:
+    case mfgen3::CardKind::Iso14443a4Cpu:
+        return tr("Public info only; use the existing DESFire / ISO14443-4 CPU branch");
+    case mfgen3::CardKind::Gen1A:
+    case mfgen3::CardKind::Gen2:
+    case mfgen3::CardKind::CUID:
+    case mfgen3::CardKind::FUID:
+    case mfgen3::CardKind::UFUID:
+        return tr("Identification only (read-only): no key read, Gen3 probe, unlock, UID/block write or erase");
+    default:
+        return tr("Identification only; no automatic read flow");
+    }
+}
+
+QString Mifare::quickFlowText(mfgen3::QuickFlow flow, const mfgen3::CardIdentity &identity,
+                              const QString &detail) const
+{
+    QString text;
+    switch(flow)
+    {
+    case mfgen3::QuickFlow::IdentificationOnly:
+        text = tr("Flow: identification only (magic card, read-only)");
+        break;
+    case mfgen3::QuickFlow::PublicInfoOnly:
+        text = tr("Flow: public info only (%1)").arg(identity.typeText.isEmpty() ? tr("unknown card") : identity.typeText);
+        break;
+    case mfgen3::QuickFlow::ClassicKnownKey:
+        text = tr("Flow: Classic 1K known-key read");
+        break;
+    case mfgen3::QuickFlow::Gen3Crack:
+        text = tr("Flow: FM11RF08S Gen3 (backdoor -> nonce -> verify -> read)");
+        break;
+    case mfgen3::QuickFlow::EvidenceVerify:
+        text = tr("Flow: imported nonce evidence verification");
+        break;
+    default:
+        text = tr("Flow: -");
+        break;
+    }
+    if(!detail.isEmpty())
+        text += QStringLiteral("  [") + detail + QLatin1Char(']');
+    return text;
+}
+
+void Mifare::applyCardIdentity(const mfgen3::CardIdentity &identity)
+{
+    lastIdentity = identity;
+    // Results produced by the Gen3 pipeline carry the family but not the byte
+    // capacity; derive it from the layout for the status area.
+    if(lastIdentity.capacity == 0)
+    {
+        switch(lastIdentity.kind)
+        {
+        case mfgen3::CardKind::ClassicMini:
+            lastIdentity.capacity = 320;
+            break;
+        case mfgen3::CardKind::Classic1K:
+        case mfgen3::CardKind::FM11RF08S:
+            lastIdentity.capacity = 1024;
+            break;
+        case mfgen3::CardKind::Classic4K:
+            lastIdentity.capacity = 4096;
+            break;
+        default:
+            break;
+        }
+    }
+    updateStatusLabels();
+}
+
+void Mifare::updateStatusLabels()
+{
+    if(!ui)
+        return;
+    if(ui->MF_status_connLabel)
+    {
+        ui->MF_status_connLabel->setText(pm3Connected ? tr("Connected") : tr("Not Connected"));
+        ui->MF_status_connLabel->setStyleSheet(pm3Connected ? QStringLiteral("color:#39FF14;")
+                                                            : QStringLiteral("color:#C0392B;"));
+    }
+    if(ui->MF_status_cardLabel)
+        ui->MF_status_cardLabel->setText(lastIdentity.detected ? tr("Present") : tr("None"));
+    if(ui->MF_status_typeLabel)
+    {
+        ui->MF_status_typeLabel->setText(lastIdentity.detected ? lastIdentity.typeText : QStringLiteral("-"));
+        ui->MF_status_typeLabel->setToolTip(lastIdentity.detected ? lastIdentity.typeText : QString());
+    }
+    if(ui->MF_status_uidLabel)
+        ui->MF_status_uidLabel->setText(lastIdentity.uid.isEmpty() ? QStringLiteral("-") : lastIdentity.uid);
+    if(ui->MF_status_atqaLabel)
+        ui->MF_status_atqaLabel->setText(lastIdentity.atqa.isEmpty() ? QStringLiteral("-") : lastIdentity.atqa);
+    if(ui->MF_status_sakLabel)
+        ui->MF_status_sakLabel->setText(lastIdentity.sak.isEmpty() ? QStringLiteral("-") : lastIdentity.sak);
+    if(ui->MF_status_sectorLabel)
+        ui->MF_status_sectorLabel->setText(lastIdentity.sectors > 0
+                                          ? QString::number(lastIdentity.sectors) : QStringLiteral("-"));
+    if(ui->MF_status_capacityLabel)
+        ui->MF_status_capacityLabel->setText(lastIdentity.detected
+                                            ? identityCapacityText(lastIdentity)
+                                            : QStringLiteral("-"));
+}
+
+void Mifare::refreshCardStatus()
+{
+    // One read-only workflow, one `hf 14a info`.  The old implementation ran
+    // identifyCard() (another hf 14a info) right after the caller had already
+    // sent one; both the card-info button and the status Refresh now use this
+    // single path.
+    readCardInfo();
+}
+
+void Mifare::readCardInfo()
+{
+    if(infoRunning || gen3Running)
+        return;
+    if(!session || !session->isConnected())
+    {
+        lastIdentity = mfgen3::CardIdentity();
+        updateStatusLabels();
+        appendResultLog(tr("PM3 is not connected"));
+        return;
+    }
+
+    infoRunning = true;
+    infoCancel.reset();
+    setInfoBusy(true);
+
+    // Never let a failed/new probe inherit the previous card's labels.
+    lastIdentity = mfgen3::CardIdentity();
+    updateStatusLabels();
+
+    mfgen3::CardInfoHooks hooks;
+    bool lastExecOk = false;
+    hooks.isConnected = [this]() { return session && session->isConnected(); };
+    hooks.exec = [this, &lastExecOk](const QString &cmd, int timeoutMs) {
+        return util->execCMDWithOutputInterruptible(cmd, timeoutMs, infoCancel.atomic(), true,
+                                                    Util::OutputHandler(), &lastExecOk);
+    };
+    hooks.lastExecSucceeded = [&lastExecOk]() { return lastExecOk; };
+    hooks.canceled = [this]() { return infoCancel.requested(); };
+    hooks.log = [this](const QString &text) { appendResultLog(text); };
+    hooks.magicDetectionAvailable = Util::getClientType() == Util::CLIENTTYPE_ICEMAN;
+
+    mfgen3::CardInfoService service(hooks);
+    const mfgen3::CardIdentity identity = service.read();
+
+    lastIdentity = identity;
+    updateStatusLabels();
+
+    if(identity.detected)
+    {
+        appendResultLog(tr("Card: %1  UID: %2  ATQA: %3  SAK: %4")
+                        .arg(identity.typeText, identity.uid, identity.atqa, identity.sak));
+        if(identity.sectors > 0)
+            appendResultLog(tr("Sectors: %1  Capacity: %2")
+                            .arg(identity.sectors).arg(identityCapacityText(identity)));
+        appendResultLog(tr("Confidence: %1").arg(identityConfidenceText(identity.confidence)));
+        // Evidence is kept in the log only; the status area no longer has a
+        // dedicated evidence column.
+        if(!identity.evidence.isEmpty())
+            appendResultLog(tr("Evidence: %1").arg(identity.evidence.join(QStringLiteral("; "))));
+        emit cardTypeDetected(mfcardtype::typeIdForIdentity(identity), identity.uid,
+                              identity.confidence == mfgen3::Confidence::Confirmed);
+    }
+    else
+    {
+        appendResultLog(tr("No card detected"));
+    }
+
+    infoRunning = false;
+    infoCancel.reset();
+    setInfoBusy(false);
+}
+
+void Mifare::setInfoBusy(bool busy)
+{
+    infoRunning = busy;
+    if(ui->MF_advancedGroupBox)
+        ui->MF_advancedGroupBox->setEnabled(!busy);
+    if(ui->MF_status_refreshButton)
+        ui->MF_status_refreshButton->setEnabled(!busy);
+    if(ui->MF_Quick_cancelButton)
+        ui->MF_Quick_cancelButton->setEnabled(busy || gen3Running);
+}
+
+QString Mifare::identityCapacityText(const mfgen3::CardIdentity &identity) const
+{
+    if(identity.capacity > 0)
+        return tr("%1 B").arg(identity.capacity);
+    if(identity.kind == mfgen3::CardKind::UltralightNtag)
+        return tr("NFC tag (capacity unknown)");
+    return QStringLiteral("-");
+}
+
+void Mifare::setTaskUiBusy(bool busy)
+{
+    gen3Running = busy;
+    ui->MF_Quick_crackButton->setEnabled(!busy);
+    ui->MF_Quick_loadButton->setEnabled(!busy);
+    ui->MF_Quick_saveButton->setEnabled(!busy);
+    ui->MF_Quick_cancelButton->setEnabled(busy);
+    if(ui->MF_advancedGroupBox)
+        ui->MF_advancedGroupBox->setEnabled(!busy);
+    if(ui->MF_dataWidget)
+        ui->MF_dataWidget->setEnabled(true);   // keep the image readable while idle/busy
+    ui->MF_Quick_crackButton->setText(busy && gen3Task == TASK_CRACK_GEN3
+                                      ? tr("Running...")
+                                      : gen3ButtonIdleText);
+    if(!busy)
+    {
+        gen3Task = -1;
+        if(ui->MF_result_progressBar && ui->MF_result_progressBar->value() >= 100)
+            ui->MF_result_progressBar->setValue(100);
+    }
+    emit gen3TaskStateChanged(busy);
+}
+
+void Mifare::quickReadCard()
+{
+    startGen3Task(TASK_QUICK_READ);
+}
+
+void Mifare::crackGen3Card()
+{
+    startGen3Task(TASK_CRACK_GEN3);
+}
+
+void Mifare::importNonceEvidence(int format)
+{
+    importPath.clear();
+    startGen3Task(format == 0 ? TASK_IMPORT_PM3 : TASK_IMPORT_PM3GUI);
+}
+
+void Mifare::cancelGen3Task()
+{
+    if(infoRunning)
+    {
+        infoCancel.request();
+        appendResultLog(tr("Cancel requested; the card-info workflow will not start the next command."));
+        return;
+    }
+    if(!gen3Running)
+        return;
+    gen3Cancel.request();
+    // Freeze the task-scoped log first: late output of the interrupted
+    // command must not be appended after the cancel was requested.
+    pm3LogFilter.suspend();
+    appendResultLog(tr("Cancel requested, waiting for the current command to return..."));
+}
+
+void Mifare::startGen3Task(int task)
+{
+    if(gen3Running)
+        return;
+    if(!session || !session->isConnected())
+    {
+        QMessageBox::warning(parent, tr("MIFARE"), tr("PM3 is not connected. Connect the device first."));
+        return;
+    }
+    if(task == TASK_IMPORT_PM3 || task == TASK_IMPORT_PM3GUI)
+    {
+        importPath = QFileDialog::getOpenFileName(parent, tr("Select a nonce evidence JSON"),
+                                                 gen3WorkDir(),
+                                                 tr("JSON files (*.json);;All files (*)"));
+        if(importPath.isEmpty())
+            return;
+        // The header, not the extension, decides whether the file is accepted.
+        const QString detected = mfgen3::NonceStore::detectFormat(importPath);
+        const QString expected = task == TASK_IMPORT_PM3 ? QStringLiteral("pm3") : QStringLiteral("pm3gui");
+        if(detected != expected)
+        {
+            appendResultLog(tr("Import rejected: %1 looks like \"%2\", expected \"%3\"")
+                            .arg(importPath, detected, expected));
+            return;
+        }
+    }
+
+    gen3Cancel.reset();
+    gen3Task = task;
+    ++gen3TaskSerial;
+    pm3LogFilter.beginTask(gen3TaskSerial);
+    setTaskUiBusy(true);
+    if(ui->MF_result_progressBar)
+        ui->MF_result_progressBar->setValue(0);
+    appendResultLog(QStringLiteral("---"));
+    appendResultLog(task == TASK_QUICK_READ ? tr("Task: identify card, then cheapest read path")
+                     : task == TASK_CRACK_GEN3 ? tr("Task: Crack FM11RF08S")
+                     : tr("Task: verify imported nonce evidence"));
+
+    gen3Thread = QThread::create([this, task]() { runGen3Task(task); });
+    connect(gen3Thread, &QThread::finished, this, [this]() {
+        gen3Thread = nullptr;
+    });
+    gen3Thread->start();
+}
+
+void Mifare::runGen3Task(int task)
+{
+    mfgen3::TaskHooks hooks;
+    hooks.isConnected = [this]() { return session && session->isConnected(); };
+    hooks.exec = [this](const QString &cmd, int timeoutMs) { return gen3ExecFromWorker(cmd, timeoutMs); };
+    hooks.cancel = [this]() { return gen3Cancel.requested(); };
+    hooks.step = [this](int step, int total, const QString &text, int percent) {
+        gen3StepFromWorker(step, total, text, percent);
+    };
+    hooks.log = [this](const QString &text) { gen3LogFromWorker(text); };
+    hooks.workDir = [this]() { return gen3WorkDir(); };
+    hooks.magicDetectionAvailable = Util::getClientType() == Util::CLIENTTYPE_ICEMAN;
+
+    mfgen3::Gen3Service service(hooks);
+    mfgen3::CrackResult result;
+
+    switch(task)
+    {
+    case TASK_QUICK_READ:
+        result = service.quickRead(currentFlavor());
+        break;
+    case TASK_CRACK_GEN3:
+        result = service.crackGen3(currentFlavor());
+        break;
+    case TASK_IMPORT_PM3:
+    case TASK_IMPORT_PM3GUI:
+    {
+        mfgen3::NonceSet set;
+        QString error;
+        bool loaded = false;
+        if(task == TASK_IMPORT_PM3)
+        {
+            mfgen3::NonceStore::Pm3Evidence evidence;
+            loaded = mfgen3::NonceStore::loadPm3File(importPath, &evidence, &error);
+            if(loaded)
+                set = evidence.set;
+        }
+        else
+        {
+            loaded = mfgen3::NonceStore::loadPm3GuiFile(importPath, &set, &error);
+        }
+        if(!loaded)
+        {
+            result.errorCode = mfgen3::err::kNoEvidence;
+            result.error = buildImportError(error);
+        }
+        else
+        {
+            set.source = task == TASK_IMPORT_PM3 ? QStringLiteral("import-pm3")
+                                                 : QStringLiteral("import-pm3gui");
+            result = service.verifyEvidence(set, currentFlavor());
+        }
+        break;
+    }
+    default:
+        result.errorCode = mfgen3::err::kUnsupported;
+        result.error = tr("Unknown task");
+        break;
+    }
+
+    QMetaObject::invokeMethod(this, [this, result]() { finishGen3Task(result); }, Qt::QueuedConnection);
+}
+
+void Mifare::finishGen3Task(const mfgen3::CrackResult &result)
+{
+    // No PM3 output may be appended after the task finished; the summary and
+    // result lines below are GUI lines.
+    pm3LogFilter.endTask();
+    // The task is gone: clear the one-shot cancel request so Refresh / Card
+    // Info work immediately after Cancel.  The worker has already returned.
+    gen3Cancel.reset();
+    lastResult = result;
+    lastKeySource = result.keySource;
+    if(result.hasNonces)
+    {
+        lastNonceSet = result.nonces;
+        lastNonceValid = true;
+    }
+    setTaskUiBusy(false);
+    showResultSummary(result);
+    if(result.hasDump)
+        applyCrackResult(result);
+    if(result.identity.detected)
+    {
+        applyCardIdentity(result.identity);
+    }
+    else if(result.errorCode == mfgen3::err::kNotConnected || result.errorCode == mfgen3::err::kNoCard)
+    {
+        lastIdentity = mfgen3::CardIdentity();
+        updateStatusLabels();
+    }
+    else if(!result.cardUid.isEmpty())
+    {
+        lastIdentity.uid = result.cardUid;
+        if(!result.cardType.isEmpty())
+            lastIdentity.typeText = result.cardType;
+        lastIdentity.detected = true;
+        updateStatusLabels();
+    }
+}
+
+QString Mifare::buildImportError(const QString &detail) const
+{
+    // tr("Import failed: %1")
+    return tr("Import failed: %1").arg(detail);
+}
+
+void Mifare::showResultSummary(const mfgen3::CrackResult &result)
+{
+    if(ui->MF_result_progressBar)
+        ui->MF_result_progressBar->setValue(result.success() ? 100 : ui->MF_result_progressBar->value());
+    if(ui->MF_result_statusLabel)
+    {
+        QString status;
+        QString color;
+        if(result.success() && !result.partial && !result.onlyData)
+        {
+            status = tr("Success");
+            color = QStringLiteral("#39FF14");
+        }
+        else if(result.hasDump && (result.partial || result.onlyData))
+        {
+            status = tr("Partial success");
+            color = QStringLiteral("#E0A800");
+        }
+        else
+        {
+            status = tr("Failed");
+            color = QStringLiteral("#C0392B");
+        }
+        ui->MF_result_statusLabel->setText(status);
+        ui->MF_result_statusLabel->setStyleSheet(QStringLiteral("color:%1;").arg(color));
+    }
+    if(ui->MF_result_keyLabel)
+    {
+        QStringList parts;
+        if(!result.backdoorKey.isEmpty())
+            parts << tr("Backdoor: %1").arg(result.backdoorKey);
+        if(result.recoveredKeyCount() > 0)
+            parts << tr("Keys: %1/32").arg(result.recoveredKeyCount());
+        else if(result.onlyData)
+            parts << tr("Keys: -");
+        if(result.inferredKeyCount() > 0)
+            parts << tr("Inferred: %1").arg(result.inferredKeyCount());
+        if(!lastKeySource.isEmpty())
+            parts << tr("Source: %1").arg(lastKeySource);
+        ui->MF_result_keyLabel->setText(parts.isEmpty() ? QStringLiteral("-") : parts.join(QStringLiteral("  |  ")));
+    }
+    if(ui->MF_result_metaLabel)
+    {
+        QStringList parts;
+        if(result.hasDump)
+            parts << tr("%1 bytes").arg(result.dump.size());
+        if(result.candidateTotal > 0)
+            parts << tr("%1 candidates").arg(result.candidateTotal);
+        if(result.elapsedMs > 0)
+            parts << tr("%1 s").arg(QString::number(result.elapsedMs / 1000.0, 'f', 1));
+        ui->MF_result_metaLabel->setText(parts.isEmpty() ? QStringLiteral("-") : parts.join(QStringLiteral("  |  ")));
+    }
+    if(!result.error.isEmpty())
+        appendResultLog(tr("Error: %1").arg(result.error));
+    if(!result.note.isEmpty())
+        appendResultLog(result.note);
+    if(result.success() || result.hasDump)
+    {
+        appendResultLog(tr("Done: type=%1 uid=%2 keys=%3 dump=%4 elapsed=%5 s")
+                        .arg(result.cardType.isEmpty() ? QStringLiteral("-") : result.cardType,
+                             result.cardUid.isEmpty() ? QStringLiteral("-") : result.cardUid)
+                        .arg(result.recoveredKeyCount())
+                        .arg(result.hasDump ? result.dump.size() : 0)
+                        .arg(QString::number(result.elapsedMs / 1000.0, 'f', 1)));
+    }
+    if(ui->MF_result_stepLabel)
+        ui->MF_result_stepLabel->setText(result.success() ? tr("Done") : tr("Stopped"));
+}
+
+bool Mifare::backupCurrentImage(const QString &uid)
+{
+    // Back up the complete image for the current layout (Mini 20 / 1K 64 /
+    // 2K 128 / 4K 256 blocks).  A 1 KB buffer here would silently truncate a
+    // 4K card and the file name would not reveal it.
+    bool any = false;
+    const int blocks = cardType.block_size;
+    const QByteArray image = mfimage::imageFromRows(*dataList, blocks, &any);
+    if(!any)
+        return true;    // nothing to lose; applying the result is safe
+
+    const QString dir = QDir(gen3WorkDir()).filePath(QStringLiteral("pm3gui/tmp"));
+    QDir().mkpath(dir);
+    const QString name = mfimage::backupFileName(uid, cardType.typeText, blocks,
+                                                 QDateTime::currentDateTime());
+    const QString path = QDir(dir).filePath(name);
+    QFile file(path);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+    {
+        appendResultLog(tr("Backup failed: cannot write %1").arg(path));
+        return false;
+    }
+    const qint64 written = file.write(image);
+    if(written != image.size() || !file.flush())
+    {
+        file.close();
+        appendResultLog(tr("Backup failed: incomplete write to %1").arg(path));
+        return false;
+    }
+    file.close();
+    appendResultLog(tr("Previous image (%1 bytes, %2) backed up to %3")
+                    .arg(image.size()).arg(cardType.typeText, path));
+    return true;
+}
+
+void Mifare::applyCrackResult(const mfgen3::CrackResult &result)
+{
+    if(!result.hasDump || result.dump.size() != 1024)
+        return;
+    // Never clear the shown image unless the complete old image is on disk.
+    if(!backupCurrentImage(result.cardUid))
+        return;
+    // Change the model and the table row counts together.  The shell blocks
+    // the radio-group signal while applying, so no recursive layout change is
+    // triggered; the signal is a direct (same-thread) call.
+    emit cardLayoutChangeRequested(1);
+    data_clearData();
+    data_clearKey();
+    for(int block = 0; block < 64; ++block)
+    {
+        const QString hex = QString::fromLatin1(result.dump.mid(block * 16, 16).toHex()).toUpper();
+        data_setData(block, hex);
+    }
+    for(int sector = 0; sector < 16; ++sector)
+    {
+        if(!result.keys[sector][0].isEmpty())
+            data_setKey(sector, KEY_A, result.keys[sector][0]);
+        if(!result.keys[sector][1].isEmpty())
+            data_setKey(sector, KEY_B, result.keys[sector][1]);
+    }
+    data_syncWithDataWidget();
+    data_syncWithKeyWidget();
+    if(!result.keys[0][0].isEmpty())
+        ui->MF_RW_keyEdit->setText(result.keys[0][0]);
+}
+
+void Mifare::showImportMenu()
+{
+    QMenu menu(ui->MF_Quick_loadButton);
+    QAction *legacy = menu.addAction(tr("Data / key file (original dialog)..."));
+    menu.addSeparator();
+    QAction *pm3 = menu.addAction(tr("PM3 nonces JSON (fm11rf08s_nonces) - import & verify"));
+    menu.addAction(tr("PM3GUI nonces JSON (PM3GUI_FM11_NONCES_V1) - import & verify"));
+    QAction *chosen = menu.exec(QCursor::pos());
+    if(chosen == nullptr)
+        return;
+    if(chosen == legacy)
+    {
+        emit requestLegacyLoad();
+        return;
+    }
+    importNonceEvidence(chosen == pm3 ? 0 : 1);
+}
+
+void Mifare::showExportMenu()
+{
+    QMenu menu(ui->MF_Quick_saveButton);
+    QAction *legacy = menu.addAction(tr("Data / key file (original dialog)..."));
+    menu.addSeparator();
+    QAction *dump = menu.addAction(tr("Dump image (.bin / .mfd)"));
+    QAction *keyBin = menu.addAction(tr("Keys (key.bin, 192 bytes)"));
+    QAction *keyCsv = menu.addAction(tr("Keys (CSV)"));
+    QAction *keyJson = menu.addAction(tr("Keys (JSON)"));
+    menu.addSeparator();
+    QAction *noncePm3 = menu.addAction(tr("Nonces (PM3 client JSON)"));
+    QAction *nonceGui = menu.addAction(tr("Nonces (PM3GUI JSON)"));
+    QAction *report = menu.addAction(tr("Report (Markdown)"));
+    QAction *chosen = menu.exec(QCursor::pos());
+    if(chosen == nullptr)
+        return;
+    if(chosen == legacy)
+    {
+        emit requestLegacySave();
+        return;
+    }
+
+    const bool hasDump = lastResult.hasDump && lastResult.dump.size() == 1024;
+    const bool hasKeys = lastResult.recoveredKeyCount() > 0;
+    const bool hasNonces = lastNonceValid;
+    if((chosen == dump && !hasDump) || ((chosen == keyBin || chosen == keyCsv || chosen == keyJson) && !hasKeys)
+            || ((chosen == noncePm3 || chosen == nonceGui) && !hasNonces))
+    {
+        QMessageBox::information(parent, tr("MIFARE"),
+                                 tr("Run \"Read Card\" or \"Crack FM11RF08S\" first, or import a nonce JSON."));
+        return;
+    }
+
+    const QString stamp = QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd_HHmmss"));
+    const QString uidPart = lastResult.cardUid.isEmpty() ? QStringLiteral("card") : lastResult.cardUid;
+    const QString suggested = QDir(gen3WorkDir()).filePath(QStringLiteral("mf_%1_%2").arg(uidPart, stamp));
+    QString filter;
+    if(chosen == dump)
+        filter = tr("Dump image (*.bin *.mfd)");
+    else if(chosen == keyBin)
+        filter = tr("Key file (*.bin)");
+    else if(chosen == keyCsv)
+        filter = tr("CSV (*.csv)");
+    else
+        filter = tr("JSON (*.json)");
+
+    QString path = QFileDialog::getSaveFileName(parent, tr("Export"), suggested, filter);
+    if(path.isEmpty())
+        return;
+    if(chosen == noncePm3 || chosen == nonceGui)
+        path = uniqueOutputPath(path);
+
+    QString error;
+    bool ok = true;
+    if(chosen == dump)
+    {
+        QFile file(path);
+        ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        if(ok)
+        {
+            file.write(lastResult.dump);
+            file.close();
+        }
+        else
+        {
+            error = tr("cannot write %1").arg(path);
+        }
+    }
+    else if(chosen == keyBin)
+    {
+        QFile file(path);
+        ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        if(ok)
+        {
+            file.write(mfgen3::NonceStore::buildKeyBin(lastResult));
+            file.close();
+        }
+        else
+        {
+            error = tr("cannot write %1").arg(path);
+        }
+    }
+    else if(chosen == keyCsv)
+    {
+        QFile file(path);
+        ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        if(ok)
+        {
+            QByteArray text = "sector,keyA,keyB\n";
+            for(int s = 0; s < 16; ++s)
+            {
+                text += QStringLiteral("%1,%2,%3\n").arg(s)
+                        .arg(lastResult.keys[s][0]).arg(lastResult.keys[s][1]).toLatin1();
+            }
+            file.write(text);
+            file.close();
+        }
+        else
+        {
+            error = tr("cannot write %1").arg(path);
+        }
+    }
+    else if(chosen == keyJson)
+    {
+        QJsonObject root;
+        root.insert(QStringLiteral("uid"), lastResult.cardUid);
+        root.insert(QStringLiteral("cardType"), lastResult.cardType);
+        root.insert(QStringLiteral("backdoorKey"), lastResult.backdoorKey);
+        QJsonArray sectors;
+        for(int s = 0; s < 16; ++s)
+        {
+            QJsonObject entry;
+            entry.insert(QStringLiteral("sector"), s);
+            entry.insert(QStringLiteral("keyA"), lastResult.keys[s][0]);
+            entry.insert(QStringLiteral("keyB"), lastResult.keys[s][1]);
+            sectors.append(entry);
+        }
+        root.insert(QStringLiteral("keys"), sectors);
+        QFile file(path);
+        ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        if(ok)
+        {
+            file.write(QJsonDocument(root).toJson(QJsonDocument::Indented));
+            file.close();
+        }
+        else
+        {
+            error = tr("cannot write %1").arg(path);
+        }
+    }
+    else if(chosen == noncePm3)
+    {
+        ok = mfgen3::NonceStore::savePm3File(path, lastNonceSet, lastResult.dump, false, &error);
+    }
+    else if(chosen == nonceGui)
+    {
+        ok = mfgen3::NonceStore::savePm3GuiFile(path, lastNonceSet, &error);
+    }
+    else if(chosen == report)
+    {
+        QString text;
+        text += QStringLiteral("# MIFARE task report\n\n");
+        text += QStringLiteral("- card type: %1\n").arg(lastResult.cardType);
+        text += QStringLiteral("- uid: %1\n").arg(lastResult.cardUid);
+        text += QStringLiteral("- backdoor key: %1\n").arg(lastResult.backdoorKey);
+        text += QStringLiteral("- keys: %1/32\n").arg(lastResult.recoveredKeyCount());
+        text += QStringLiteral("- dump bytes: %1\n").arg(lastResult.dump.size());
+        text += QStringLiteral("- candidates: %1\n").arg(lastResult.candidateTotal);
+        text += QStringLiteral("- elapsed: %1 s\n").arg(QString::number(lastResult.elapsedMs / 1000.0, 'f', 1));
+        text += QStringLiteral("- note: %1\n").arg(lastResult.note);
+        text += QStringLiteral("- error: %1\n").arg(lastResult.error);
+        QFile file(path);
+        ok = file.open(QIODevice::WriteOnly | QIODevice::Truncate);
+        if(ok)
+        {
+            file.write(text.toUtf8());
+            file.close();
+        }
+        else
+        {
+            error = tr("cannot write %1").arg(path);
+        }
+    }
+
+    if(ok)
+        appendResultLog(tr("Exported to %1").arg(path));
+    else
+        appendResultLog(tr("Export failed: %1").arg(error));
+}
+
+QString Mifare::uniqueOutputPath(const QString &path) const
+{
+    if(!QFileInfo::exists(path))
+        return path;
+    const QString stamp = QDateTime::currentDateTime().toString(QStringLiteral("yyyyMMdd_HHmmss"));
+    const QFileInfo info(path);
+    return info.absolutePath() + QLatin1Char('/') + info.completeBaseName()
+           + QStringLiteral("_converted_") + stamp + QLatin1Char('.') + info.suffix();
+}

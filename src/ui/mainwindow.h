@@ -28,6 +28,7 @@
 #include "common/myeventfilter.h"
 #include "core/clientsession.h"
 #include "module/mifare.h"
+#include "module/mifare/mfcardtypesel.h"
 #include "module/lf.h"
 #include "module/t55xx.h"
 #include "module/ntagtab.h"
@@ -35,9 +36,12 @@
 #include "module/amiibopage.h"
 #include "module/felicatab.h"
 #include "module/hidseospage.h"
+#include "module/emv/emvpage.h"
+#include "module/iso14443a/iso14443apage.h"
 #include "module/lfparsertab.h"
 #include "common/util.h"
 #include "ui/mf_trailerdecoderdialog.h"
+#include "ui/terminalclassifier.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -45,6 +49,11 @@ namespace Ui
 class MainWindow;
 }
 QT_END_NAMESPACE
+
+class QTabWidget;
+class TerminalHighlighter;
+class CommandCatalogModel;
+class RawWorkspace;
 
 class MainWindow : public QMainWindow
 {
@@ -67,7 +76,6 @@ public slots:
     void onClientBusyChanged(bool busy);
     void onClientDetachedChanged(bool detached);
     void onCommandStateChanged(const QString& state, const QString& detail);
-    void MF_onMFCardTypeChanged(int id, bool st);
     void on_Raw_keyPressed(QObject *obj_addr, QEvent &event);
     void on_MF_keyWidget_resized(QObject *obj_addr, QEvent &event);
     void onPM3HWConnectFailed();
@@ -166,8 +174,18 @@ private slots:
     void on_MF_14aSniff_snoopButton_clicked();
 
     void on_MF_trailerDecoderButton_clicked();
-
     void on_MF_selectTrailerBox_stateChanged(int arg1);
+
+    // Stage 3.3: MIFARE card info / Gen3 crack workspace
+    void on_MF_Quick_crackButton_clicked();
+    void on_MF_Quick_loadButton_clicked();
+    void on_MF_Quick_saveButton_clicked();
+    void on_MF_Quick_cancelButton_clicked();
+    void MF_onTypeBoxActivated(int index);
+    void MF_onCardTypeDetected(int typeId, const QString &uid, bool confirmed);
+    void on_MF_status_refreshButton_clicked();
+    void on_MF_result_clearButton_clicked();
+    void on_MF_result_logToggleButton_toggled(bool checked);
 
     void on_stopButton_clicked();
 
@@ -233,7 +251,7 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
-    QButtonGroup* MFCardTypeBtnGroup;
+    mfcardtype::SelectionState cardTypeState;
     QLabel* connectStatusBar;
     QLabel* programStatusBar;
     QLabel* PM3VersionBar;
@@ -245,10 +263,25 @@ private:
     MyEventFilter* keyEventFilter;
     MyEventFilter* resizeEventFilter;
 
+    TerminalHighlighter* terminalHighlighter;
+    TerminalHighlighter* mfTerminalHighlighter;
+    CommandCatalogModel* catalogModel;
+    QButtonGroup* catalogCategoryGroup;
+    RawWorkspace* rawWorkspace;
+    bool hintPressActive;
+    int hintPressBlock;
+    int hintPressOffset;
+
     QString stashedCMDEditText;
     int stashedIndex = -1;
 
     void uiInit();
+    void setupRawWorkspace();
+    void setupCommandCatalog();
+    void updateCommandCatalogCount();
+    void submitRawCommand(const QString& cmd, bool updateInput);
+    void recordCommandHistory(const QString& cmd);
+    QString hintCommandAt(const QPoint& viewportPos) const;
 
     ClientSession* pm3;
     bool pm3state;
@@ -262,10 +295,17 @@ private:
 
     T55xx* t55xx;
     NtagTab* ntag;
+    QTabWidget* ntagSubTabs;
+    bool ntagSimActive;
     EMRTDPage* emrtdPage;
     AmiiboPage* amiiboPage;
     FelicaTab* felicaPage;
     HidSeosPage* hidSeosPage;
+    EmvPage* emvPage;
+    Iso14443aPage* iso14443aPage;
+    QTabWidget* moreFeaturesTabs;
+    bool emvReconnect;
+    bool emvReadActive;
     LfParserTab* lfParserTab;
     bool emrtdReconnect;
     Mifare* mifare;
@@ -281,12 +321,20 @@ private:
 
     void signalInit();
     void MF_widgetReset();
+    /** Apply a card layout requested by the MIFARE page (Gen3 result). */
+    void MF_applyCardType(int id);
+    int comboIndexForCardType(int id) const;
+    int cardTypeForComboIndex(int index) const;
     void setTableItem(QTableWidget *widget, int row, int column, const QString& text);
     void addClientPath(const QString& path);
     void loadClientPathList();
     void saveClientPathList();
     void dockInit();
     void loadConfig();
+    /** Serial mutex UI: disable every other page while the EMV reader runs. */
+    void setEmvReadActive(bool active);
+    /** Serial mutex UI: disable every other page while the NTAG simulator runs. */
+    void setNtagSimActive(bool active);
 protected:
     void contextMenuEvent(QContextMenuEvent *event) override;
 signals:

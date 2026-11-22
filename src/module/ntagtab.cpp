@@ -72,6 +72,10 @@ NtagTab::NtagTab(Util *util, ClientSession *session, QWidget *parent)
                 this, &NtagTab::onReadCommandFinished);
         connect(session, &ClientSession::commandFinished,
                 this, &NtagTab::onWriteCommandFinished);
+        connect(session, &ClientSession::newOutput,
+                this, &NtagTab::onSimulationOutput);
+        connect(session, &ClientSession::detachedChanged,
+                this, &NtagTab::onSimulationDetachedChanged);
     }
 }
 
@@ -327,15 +331,8 @@ void NtagTab::buildUi()
     ndefView->setPlaceholderText(tr("Read the tag to parse CC / TLV / NDEF records."));
     ndefLayout->addWidget(ndefView);
 
-    QGroupBox *quickGroup = new QGroupBox(tr("Quick Launch (NDEF URI) - Experimental"), this);
+    QGroupBox *quickGroup = new QGroupBox(tr("Quick Launch (NDEF)"), this);
     QVBoxLayout *quickLayout = new QVBoxLayout(quickGroup);
-    QLabel *quickExperimental = new QLabel(
-        tr("Experimental: phone compatibility has not been fully verified. "
-           "No new NDEF types planned; critical fixes only."),
-        quickGroup);
-    quickExperimental->setWordWrap(true);
-    quickExperimental->setStyleSheet(QStringLiteral("color:rgb(200,20,20);"));
-    quickLayout->addWidget(quickExperimental);
     QFormLayout *quickForm = new QFormLayout();
     quickType = new QComboBox(quickGroup);
     quickType->setObjectName(QStringLiteral("NTAG_quickType"));
@@ -344,7 +341,13 @@ void NtagTab::buildUi()
     quickType->addItem(tr("SMS (sms:)"), int(Ndef::LaunchType::Sms));
     quickType->addItem(tr("E-mail (mailto:)"), int(Ndef::LaunchType::Email));
     quickType->addItem(tr("Custom URI"), int(Ndef::LaunchType::CustomUri));
-    quickType->addItem(tr("Wi-Fi (not supported)"), int(Ndef::LaunchType::Wifi));
+    quickType->addItem(tr("Text"), int(Ndef::LaunchType::Text));
+    quickType->addItem(tr("MIME"), int(Ndef::LaunchType::Mime));
+    quickType->addItem(tr("vCard"), int(Ndef::LaunchType::VCard));
+    quickType->addItem(tr("Wi-Fi"), int(Ndef::LaunchType::Wifi));
+    quickType->addItem(tr("Bluetooth OOB"), int(Ndef::LaunchType::Bluetooth));
+    quickType->addItem(tr("OpenPrintTag"), int(Ndef::LaunchType::OpenPrintTag));
+    quickType->addItem(tr("External / AAR"), int(Ndef::LaunchType::External));
     quickForm->addRow(tr("Launch type:"), quickType);
 
     quickPrimaryLabel = new QLabel(tr("URL:"), quickGroup);
@@ -359,6 +362,10 @@ void NtagTab::buildUi()
     quickBodyLabel = new QLabel(tr("Body:"), quickGroup);
     quickBody = new QLineEdit(quickGroup);
     quickForm->addRow(quickBodyLabel, quickBody);
+
+    quickExtraLabel = new QLabel(tr("Extra:"), quickGroup);
+    quickExtra = new QLineEdit(quickGroup);
+    quickForm->addRow(quickExtraLabel, quickExtra);
     quickLayout->addLayout(quickForm);
 
     quickInfoLabel = new QLabel(quickGroup);
@@ -384,6 +391,13 @@ void NtagTab::buildUi()
     quickWriteButton->setEnabled(false);
     connect(quickWriteButton, &QPushButton::clicked, this, &NtagTab::writeQuickLaunch);
     quickButtons->addWidget(quickWriteButton);
+    quickSimButton = new QPushButton(tr("Simulate"), quickGroup);
+    quickSimButton->setObjectName(QStringLiteral("NTAG_quickSimButton"));
+    quickSimButton->setEnabled(false);
+    quickSimButton->setToolTip(tr("Load the same NDEF bytes into the Proxmark3 emulator "
+                                  "memory and start `hf mfu sim`. The tag is not written."));
+    connect(quickSimButton, &QPushButton::clicked, this, &NtagTab::toggleQuickSimulation);
+    quickButtons->addWidget(quickSimButton);
     quickButtons->addStretch();
     quickLayout->addLayout(quickButtons);
 
@@ -417,6 +431,7 @@ void NtagTab::buildUi()
                      verifyButton, verifyWrittenButton, eraseButton};
     m_busyButtons << detectButton;
     m_busyButtons << quickWriteButton;
+    m_busyButtons << quickSimButton;
 
     connect(readAllButton, &QPushButton::clicked, this, &NtagTab::readAllPages);
     connect(refreshButton, &QPushButton::clicked, this, &NtagTab::readAllPages);
@@ -440,6 +455,7 @@ void NtagTab::buildUi()
     connect(quickPrimary, &QLineEdit::textChanged, this, &NtagTab::updateQuickPreview);
     connect(quickSubject, &QLineEdit::textChanged, this, &NtagTab::updateQuickPreview);
     connect(quickBody, &QLineEdit::textChanged, this, &NtagTab::updateQuickPreview);
+    connect(quickExtra, &QLineEdit::textChanged, this, &NtagTab::updateQuickPreview);
     quickTypeChanged();
 }
 
@@ -743,12 +759,16 @@ void NtagTab::updateRow(int page)
             continue;
         if(dark)
             item->setData(Qt::BackgroundRole, QVariant());
-        else
+        else if(background.isValid())
             item->setBackground(background);
+        else
+            item->setData(Qt::BackgroundRole, QVariant());
         if(useForeground)
             item->setForeground(foreground);
-        else
+        else if(dark)
             item->setData(Qt::ForegroundRole, QVariant());
+        else
+            item->setForeground(QColor(25, 35, 45)); // #19232D, readable on the light fills
     }
     m_updatingTable = previousUpdating;
 }
@@ -2932,7 +2952,9 @@ void NtagTab::issueNextWriteCommand()
                        : tr("Write cancelled before any page was written."));
         return;
     }
-    if(writeIndex >= writeTargets.size())
+    const int stepCount = writeSequence.isEmpty() ? writeTargets.size()
+                                                  : writeSequence.size();
+    if(writeIndex >= stepCount)
     {
         if(writeExpected.isEmpty())
         {
@@ -2944,8 +2966,10 @@ void NtagTab::issueNextWriteCommand()
         return;
     }
 
-    const int page = writeTargets.at(writeIndex);
-    const QByteArray value = writePlanned.value(page);
+    const int page = writeSequence.isEmpty() ? writeTargets.at(writeIndex)
+                                             : writeSequence.at(writeIndex).first;
+    const QByteArray value = writeSequence.isEmpty() ? writePlanned.value(page)
+                                                     : writeSequence.at(writeIndex).second;
     if(value.size() != 4)
     {
         writeAttemptFailed(tr("no target data for page %1").arg(page));
@@ -2962,11 +2986,16 @@ void NtagTab::issueNextWriteCommand()
     writePageHex = QString::fromLatin1(value.toHex()).toUpper();
     m_writeJob.beginPage(page);
     m_writeJob.phase = Ntag::WriteJobPhase::Writing;
+    const int shownIndex = writeIndex + 1;
     setStatus(writeEraseFlow
               ? tr("Clearing page %1 (%2 of %3)...")
-                .arg(page).arg(m_writeJob.written + 1).arg(writeTargets.size())
-              : tr("Writing page %1 (%2 of %3)...")
-                .arg(page).arg(m_writeJob.written + 1).arg(writeTargets.size()));
+                .arg(page).arg(shownIndex).arg(stepCount)
+              : writeQuickFlow && writeIndex == 0 && writeSequence.size() > 1
+                && page == m_cap.userFirst
+                ? tr("Writing page %1 with TLV length 0 (%2 of %3)...")
+                  .arg(page).arg(shownIndex).arg(stepCount)
+                : tr("Writing page %1 (%2 of %3)...")
+                  .arg(page).arg(shownIndex).arg(stepCount));
 
     QString cmd = QStringLiteral("hf mfu wrbl -b %1 -d %2").arg(page).arg(writePageHex);
     cmd += pageForceSuffix(page);
@@ -3077,12 +3106,16 @@ void NtagTab::writeAttemptFailed(const QString &reason)
     const int written = m_writeJob.written;
     const int total = m_writeJob.total;
     const bool cancelled = m_writeJob.cancelled;
+    const QString quickNote = writeQuickFlow
+            ? tr(" The NDEF TLV may still have length 0; rewrite the record to "
+                 "restore a valid NDEF message.")
+            : QString();
     finishWriteJob(cancelled,
-                   cancelled
-                   ? tr("Write cancelled at page %1: %2 (%3 of %4 page(s) written).")
-                     .arg(page).arg(reason).arg(written).arg(total)
-                   : tr("Write stopped at page %1: %2 (%3 of %4 page(s) written).")
-                     .arg(page).arg(reason).arg(written).arg(total),
+                   (cancelled
+                    ? tr("Write cancelled at page %1: %2 (%3 of %4 page(s) written).")
+                      .arg(page).arg(reason).arg(written).arg(total)
+                    : tr("Write stopped at page %1: %2 (%3 of %4 page(s) written).")
+                      .arg(page).arg(reason).arg(written).arg(total)) + quickNote,
                    true);
 
     if(!cancelled)
@@ -3090,8 +3123,8 @@ void NtagTab::writeAttemptFailed(const QString &reason)
         QMessageBox::warning(this, writeTitle,
                              tr("Write stopped at page %1: %2\n"
                                 "%3 page(s) before it were written and verified. "
-                                "No later page was attempted.")
-                             .arg(page).arg(reason).arg(written));
+                                "No later page was attempted.%4")
+                             .arg(page).arg(reason).arg(written).arg(quickNote));
     }
 }
 
@@ -3106,7 +3139,8 @@ void NtagTab::commitWrittenPage(const QString &actual)
         entry->writeState = Ntag::WriteState::Written;
         entry->verified = true;
         entry->error.clear();
-        writeExpected.insert(page, entry->original);
+        if(!writeQuickFlow)
+            writeExpected.insert(page, entry->original);
         m_lastWriteTargets = writeExpected;
     }
     m_mem.markWritten(page, true);
@@ -3125,14 +3159,21 @@ void NtagTab::commitWrittenPage(const QString &actual)
         return;
     }
 
-    if(writeIndex < writeTargets.size())
+    if(writeIndex < (writeSequence.isEmpty() ? writeTargets.size()
+                                             : writeSequence.size()))
+    {
+        const int nextPage = writeSequence.isEmpty() ? writeTargets.at(writeIndex)
+                                                     : writeSequence.at(writeIndex).first;
+        const int stepCount = writeSequence.isEmpty() ? writeTargets.size()
+                                                      : writeSequence.size();
         setStatus(writeEraseFlow
                   ? tr("Clearing page %1 (%2 of %3)...")
-                    .arg(writeTargets.at(writeIndex))
-                    .arg(m_writeJob.written + 1).arg(writeTargets.size())
+                    .arg(nextPage)
+                    .arg(m_writeJob.written + 1).arg(stepCount)
                   : tr("Writing page %1 (%2 of %3)...")
-                    .arg(writeTargets.at(writeIndex))
-                    .arg(m_writeJob.written + 1).arg(writeTargets.size()));
+                    .arg(nextPage)
+                    .arg(m_writeJob.written + 1).arg(stepCount));
+    }
     issueNextWriteCommand();
 }
 
@@ -3175,11 +3216,18 @@ void NtagTab::finishWriteJob(bool cancelled, const QString &message, bool error)
     m_writeJob.finish();
     writeCommandId = 0;
     writeTargets.clear();
+    writeSequence.clear();
     writePlanned.clear();
     writeExpected.clear();
     writeVerifyPageOnly = false;
     writeEraseFlow = false;
+    writeQuickFlow = false;
     writePageHex.clear();
+    writeQuickDescription.clear();
+    writeQuickWarnings.clear();
+    writeQuickArea.clear();
+    writeQuickFirstPage = -1;
+    writeQuickLastPage = -1;
     m_dumpWorkspace.clearDump();
     setReadBusy(false);
     refreshCcFromTable();
@@ -3423,7 +3471,9 @@ void NtagTab::onWriteCommandFinished(quint64 id, const QString &output, bool suc
             return;
         }
 
-        const QByteArray wanted = writePlanned.value(m_writeJob.currentPage);
+        const QByteArray wanted = writeSequence.isEmpty()
+                ? writePlanned.value(m_writeJob.currentPage)
+                : writeSequence.at(writeIndex).second;
         if(QByteArray::fromHex(actual.toLatin1()) != wanted)
         {
             writeAttemptFailed(tr("verification differs (wrote %1, read %2)")
@@ -3482,6 +3532,106 @@ void NtagTab::onWriteCommandFinished(quint64 id, const QString &output, bool suc
 
         const QMap<int, QByteArray> expected = writeExpected;
         const bool cancelled = m_writeJob.cancelled;
+
+        if(writeQuickFlow)
+        {
+            const QByteArray quickArea = writeQuickArea;
+            const QString description = writeQuickDescription;
+            const QStringList warnings = writeQuickWarnings;
+            const int firstPage = writeQuickFirstPage;
+            const int lastPage = writeQuickLastPage;
+
+            QByteArray area;
+            bool complete = firstPage >= 0 && lastPage >= firstPage;
+            for(int page = firstPage; complete && page <= lastPage; page++)
+            {
+                if(page >= states.size() || states.at(page) != Ntag::PageState::Read)
+                {
+                    complete = false;
+                    break;
+                }
+                area += pages.at(page);
+            }
+
+            const bool rawMatch = complete && area == quickArea;
+            const Ntag::NdefResult parsed = complete ? Ntag::parseNdef(area)
+                                                     : Ntag::NdefResult();
+
+            m_lastWriteTargets = expected;
+            const Ntag::VerifyReport pageReport = Ntag::verifyWrite(m_cap, expected, pages, states);
+            for(const Ntag::PageCheck &check : pageReport.checks)
+            {
+                if(check.actual.size() != 4)
+                    continue;
+                Ntag::MemoryPage *entry = m_mem.page(check.page);
+                if(!entry)
+                    continue;
+                entry->original = check.actual;
+                entry->verified = check.verdict == Ntag::PageVerdict::Match;
+                if(entry->verified)
+                    entry->writeState = Ntag::WriteState::Written;
+                updateRow(check.page);
+            }
+            updateCounts();
+            updateDirtyButtons();
+
+            const QString result = rawMatch
+                    ? tr("Write verified: the tag reads back the exact NDEF bytes.")
+                    : tr("Verification FAILED: the NDEF bytes read back differ from "
+                         "the data written.");
+
+            QStringList detail;
+            detail << tr("Record: %1").arg(description);
+            detail << tr("Pages: %1..%2 (%3 bytes)").arg(firstPage).arg(lastPage)
+                      .arg(quickArea.size());
+            if(parsed.ok && !parsed.records.isEmpty())
+            {
+                const Ntag::NdefRecord &record = parsed.records.first();
+                QString readBack = record.typeName;
+                if(!record.uri.isEmpty())
+                    readBack += QStringLiteral(" / ") + record.uri;
+                else if(!record.text.isEmpty())
+                    readBack += QStringLiteral(" / ") + record.text;
+                detail << tr("Parsed read-back: %1").arg(readBack);
+            }
+            else
+            {
+                detail << tr("Parsed read-back: %1 (raw comparison is authoritative)")
+                          .arg(parsed.error.isEmpty() ? tr("no NDEF record") : parsed.error);
+            }
+            if(!warnings.isEmpty())
+                detail << tr("Warnings:\n%1").arg(warnings.join(QLatin1Char('\n')));
+            detail << tr("Pages written and read back: %1").arg(pageReport.writablePassed);
+            detail << tr("The TLV length was written as 0 first and as %1 last.")
+                      .arg(quickArea.size() > 1
+                           ? (quickArea.at(1) == static_cast<char>(0xFF)
+                              ? (static_cast<quint8>(quickArea.at(2)) << 8)
+                                | static_cast<quint8>(quickArea.at(3))
+                              : static_cast<quint8>(quickArea.at(1)))
+                           : 0);
+            detail << tr("Capability Container and system pages were not modified.");
+
+            finishWriteJob(cancelled,
+                           cancelled
+                           ? (rawMatch
+                              ? tr("Quick Launch write cancelled after the final length; "
+                                   "the data is complete and verified.")
+                              : tr("Quick Launch write cancelled; the tag may hold a TLV "
+                                   "with length 0."))
+                           : (rawMatch ? tr("Quick Launch written and verified: %1")
+                                         .arg(description)
+                                       : result),
+                           !rawMatch);
+
+            QMessageBox report(this);
+            report.setWindowTitle(tr("Quick Launch"));
+            report.setText(result);
+            report.setDetailedText(detail.join(QLatin1Char('\n')));
+            report.setIcon(rawMatch ? QMessageBox::Information : QMessageBox::Warning);
+            report.exec();
+            return;
+        }
+
         finishWriteJob(cancelled,
                        cancelled
                        ? tr("Write verification completed after cancel: %1 page(s).")
@@ -3636,73 +3786,136 @@ void NtagTab::quickTypeChanged()
                 quickType->currentData().toInt());
     bool subject = false;
     bool body = false;
+    bool extra = false;
     bool primary = true;
+    QString primaryLabel = tr("URL:");
+    QString primaryHint = tr("https://example.com");
+    QString subjectLabel = tr("Subject:");
+    QString subjectHint;
+    QString bodyLabel = tr("Body:");
+    QString bodyHint;
+    QString extraLabel = tr("Extra:");
+    QString extraHint;
+    QString info;
+
     switch(type)
     {
     case Ndef::LaunchType::Phone:
-        quickPrimaryLabel->setText(tr("Phone number:"));
-        quickPrimary->setPlaceholderText(tr("+1 555 0100"));
+        primaryLabel = tr("Phone number:");
+        primaryHint = tr("+1 555 0100");
+        info = tr("Writes a tel: URI. Most phones open the dialer without placing the call.");
         break;
     case Ndef::LaunchType::Sms:
-        quickPrimaryLabel->setText(tr("Phone number:"));
-        quickPrimary->setPlaceholderText(tr("+1 555 0100"));
+        primaryLabel = tr("Phone number:");
+        primaryHint = tr("+1 555 0100");
         body = true;
+        bodyLabel = tr("Message:");
+        bodyHint = tr("Optional message body");
+        info = tr("Writes an sms: URI with an optional UTF-8 percent-encoded body.");
         break;
     case Ndef::LaunchType::Email:
-        quickPrimaryLabel->setText(tr("E-mail address:"));
-        quickPrimary->setPlaceholderText(tr("name@example.com"));
+        primaryLabel = tr("E-mail address:");
+        primaryHint = tr("name@example.com");
         subject = true;
         body = true;
+        bodyLabel = tr("Message:");
+        bodyHint = tr("Optional message body");
+        info = tr("Writes a mailto: URI; the mail app opens without sending automatically.");
         break;
     case Ndef::LaunchType::CustomUri:
-        quickPrimaryLabel->setText(tr("URI:"));
-        quickPrimary->setPlaceholderText(tr("https:// or another scheme:"));
+        primaryLabel = tr("URI:");
+        primaryHint = tr("https:// or another scheme:");
+        info = tr("Any URI with a scheme is accepted and preserved as entered.");
+        break;
+    case Ndef::LaunchType::Text:
+        primaryLabel = tr("Text:");
+        primaryHint = tr("UTF-8 text");
+        subject = true;
+        subjectLabel = tr("Language:");
+        subjectHint = tr("en");
+        info = tr("Writes a Text record (TNF 1, type T) with the UTF-8 flag and language code.");
+        break;
+    case Ndef::LaunchType::Mime:
+        primaryLabel = tr("MIME type:");
+        primaryHint = tr("text/vcard");
+        body = true;
+        bodyLabel = tr("Payload text:");
+        bodyHint = tr("UTF-8 payload");
+        extra = true;
+        extraLabel = tr("Payload hex (optional):");
+        extraHint = tr("Hex bytes override the text payload");
+        info = tr("Writes a MIME record (TNF 2). Non-ASCII MIME types are preserved with a warning.");
+        break;
+    case Ndef::LaunchType::VCard:
+        primaryLabel = tr("Name:");
+        primaryHint = tr("Contact name");
+        subject = true;
+        subjectLabel = tr("Organization:");
+        subjectHint = tr("Company");
+        body = true;
+        bodyLabel = tr("Phone:");
+        bodyHint = tr("+1 555 0100");
+        extra = true;
+        extraLabel = tr("E-mail:");
+        extraHint = tr("name@example.com");
+        info = tr("Writes a vCard 3.0 MIME record with CRLF line endings.");
         break;
     case Ndef::LaunchType::Wifi:
-        quickPrimaryLabel->setText(tr("Wi-Fi:"));
-        quickPrimary->setPlaceholderText(tr("not supported"));
+        primaryLabel = tr("SSID:");
+        primaryHint = tr("Network name");
+        subject = true;
+        subjectLabel = tr("Password:");
+        subjectHint = tr("WPA2 password (empty for OPEN)");
+        body = true;
+        bodyLabel = tr("Auth:");
+        bodyHint = tr("WPA2 / WPA / OPEN");
+        info = tr("Writes a Wi-Fi WSC MIME record (application/vnd.wfa.wsc).");
+        break;
+    case Ndef::LaunchType::Bluetooth:
+        primaryLabel = tr("Bluetooth address:");
+        primaryHint = tr("AA:BB:CC:DD:EE:FF");
+        info = tr("Writes a Bluetooth OOB MIME record; the address is stored little-endian.");
+        break;
+    case Ndef::LaunchType::OpenPrintTag:
         primary = false;
+        body = true;
+        bodyLabel = tr("64-byte payload (hex):");
+        bodyHint = tr("Exactly 64 bytes");
+        info = tr("Writes an OpenPrintTag MIME record with the exact 64-byte payload.");
+        break;
+    case Ndef::LaunchType::External:
+        primaryLabel = tr("External type:");
+        primaryHint = tr("android.com:pkg");
+        body = true;
+        bodyLabel = tr("Payload text:");
+        bodyHint = tr("UTF-8 payload");
+        extra = true;
+        extraLabel = tr("Payload hex (optional):");
+        extraHint = tr("Hex bytes override the text payload");
+        info = tr("Writes a TNF 4 External record. android.com:pkg is an Android Application Record.");
         break;
     default:
-        quickPrimaryLabel->setText(tr("URL:"));
-        quickPrimary->setPlaceholderText(tr("https://example.com"));
+        info = tr("Writes an https/http URI record. Browser behavior depends on the phone.");
         break;
     }
+
+    quickPrimaryLabel->setText(primaryLabel);
+    quickPrimary->setPlaceholderText(primaryHint);
+    quickSubjectLabel->setText(subjectLabel);
+    quickSubject->setPlaceholderText(subjectHint);
+    quickBodyLabel->setText(bodyLabel);
+    quickBody->setPlaceholderText(bodyHint);
+    quickExtraLabel->setText(extraLabel);
+    quickExtra->setPlaceholderText(extraHint);
+
     quickPrimary->setEnabled(primary);
     quickSubjectLabel->setVisible(subject);
     quickSubject->setVisible(subject);
     quickBodyLabel->setVisible(body);
     quickBody->setVisible(body);
-
-    switch(type)
-    {
-    case Ndef::LaunchType::Phone:
-        quickInfoLabel->setText(tr("Writes a tel: URI. Most phones open the dialer; "
-                                   "the call is not placed automatically."));
-        break;
-    case Ndef::LaunchType::Sms:
-        quickInfoLabel->setText(tr("Writes an sms: URI with an optional body. Phones "
-                                   "usually open the messaging app without sending."));
-        break;
-    case Ndef::LaunchType::Email:
-        quickInfoLabel->setText(tr("Writes a mailto: URI. The mail app opens; the "
-                                   "message is not sent automatically."));
-        break;
-    case Ndef::LaunchType::Wifi:
-        quickInfoLabel->setText(tr("Wi-Fi NDEF is not implemented in this build: no "
-                                   "verified record format is available, so writing is "
-                                   "disabled instead of emitting a guess."));
-        break;
-    case Ndef::LaunchType::CustomUri:
-        quickInfoLabel->setText(tr("Any URI with a scheme is accepted and kept as "
-                                   "entered. Observed behavior depends on the phone."));
-        break;
-    default:
-        quickInfoLabel->setText(tr("Writes an https/http URI record. Whether a browser "
-                                   "opens automatically depends on the phone and its "
-                                   "settings."));
-        break;
-    }
+    quickExtraLabel->setVisible(extra);
+    quickExtra->setVisible(extra);
+    quickInfoLabel->setText(info);
     updateQuickPreview();
 }
 
@@ -3715,6 +3928,7 @@ void NtagTab::updateQuickPreview()
     request.primary = quickPrimary->text();
     request.subject = quickSubject->text();
     request.body = quickBody->text();
+    request.extra = quickExtra->text();
 
     const Ndef::LaunchPayload payload = Ndef::buildLaunch(request);
     const int capacity = availableNdefCapacity();
@@ -3727,7 +3941,12 @@ void NtagTab::updateQuickPreview()
     }
     else
     {
-        lines << tr("URI: %1").arg(payload.uri);
+        if(!payload.summary.isEmpty())
+            lines << tr("Record: %1").arg(payload.summary);
+        if(!payload.uri.isEmpty())
+            lines << tr("URI: %1").arg(payload.uri);
+        for(const QString &warning : payload.warnings)
+            lines << tr("Warning: %1").arg(warning);
         lines << tr("NDEF message: %1 bytes").arg(payload.message.size());
         lines << tr("Required space (TLV + terminator): %1 bytes").arg(payload.requiredBytes);
         lines << tr("Available NDEF space: %1 bytes").arg(capacity > 0
@@ -3774,18 +3993,32 @@ void NtagTab::updateQuickPreview()
 
     const bool writable = payload.ok && fits && m_knownLayout && m_cc.valid &&
             m_cc.readWrite && capacity > 0;
-    quickWriteButton->setEnabled(writable);
-    quickStatusLabel->setStyleSheet(writable
+    const bool canSimulate = payload.ok && m_knownLayout && m_pages > 0 &&
+            m_mem.readablePages().size() == m_pages && !m_simActive;
+    quickWriteButton->setEnabled(writable && !m_simActive);
+    quickSimButton->setEnabled(canSimulate);
+    quickStatusLabel->setStyleSheet((writable || canSimulate) && payload.warnings.isEmpty()
                                     ? QString()
-                                    : QStringLiteral("color:rgb(200,20,20);"));
-    quickStatusLabel->setText(payload.ok
-                              ? (fits ? tr("Ready to write: the data fits the tag.")
-                                      : tr("Over capacity: writing is disabled."))
-                              : tr("Cannot build the payload: writing is disabled."));
+                                    : payload.ok && !payload.warnings.isEmpty()
+                                      ? QStringLiteral("color:rgb(180,120,0);")
+                                      : QStringLiteral("color:rgb(200,20,20);"));
+    if(payload.ok && !payload.warnings.isEmpty())
+        quickStatusLabel->setText(payload.warnings.join(QStringLiteral(" ")));
+    else
+        quickStatusLabel->setText(payload.ok
+                                  ? (fits ? tr("Ready to write or simulate: the data fits the tag.")
+                                          : tr("Over capacity: writing and simulation are disabled."))
+                                  : tr("Cannot build the payload: writing and simulation are disabled."));
 }
 
 void NtagTab::writeQuickLaunch()
 {
+    if(m_simActive)
+    {
+        QMessageBox::warning(this, tr("Quick Launch"),
+                             tr("Stop the simulation before writing to the tag."));
+        return;
+    }
     if(deviceBusy())
     {
         setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
@@ -3796,6 +4029,7 @@ void NtagTab::writeQuickLaunch()
     request.primary = quickPrimary->text();
     request.subject = quickSubject->text();
     request.body = quickBody->text();
+    request.extra = quickExtra->text();
 
     const Ndef::LaunchPayload payload = Ndef::buildLaunch(request);
     if(!payload.ok)
@@ -3907,20 +4141,24 @@ void NtagTab::writeQuickLaunch()
         return;
     }
 
+    QString details = tr("Model: %1\nUID: %2\nRecord: %3\nPages: %4..%5 (%6 bytes)")
+            .arg(Ntag::modelName(m_cap.model))
+            .arg(uidLabel->text())
+            .arg(payload.summary)
+            .arg(firstPage).arg(lastPage).arg(payload.requiredBytes);
+    if(!payload.uri.isEmpty())
+        details += tr("\nURI: %1").arg(payload.uri);
+    if(!payload.warnings.isEmpty())
+        details += tr("\nWarnings:\n%1").arg(payload.warnings.join(QLatin1Char('\n')));
+    details += tr("\n\nOnly user data pages are written. The Capability Container, UID, "
+                  "lock, OTP, configuration and PWD/PACK pages are not modified. The "
+                  "TLV length is written as 0 first and as the final length last.");
+
     QMessageBox confirm(this);
     confirm.setIcon(QMessageBox::Warning);
     confirm.setWindowTitle(tr("Quick Launch"));
-    confirm.setText(tr("Write this NDEF URI to the tag?"));
-    confirm.setInformativeText(
-        tr("Model: %1\nUID: %2\nURI: %3\nPages: %4..%5 (%6 bytes)\n\n"
-           "Only user data pages are written. The Capability Container, UID, lock, "
-           "OTP, configuration and PWD/PACK pages are not modified. Phones may open "
-           "the dialer/messaging/mail app instead of acting automatically, and "
-           "browser behavior depends on the phone.")
-        .arg(Ntag::modelName(m_cap.model))
-        .arg(uidLabel->text())
-        .arg(payload.uri)
-        .arg(firstPage).arg(lastPage).arg(payload.requiredBytes));
+    confirm.setText(tr("Write this NDEF record to the tag?"));
+    confirm.setInformativeText(details);
     confirm.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     confirm.setDefaultButton(QMessageBox::No);
     if(confirm.exec() != QMessageBox::Yes)
@@ -3929,97 +4167,408 @@ void NtagTab::writeQuickLaunch()
         return;
     }
 
-    QMap<int, QByteArray> expected;
-    QStringList failed;
-    int written = 0;
+    startQuickLaunchWrite(payload);
+}
+
+void NtagTab::startQuickLaunchWrite(const Ndef::LaunchPayload &payload)
+{
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+    if(!session)
+    {
+        setStatus(tr("No client session is available for the NDEF write."), true);
+        return;
+    }
+    if(!m_dumpWorkspace.isValid())
+    {
+        setStatus(tr("No writable temporary directory is available for verification."), true);
+        return;
+    }
+
+    const int firstPage = m_cap.userFirst;
+    const int pageCount = payload.userArea.size() / 4;
+    const int lastPage = firstPage + pageCount - 1;
+    if(firstPage < 0 || lastPage > m_cap.userLast || pageCount <= 0)
+    {
+        setStatus(tr("The NDEF data does not fit the detected user area."), true);
+        return;
+    }
+
+    QByteArray initialArea = payload.userArea;
+    if(payload.message.size() < 255)
+        initialArea[1] = 0; // 03 00: length zero while the rest is written
+    else
+    {
+        initialArea[1] = static_cast<char>(0xFF);
+        initialArea[2] = 0;
+        initialArea[3] = 0;
+    }
+
+    QMap<int, QByteArray> finalExpected;
     for(int page = firstPage; page <= lastPage; page++)
+        finalExpected.insert(page, payload.userArea.mid((page - firstPage) * 4, 4));
+
+    writeSequence.clear();
+    const QByteArray initialPage = initialArea.mid(0, 4);
+    const QByteArray finalPage = payload.userArea.mid(0, 4);
+    const Ntag::MemoryPage *firstEntry = m_mem.page(firstPage);
+    QList<int> changedMiddle;
+    for(int page = firstPage + 1; page <= lastPage; page++)
     {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
         const QByteArray value = payload.userArea.mid((page - firstPage) * 4, 4);
-        QString current;
-        if(readPageData(page, &current) &&
-           QByteArray::fromHex(current.toLatin1()) == value)
-            continue; // already holds the required bytes
-        setStatus(tr("Writing page %1 (%2 of %3)...")
-                  .arg(page).arg(page - firstPage + 1).arg(pageCount));
-        QCoreApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
-        const QString hex = QString::fromLatin1(value.toHex()).toUpper();
-        if(!writePageData(page, hex, false))
-        {
-            failed << QString::number(page);
-            break;
-        }
-        expected.insert(page, value);
-        written++;
+        if(!entry || entry->edited != value)
+            changedMiddle.append(page);
+    }
+    const bool firstNeedsWrite = !firstEntry || firstEntry->edited != finalPage;
+    if(firstNeedsWrite || !changedMiddle.isEmpty())
+    {
+        if(!firstEntry || firstEntry->edited != initialPage)
+            writeSequence.append(qMakePair(firstPage, initialPage));
+        for(int page : changedMiddle)
+            writeSequence.append(qMakePair(page,
+                    payload.userArea.mid((page - firstPage) * 4, 4)));
+        writeSequence.append(qMakePair(firstPage, finalPage));
     }
 
-    // Read the written range back and parse the NDEF message independently.
-    QList<QByteArray> after;
-    QVector<Ntag::PageState> states;
-    const bool readOk = readPagesForVerify(&after, &states);
-    QByteArray area;
-    bool complete = readOk;
-    if(readOk)
+    if(writeSequence.isEmpty())
     {
-        for(int page = firstPage; page <= lastPage; page++)
-        {
-            if(states.at(page) == Ntag::PageState::Read)
-            {
-                area += after.at(page);
-                setRowData(page, QString::fromLatin1(after.at(page).toHex(' ')).toUpper());
-            }
-            else
-            {
-                complete = false;
-            }
-        }
-    }
-
-    const Ntag::NdefResult parsed = complete ? Ntag::parseNdef(area) : Ntag::NdefResult();
-    const bool uriMatch = complete && parsed.ok && !parsed.records.isEmpty() &&
-            parsed.records.first().uri == payload.uri;
-    const bool rawMatch = complete &&
-            area.left(payload.tlv.size()) == payload.tlv;
-
-    QString result;
-    if(!complete)
-        result = tr("Incomplete: the written pages could not be read back, so the "
-                    "result is unverified.");
-    else if(uriMatch && rawMatch)
-        result = tr("Write verified: the tag parses back as the expected URI.");
-    else
-        result = tr("Verification FAILED: the NDEF data read back differs from the "
-                    "data written.");
-
-    QStringList details;
-    details << tr("Expected URI: %1").arg(payload.uri);
-    if(complete && parsed.ok && !parsed.records.isEmpty())
-        details << tr("Read back URI: %1").arg(parsed.records.first().uri);
-    else if(complete)
-        details << tr("Read back: %1").arg(parsed.error.isEmpty()
-                                           ? tr("no NDEF record") : parsed.error);
-    details << tr("Pages written: %1   Pages already correct: %2")
-               .arg(written).arg(pageCount - written - failed.size());
-    if(!failed.isEmpty())
-        details << tr("Write failed on page(s): %1").arg(failed.join(QStringLiteral(", ")));
-    details << tr("Capability Container and system pages were not modified.");
-
-    QMessageBox report(this);
-    report.setWindowTitle(tr("Quick Launch"));
-    report.setText(result);
-    report.setDetailedText(details.join(QLatin1Char('\n')));
-    report.setIcon(uriMatch && rawMatch ? QMessageBox::Information : QMessageBox::Warning);
-    report.exec();
-    if(uriMatch && rawMatch)
-    {
-        setStatus(tr("Quick Launch written and verified: %1").arg(payload.uri));
+        setStatus(tr("The tag already contains these NDEF bytes; nothing was written."));
         fillNdef();
-        refreshCcFromTable();
-        updateCounts();
-        updateDirtyButtons();
-        updateDetail();
+        return;
     }
-    else
+    if(!m_writeJob.start(Ntag::WriteJobMode::WritePages, writeSequence.size()))
     {
-        setStatus(result, true);
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
     }
+
+    writeTargets.clear();
+    for(const QPair<int, QByteArray> &step : writeSequence)
+        if(!writeTargets.contains(step.first))
+            writeTargets.append(step.first);
+    std::sort(writeTargets.begin(), writeTargets.end());
+    writeExpected = finalExpected;
+    writePlanned = finalExpected;
+    writeIndex = 0;
+    writeAllowRetry = true;
+    writeVerifyPageOnly = false;
+    writeEraseFlow = false;
+    writeQuickFlow = true;
+    writeTitle = tr("Quick Launch");
+    writePageHex.clear();
+    writeQuickDescription = payload.summary;
+    writeQuickWarnings = payload.warnings;
+    writeQuickArea = payload.userArea;
+    writeQuickFirstPage = firstPage;
+    writeQuickLastPage = lastPage;
+    m_lastWriteError.clear();
+    m_lastWriteTargets.clear();
+    m_writeFailedPages.clear();
+    m_writeJobId++;
+    m_writeJob.phase = Ntag::WriteJobPhase::Writing;
+
+    Logger::info(QStringLiteral("NtagWrite"),
+                 QStringLiteral("job #%1 quick-launch start pages=%2..%3 steps=%4")
+                 .arg(m_writeJobId).arg(firstPage).arg(lastPage)
+                 .arg(writeSequence.size()));
+    setReadBusy(true);
+    setStatus(tr("Writing NDEF page %1 with length 0 first...").arg(firstPage));
+    issueNextWriteCommand();
+}
+
+void NtagTab::toggleQuickSimulation()
+{
+    if(m_simActive)
+    {
+        stopQuickSimulation();
+        return;
+    }
+    if(deviceBusy())
+    {
+        setStatus(tr("Another NTAG operation is running; wait for it to finish."), true);
+        return;
+    }
+
+    Ndef::LaunchRequest request;
+    request.type = static_cast<Ndef::LaunchType>(quickType->currentData().toInt());
+    request.primary = quickPrimary->text();
+    request.subject = quickSubject->text();
+    request.body = quickBody->text();
+    request.extra = quickExtra->text();
+    const Ndef::LaunchPayload payload = Ndef::buildLaunch(request);
+    if(!payload.ok)
+    {
+        QMessageBox::warning(this, tr("Simulate"), payload.error);
+        return;
+    }
+    if(!m_knownLayout || m_pages <= 0)
+    {
+        QMessageBox::warning(this, tr("Simulate"),
+                             tr("Detect and read the tag first; the memory layout must be known."));
+        return;
+    }
+    if(m_mem.readablePages().size() != m_pages)
+    {
+        QMessageBox::warning(this, tr("Simulate"),
+                             tr("Read all pages first. The simulator dump must contain "
+                                "the complete tag memory."));
+        return;
+    }
+    const int capacity = availableNdefCapacity();
+    if(capacity <= 0 || payload.requiredBytes > capacity)
+    {
+        QMessageBox::warning(this, tr("Simulate"),
+                             tr("The NDEF data needs %1 bytes but only %2 are available.")
+                             .arg(payload.requiredBytes).arg(capacity));
+        return;
+    }
+
+    QString detail = tr("Model: %1\nRecord: %2\nPages: %3..%4")
+            .arg(Ntag::modelName(m_cap.model))
+            .arg(payload.summary)
+            .arg(m_cap.userFirst)
+            .arg(m_cap.userFirst + payload.userArea.size() / 4 - 1);
+    if(!payload.warnings.isEmpty())
+        detail += tr("\nWarnings:\n%1").arg(payload.warnings.join(QLatin1Char('\n')));
+    detail += tr("\n\nThe tag is not written. A temporary dump is loaded into the "
+                 "Proxmark3 emulator memory and `hf mfu sim -t 7` is started. "
+                 "Stop restarts the client.");
+
+    QMessageBox confirm(this);
+    confirm.setIcon(QMessageBox::Question);
+    confirm.setWindowTitle(tr("Simulate"));
+    confirm.setText(tr("Start the NDEF simulator with these bytes?"));
+    confirm.setInformativeText(detail);
+    confirm.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    confirm.setDefaultButton(QMessageBox::No);
+    if(confirm.exec() != QMessageBox::Yes)
+        return;
+
+    startQuickSimulation(payload);
+}
+
+bool NtagTab::buildSimulationDump(const Ndef::LaunchPayload &payload,
+                                  QByteArray *dump, QString *error)
+{
+    if(!dump)
+        return false;
+    dump->clear();
+    if(error)
+        error->clear();
+    if(!m_knownLayout || m_pages <= 0)
+    {
+        if(error)
+            *error = tr("the tag layout is unknown; read the tag first");
+        return false;
+    }
+    if(payload.userArea.size() % 4 != 0)
+    {
+        if(error)
+            *error = tr("the NDEF area is not page aligned");
+        return false;
+    }
+
+    QList<QByteArray> pages;
+    for(int page = 0; page < m_pages; page++)
+    {
+        const Ntag::MemoryPage *entry = m_mem.page(page);
+        if(!entry || !entry->readable())
+        {
+            if(error)
+                *error = tr("page %1 has not been read").arg(page);
+            return false;
+        }
+        pages.append(entry->edited);
+    }
+
+    const int firstPage = m_cap.userFirst;
+    const int pageCount = payload.userArea.size() / 4;
+    if(firstPage < 0 || firstPage + pageCount - 1 > m_cap.userLast)
+    {
+        if(error)
+            *error = tr("the NDEF area is outside the detected user pages");
+        return false;
+    }
+    for(int i = 0; i < pageCount; i++)
+        pages[firstPage + i] = payload.userArea.mid(i * 4, 4);
+
+    *dump = Ntag::buildDump(dumpVersion(), pages);
+    if(dump->isEmpty())
+    {
+        if(error)
+            *error = tr("cannot build a simulator dump for this tag");
+        return false;
+    }
+    return true;
+}
+
+void NtagTab::startQuickSimulation(const Ndef::LaunchPayload &payload)
+{
+    if(!session)
+    {
+        setStatus(tr("No client session is available for simulation."), true);
+        return;
+    }
+    if(!m_dumpWorkspace.isValid())
+    {
+        setStatus(tr("No writable temporary directory is available for simulation."), true);
+        return;
+    }
+
+    QByteArray dump;
+    QString error;
+    if(!buildSimulationDump(payload, &dump, &error))
+    {
+        QMessageBox::warning(this, tr("Simulate"),
+                             tr("Cannot build the simulator dump: %1").arg(error));
+        return;
+    }
+    if(!m_dumpWorkspace.writeSimDump(dump, &error))
+    {
+        QMessageBox::warning(this, tr("Simulate"), error);
+        m_dumpWorkspace.clearDump();
+        return;
+    }
+
+    setStatus(tr("Loading the NDEF bytes into emulator memory..."));
+    const QString path = QDir::toNativeSeparators(m_dumpWorkspace.simPath());
+    const QString loadCommand = QStringLiteral("hf mfu eload -f \"%1\" -q %2")
+            .arg(path).arg(m_pages);
+    const QString loadOutput = util->execCMDWithOutput(loadCommand, 30000, true);
+    if(loadOutput.isEmpty() || outputLooksUnsupported(loadOutput)
+            || loadOutput.contains(QStringLiteral("fail"), Qt::CaseInsensitive)
+            || loadOutput.contains(QStringLiteral("error"), Qt::CaseInsensitive)
+            || loadOutput.contains(QStringLiteral("not available"), Qt::CaseInsensitive)
+            || loadOutput.contains(QStringLiteral("timeout"), Qt::CaseInsensitive))
+    {
+        m_dumpWorkspace.clearDump();
+        const QString message = outputLooksUnsupported(loadOutput)
+                ? tr("This firmware does not support `hf mfu eload` for the Ultralight "
+                     "dump format. Simulation was not started; the tag was not written.")
+                : tr("Loading the simulator dump failed. Simulation was not started; "
+                     "the tag was not written.");
+        setStatus(message, true);
+        Logger::warning(QStringLiteral("NtagSim"), message);
+        QMessageBox::warning(this, tr("Simulate"),
+                             message + QStringLiteral("\n\n") + loadOutput.left(1200));
+        return;
+    }
+
+    // Set the state before the detached command so immediate client output is
+    // attributed to this simulation and can be reported instead of ignored.
+    m_simActive = true;
+    if(!session->executeDetached(QStringLiteral("hf mfu sim -t 7")))
+    {
+        m_simActive = false;
+        m_dumpWorkspace.clearDump();
+        setStatus(tr("The client refused to start the simulation. The tag was not written."),
+                  true);
+        return;
+    }
+
+    setSimulationUiActive(true);
+    setStatus(tr("Simulation running (hf mfu sim -t 7). The tag is not written. "
+                 "Hold a phone near the antenna, then press Stop Simulation."));
+    emit simulationStateChanged(true);
+    Logger::info(QStringLiteral("NtagSim"),
+                 QStringLiteral("simulation started pages=%1 dump=%2")
+                 .arg(m_pages).arg(path));
+}
+
+void NtagTab::stopQuickSimulation(const QString &message)
+{
+    if(!m_simActive)
+        return;
+    m_simActive = false;
+    m_dumpWorkspace.clearDump();
+    setSimulationUiActive(false);
+    setStatus(message.isEmpty() ? tr("Simulation stopped.") : message);
+    emit simulationStateChanged(false);
+    Logger::info(QStringLiteral("NtagSim"), QStringLiteral("simulation stop requested"));
+    emit stopSimulationRequested();
+}
+
+void NtagTab::setSimulationUiActive(bool active)
+{
+    for(QPushButton *button : m_busyButtons)
+    {
+        if(!button || button == quickSimButton)
+            continue;
+        button->setEnabled(!active);
+    }
+    if(cancelReadButton)
+        cancelReadButton->setEnabled(false);
+    if(quickType)
+        quickType->setEnabled(!active);
+    if(quickPrimary)
+        quickPrimary->setEnabled(!active);
+    if(quickSubject)
+        quickSubject->setEnabled(!active);
+    if(quickBody)
+        quickBody->setEnabled(!active);
+    if(quickExtra)
+        quickExtra->setEnabled(!active);
+    if(quickSimButton)
+    {
+        quickSimButton->setEnabled(true);
+        quickSimButton->setText(active ? tr("Stop Simulation") : tr("Simulate"));
+    }
+    table->setEditTriggers(active ? QAbstractItemView::NoEditTriggers
+                                  : (QAbstractItemView::DoubleClicked |
+                                     QAbstractItemView::EditKeyPressed));
+    if(!active)
+    {
+        updateDirtyButtons();
+        quickTypeChanged();
+    }
+}
+
+bool NtagTab::outputLooksUnsupported(const QString &output)
+{
+    static const QStringList markers = {
+        QStringLiteral("unknown command"),
+        QStringLiteral("invalid command"),
+        QStringLiteral("command not found"),
+        QStringLiteral("not supported"),
+        QStringLiteral("not implemented"),
+        QStringLiteral("unsupported")
+    };
+    for(const QString &marker : markers)
+        if(output.contains(marker, Qt::CaseInsensitive))
+            return true;
+    return false;
+}
+
+void NtagTab::onSimulationOutput(const QString &text)
+{
+    if(!m_simActive || text.isEmpty())
+        return;
+    if(!outputLooksUnsupported(text))
+        return;
+    m_simActive = false;
+    m_dumpWorkspace.clearDump();
+    setSimulationUiActive(false);
+    const QString message = tr("This firmware does not support `hf mfu sim` for NTAG "
+                               "emulation. Simulation was stopped; the tag was not written.");
+    setStatus(message, true);
+    Logger::warning(QStringLiteral("NtagSim"), message + QStringLiteral(": ") + text.left(500));
+    emit simulationStateChanged(false);
+    emit stopSimulationRequested();
+    QMessageBox::warning(this, tr("Simulate"), message);
+}
+
+void NtagTab::onSimulationDetachedChanged(bool detached)
+{
+    if(detached || !m_simActive)
+        return;
+    m_simActive = false;
+    m_dumpWorkspace.clearDump();
+    setSimulationUiActive(false);
+    emit simulationStateChanged(false);
+    setStatus(tr("Simulation ended: the client is no longer running the detached command."));
+    Logger::info(QStringLiteral("NtagSim"), QStringLiteral("detached command ended"));
 }

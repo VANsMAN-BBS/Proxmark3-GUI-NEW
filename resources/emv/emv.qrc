@@ -1,0 +1,10 @@
+<RCC>
+    <!-- Bundled, dependency-free Python EMV reader (same parser as
+         emv_log_reader/pm3_emv_log.py). Extracted to a per-user runtime
+         directory by src/module/emv/emvruntime.cpp before Python starts. -->
+    <qresource prefix="/emv">
+        <file alias="pm3_emv_log.py">../../src/module/emv/python/pm3_emv_log.py</file>
+        <file alias="mock_pm3.py">../../src/module/emv/python/mock_pm3.py</file>
+        <file alias="emv_worker.py">../../src/module/emv/python/emv_worker.py</file>
+    </qresource>
+</RCC>

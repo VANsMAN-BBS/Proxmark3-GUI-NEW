@@ -129,7 +129,6 @@ Documentation index:
 | `docs/CARD_SUPPORT_MATRIX.md` | every audited card type and its status |
 | `docs/CLIENT_OUTPUT_FORMATS.md` | client formats and field meanings |
 | `docs/PARSER_REFERENCE.md` | per-parser inputs, outputs, limits |
-| `docs/TEST_REPORT.md` | coverage and results |
 | `docs/INTEGRATION_GUIDE.md` | copy/registration/build integration |
 | `LICENSE_NOTES.md` | provenance and GPL risk review |
 | `CHANGELOG.md` | Stage 1 → Stage 2 changes |

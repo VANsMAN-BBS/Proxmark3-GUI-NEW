@@ -26,6 +26,11 @@ void Util::setSession(ClientSession *session)
     this->session = session;
 }
 
+ClientSession *Util::clientSession() const
+{
+    return this->session;
+}
+
 
 void Util::processOutput(const QString& output)
 {
@@ -111,8 +116,88 @@ QString Util::execCMDWithOutput(const QString& cmd, ReturnTrigger trigger, bool 
     return output;
 }
 
-void Util::delay(unsigned int msec)
+QString Util::execCMDWithOutputInterruptible(const QString& cmd, int timeoutMs,
+                                             const QAtomicInt* cancel, bool rawOutput,
+                                             const OutputHandler& onOutput,
+                                             bool* commandSucceeded)
 {
+    if(commandSucceeded)
+        *commandSucceeded = false;
+    if(!session || !session->isConnected())
+        return QString();
+    if(cancel && cancel->loadRelaxed() != 0)
+        return QString();
+
+    const quint64 id = session->executeCommand(cmd, timeoutMs, rawOutput);
+
+    QEventLoop loop;
+    QTimer hardTimer;
+    QTimer cancelTimer;
+    hardTimer.setSingleShot(true);
+    cancelTimer.setInterval(100);
+
+    bool completed = false;
+    bool success = false;
+    QString output;
+
+    QMetaObject::Connection connection = connect(
+        session, &ClientSession::commandFinished, &loop,
+        [&](quint64 requestId, const QString &text, bool ok, bool, const QString &) {
+            if(requestId != id)
+                return;
+            completed = true;
+            success = ok;
+            output = text;
+            loop.quit();
+        });
+    // Same decoded stream as the terminal; the request id keeps chunks from a
+    // previous (cancelled) command out of the task-scoped detail log.
+    QMetaObject::Connection outputConnection;
+    if(onOutput)
+    {
+        outputConnection = connect(
+            session, &ClientSession::commandOutput, &loop,
+            [&](quint64 requestId, const QString &text) {
+                if(requestId != id)
+                    return;
+                if(cancel && cancel->loadRelaxed() != 0)
+                    return;
+                onOutput(text);
+            });
+    }
+    QMetaObject::Connection cancelConnection = connect(&cancelTimer, &QTimer::timeout, &loop, [&]() {
+        if(cancel && cancel->loadRelaxed() != 0)
+            loop.quit();
+    });
+    QMetaObject::Connection hardConnection = connect(&hardTimer, &QTimer::timeout, &loop, [&]() {
+        loop.quit();
+    });
+
+    hardTimer.start(timeoutMs + 2000);
+    cancelTimer.start();
+    // Default flags: user input (the Cancel button) keeps being delivered, so
+    // the waiting loop can be interrupted from the GUI.
+    loop.exec();
+    disconnect(connection);
+    disconnect(outputConnection);
+    disconnect(cancelConnection);
+    disconnect(hardConnection);
+    hardTimer.stop();
+    cancelTimer.stop();
+
+    if(cancel && cancel->loadRelaxed() != 0)
+        return QString();
+    if(!completed || !success)
+    {
+        qDebug() << "interruptible command ended without success:" << cmd;
+        return rawOutput ? output : QString();
+    }
+    if(commandSucceeded)
+        *commandSucceeded = true;
+    return output;
+}
+
+void Util::delay(unsigned int msec){
     if(msec == 0)
         return;
     QEventLoop loop;

@@ -1,0 +1,19 @@
+<RCC>
+    <!-- Stage-1 ISO 14443A parser + JSON-lines sidecar. Extracted to a
+         per-user runtime directory by iso14443aruntime.cpp. -->
+    <qresource prefix="/iso14443a">
+        <file alias="iso14443_sidecar.py">../../src/module/iso14443a/python/iso14443_sidecar.py</file>
+        <file alias="parser/__init__.py">../../src/module/iso14443a/python/parser/__init__.py</file>
+        <file alias="parser/parser_state.py">../../src/module/iso14443a/python/parser/parser_state.py</file>
+        <file alias="parser/iso14443_parser.py">../../src/module/iso14443a/python/parser/iso14443_parser.py</file>
+        <file alias="parser/raw_data_reconstructor.py">../../src/module/iso14443a/python/parser/raw_data_reconstructor.py</file>
+        <file alias="parser/atqa_parser.py">../../src/module/iso14443a/python/parser/atqa_parser.py</file>
+        <file alias="parser/sak_parser.py">../../src/module/iso14443a/python/parser/sak_parser.py</file>
+        <file alias="parser/mifare_classic.py">../../src/module/iso14443a/python/parser/mifare_classic.py</file>
+        <file alias="parser/mifare_ultralight.py">../../src/module/iso14443a/python/parser/mifare_ultralight.py</file>
+        <file alias="parser/fm1208.py">../../src/module/iso14443a/python/parser/fm1208.py</file>
+        <file alias="parser/desfire.py">../../src/module/iso14443a/python/parser/desfire.py</file>
+        <file alias="ui/__init__.py">../../src/module/iso14443a/python/ui/__init__.py</file>
+        <file alias="ui/language.py">../../src/module/iso14443a/python/ui/language.py</file>
+    </qresource>
+</RCC>

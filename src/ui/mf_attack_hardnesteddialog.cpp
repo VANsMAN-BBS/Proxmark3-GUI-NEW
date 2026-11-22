@@ -1,4 +1,4 @@
-﻿#include "mf_attack_hardnesteddialog.h"
+#include "mf_attack_hardnesteddialog.h"
 #include "ui_mf_attack_hardnesteddialog.h"
 
 MF_Attack_hardnestedDialog::MF_Attack_hardnestedDialog(int blocks, const QVariantMap& config, QWidget *parent) :

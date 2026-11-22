@@ -77,6 +77,10 @@ try {
     & $GitExe init --quiet | Out-Null
     & $GitExe config user.name "Audit Test"
     & $GitExe config user.email "audit@example.invalid"
+    # The fixture is byte-oriented; a global core.autocrlf=true would rewrite
+    # the copied pre-push hook and make git add emit a CRLF warning to stderr.
+    # Keep the temporary repository independent of the host configuration.
+    & $GitExe config --local core.autocrlf false
     Pop-Location
 
     Write-TextFile "src/main.cpp" "int main() { return 0; }"

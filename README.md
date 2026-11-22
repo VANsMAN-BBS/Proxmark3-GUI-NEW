@@ -23,13 +23,11 @@ The GUI does not implement USB or serial protocol itself. Every device operation
 ---
 
 ## Screenshots / 软件界面
-| MIFARE / M1卡 | LF Functions / 低频 |
+| MIFARE / M1卡 | FeliCa / 交通卡 |
 |---|---|
-| ![MIFARE page](docs/images/mifare.png) | ![LF Functions page](docs/images/lf-functions.png) |
-| LF Parser / 低频解析 | NDEF Quick Launch / 快速启动 |
-| ![LF Parser page](docs/images/lf-parser.png) | ![Quick Launch page](docs/images/ntag-quick-launch.png) |
-| Amiibo library | eMRTD reader |
-| ![Amiibo page](docs/images/amiibo.png) | ![eMRTD page](docs/images/emrtd.png) |
+| ![MIFARE page](docs/images/mifare.jpg) | ![FeliCa page](docs/images/felica.jpg) |
+| NTAG / Ultralight | RawCommand / 原始命令 |
+| ![NTAG page](docs/images/ntag.jpg) | ![RawCommand page](docs/images/rawcommand.jpg) |
 
 ---
 

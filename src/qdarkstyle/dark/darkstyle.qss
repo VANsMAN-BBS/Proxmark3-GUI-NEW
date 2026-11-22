@@ -219,17 +219,37 @@ QGroupBox {
   border: 1px solid #455364;
   border-radius: 4px;
   padding: 2px;
-  margin-top: 6px;
+  margin-top: 1.4em;
   margin-bottom: 4px;
+}
+
+/* Stage 3.2.3: keep the MIFARE card-operation sections on a normal-weight
+   caption in both themes.  The global QGroupBox rule stays bold and the
+   title subcontrol below reserves a full line for it. */
+QGroupBox#MF_fileGroupBox,
+QGroupBox#MF_attackGroupBox,
+QGroupBox#MF_RWGroupBox,
+QGroupBox#MF_normalGroupBox,
+QGroupBox#MF_UIDGroupBox,
+QGroupBox#MF_simGroupBox,
+QGroupBox#MF_sniffGroupBox {
+  font-weight: normal;
+}
+
+/* The status grid is a dense 8-column row.  The theme's QLabel padding makes
+   the caption columns wider than their allocation in the left pane, which
+   clipped the status captions.  Labels in this group are plain captions, so
+   match the no-theme metrics (no padding) instead of shrinking the font. */
+QGroupBox#MF_statusGroupBox QLabel {
+  padding: 0px;
 }
 
 QGroupBox::title {
   subcontrol-origin: margin;
   subcontrol-position: top left;
-  left: 4px;
-  padding-left: 2px;
-  padding-right: 4px;
-  padding-top: -4px;
+  left: 8px;
+  padding: 0 4px;
+  background-color: #19232D;
 }
 
 QGroupBox::indicator {
@@ -891,6 +911,10 @@ QLabel {
 QLabel:disabled {
   background-color: #19232D;
   border: 0px solid #455364;
+  color: #9DA9B5;
+}
+
+QLabel[settingsDescription="true"] {
   color: #9DA9B5;
 }
 
@@ -1726,10 +1750,13 @@ QDockWidget {
 }
 
 QDockWidget::title {
-  /* Better size for title bar */
-  padding: 3px;
+  /* Keep in sync with src/ui/docktitlemetrics.h. The 4 px top padding
+     feeds PM_DockWidgetTitleMargin (and therefore the title height); the
+     2 px bottom padding leaves the text two pixels of slack. */
+  padding: 4px 3px 2px 3px;
   spacing: 4px;
   border: none;
+  text-align: left;
   background-color: #455364;
 }
 
@@ -1896,7 +1923,7 @@ QListView:selected,
 QTableView:selected,
 QColumnView:selected {
   background-color: #346792;
-  color: #455364;
+  color: #E0E1E3;
 }
 
 QTreeView:focus,

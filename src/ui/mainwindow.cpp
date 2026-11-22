@@ -1,16 +1,76 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "core/logger.h"
+#include "ui/commandcatalogdelegate.h"
+#include "ui/commandcatalogmodel.h"
+#include "ui/rawworkspace.h"
+#include "ui/settingslayout.h"
+#include "ui/terminalhighlighter.h"
+#include "ui/terminalpalette.h"
+#include "module/mifare/mftablelayout.h"
 
+#include <QApplication>
+#include <QAbstractButton>
+#include <QFile>
 #include <QJsonDocument>
 #include <QDirIterator>
+#include <QLayout>
+#include <QMouseEvent>
 #include <QProcess>
+#include <QSignalBlocker>
+#include <QStyle>
+#include <QTextStream>
+#include <QVBoxLayout>
+
+namespace
+{
+QString themeStyleSheet(const QString &themeName)
+{
+    QString path;
+    if (themeName == QLatin1String("qdss_dark")) {
+        path = QStringLiteral(":/qdarkstyle/dark/darkstyle.qss");
+    } else if (themeName == QLatin1String("qdss_light")) {
+        path = QStringLiteral(":/qdarkstyle/light/lightstyle.qss");
+    }
+    if (path.isEmpty()) {
+        return QString();
+    }
+
+    QFile file(path);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        return QString();
+    }
+    QTextStream stream(&file);
+    return stream.readAll();
+}
+}
 
 MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    // The right-pane table split is declared in mainwindow.ui
+    // (MF_tablesLayout stretch="3,2,0"): the data table stays dominant, the key
+    // table and its compact toolbar stay below it.
+    // Stage 3.3 horizontal workspace: the left pane keeps device status, the
+    // live PM3 terminal and the task/progress area; the right pane holds the
+    // card/key tables and the flat card-operation workspace. MifareSplitter
+    // owns the stable 35 / 65 allocation (see ui/mifaresplitter.h).
+    // Layout-only refinement of the Settings page (no defaults, INI keys or
+    // signals are touched).
+    refineSettingsLayout(ui->settingsTab);
+    terminalHighlighter = new TerminalHighlighter(ui->Raw_outputEdit->document());
+    // The MIFARE terminal shows the very same ClientSession/Util output stream
+    // as the Raw page; it never executes a command on its own.  Keep its
+    // highlighter as well so live light/dark theme changes stay in sync.
+    mfTerminalHighlighter = new TerminalHighlighter(ui->MF_terminalView->document());
+    catalogModel = nullptr;
+    catalogCategoryGroup = nullptr;
+    rawWorkspace = nullptr;
+    hintPressActive = false;
+    hintPressBlock = -1;
+    hintPressOffset = -1;
     dockAllWindows = new QAction(tr("Dock all windows"), this);
     myInfo = new QAction("wh201906", this);
     currVersion = new QAction(tr("Ver: ") + QApplication::applicationVersion().section('.', 0, -2), this); // ignore the 4th version number
@@ -36,7 +96,7 @@ MainWindow::MainWindow(QWidget *parent):
     util = new Util(this);
     util->setSession(pm3);
     Util::setUI(ui);
-    mifare = new Mifare(ui, util, this);
+    mifare = new Mifare(ui, util, pm3, this);
     lf = new LF(ui, util, this);
 
     // The existing LF page keeps every widget and command unchanged; it simply
@@ -71,11 +131,21 @@ MainWindow::MainWindow(QWidget *parent):
     // Amiibo is an NTAG215 / Type 2 feature, so it lives with the NTAG page.
     // This build has no JTAG implementation, so no JTAG tab is shown.
     QTabWidget *ntagTabs = new QTabWidget(this);
+    ntagSubTabs = ntagTabs;
+    ntagSimActive = false;
     ntagTabs->setObjectName(QStringLiteral("NTAG_subTabs"));
     ntagTabs->addTab(ntag, tr("NTAG"));
     amiiboPage = new AmiiboPage(util, pm3, this);
     ntagTabs->addTab(amiiboPage, tr("Amiibo"));
     ui->funcTab->insertTab(2, ntagTabs, tr("NTAG/UL"));
+
+    connect(ntag, &NtagTab::stopSimulationRequested, this, [this]()
+    {
+        if(ntagSimActive)
+            setNtagSimActive(false);
+        pm3->restartClient();
+    });
+    connect(ntag, &NtagTab::simulationStateChanged, this, &MainWindow::setNtagSimActive);
 
     connect(amiiboPage, &AmiiboPage::stopRequested, this, [this]()
     {
@@ -113,16 +183,90 @@ MainWindow::MainWindow(QWidget *parent):
             });
 
     // Read-only T-money / Climate Card page (KS X 6924 over ISO14443-A +
-    // ISO-DEP). Inserted after FeliCa; it shares the same command queue and
-    // never issues MIFARE Classic, write, authentication, or clone commands.
+    // ISO-DEP) still shares the same command queue and never issues MIFARE
+    // Classic, write, authentication, or clone commands. It now lives under
+    // "More Features" together with the EMV reader.
     hidSeosPage = new HidSeosPage(util, pm3, this);
-    ui->funcTab->insertTab(5, hidSeosPage, tr("HID SEOS"));
     connect(pm3, &ClientSession::stateChanged, hidSeosPage,
             [this](bool connected, const QString &)
             {
                 if (hidSeosPage)
                     hidSeosPage->setClientConnected(connected);
             });
+
+    moreFeaturesTabs = new QTabWidget(this);
+    moreFeaturesTabs->setObjectName(QStringLiteral("More_features_subTabs"));
+    moreFeaturesTabs->addTab(hidSeosPage, tr("Tmoney"));
+    emvPage = new EmvPage(this);
+    moreFeaturesTabs->addTab(emvPage, tr("EMV Contactless"));
+    // ISO 14443A trace/capture parser: text/file analysis only, no serial
+    // port and no second Proxmark3 process.
+    iso14443aPage = new Iso14443aPage(this);
+    registerIso14443aPage(moreFeaturesTabs, iso14443aPage);
+    iso14443aPage->setClientWorkingDirectory(clientWorkingDir->absolutePath());
+    iso14443aPage->setTraceDirectoryProvider([this]() -> QStringList
+    {
+        QStringList dirs;
+        if(clientWorkingDir)
+            dirs << clientWorkingDir->absolutePath();
+        // `prefs show` is a read-only client command; skip it while another
+        // owner (EMV/NTAG simulation) has the serial port.
+        if(mifare && pm3 && pm3->isConnected() && !pm3->isBusy() && !pm3->isDetached() && !emvReadActive && !ntagSimActive)
+        {
+            const QString traceDir = mifare->getTraceSavePath();
+            if(!traceDir.isEmpty())
+                dirs << traceDir;
+        }
+        return dirs;
+    });
+    connect(iso14443aPage, &Iso14443aPage::terminalTextRequested, this, [this]()
+    {
+        if(iso14443aPage)
+            iso14443aPage->setTerminalText(ui->Raw_outputEdit->toPlainText());
+    });
+    ui->funcTab->insertTab(5, moreFeaturesTabs, tr("More Features"));
+
+    emvReconnect = false;
+    emvReadActive = false;
+    connect(emvPage, &EmvPage::aboutToRead, this, [this]()
+    {
+        // The EMV reader starts its own proxmark3.exe. Release our client first
+        // (stopClient() waits for the process to exit) and keep every other
+        // page/button disabled until readFinished().
+        emvReconnect = pm3->isConnected();
+        setEmvReadActive(true);
+        if(emvReconnect)
+            pm3->stopClient();
+    });
+    connect(emvPage, &EmvPage::readFinished, this, [this]()
+    {
+        setEmvReadActive(false);
+        if(emvReconnect)
+        {
+            emvReconnect = false;
+            pm3->restartClient();
+        }
+    });
+    emvPage->setDeviceInfo(ui->PM3_portBox->currentData().toString().isEmpty()
+                           ? ui->PM3_portBox->currentText()
+                           : ui->PM3_portBox->currentData().toString(),
+                           ui->PM3_pathBox->currentText());
+    connect(ui->PM3_portBox, &QComboBox::currentTextChanged, this, [this](const QString &text)
+    {
+        if(emvPage)
+            emvPage->setDeviceInfo(ui->PM3_portBox->currentData().toString().isEmpty()
+                                   ? text
+                                   : ui->PM3_portBox->currentData().toString(),
+                                   ui->PM3_pathBox->currentText());
+    });
+    connect(ui->PM3_pathBox, &QComboBox::currentTextChanged, this, [this](const QString &text)
+    {
+        if(emvPage)
+            emvPage->setDeviceInfo(ui->PM3_portBox->currentData().toString().isEmpty()
+                                   ? ui->PM3_portBox->currentText()
+                                   : ui->PM3_portBox->currentData().toString(),
+                                   text);
+    });
     connect(ui->PM3_portBox, &QComboBox::currentTextChanged, this, [this](const QString &text)
     {
         if(emrtdPage)
@@ -162,6 +306,15 @@ MainWindow::MainWindow(QWidget *parent):
 
 MainWindow::~MainWindow()
 {
+    if(rawWorkspace && settings)
+    {
+        rawWorkspace->saveWorkspaceState(*settings);
+        settings->sync();
+    }
+    if(emvPage)
+        emvPage->shutdown();
+    if(iso14443aPage)
+        iso14443aPage->shutdown();
     if(pm3)
     {
         pm3->stopClient();
@@ -251,6 +404,8 @@ void MainWindow::on_portSearchTimer_timeout()
 
 void MainWindow::on_PM3_connectButton_clicked()
 {
+    if(emvReadActive)
+        return; // serial port is owned by the EMV reader
     qDebug() << "Main:" << QThread::currentThread();
 
     const QComboBox* portBox = ui->PM3_portBox;
@@ -357,6 +512,8 @@ void MainWindow::on_PM3_connectButton_clicked()
     qDebug() << clientWorkingDir->absolutePath();
     pm3->setWorkingDirectory(clientWorkingDir->absolutePath());
     lf->setClientWorkingDir(clientWorkingDir->absolutePath());
+    if(iso14443aPage)
+        iso14443aPage->setClientWorkingDirectory(clientWorkingDir->absolutePath());
 
     loadConfig();
     emit connectPM3(clientPath, args);
@@ -452,6 +609,11 @@ void MainWindow::onPM3StateChanged(bool st, const QString& info)
                                   clientWorkingDir->absolutePath());
         amiiboPage->setClientConnected(st);
     }
+    if(emvPage)
+        emvPage->setDeviceInfo(ui->PM3_portBox->currentData().toString().isEmpty()
+                               ? ui->PM3_portBox->currentText()
+                               : ui->PM3_portBox->currentData().toString(),
+                               ui->PM3_pathBox->currentText());
     pm3state = st;
     setState(st);
     if(st == true)
@@ -473,6 +635,8 @@ void MainWindow::onPM3StateChanged(bool st, const QString& info)
 
 void MainWindow::on_PM3_disconnectButton_clicked()
 {
+    if(emvReadActive)
+        return;
     Logger::info(QStringLiteral("UI"), QStringLiteral("Disconnect requested"));
     pm3->stopClient();
 }
@@ -480,13 +644,30 @@ void MainWindow::on_PM3_disconnectButton_clicked()
 void MainWindow::refreshOutput(const QString& output)
 {
 //    qDebug() << "MainWindow::refresh:" << output;
-    ui->Raw_outputEdit->moveCursor(QTextCursor::End);
-    ui->Raw_outputEdit->insertPlainText(output);
-    ui->Raw_outputEdit->moveCursor(QTextCursor::End);
+    const auto appendOutput = [](QPlainTextEdit *view, const QString &text)
+    {
+        view->moveCursor(QTextCursor::End);
+        view->insertPlainText(text);
+        view->moveCursor(QTextCursor::End);
+    };
+    appendOutput(ui->Raw_outputEdit, output);
+    // Read-only mirror of the existing output stream. The MIFARE terminal does
+    // not send or repeat commands; it only displays what ClientSession/Util
+    // already produced.  Keep the user's scroll position when they are reading
+    // an earlier part of the terminal.
+    QScrollBar *mfBar = ui->MF_terminalView->verticalScrollBar();
+    const bool mfFollow = !mfBar
+            || mfgen3::Pm3LogFilter::shouldAutoScroll(mfBar->value(), mfBar->maximum());
+    const int mfScroll = mfBar ? mfBar->value() : 0;
+    appendOutput(ui->MF_terminalView, output);
+    if(mfBar)
+        mfBar->setValue(mfFollow ? mfBar->maximum() : mfScroll);
 }
 
 void MainWindow::on_stopButton_clicked()
 {
+    if(emvReadActive)
+        return;
     if(!pm3state)
         on_PM3_disconnectButton_clicked();
     else
@@ -503,8 +684,102 @@ void MainWindow::on_Raw_CMDEdit_textChanged(const QString &arg1)
 
 void MainWindow::on_Raw_sendCMDButton_clicked()
 {
-    util->execCMD(ui->Raw_CMDEdit->text());
-    refreshCMD(ui->Raw_CMDEdit->text());
+    if(emvReadActive)
+        return; // serial port is owned by the EMV reader
+    submitRawCommand(ui->Raw_CMDEdit->text(), true);
+}
+
+void MainWindow::submitRawCommand(const QString& command, bool updateInput)
+{
+    if(emvReadActive || ntagSimActive)
+        return;
+    const QString cmd = command.trimmed();
+    if(cmd.isEmpty())
+        return;
+
+    // Same path as the Send button: Util -> ClientSession::sendRawCommand ->
+    // FIFO queue + completion sentinel + timeout.  Hint and catalog clicks
+    // must not bypass this serialisation.
+    util->execCMD(cmd);
+
+    if(updateInput)
+        refreshCMD(cmd);
+    else
+        recordCommandHistory(cmd);
+}
+
+void MainWindow::recordCommandHistory(const QString& cmd)
+{
+    if(cmd.isEmpty())
+        return;
+    if(ui->Raw_CMDHistoryWidget->count() == 0
+       || ui->Raw_CMDHistoryWidget->item(ui->Raw_CMDHistoryWidget->count() - 1)->text() != cmd)
+        ui->Raw_CMDHistoryWidget->addItem(cmd);
+}
+
+void MainWindow::setupCommandCatalog()
+{
+    catalogModel = new CommandCatalogModel(this);
+    if(!catalogModel->loadFromResource())
+    {
+        Logger::warning(QStringLiteral("UI"), QStringLiteral("Command catalog resource could not be loaded"));
+        ui->Raw_catalogCountLabel->setText(tr("Command catalog unavailable"));
+        ui->Raw_catalogListView->setEnabled(false);
+        return;
+    }
+
+    ui->Raw_catalogListView->setModel(catalogModel);
+    ui->Raw_catalogListView->setItemDelegate(new CommandCatalogDelegate(this));
+    ui->Raw_catalogListView->setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    connect(ui->Raw_catalogSearchEdit, &QLineEdit::textChanged, this, [this](const QString &text) {
+        catalogModel->setSearchText(text);
+        updateCommandCatalogCount();
+    });
+
+    catalogCategoryGroup = new QButtonGroup(this);
+    catalogCategoryGroup->setExclusive(true);
+    const QList<QToolButton*> categoryButtons = {
+        ui->Raw_catalogAllButton, ui->Raw_catalogHFButton, ui->Raw_catalogLFButton,
+        ui->Raw_catalogHF14AButton, ui->Raw_catalogHFMIFAREButton, ui->Raw_catalogHF15Button,
+        ui->Raw_catalogLFEMButton, ui->Raw_catalogOtherButton
+    };
+    for(int i = 0; i < categoryButtons.size(); i++)
+    {
+        catalogCategoryGroup->addButton(categoryButtons[i], i);
+        categoryButtons[i]->setCheckable(true);
+    }
+    ui->Raw_catalogAllButton->setChecked(true);
+    connect(catalogCategoryGroup, &QButtonGroup::idClicked, this, [this](int id) {
+        const QStringList categories = CommandCatalogModel::categoryFilters();
+        if(id >= 0 && id < categories.size())
+            catalogModel->setCategoryFilter(categories[id]);
+        updateCommandCatalogCount();
+    });
+
+    // A single click runs the command exactly like the Send button.  There is
+    // no confirmation dialog and the command is not copied into the line edit.
+    connect(ui->Raw_catalogListView, &QListView::clicked, this, [this](const QModelIndex &index) {
+        const QString command = index.data(CommandCatalogModel::CommandRole).toString();
+        submitRawCommand(command, false);
+    });
+
+    updateCommandCatalogCount();
+}
+
+void MainWindow::updateCommandCatalogCount()
+{
+    if(!catalogModel || !catalogModel->isLoaded())
+        return;
+    ui->Raw_catalogCountLabel->setText(tr("%1 commands").arg(catalogModel->visibleCount()));
+}
+
+QString MainWindow::hintCommandAt(const QPoint& viewportPos) const
+{
+    const QTextCursor cursor = ui->Raw_outputEdit->cursorForPosition(viewportPos);
+    const QTextBlock block = cursor.block();
+    const int offset = cursor.positionInBlock();
+    return TerminalClassifier::hintAt(block.text(), offset);
 }
 
 void MainWindow::on_Raw_clearOutputButton_clicked()
@@ -514,18 +789,10 @@ void MainWindow::on_Raw_clearOutputButton_clicked()
 
 void MainWindow::on_Raw_CMDHistoryBox_stateChanged(int arg1)
 {
-    if(arg1 == Qt::Checked)
-    {
-        ui->Raw_CMDHistoryWidget->setVisible(true);
-        ui->Raw_clearHistoryButton->setVisible(true);
-        ui->Raw_CMDHistoryBox->setText(tr("History:"));
-    }
-    else
-    {
-        ui->Raw_CMDHistoryWidget->setVisible(false);
-        ui->Raw_clearHistoryButton->setVisible(false);
-        ui->Raw_CMDHistoryBox->setText("");
-    }
+    const bool visible = arg1 == Qt::Checked;
+    if(rawWorkspace)
+        rawWorkspace->setHistoryVisible(visible);
+    ui->Raw_CMDHistoryBox->setText(visible ? tr("History:") : QString());
 }
 
 void MainWindow::on_Raw_clearHistoryButton_clicked()
@@ -535,6 +802,9 @@ void MainWindow::on_Raw_clearHistoryButton_clicked()
 
 void MainWindow::on_Raw_CMDHistoryWidget_itemDoubleClicked(QListWidgetItem *item)
 {
+    if(!item)
+        return;
+    // Refill only.  Chosen history entries are never executed automatically.
     ui->Raw_CMDEdit->setText(item->text());
     ui->Raw_CMDEdit->setFocus();
 }
@@ -612,36 +882,82 @@ void MainWindow::on_MF_keyWidget_resized(QObject* obj_addr, QEvent& event)
     }
 }
 
-void MainWindow::MF_onMFCardTypeChanged(int id, bool st)
+void MainWindow::MF_onTypeBoxActivated(int index)
 {
-    MFCardTypeBtnGroup->blockSignals(true);
-    qDebug() << id << MFCardTypeBtnGroup->checkedId();
-    if(!st)
+    if(!mifare)
+        return;
+    const int newType = cardTypeForComboIndex(index);
+    const int currentType = mifare->getCardType().type;
+    if(newType == currentType)
+        return;
+
+    // Growing the layout can discard rows; keep the original confirmation rule
+    // (only when the new type is larger than the current one).
+    int result = QMessageBox::Yes;
+    if(newType > currentType)
     {
-        int result;
-        if(id > MFCardTypeBtnGroup->checkedId()) // id is specified in uiInit() with a proper order, so I can compare the size by id.
-        {
-            result = QMessageBox::question(this, tr("Info"), tr("Some of the data and key will be cleared.") + "\n" + tr("Continue?"), QMessageBox::Yes | QMessageBox::No);
-        }
-        else
-        {
-            result = QMessageBox::Yes;
-        }
-        if(result == QMessageBox::Yes)
-        {
-            qDebug() << "Yes";
-            mifare->setCardType(MFCardTypeBtnGroup->checkedId());
-            MF_widgetReset();
-            mifare->data_syncWithDataWidget();
-            mifare->data_syncWithKeyWidget();
-        }
-        else
-        {
-            qDebug() << "No";
-            MFCardTypeBtnGroup->button(id)->setChecked(true);
-        }
+        result = QMessageBox::question(this, tr("Info"),
+                                       tr("Some of the data and key will be cleared.") + "\n"
+                                       + tr("Continue?"),
+                                       QMessageBox::Yes | QMessageBox::No);
     }
-    MFCardTypeBtnGroup->blockSignals(false);
+    if(result != QMessageBox::Yes)
+    {
+        const QSignalBlocker blocker(ui->MF_Type_box);
+        ui->MF_Type_box->setCurrentIndex(comboIndexForCardType(currentType));
+        return;
+    }
+
+    mfcardtype::selectManually(&cardTypeState, newType);
+    mifare->setCardType(newType);
+    MF_widgetReset();
+    mifare->data_syncWithDataWidget();
+    mifare->data_syncWithKeyWidget();
+}
+
+void MainWindow::MF_applyCardType(int id)
+{
+    // One atomic transition: the model (Mifare::cardType + lists) and the two
+    // table row counts change together.  The combo signal is blocked so the
+    // normal user path (confirmation + reset) is not re-entered.
+    if(!mifare)
+        return;
+    {
+        const QSignalBlocker blocker(ui->MF_Type_box);
+        const int index = comboIndexForCardType(id);
+        if(index >= 0)
+            ui->MF_Type_box->setCurrentIndex(index);
+        mifare->setCardType(id);
+        MF_widgetReset();
+        mifare->data_syncWithDataWidget();
+        mifare->data_syncWithKeyWidget();
+        cardTypeState.type = id;
+        cardTypeState.userLocked = false;
+    }
+}
+
+int MainWindow::comboIndexForCardType(int id) const
+{
+    if(!ui || !ui->MF_Type_box)
+        return -1;
+    return ui->MF_Type_box->findData(id);
+}
+
+int MainWindow::cardTypeForComboIndex(int index) const
+{
+    if(!ui || !ui->MF_Type_box || index < 0)
+        return 1;
+    const QVariant data = ui->MF_Type_box->itemData(index);
+    return data.isValid() ? data.toInt() : 1;
+}
+
+void MainWindow::MF_onCardTypeDetected(int typeId, const QString &uid, bool confirmed)
+{
+    if(!mifare)
+        return;
+    const bool changed = mfcardtype::applyDetected(&cardTypeState, typeId, uid, confirmed);
+    if(changed)
+        MF_applyCardType(cardTypeState.type);
 }
 
 void MainWindow::on_MF_selectAllBox_stateChanged(int arg1)
@@ -967,9 +1283,49 @@ void MainWindow::on_MF_File_clearButton_clicked()
 
 void MainWindow::on_MF_Attack_infoButton_clicked()
 {
-    mifare->info();
+    // Unique read-card-info entry: one hf 14a info, then a conditional
+    // hf mf info, both on the shared ClientSession.
+    mifare->readCardInfo();
 }
 
+// ---------------------------------------------------------------------------
+// Stage 3.3: MIFARE card operations (no one-click read)
+// ---------------------------------------------------------------------------
+
+void MainWindow::on_MF_Quick_crackButton_clicked()
+{
+    mifare->crackGen3Card();
+}
+
+void MainWindow::on_MF_Quick_loadButton_clicked()
+{
+    mifare->showImportMenu();
+}
+
+void MainWindow::on_MF_Quick_saveButton_clicked()
+{
+    mifare->showExportMenu();
+}
+
+void MainWindow::on_MF_Quick_cancelButton_clicked()
+{
+    mifare->cancelGen3Task();
+}
+
+void MainWindow::on_MF_status_refreshButton_clicked()
+{
+    mifare->refreshCardStatus();
+}
+
+void MainWindow::on_MF_result_clearButton_clicked()
+{
+    ui->MF_result_logView->clear();
+}
+
+void MainWindow::on_MF_result_logToggleButton_toggled(bool checked)
+{
+    ui->MF_result_logView->setVisible(checked);
+}
 void MainWindow::on_MF_Attack_chkButton_clicked()
 {
     setState(false);
@@ -1224,13 +1580,20 @@ void MainWindow::MF_widgetReset()
     int blks = mifare->cardType.block_size;
     QBrush trailerItemForeColor = QBrush(QColor(0, 160, 255));
     ui->MF_RW_blockBox->clear();
-    ui->MF_keyWidget->setRowCount(secs);
-    ui->MF_dataWidget->setRowCount(blks);
-
+    // Silence itemChanged before the grid is rebuilt. resizeGrid() creates the
+    // cells with QTableWidget::setItem(), and on_MF_dataWidget_itemChanged()
+    // dereferences the sibling cells of the row it is called for. Creating the
+    // first cell therefore re-enters that slot while the rest of the row does
+    // not exist yet (null item() -> access violation during startup).
     ui->MF_dataWidget->blockSignals(true);
     ui->MF_keyWidget->blockSignals(true);
     ui->MF_selectAllBox->blockSignals(true);
     ui->MF_selectTrailerBox->blockSignals(true);
+
+    // Create every cell together with the new row count; the Gen3 result path
+    // can jump straight from a MINI (20/5) to a 1K (64/16) layout.
+    mftable::resizeGrid(ui->MF_keyWidget, secs, 3);
+    mftable::resizeGrid(ui->MF_dataWidget, blks, 3);
 
     for(int i = 0; i < blks; i++)
     {
@@ -1264,14 +1627,58 @@ void MainWindow::MF_widgetReset()
 
 // ******************** other ********************
 
+void MainWindow::setupRawWorkspace()
+{
+    if(rawWorkspace)
+        return;
+
+    rawWorkspace = new RawWorkspace(ui->rawTab);
+    rawWorkspace->adoptWidgets(ui->Raw_outputEdit,
+                               ui->Raw_CMDHistoryBox,
+                               ui->Raw_CMDHistoryWidget,
+                               ui->Raw_clearHistoryButton,
+                               ui->Raw_CMDEdit,
+                               ui->Raw_sendCMDButton,
+                               ui->Raw_clearOutputButton,
+                               ui->Raw_catalogGroupBox);
+
+    QLayout* oldLayout = ui->rawTab->layout();
+    if(oldLayout)
+    {
+        while(QLayoutItem* item = oldLayout->takeAt(0))
+            delete item; // widgets have already been reparented into the dock panels
+        oldLayout->addWidget(rawWorkspace);
+    }
+    else
+    {
+        QVBoxLayout* layout = new QVBoxLayout(ui->rawTab);
+        layout->setContentsMargins(5, 5, 5, 5);
+        layout->addWidget(rawWorkspace);
+    }
+
+    // State is intentionally stored in the existing GUIsettings.ini; other
+    // top-level docks are not touched.
+    rawWorkspace->restoreWorkspaceState(*settings);
+}
+
 void MainWindow::uiInit()
 {
+    setupRawWorkspace();
     connect(ui->Raw_CMDEdit, &QLineEdit::returnPressed, this, &MainWindow::sendMSG);
+    connect(rawWorkspace, &RawWorkspace::historyEntryChosen, this, [this](const QString& cmd)
+    {
+        // Refill only; never execute a history entry automatically.
+        ui->Raw_CMDEdit->setText(cmd);
+        ui->Raw_CMDEdit->setFocus();
+    });
     ui->Raw_CMDEdit->installEventFilter(keyEventFilter);
     connect(keyEventFilter, &MyEventFilter::eventHappened, this, &MainWindow::on_Raw_keyPressed);
     ui->MF_keyWidget->installEventFilter(resizeEventFilter);
     connect(resizeEventFilter, &MyEventFilter::eventHappened, this, &MainWindow::on_MF_keyWidget_resized);
     ui->Raw_outputEdit->installEventFilter(keyEventFilter);
+    ui->Raw_outputEdit->viewport()->installEventFilter(this);
+    ui->Raw_outputEdit->viewport()->setMouseTracking(true);
+    setupCommandCatalog();
 
     connectStatusBar = new QLabel(this);
     programStatusBar = new QLabel(this);
@@ -1292,12 +1699,17 @@ void MainWindow::uiInit()
     ui->MF_keyWidget->setColumnWidth(0, 45);
 
     MF_widgetReset();
-    MFCardTypeBtnGroup = new QButtonGroup(this);
-    MFCardTypeBtnGroup->addButton(ui->MF_Type_miniButton, 0);
-    MFCardTypeBtnGroup->addButton(ui->MF_Type_1kButton, 1);
-    MFCardTypeBtnGroup->addButton(ui->MF_Type_2kButton, 2);
-    MFCardTypeBtnGroup->addButton(ui->MF_Type_4kButton, 4);
-    connect(MFCardTypeBtnGroup, &QButtonGroup::idToggled, this, &MainWindow::MF_onMFCardTypeChanged);
+    // Card types live in the compact combo box on the key-table operation row.
+    // The userData values are the existing internal ids (0/1/2/4).
+    ui->MF_Type_box->clear();
+    ui->MF_Type_box->addItem(tr("MINI"), 0);
+    ui->MF_Type_box->addItem(tr("1K"), 1);
+    ui->MF_Type_box->addItem(tr("2K"), 2);
+    ui->MF_Type_box->addItem(tr("4K"), 4);
+    cardTypeState.type = 1;   // 1K, the historical default
+    ui->MF_Type_box->setCurrentIndex(comboIndexForCardType(cardTypeState.type));
+    connect(ui->MF_Type_box, QOverload<int>::of(&QComboBox::activated),
+            this, &MainWindow::MF_onTypeBoxActivated);
 
     ui->MF_keyWidget->installEventFilter(this);
     ui->MF_dataWidget->installEventFilter(this);
@@ -1313,8 +1725,14 @@ void MainWindow::uiInit()
     foreach(QString name, boxNames)
     {
         boxptr = this->findChild<QGroupBox*>(name);
-        if(boxptr == nullptr)
+        // The MIFARE function areas are always visible now: their visibility
+        // check boxes are gone, so stale preference keys are dropped instead of
+        // collapsing the group boxes.
+        if(boxptr == nullptr || !boxptr->isCheckable())
+        {
+            settings->remove(name);
             continue;
+        }
         if(settings->value(name, true).toBool())
         {
             boxptr->setMaximumHeight(16777215);
@@ -1463,13 +1881,17 @@ void MainWindow::signalInit()
         pm3->executeDetached(cmd);
     });
 
-    connect(ui->MF_typeGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
-    connect(ui->MF_fileGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
-    connect(ui->MF_RWGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
-    connect(ui->MF_normalGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
-    connect(ui->MF_UIDGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
-    connect(ui->MF_simGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
-    connect(ui->MF_sniffGroupBox, &QGroupBox::clicked, this, &MainWindow::on_GroupBox_clicked);
+    // The MIFARE function areas no longer carry visibility check boxes: their
+    // `clicked` connections are gone so collapsing them is impossible, and the
+    // stale preference keys are dropped while the settings are read.
+    connect(mifare, &Mifare::requestLegacyLoad, this, &MainWindow::on_MF_File_loadButton_clicked);
+    connect(mifare, &Mifare::requestLegacySave, this, &MainWindow::on_MF_File_saveButton_clicked);
+    connect(mifare, &Mifare::cardLayoutChangeRequested, this, &MainWindow::MF_applyCardType);
+    connect(mifare, &Mifare::cardTypeDetected, this, &MainWindow::MF_onCardTypeDetected);
+    connect(mifare, &Mifare::gen3TaskStateChanged, this, [this](bool running) {
+        setState(!running);
+        setStatusBar(programStatusBar, running ? tr("MIFARE task running") : tr("Idle"));
+    });
 
     connect(stopButton, &QPushButton::clicked, this, &MainWindow::on_stopButton_clicked);
 
@@ -1495,6 +1917,58 @@ void MainWindow::setTableItem(QTableWidget * widget, int row, int column, const 
 
 bool MainWindow::eventFilter(QObject * watched, QEvent * event) // drag support
 {
+    if(watched == ui->Raw_outputEdit->viewport())
+    {
+        if(event->type() == QEvent::MouseMove)
+        {
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+            const bool overHint = !hintCommandAt(mouseEvent->pos()).isEmpty();
+            ui->Raw_outputEdit->viewport()->setCursor(overHint ? Qt::PointingHandCursor
+                                                               : Qt::IBeamCursor);
+            if(overHint)
+                return true; // QPlainTextEdit would otherwise reset the cursor to IBeam
+        }
+        else if(event->type() == QEvent::MouseButtonPress)
+        {
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+            if(mouseEvent->button() == Qt::LeftButton && !hintCommandAt(mouseEvent->pos()).isEmpty())
+            {
+                const QTextCursor cursor = ui->Raw_outputEdit->cursorForPosition(mouseEvent->pos());
+                hintPressActive = true;
+                hintPressBlock = cursor.block().blockNumber();
+                hintPressOffset = cursor.positionInBlock();
+                return true;
+            }
+        }
+        else if(event->type() == QEvent::MouseButtonRelease)
+        {
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+            if(hintPressActive && mouseEvent->button() == Qt::LeftButton)
+            {
+                hintPressActive = false;
+                const QTextCursor cursor = ui->Raw_outputEdit->cursorForPosition(mouseEvent->pos());
+                const bool sameSpan = cursor.block().blockNumber() == hintPressBlock
+                                      && qAbs(cursor.positionInBlock() - hintPressOffset) <= 1;
+                hintPressBlock = -1;
+                hintPressOffset = -1;
+                if(sameSpan)
+                {
+                    const QString command = hintCommandAt(mouseEvent->pos());
+                    if(!command.isEmpty())
+                        submitRawCommand(command, false);
+                }
+                return true;
+            }
+        }
+        else if(event->type() == QEvent::Leave)
+        {
+            hintPressActive = false;
+            hintPressBlock = -1;
+            hintPressOffset = -1;
+            ui->Raw_outputEdit->viewport()->unsetCursor();
+        }
+    }
+
     if(event->type() == QEvent::DragEnter)
     {
         QDragEnterEvent* dragEvent = static_cast<QDragEnterEvent*>(event);
@@ -1532,6 +2006,96 @@ bool MainWindow::eventFilter(QObject * watched, QEvent * event) // drag support
         }
     }
     return QMainWindow::eventFilter(watched, event);
+}
+
+void MainWindow::setEmvReadActive(bool active)
+{
+    emvReadActive = active;
+
+    // One process, one serial port. While the EMV reader owns the device only
+    // the "More Features" container stays reachable, and inside it the Tmoney
+    // tab (shared ClientSession) is disabled. The EMV page itself stays
+    // enabled so Cancel remains clickable.
+    for(int i = 0; i < ui->funcTab->count(); i++)
+    {
+        QWidget *page = ui->funcTab->widget(i);
+        ui->funcTab->setTabEnabled(i, !active || page == moreFeaturesTabs);
+    }
+    // After dockInit() the pages live in QDockWidgets and funcTab is hidden, so
+    // the real guard is on the docks: only the More Features dock stays usable.
+    for(QDockWidget *dock : dockList)
+    {
+        if(!dock)
+            continue;
+        const bool isMoreFeatures = (dock->widget() == moreFeaturesTabs);
+        dock->setEnabled(!active || isMoreFeatures);
+    }
+    if(moreFeaturesTabs && hidSeosPage)
+    {
+        const int tmIndex = moreFeaturesTabs->indexOf(hidSeosPage);
+        if(tmIndex >= 0)
+            moreFeaturesTabs->setTabEnabled(tmIndex, !active);
+    }
+
+    if(active)
+    {
+        ui->PM3_connectButton->setEnabled(false);
+        ui->PM3_disconnectButton->setEnabled(false);
+        ui->Raw_sendCMDButton->setEnabled(false);
+        if(stopButton)
+            stopButton->setEnabled(false);
+    }
+    else
+    {
+        ui->PM3_connectButton->setEnabled(true);
+        ui->PM3_disconnectButton->setEnabled(true);
+        if(stopButton)
+            stopButton->setEnabled(true);
+        setState(pm3state);
+    }
+}
+
+void MainWindow::setNtagSimActive(bool active)
+{
+    if(active && emvReadActive)
+        return;
+    ntagSimActive = active;
+
+    // The simulator owns the client while it runs. Only the NTAG/UL container
+    // (which holds the Stop Simulation button) stays reachable; every other
+    // page and the raw console are disabled so no command can be queued into
+    // the detached `hf mfu sim` session.
+    for(int i = 0; i < ui->funcTab->count(); i++)
+    {
+        QWidget *page = ui->funcTab->widget(i);
+        ui->funcTab->setTabEnabled(i, !active || page == ntagSubTabs);
+    }
+    for(QDockWidget *dock : dockList)
+    {
+        if(!dock)
+            continue;
+        const bool isNtag = (dock->widget() == ntagSubTabs);
+        dock->setEnabled(!active || isNtag);
+    }
+
+    if(active)
+    {
+        ui->PM3_connectButton->setEnabled(false);
+        ui->PM3_disconnectButton->setEnabled(false);
+        ui->Raw_sendCMDButton->setEnabled(false);
+        // The global Stop button also restarts the client, which ends the
+        // detached simulation through the same validated path.
+        if(stopButton)
+            stopButton->setEnabled(true);
+    }
+    else
+    {
+        ui->PM3_connectButton->setEnabled(true);
+        ui->PM3_disconnectButton->setEnabled(true);
+        if(stopButton)
+            stopButton->setEnabled(true);
+        setState(pm3state);
+    }
 }
 
 void MainWindow::setState(bool st)
@@ -1863,9 +2427,39 @@ void MainWindow::on_Set_UI_Opacity_Box_valueChanged(int arg1)
 
 void MainWindow::on_Set_UI_Theme_setButton_clicked()
 {
+    const QString themeName = ui->Set_UI_Theme_nameBox->currentData().toString();
     settings->beginGroup("UI");
-    settings->setValue("Theme_Name", ui->Set_UI_Theme_nameBox->currentData().toString());
+    settings->setValue("Theme_Name", themeName);
     settings->endGroup();
+    settings->sync();
+
+    // Apply immediately to every existing window: qApp's stylesheet reaches
+    // the main window, nested docks, floating docks, dialogs, menus and
+    // tooltips without rebuilding anything.
+    qApp->setStyleSheet(themeStyleSheet(themeName));
+
+    // QSS is re-evaluated for top-level windows on the next polish; force it
+    // now for windows that are already visible (including floated docks and
+    // modeless dialogs) so the switch is visible without a restart.
+    const QWidgetList topLevels = QApplication::topLevelWidgets();
+    for(QWidget* widget : topLevels)
+    {
+        if(!widget || !widget->style())
+            continue;
+        widget->style()->unpolish(widget);
+        widget->style()->polish(widget);
+        widget->update();
+    }
+    if(qApp->activePopupWidget())
+        qApp->activePopupWidget()->update();
+
+    if(terminalHighlighter)
+        terminalHighlighter->setDarkBackground(TerminalPalette::detectDarkBackground());
+    if(mfTerminalHighlighter)
+        mfTerminalHighlighter->setDarkBackground(TerminalPalette::detectDarkBackground());
+    if(rawWorkspace)
+        rawWorkspace->update();
+    update();
 }
 
 
@@ -1874,6 +2468,9 @@ void MainWindow::on_Set_UI_Font_setButton_clicked()
     QFont font = ui->Set_UI_Font_nameBox->currentFont();
     font.setPointSize(ui->Set_UI_Font_sizeBox->value());
     QApplication::setFont(font, "QWidget");
+    // Label widths and compact numeric widths are metric-derived; refresh them
+    // for the new font without changing any saved value.
+    refineSettingsLayout(ui->settingsTab);
 
     settings->beginGroup("UI");
     settings->setValue("Font_Name", ui->Set_UI_Font_nameBox->currentFont().family());
